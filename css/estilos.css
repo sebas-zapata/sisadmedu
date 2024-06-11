@@ -1,33 +1,121 @@
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
 }
-body{
+
+body {
     background-color: #7E08CA;
 }
-.logo{
+
+.logo {
+    display: inline;
     width: 80px;
     height: 80px;
     border-radius: 50%;
+    border: 3px solid purple;
 }
-header{
+
+.seccion-header-1 {
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.titulo-encabezado {
+    color: #7E08CA;
+    font-weight: 800;
+}
+
+header {
     background-color: white;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding: 10px;
 }
-.links-encabezado{
+
+.links-encabezado {
     color: #7E08CA;
     text-decoration: none;
     margin: 8px;
-    padding: 8px;
-    font-weight: 550;
+    padding: 10px;
+    font-weight: 700;
     border-radius: 20px;
     transition: 1s;
 }
-.links-encabezado:hover{
+
+.links-encabezado:hover {
     background-color: #7E08CA;
     color: white;
+}
+
+.seccion-1 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 40px;
+
+}
+
+.articulo-1 {
+    color: white;
+    text-align: center;
+    margin: 20px;
+}
+
+.titulo-articulo-1 {
+    font-size: xx-large;
+    margin: 10px;
+
+}
+
+.descripcion-articulo-1 {
+    font-size: large;
+    margin: 10px;
+}
+
+.btn-mas-informacion {
+    width: 130px;
+    margin: 25px auto;
+    display: block;
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: 1s;
+}
+
+.btn-mas-informacion:hover {
+    background-color: white;
+    color: #7E08CA;
+}
+
+.imagen-birrete {
+    width: 350px;
+    border-top-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    box-shadow: 0px 10px 40px 5px black;
+}
+
+@media (max-width:1200px) {
+    .imagen-birrete {
+        width: 250px;
+    }
+
+    header {
+        flex-direction: column;
+    }
+
+    .links-encabezado {
+        display: block;
+        text-align: center;
+    }
 }
