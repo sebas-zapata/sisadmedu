@@ -36,7 +36,13 @@ header {
     flex-wrap: wrap;
     padding: 10px;
 }
-
+ul{
+    display: flex;
+    
+}
+li{
+    list-style: none;
+}
 .links-encabezado {
     color: #7E08CA;
     text-decoration: none;
@@ -117,5 +123,8 @@ header {
     .links-encabezado {
         display: block;
         text-align: center;
+    }
+    ul{
+        flex-direction: column;
     }
 }
