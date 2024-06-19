@@ -107,7 +107,7 @@ li {
 
 .imagen-birrete {
     width: 350px;
-    cursor: pointer;
+    cursor: grab;
     transition: 1s ease-in-out;
 }
 
