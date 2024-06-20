@@ -98,6 +98,7 @@ li {
     border-radius: 50px;
     font-weight: 600;
     transition: 1s;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 .btn-mas-informacion:hover {
@@ -109,10 +110,12 @@ li {
     width: 350px;
     cursor: grab;
     transition: 1s ease-in-out;
+    border-radius: 50%;
 }
 
 .imagen-birrete:hover {
     transform: scale(1.1);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
 }
 
 .titulo-articulo-2 {
@@ -204,13 +207,101 @@ li {
     border-radius: 45px;
     border: 5px solid white;
     cursor: pointer;
+    transition: 1s;
+}
+.imagen-quienes-somos:hover{
+    transform: scale(1.1);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.seccion-7 {
+    width: 95%;
+    padding: 10px;
+    margin: auto;
+}
+
+.titulo-seccion-7 {
+    color: white;
+    text-align: center;
+    margin: 5px;
+    font-size: x-large;
+    font-weight: 800;
+}
+
+.parrafo-seccion-7 {
+    color: white;
+    font-size: large;
+    text-align: center;
+}
+
+.formulario-contacto {
+    width: auto;
+    margin: 20px auto;
+    padding: 10px;
+    text-align: center;
+}
+
+textarea {
+    display: block;
+    width: 300px auto;
+    margin: 10px auto;
+    padding: 10px 20px;
+    border-radius: 5px;
+    outline: none;
+    font-size: medium;
+}
+
+textarea::placeholder {
+    color: black;
+    font-size: larger;
+}
+
+input {
+    display: inline;
+    width: auto;
+    padding: 10px 20px;
+    margin: 20px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-size: medium;
+}
+
+input::placeholder {
+    color: black;
+    font-size: larger;
+}
+.btn-formulario-contacto{
+    width: 300px;
+    padding: 15px 25px;
+    margin: 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 1s;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+}
+.btn-formulario-contacto:hover{
+    background-color: white;
+    color: #7E08CA;
+}
+footer{
+    background-color: rgb(27, 2, 49);
+    color: white;
+    text-align: center;
+    padding: 25px;
+    font-weight: 800;
 }
 
 @media (max-width:1200px) {
     .imagen-birrete {
         width: 250px;
     }
-    .imagen-quienes-somos{
+
+    .imagen-quienes-somos {
         width: 350px;
     }
 
