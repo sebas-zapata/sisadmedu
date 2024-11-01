@@ -1,8 +1,8 @@
-<?php 
-$conex = mysqli_connect("localhost","root","","sisadmedu");
+<?php
+$conex = mysqli_connect("localhost", "root", "", "sisadmedu");
 
 if (!$conex) {
-    die("Error en la conexión: " . mysqli_connect_error());
+    die("Error al conectar a la base de datos: " . mysqli_connect_error());
 }
 ?>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ if (!$conex) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/estilos.css">
+    <link rel="stylesheet" href="css/estilos.css">
     <title>Listado de Usuarios y Roles</title>
 </head>
 <body>
@@ -32,36 +32,38 @@ if (!$conex) {
                         <th>Apellidos</th>
                         <th>Correo Electrónico</th>
                         <th>Teléfono</th>
-                        <th>Contraseña</th>
                         <th>Rol</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $sql = " SELECT * FROM usuarios INNER JOIN rol ON usuarios.id_rol = rol.id_rol";
-                    $resultado = mysqli_query($conex,$sql);
-                    while($fila = mysqli_fetch_array($resultado)){
-                    ?>
-                    <tr>
-                        <td ><?php echo $fila['id_usuario'] ?></td>
-                        <td ><?php echo $fila['documento_usuario'] ?></td>
-                        <td ><?php echo $fila['nombres_usuario'] ?></td>
-                        <td ><?php echo $fila['apellidos_usuario'] ?></td>
-                        <td><?php echo $fila['correo_electronico_usuario'] ?></td>
-                        <td><?php echo $fila['telefono_usuario'] ?></td>
-                        <td ><?php echo $fila['contraseña_usuario'] ?></td>
-                        <td><?php echo $fila['id_usuario'] ?></td>
-                        <td >
-                            <a href="" class="btn btn-edit">Editar</a>
-                        </td>
-                        <td>
-                            <a href="" class="btn btn-delete">Eliminar</a>
-                        </td>
-                    </tr>
-                    <?php 
+                <?php
+
+                    $query = "SELECT * FROM usuarios";
+                    $resultado = mysqli_query($conex, $query);
+
+                    if (mysqli_num_rows($resultado) > 0) {
+                        
+                        while ($row = mysqli_fetch_assoc($resultado)) {
+                            echo "<tr>";
+                            echo "<td data-label='ID Usuario'>" . $row['id_usuario'] . "</td>";
+                            echo "<td data-label='Documento'>" . $row['documento_usuario'] . "</td>";
+                            echo "<td data-label='Nombres'>" . $row['nombres_usuario'] . "</td>";
+                            echo "<td data-label='Apellidos'>" . $row['apellidos_usuario'] . "</td>";
+                            echo "<td data-label='Correo Electrónico'>" . $row['correo_electronico_usuario'] . "</td>";
+                            echo "<td data-label='Teléfono'>" . $row['telefono_usuario'] . "</td>";
+                            echo "<td data-label='Rol'>" . $row['id_rol'] . "</td>";
+                            echo "<td data-label='Editar'><a href='#' class='btn btn-edit'>Editar</a></td>";
+                            echo "<td data-label='Eliminar'><a href='eliminar_usuarios.php' class='btn btn-delete' >Eliminar</a></td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='10'>No hay usuarios registrados</td></tr>";
                     }
+
+                    mysqli_free_result($resultado);
+                    mysqli_close($conex);
                     ?>
                 </tbody>
             </table>
