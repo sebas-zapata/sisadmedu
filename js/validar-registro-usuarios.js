@@ -1,5 +1,5 @@
 document.getElementById("registroForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+  // Evita que el formulario se envíe inmediatamente
     let valid = true;
 
     // Limpiar mensajes de error previos
@@ -58,7 +58,6 @@ document.getElementById("registroForm").addEventListener("submit", function(even
     if (valid) {
         // Si todo es válido, enviar el formulario
         alert("Formulario de registro enviado correctamente.");
-        // Aquí puedes enviar el formulario o redirigir al usuario
-        // document.getElementById("registroForm").submit();
+        document.getElementById("registroForm").submit(); // Enviar el formulario después de validar
     }
 });
