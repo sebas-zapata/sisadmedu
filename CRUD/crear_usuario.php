@@ -6,7 +6,7 @@ if (!$conex) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize and assign the variables
+    
     $tipo_documento = mysqli_real_escape_string($conex, $_POST['tipo_documento_codigo_tipo_documento']);
     $documento_usuario = mysqli_real_escape_string($conex, $_POST['documento_usuario']);
     $nombres_usuario = mysqli_real_escape_string($conex, $_POST['nombres_usuario']);
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($resultado_correo) > 0) {
         echo "<script>alert('El correo ya existe. Por favor, ingrese otro.');window.location='registro-usuarios.php'</script>";
     } else {
-        // Insert the user into the database
+       
         $insertar = "INSERT INTO usuarios (`tipo_documento_codigo_tipo_documento`, `documento_usuario`, `nombres_usuario`, `apellidos_usuario`, `correo_electronico_usuario`, `telefono_usuario`, `contrasena_usuario`, `rol_id_rol1`,`grupo_id_grupo`) VALUES ('$tipo_documento', '$documento_usuario', '$nombres_usuario', '$apellidos_usuario', '$correo_electronico_usuario', '$telefono_usuario', '$contraseña_usuario', '$id_rol','$id_grupo')";
         $resultado = mysqli_query($conex, $insertar);
 

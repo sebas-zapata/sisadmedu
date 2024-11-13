@@ -7,12 +7,14 @@ if (!$conex) {
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/estilos.css">
     <title>Listado de Usuarios y Roles</title>
 </head>
+
 <body>
 
     <header>
@@ -38,13 +40,11 @@ if (!$conex) {
                     </tr>
                 </thead>
                 <tbody>
-                <?php
-
+                    <?php
                     $query = "SELECT * FROM usuarios INNER JOIN rol ON usuarios.rol_id_rol1 = rol.id_rol";
                     $resultado = mysqli_query($conex, $query);
 
                     if (mysqli_num_rows($resultado) > 0) {
-                        
                         while ($row = mysqli_fetch_assoc($resultado)) {
                             echo "<tr>";
                             echo "<td data-label='ID Usuario'>" . $row['id_usuario'] . "</td>";
@@ -54,8 +54,8 @@ if (!$conex) {
                             echo "<td data-label='Correo Electrónico'>" . $row['correo_electronico_usuario'] . "</td>";
                             echo "<td data-label='Teléfono'>" . $row['telefono_usuario'] . "</td>";
                             echo "<td data-label='Rol'>" . $row['rol'] . "</td>";
-                            echo "<td data-label='Editar'><a href='#' class='btn btn-edit'>Editar</a></td>";
-                            echo "<td data-label='Eliminar'><a href='eliminar_usuarios.php' class='btn btn-delete' >Eliminar</a></td>";
+                            echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn btn-edit'>Editar</a></td>";
+                            echo "<td data-label='Eliminar'><a onclick=\"return eliminar();\" class='btn btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'>Eliminar</a></td>";
                             echo "</tr>";
                         }
                     } else {
@@ -66,6 +66,7 @@ if (!$conex) {
                     mysqli_close($conex);
                     ?>
                 </tbody>
+
             </table>
         </section>
     </main>
@@ -75,4 +76,5 @@ if (!$conex) {
     </footer>
 
 </body>
+
 </html>
