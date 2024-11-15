@@ -1,79 +1,33 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #7E08CA;
-    ;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
 }
-
-.form-container {
-    background-color: #ffffff;
-    padding: 10px;
+.formulario-registro{
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    margin: 20px;
+    background-color: rgb(27, 2, 49);
 }
-
-.form-container h2 {
-    text-align: center;
-    color: #7E08CA;
+.btn-guardar {
+    background-color: #9d7bca;
+    text-decoration: none;
+    color: white;
 }
-
-
-.form-container input,
-.form-container select {
-    display: block;
-    width: 90%;
-    padding: 10px;
-    margin: 13px auto;
-    border: 1px solid #7E08CA;
-    border-radius: 5px;
-    outline: none;
+.btn-guardar:hover {
+    background-color: rgb(92, 19, 156);
+    color: white;
 }
-
-.form-container input::placeholder {
-    color: black;
+.btn-volver {
+    background-color: #9d7bca;
+    text-decoration: none;
+    color: white;
 }
-
-.form-container input[type="submit"] {
-    padding: 12px;
-    background-color: #7E08CA;
-    color: #ffffff;
-    border: none;
-    cursor: pointer;
+.btn-volver:hover {
+    background-color: rgb(92, 19, 156);
+    color: white;
 }
-
-.form-container input[type="submit"]:hover {
-    background-color: #5b0698;
-}
-
-.logo {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.logo img {
-    max-width: 100px;
-    border-radius: 50%;
-    border: 5px solid #5b0698;
-}
-
 .error {
     display: block;
     color: red;
     font-size: 13px;
     text-align: center;
     font-weight: 800;
-}
-
-@media (max-width: 768px) {
-    .form-container {
-        padding: 15px;
-    }
 }
