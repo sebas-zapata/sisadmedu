@@ -7,11 +7,11 @@ if (!$conex) {
 
 if (isset($_GET['id_usuario'])) {
     $idUsuario = $_GET['id_usuario'];
-    
+
     // Consultar los datos del usuario por su ID
     $sql = "SELECT * FROM usuarios WHERE id_usuario = $idUsuario";
     $resultado = mysqli_query($conex, $sql);
-    
+
     // Verificar si se encontró el usuario
     if (mysqli_num_rows($resultado) > 0) {
         $usuario = mysqli_fetch_assoc($resultado);
@@ -19,7 +19,7 @@ if (isset($_GET['id_usuario'])) {
         echo "Usuario no encontrado.";
         exit(); // Salir si no se encuentra el usuario
     }
-    
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Obtener los datos del formulario de edición y sanitizarlos
         $tipo_documento = mysqli_real_escape_string($conex, $_POST['tipo_documento_codigo_tipo_documento']);
@@ -29,12 +29,12 @@ if (isset($_GET['id_usuario'])) {
         $correo_electronico_usuario = mysqli_real_escape_string($conex, $_POST['correo_electronico_usuario']);
         $telefono_usuario = mysqli_real_escape_string($conex, $_POST['telefono_usuario']);
         $id_rol = mysqli_real_escape_string($conex, $_POST['id_rol']);
-        
-        
+
+
         // Actualizar los datos del usuario en la base de datos
         $sqlUpdate = "UPDATE usuarios SET tipo_documento_codigo_tipo_documento = '$tipo_documento', documento_usuario = '$documento_usuario', nombres_usuario = '$nombres_usuario', apellidos_usuario = '$apellidos_usuario', correo_electronico_usuario = '$correo_electronico_usuario', telefono_usuario = '$telefono_usuario', rol_id_rol1 = '$id_rol' WHERE id_usuario = $idUsuario";
         mysqli_query($conex, $sqlUpdate);
-        
+
         // Redirigir a la página principal después de la edición
         header("Location: usuarios.php");
         exit();
@@ -47,62 +47,85 @@ if (isset($_GET['id_usuario'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="">
-    <link rel="stylesheet" href="">
-    <title>Editar Usuario</title>
+    <link rel="shortcut icon" href="../img/Logo SISADMEDU.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css?v=<?php echo time(); ?>">
+
+    <title>Editar usuario</title>
 </head>
-<body class="">
-    <div class="">
-        <form method="post">
-            <h2>Editar Usuario</h2>
 
-            <label for="id_grupo">Tipo de Documento:</label>
-            <select class="form-control" name="tipo_documento_codigo_tipo_documento">
-                <?php
-                $consulta_documento = "SELECT * FROM tipo_documento";
-                $resultado_documento = mysqli_query($conex, $consulta_documento);
-                while($tipo_documento = mysqli_fetch_assoc($resultado_documento)) {
-                    $selected = isset($usuario['tipo_documento_codigo_tipo_documento']) && $tipo_documento['codigo_tipo_documento'] == $usuario['tipo_documento_codigo_tipo_documento'] ? "selected" : "";
-                    echo "<option value='" . $tipo_documento['codigo_tipo_documento'] . "' $selected>" . $tipo_documento['descripcion_tipo_documento'] . "</option>";
-                }
-                ?>
-            </select>
-            <br>
-            
-            <label for="documento_usuario">Documento:</label>
-            <input class="form-control" type="text" name="documento_usuario" value="<?php echo isset($usuario['documento_usuario']) ? $usuario['documento_usuario'] : ''; ?>"><br>
+<body>
+<div class="container mt-2">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" class="formulario-editar p-4 rounded m-2">
+                <a class="btn btn-volver" href="./usuarios.php">Volver</a>
+                <h2 class="text-light text-center mb-4">Editar Usuario</h2> 
+                <hr>
 
-            <label for="nombres_usuario">Nombres:</label>
-            <input class="form-control" type="text" name="nombres_usuario" value="<?php echo isset($usuario['nombres_usuario']) ? $usuario['nombres_usuario'] : ''; ?>"><br>
+                <div class="mb-3">
+                    <label for="tipo_documento" class="form-label text-light">Tipo de Documento:</label>
+                    <select id="tipo_documento" class="form-select" name="tipo_documento_codigo_tipo_documento">
+                        <?php
+                        $consulta_documento = "SELECT * FROM tipo_documento";
+                        $resultado_documento = mysqli_query($conex, $consulta_documento);
+                        while ($tipo_documento = mysqli_fetch_assoc($resultado_documento)) {
+                            $selected = isset($usuario['tipo_documento_codigo_tipo_documento']) && $tipo_documento['codigo_tipo_documento'] == $usuario['tipo_documento_codigo_tipo_documento'] ? "selected" : "";
+                            echo "<option value='" . $tipo_documento['codigo_tipo_documento'] . "' $selected>" . $tipo_documento['descripcion_tipo_documento'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
 
-            <label for="apellidos_usuario">Apellidos:</label>
-            <input class="form-control" type="text" name="apellidos_usuario" value="<?php echo isset($usuario['apellidos_usuario']) ? $usuario['apellidos_usuario'] : ''; ?>"><br>
+                <div class="mb-3">
+                    <label for="documento_usuario" class="form-label text-light">Documento:</label>
+                    <input id="documento_usuario" class="form-control m-auto" type="text" name="documento_usuario" value="<?php echo isset($usuario['documento_usuario']) ? $usuario['documento_usuario'] : ''; ?>">
+                </div>
 
-            <label for="correo_electronico_usuario">Correo:</label>
-            <input class="form-control" type="email" name="correo_electronico_usuario" value="<?php echo isset($usuario['correo_electronico_usuario']) ? $usuario['correo_electronico_usuario'] : ''; ?>"><br>
+                <div class="mb-3">
+                    <label for="nombres_usuario" class="form-label text-light">Nombres:</label>
+                    <input id="nombres_usuario" class="form-control m-auto" type="text" name="nombres_usuario" value="<?php echo isset($usuario['nombres_usuario']) ? $usuario['nombres_usuario'] : ''; ?>">
+                </div>
 
-            <label for="telefono_usuario">Teléfono:</label>
-            <input class="form-control" type="text" name="telefono_usuario" value="<?php echo isset($usuario['telefono_usuario']) ? $usuario['telefono_usuario'] : ''; ?>"><br>
+                <div class="mb-3">
+                    <label for="apellidos_usuario" class="form-label text-light">Apellidos:</label>
+                    <input id="apellidos_usuario" class="form-control m-auto" type="text" name="apellidos_usuario" value="<?php echo isset($usuario['apellidos_usuario']) ? $usuario['apellidos_usuario'] : ''; ?>">
+                </div>
 
-            <label for="id_rol">Rol:</label>
-            <select class="form-control" name="id_rol">
-                <?php
-                $consulta_rol = "SELECT * FROM rol";
-                $resultado_rol = mysqli_query($conex, $consulta_rol);
-                while($rol = mysqli_fetch_assoc($resultado_rol)) {
-                    $selected = isset($usuario['rol_id_rol1']) && $rol['id_rol'] == $usuario['rol_id_rol1'] ? "selected" : "";
-                    echo "<option value='" . $rol['id_rol'] . "' $selected>" . $rol['rol'] . "</option>";
-                }
-                ?>
-            </select><br>
+                <div class="mb-3">
+                    <label for="correo_electronico_usuario" class="form-label text-light">Correo:</label>
+                    <input id="correo_electronico_usuario" class="form-control m-auto" type="email" name="correo_electronico_usuario" value="<?php echo isset($usuario['correo_electronico_usuario']) ? $usuario['correo_electronico_usuario'] : ''; ?>">
+                </div>
 
-            
+                <div class="mb-3">
+                    <label for="telefono_usuario" class="form-label text-light">Teléfono:</label>
+                    <input id="telefono_usuario" class="form-control m-auto" type="text" name="telefono_usuario" value="<?php echo isset($usuario['telefono_usuario']) ? $usuario['telefono_usuario'] : ''; ?>">
+                </div>
 
-            <button class="" type="submit">Guardar Cambios</button>
-        </form>
+                <div class="mb-3">
+                    <label for="id_rol" class="form-label text-light">Rol:</label>
+                    <select id="id_rol" class="form-select" name="id_rol">
+                        <?php
+                        $consulta_rol = "SELECT * FROM rol";
+                        $resultado_rol = mysqli_query($conex, $consulta_rol);
+                        while ($rol = mysqli_fetch_assoc($resultado_rol)) {
+                            $selected = isset($usuario['rol_id_rol1']) && $rol['id_rol'] == $usuario['rol_id_rol1'] ? "selected" : "";
+                            echo "<option value='" . $rol['id_rol'] . "' $selected>" . $rol['rol'] . "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <button class="btn btn-guardar w-100 p-3" type="submit">Guardar Cambios</button>
+            </form>
+        </div>
     </div>
+</div>
+
 </body>
+
 </html>

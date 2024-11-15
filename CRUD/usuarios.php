@@ -11,8 +11,10 @@ if (!$conex) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/estilos.css">
-    <title>Listado de Usuarios y Roles</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/estilos.css?v=<?php echo time(); ?>">
+    <link rel="shortcut icon" href="../img/Logo SISADMEDU.jpg" type="image/x-icon">
+    <title>Usuarios y Roles</title>
 </head>
 
 <body>
@@ -23,57 +25,62 @@ if (!$conex) {
     </header>
 
     <main>
-        <section>
-            <h2 class="titulo-gestion-usuarios">Tabla de Usuarios</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID Usuario</th>
-                        <th>Documento</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Correo Electrónico</th>
-                        <th>Teléfono</th>
-                        <th>Rol</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $query = "SELECT * FROM usuarios INNER JOIN rol ON usuarios.rol_id_rol1 = rol.id_rol";
-                    $resultado = mysqli_query($conex, $query);
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <a class="btn btn-guardar m-3" href="./registro-usuarios.php">Crear usuario</a>
+                    <section>
+                        <h2 class="titulo-gestion-usuarios">Tabla de usuarios</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID Usuario</th>
+                                    <th>Documento</th>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Correo Electrónico</th>
+                                    <th>Teléfono</th>
+                                    <th>Rol</th>
+                                    <th>Editar</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $query = "SELECT * FROM usuarios INNER JOIN rol ON usuarios.rol_id_rol1 = rol.id_rol";
+                                $resultado = mysqli_query($conex, $query);
 
-                    if (mysqli_num_rows($resultado) > 0) {
-                        while ($row = mysqli_fetch_assoc($resultado)) {
-                            echo "<tr>";
-                            echo "<td data-label='ID Usuario'>" . $row['id_usuario'] . "</td>";
-                            echo "<td data-label='Documento'>" . $row['documento_usuario'] . "</td>";
-                            echo "<td data-label='Nombres'>" . $row['nombres_usuario'] . "</td>";
-                            echo "<td data-label='Apellidos'>" . $row['apellidos_usuario'] . "</td>";
-                            echo "<td data-label='Correo Electrónico'>" . $row['correo_electronico_usuario'] . "</td>";
-                            echo "<td data-label='Teléfono'>" . $row['telefono_usuario'] . "</td>";
-                            echo "<td data-label='Rol'>" . $row['rol'] . "</td>";
-                            echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn btn-edit'>Editar</a></td>";
-                            echo "<td data-label='Eliminar'><a onclick=\"return eliminar();\" class='btn btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'>Eliminar</a></td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='10'>No hay usuarios registrados</td></tr>";
-                    }
+                                if (mysqli_num_rows($resultado) > 0) {
+                                    while ($row = mysqli_fetch_assoc($resultado)) {
+                                        echo "<tr>";
+                                        echo "<td data-label='ID Usuario'>" . $row['id_usuario'] . "</td>";
+                                        echo "<td data-label='Documento'>" . $row['documento_usuario'] . "</td>";
+                                        echo "<td data-label='Nombres'>" . $row['nombres_usuario'] . "</td>";
+                                        echo "<td data-label='Apellidos'>" . $row['apellidos_usuario'] . "</td>";
+                                        echo "<td data-label='Correo Electrónico'>" . $row['correo_electronico_usuario'] . "</td>";
+                                        echo "<td data-label='Teléfono'>" . $row['telefono_usuario'] . "</td>";
+                                        echo "<td data-label='Rol'>" . $row['rol'] . "</td>";
+                                        echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn btn-edit'>Editar</a></td>";
+                                        echo "<td data-label='Eliminar'><a onclick=\"return eliminar();\" class='btn btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'>Eliminar</a></td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='10'>No hay usuarios registrados</td></tr>";
+                                }
 
-                    mysqli_free_result($resultado);
-                    mysqli_close($conex);
-                    ?>
-                </tbody>
+                                mysqli_free_result($resultado);
+                                mysqli_close($conex);
+                                ?>
+                            </tbody>
 
-            </table>
-        </section>
+                        </table>
+                    </section>
+
+                </div>
+            </div>
+        </div>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Gestión de Usuarios y Roles</p>
-    </footer>
 
 </body>
 
