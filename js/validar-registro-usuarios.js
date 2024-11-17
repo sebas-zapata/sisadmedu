@@ -1,5 +1,6 @@
 document.getElementById("registroForm").addEventListener("submit", function(event) {
-  // Evita que el formulario se envíe inmediatamente
+    event.preventDefault();  // Prevenir el envío del formulario hasta que se validen los campos
+
     let valid = true;
 
     // Limpiar mensajes de error previos
@@ -52,6 +53,20 @@ document.getElementById("registroForm").addEventListener("submit", function(even
     const rol = document.getElementById("rol").value;
     if (rol === "") {
         document.getElementById("rolError").textContent = "Debe seleccionar un rol.";
+        valid = false;
+    }
+
+    // Validación del tipo de documento
+    const tipoDocumento = document.getElementById("tipo_documento").value;
+    if (tipoDocumento === "") {
+        document.getElementById("tipoDocumentoError").textContent = "Debe seleccionar un tipo de documento.";
+        valid = false;
+    }
+
+    // Validación del grupo
+    const grupo = document.getElementById("grupo").value;
+    if (grupo === "") {
+        document.getElementById("grupoError").textContent = "Debe seleccionar un grupo.";
         valid = false;
     }
 
