@@ -377,6 +377,28 @@ th {
     background-color: rgb(27, 2, 49);
 }
 
+.dashboard{
+    background-color: rgb(27, 2, 49);
+}
+.tarjeta{
+    background-color: rgb(27, 2, 49);
+}
+.btn-panel{
+    background-color: #7E08CA;
+
+}
+.btn-panel:hover{
+    background-color: white;
+    color: black;
+}
+/* .btn-dropdown{
+    background-color: #7E08CA;
+    color: white;
+}
+.btn-dropdown:hover{
+    background-color: white;
+    color: white;
+} */
 /* Adaptabilidad de la tabla */
 @media (max-width: 768px) {
 
