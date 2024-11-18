@@ -28,7 +28,7 @@ if (!$conex) {
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <a class="btn btn-guardar m-3" href="./registro-usuarios.php">Crear usuario</a>
+                    <a class="btn btn-guardar m-3 btn-lg" href="./registro-usuarios.php">Crear usuario</a>
                     <section>
                         <h2 class="titulo-gestion-usuarios">Tabla de usuarios</h2>
                         <table>
