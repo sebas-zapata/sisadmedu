@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #7E08CA;
+    background-color: #461c68;
 }
 
 .logo {
@@ -104,6 +104,18 @@ li {
 .btn-mas-informacion:hover {
     background-color: white;
     color: #7E08CA;
+}
+
+.btn-registrar-usuarios {
+    width: 100px;
+    background-color: #9d7bca;
+    ;
+}
+
+.btn-registrar-usuarios:hover {
+    width: 100px;
+    background-color: black;
+    color: white;
 }
 
 .imagen-birrete {
@@ -351,23 +363,25 @@ th {
     background-color: #9d7bca;
     text-decoration: none;
 }
+
 .btn-volver {
     background-color: #9d7bca;
     text-decoration: none;
 }
 
 .btn-edit:hover {
-    background-color: rgb(27, 2, 49);
+    background-color: black;
 }
 
 .btn-delete:hover {
-    background-color: rgb(27, 2, 49);
+    background-color: black;
 }
 
 .btn-guardar:hover {
     background-color: rgb(92, 19, 156);
     color: white;
 }
+
 .btn-volver:hover {
     background-color: rgb(92, 19, 156);
     color: white;
@@ -377,28 +391,24 @@ th {
     background-color: rgb(27, 2, 49);
 }
 
-.dashboard{
+.dashboard {
     background-color: rgb(27, 2, 49);
 }
-.tarjeta{
+
+.tarjeta {
     background-color: rgb(27, 2, 49);
 }
-.btn-panel{
+
+.btn-panel {
     background-color: #7E08CA;
 
 }
-.btn-panel:hover{
+
+.btn-panel:hover {
     background-color: white;
     color: black;
 }
-/* .btn-dropdown{
-    background-color: #7E08CA;
-    color: white;
-}
-.btn-dropdown:hover{
-    background-color: white;
-    color: white;
-} */
+
 /* Adaptabilidad de la tabla */
 @media (max-width: 768px) {
 

@@ -1,33 +1,34 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #7E08CA;
+    background-color: #461c68;
 }
 .formulario-registro{
     border-radius: 10px;
     background-color: rgb(27, 2, 49);
 }
 .btn-guardar {
-    background-color: #9d7bca;
+    background-color: rgb(92, 19, 156);
     text-decoration: none;
     color: white;
 }
 .btn-guardar:hover {
-    background-color: rgb(92, 19, 156);
+    background-color: #9d7bca;
     color: white;
 }
 .btn-volver {
-    background-color: #9d7bca;
+    background-color: rgb(92, 19, 156);
     text-decoration: none;
     color: white;
 }
 .btn-volver:hover {
-    background-color: rgb(92, 19, 156);
+    background-color: #9d7bca;;
     color: white;
 }
 .error {
     display: block;
     color: red;
-    font-size: 13px;
+    font-size: 15px;
     text-align: center;
     font-weight: 800;
+    margin: 10px;
 }
