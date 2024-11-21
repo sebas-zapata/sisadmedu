@@ -54,7 +54,8 @@ if (isset($_GET['id_usuario'])) {
     <link rel="shortcut icon" href="../img/Logo SISADMEDU.jpg" type="image/x-icon">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/estilos.css?v=<?php echo time(); ?>">
-
+    <link rel="stylesheet" href="../css/estilos-formularios.css?v=<?php echo time(); ?>">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <title>Editar usuario</title>
 </head>
 
@@ -63,12 +64,11 @@ if (isset($_GET['id_usuario'])) {
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form method="post" class="formulario-editar p-4 rounded m-2">
-                <a class="btn btn-volver" href="./usuarios.php">Volver</a>
-                <h2 class="text-light text-center mb-4">Editar Usuario</h2> 
+                <a class="btn px-4 m-3 btn-volver" href="./usuarios.php"><i class="fa-solid fa-arrow-left"></i></a>
+                <h2 class="text-light text-center mb-4">Editar Usuario <i class='fa-solid fa-user-pen'></i></h2> 
                 <hr>
 
-                <div class="mb-3">
-                    <label for="tipo_documento" class="form-label text-light">Tipo de Documento:</label>
+                <div class="form-floating mb-4">
                     <select id="tipo_documento" class="form-select" name="tipo_documento_codigo_tipo_documento">
                         <?php
                         $consulta_documento = "SELECT * FROM tipo_documento";
@@ -81,33 +81,32 @@ if (isset($_GET['id_usuario'])) {
                     </select>
                 </div>
 
-                <div class="mb-3">
-                    <label for="documento_usuario" class="form-label text-light">Documento:</label>
+                <div class="form-floating mb-4">
                     <input id="documento_usuario" class="form-control m-auto" type="text" name="documento_usuario" value="<?php echo isset($usuario['documento_usuario']) ? $usuario['documento_usuario'] : ''; ?>">
+                    <label for="documento_usuario">Documento:</label>
                 </div>
 
-                <div class="mb-3">
-                    <label for="nombres_usuario" class="form-label text-light">Nombres:</label>
+                <div class="form-floating mb-4">
                     <input id="nombres_usuario" class="form-control m-auto" type="text" name="nombres_usuario" value="<?php echo isset($usuario['nombres_usuario']) ? $usuario['nombres_usuario'] : ''; ?>">
+                    <label for="nombres_usuario">Nombres:</label>
                 </div>
 
-                <div class="mb-3">
-                    <label for="apellidos_usuario" class="form-label text-light">Apellidos:</label>
+                <div class="form-floating mb-4">
                     <input id="apellidos_usuario" class="form-control m-auto" type="text" name="apellidos_usuario" value="<?php echo isset($usuario['apellidos_usuario']) ? $usuario['apellidos_usuario'] : ''; ?>">
+                    <label for="apellidos_usuario">Apellidos:</label>
                 </div>
 
-                <div class="mb-3">
-                    <label for="correo_electronico_usuario" class="form-label text-light">Correo:</label>
+                <div class="form-floating mb-4">
                     <input id="correo_electronico_usuario" class="form-control m-auto" type="email" name="correo_electronico_usuario" value="<?php echo isset($usuario['correo_electronico_usuario']) ? $usuario['correo_electronico_usuario'] : ''; ?>">
+                    <label for="correo_electronico_usuario">Correo:</label>
                 </div>
 
-                <div class="mb-3">
-                    <label for="telefono_usuario" class="form-label text-light">Teléfono:</label>
+                <div class="form-floating mb-4">
                     <input id="telefono_usuario" class="form-control m-auto" type="text" name="telefono_usuario" value="<?php echo isset($usuario['telefono_usuario']) ? $usuario['telefono_usuario'] : ''; ?>">
+                    <label for="telefono_usuario">Teléfono:</label>
                 </div>
 
-                <div class="mb-3">
-                    <label for="id_rol" class="form-label text-light">Rol:</label>
+                <div class="form-floating mb-4">
                     <select id="id_rol" class="form-select" name="id_rol">
                         <?php
                         $consulta_rol = "SELECT * FROM rol";
@@ -120,7 +119,7 @@ if (isset($_GET['id_usuario'])) {
                     </select>
                 </div>
 
-                <button class="btn btn-guardar w-100 p-3" type="submit">Guardar Cambios</button>
+                <button class="btn btn-guardar w-100 p-3" type="submit">Editar <i class='fa-solid fa-user-pen'></i></button>
             </form>
         </div>
     </div>
