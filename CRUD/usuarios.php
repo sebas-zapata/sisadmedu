@@ -62,7 +62,7 @@ if (!$conex) {
                                         echo "<td data-label='Teléfono'>" . $row['telefono_usuario'] . "</td>";
                                         echo "<td data-label='Rol'>" . $row['rol'] . "</td>";
                                         echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn px-4 btn-edit'><i class='fa-solid fa-user-pen'></i></a></td>";
-                                        echo "<td data-label='Eliminar'><a onclick=\"return eliminar();\" class='btn px-4 btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'><i class='fa-solid fa-user-minus'></i></a></td>";
+                                        echo "<td data-label='Eliminar'><a class='btn px-4 btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'><i class='fa-solid fa-user-minus'></i></a></td>";
                                         echo "</tr>";
                                     }
                                 } else {
@@ -81,8 +81,6 @@ if (!$conex) {
             </div>
         </div>
     </main>
-
-
 </body>
 
 </html>
