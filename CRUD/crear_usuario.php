@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt_correo->fetchColumn() > 0) {
             echo "<script>alert('El correo ya existe. Por favor, ingrese otro.');window.location='registro-usuarios.php'</script>";
-<<<<<<< HEAD
+
         } else {
             // Verificar si el documento ya existe
             $consulta_documento = "SELECT * FROM usuarios WHERE documento_usuario = '$documento_usuario'";
@@ -51,9 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                 }
             }
-=======
             exit();
->>>>>>> 4f1c23c9fcda39368396ad473b1ad37d34feb8a7
+
         }
 
         // Verificar si el documento ya existe
