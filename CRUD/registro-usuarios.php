@@ -1,5 +1,6 @@
 <?php
-$conex = mysqli_connect("localhost", "root", "", "sisadmedu");
+
+require 'conexion.php';
 
 ?>
 
@@ -32,14 +33,17 @@ $conex = mysqli_connect("localhost", "root", "", "sisadmedu");
                         <select class="form-select" name="tipo_documento_codigo_tipo_documento" id="tipo_documento">
                             <option value="" selected>Seleccione un tipo de documento</option>
                             <?php
-                            $consulta = "SELECT codigo_tipo_documento, descripcion_tipo_documento FROM tipo_documento";
-                            $resultado = mysqli_query($conex, $consulta);
-                            while ($tipo_documento = mysqli_fetch_array($resultado)) {
+                            try {
+                                $consulta = $pdo->query("SELECT codigo_tipo_documento, descripcion_tipo_documento FROM tipo_documento");
+                                while ($tipo_documento = $consulta->fetch(PDO::FETCH_ASSOC)) {
                             ?>
-                                <option value="<?php echo $tipo_documento['codigo_tipo_documento']; ?>">
-                                    <?php echo $tipo_documento['descripcion_tipo_documento']; ?>
-                                </option>
+                                    <option value="<?php echo $tipo_documento['codigo_tipo_documento']; ?>">
+                                        <?php echo $tipo_documento['descripcion_tipo_documento']; ?>
+                                    </option>
                             <?php
+                                }
+                            } catch (PDOException $e) {
+                                echo "<p>Error al cargar tipos de documento: " . $e->getMessage() . "</p>";
                             }
                             ?>
                         </select>
@@ -93,14 +97,17 @@ $conex = mysqli_connect("localhost", "root", "", "sisadmedu");
                         <select class="form-select" id="rol" name="id_rol">
                             <option value="" selected>Seleccione un rol</option>
                             <?php
-                            $consulta = "SELECT * FROM rol";
-                            $resultado = mysqli_query($conex, $consulta);
-                            while ($rol = mysqli_fetch_array($resultado)) {
+                            try {
+                                $consulta = $pdo->query("SELECT * FROM rol");
+                                while ($rol = $consulta->fetch(PDO::FETCH_ASSOC)) {
                             ?>
-                                <option value="<?php echo $rol['id_rol']; ?>">
-                                    <?php echo $rol['rol']; ?>
-                                </option>
+                                    <option value="<?php echo $rol['id_rol']; ?>">
+                                        <?php echo $rol['rol']; ?>
+                                    </option>
                             <?php
+                                }
+                            } catch (PDOException $e) {
+                                echo "<p>Error al cargar roles: " . $e->getMessage() . "</p>";
                             }
                             ?>
                         </select>
@@ -113,14 +120,17 @@ $conex = mysqli_connect("localhost", "root", "", "sisadmedu");
                         <select class="form-control" name="id_grupo" id="grupo">
 
                             <?php
-                            $consulta = "SELECT * FROM grupo";
-                            $resultado = mysqli_query($conex, $consulta);
-                            while ($id_grupo = mysqli_fetch_array($resultado)) {
+                            try {
+                                $consulta = $pdo->query("SELECT * FROM grupo");
+                                while ($grupo = $consulta->fetch(PDO::FETCH_ASSOC)) {
                             ?>
-                                <option value="<?php echo $id_grupo['id_grupo']; ?>">
-                                    <?php echo $id_grupo['nombre_grupo']; ?>
-                                </option>
+                                    <option value="<?php echo $grupo['id_grupo']; ?>">
+                                        <?php echo $grupo['nombre_grupo']; ?>
+                                    </option>
                             <?php
+                                }
+                            } catch (PDOException $e) {
+                                echo "<p>Error al cargar grupos: " . $e->getMessage() . "</p>";
                             }
                             ?>
                         </select>
