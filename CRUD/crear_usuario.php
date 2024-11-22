@@ -46,7 +46,8 @@
                     $resultado = mysqli_query($conex, $insertar);
 
                     if ($resultado) {
-                        header("location: usuarios.php");
+                        echo "<script>alert('Usuario registrado exitosamente');</script>";
+                        header("location:usuarios.php");
                         exit();
                     } else {
                         echo 'Error, no se pudo crear la cuenta';

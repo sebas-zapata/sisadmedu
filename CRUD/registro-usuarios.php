@@ -14,7 +14,6 @@ $conex = mysqli_connect("localhost", "root", "", "sisadmedu");
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/estilos-formularios.css?v=<?php echo time(); ?>">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.css">
     <title>Registrar usuario</title>
 </head>
 
@@ -139,7 +138,6 @@ $conex = mysqli_connect("localhost", "root", "", "sisadmedu");
     </div>
     <script src="../js/validar-registro-usuarios.js"></script>
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.all.min.js"></script>
     <script>
         const rolSelect = document.getElementById('rol');
         const grupoContainer = document.getElementById('grupoContainer');
