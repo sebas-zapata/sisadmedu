@@ -1,9 +1,5 @@
 <?php
-$conex = mysqli_connect("localhost", "root", "", "sisadmedu");
-
-if (!$conex) {
-    die("Error al conectar a la base de datos: " . mysqli_connect_error());
-}
+require 'conexion.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -49,30 +45,43 @@ if (!$conex) {
                             </thead>
                             <tbody>
                                 <?php
-                                $query = "SELECT * FROM usuarios INNER JOIN rol ON usuarios.rol_id_rol1 = rol.id_rol";
-                                $resultado = mysqli_query($conex, $query);
+                                try {
+                                    // Consulta para obtener los usuarios y sus roles
+                                    $query = "SELECT usuarios.id_usuario, usuarios.documento_usuario, usuarios.nombres_usuario, 
+                                     usuarios.apellidos_usuario, usuarios.correo_electronico_usuario, 
+                                    usuarios.telefono_usuario, rol.rol AS rol 
+                                    FROM usuarios 
+                                    INNER JOIN rol ON usuarios.rol_id_rol1 = rol.id_rol";
 
-                                if (mysqli_num_rows($resultado) > 0) {
-                                    while ($row = mysqli_fetch_assoc($resultado)) {
-                                        echo "<tr>";
-                                        echo "<td data-label='ID Usuario'>" . $row['id_usuario'] . "</td>";
-                                        echo "<td data-label='Documento'>" . $row['documento_usuario'] . "</td>";
-                                        echo "<td data-label='Nombres'>" . $row['nombres_usuario'] . "</td>";
-                                        echo "<td data-label='Apellidos'>" . $row['apellidos_usuario'] . "</td>";
-                                        echo "<td data-label='Correo Electrónico'>" . $row['correo_electronico_usuario'] . "</td>";
-                                        echo "<td data-label='Teléfono'>" . $row['telefono_usuario'] . "</td>";
-                                        echo "<td data-label='Rol'>" . $row['rol'] . "</td>";
-                                        echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn px-4 btn-edit'><i class='fa-solid fa-user-pen'></i></a></td>";
-                                        echo "<td data-label='Eliminar'><a class='btn px-4 btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'><i class='fa-solid fa-user-minus'></i></a></td>";
-                                        echo "</tr>";
+                                    // Preparar y ejecutar la consulta
+                                    $stmt = $pdo->prepare($query);
+                                    $stmt->execute();
+
+                                    // Obtener los resultados
+                                    $usuarios = $stmt->fetchAll();
+
+                                    if (count($usuarios) > 0) {
+                                        foreach ($usuarios as $row) {
+                                            echo "<tr>";
+                                            echo "<td data-label='ID Usuario'>" . htmlspecialchars($row['id_usuario']) . "</td>";
+                                            echo "<td data-label='Documento'>" . htmlspecialchars($row['documento_usuario']) . "</td>";
+                                            echo "<td data-label='Nombres'>" . htmlspecialchars($row['nombres_usuario']) . "</td>";
+                                            echo "<td data-label='Apellidos'>" . htmlspecialchars($row['apellidos_usuario']) . "</td>";
+                                            echo "<td data-label='Correo Electrónico'>" . htmlspecialchars($row['correo_electronico_usuario']) . "</td>";
+                                            echo "<td data-label='Teléfono'>" . htmlspecialchars($row['telefono_usuario']) . "</td>";
+                                            echo "<td data-label='Rol'>" . htmlspecialchars($row['rol']) . "</td>";
+                                            echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn px-4 btn-edit'><i class='fa-solid fa-user-pen'></i></a></td>";
+                                            echo "<td data-label='Eliminar'><a onclick=\"return eliminar();\" class='btn px-4 btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'><i class='fa-solid fa-user-minus'></i></a></td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='10'><h4>No hay usuarios registrados <i class='fa-solid fa-user-xmark'></i><h4></td></tr>";
                                     }
-                                } else {
-                                    echo "<tr><td colspan='10'><h4>No hay usuarios registrados <i class='fa-solid fa-user-xmark'></i></h4></td></tr>";
+                                } catch (PDOException $e) {
+                                    echo "<tr><td colspan='9'>Error al cargar los usuarios: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
                                 }
-
-                                mysqli_free_result($resultado);
-                                mysqli_close($conex);
                                 ?>
+
                             </tbody>
 
                         </table>

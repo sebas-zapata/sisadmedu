@@ -1,26 +1,25 @@
 <?php
 
-$conex = mysqli_connect("localhost", "root", "", "sisadmedu");
-
-if (!$conex) {
-    die("Error de conexión: " . mysqli_connect_error());
-}
+require 'conexion.php';
 
 if (isset($_GET['id_usuario'])) {
     $idUsuario = $_GET['id_usuario'];
 
-    
-    $sqlEliminar = "DELETE FROM usuarios WHERE id_usuario = $idUsuario";
-    if (mysqli_query($conex, $sqlEliminar)) {
+    try {
+        // Consulta preparada para eliminar el usuario
+        $sqlEliminar = "DELETE FROM usuarios WHERE id_usuario = :id_usuario";
+        $stmt = $pdo->prepare($sqlEliminar);
+        $stmt->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
 
-        header("location:usuarios.php");
-        exit();
-    } else {
-        echo "Error al eliminar el usuario de la base de datos: " . mysqli_error($conex);
+        if ($stmt->execute()) {
+            header("Location: usuarios.php");
+            exit();
+        } else {
+            echo "Error al eliminar el usuario de la base de datos.";
+        }
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 } else {
     echo "ID de usuario no proporcionado.";
 }
-
-mysqli_close($conex);
-?>
