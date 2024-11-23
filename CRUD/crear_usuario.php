@@ -1,16 +1,17 @@
 <?php
-require 'conexion.php';
+session_start(); // Inicia la sesión
+require 'conexion.php'; // Asegúrate de que este archivo contenga la instancia PDO en $pdo
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Recupera los valores de los campos del formulario
+    // Recuperar los valores del formulario
     $tipo_documento = $_POST['tipo_documento_codigo_tipo_documento'];
     $documento_usuario = $_POST['documento_usuario'];
     $nombres_usuario = $_POST['nombres_usuario'];
     $apellidos_usuario = $_POST['apellidos_usuario'];
     $correo_electronico_usuario = $_POST['correo_electronico_usuario'];
     $telefono_usuario = $_POST['telefono_usuario'];
-    $contraseña_usuario = hash('sha512', $_POST['contrasena_usuario']); // Hashear contraseña
+    $contraseña_usuario = hash('sha512', $_POST['contrasena_usuario']); // Hashear la contraseña
     $id_rol = $_POST['id_rol'];
     $id_grupo = $_POST['id_grupo'];
 
@@ -21,38 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_correo->execute(['correo' => $correo_electronico_usuario]);
 
         if ($stmt_correo->fetchColumn() > 0) {
-            echo "<script>alert('El correo ya existe. Por favor, ingrese otro.');window.location='registro-usuarios.php'</script>";
-
-        } else {
-            // Verificar si el documento ya existe
-            $consulta_documento = "SELECT * FROM usuarios WHERE documento_usuario = '$documento_usuario'";
-            $resultado_documento = mysqli_query($conex, $consulta_documento);
-
-            if (mysqli_num_rows($resultado_documento) > 0) {
-                echo "<script>alert('El documento ya existe. Por favor, ingrese otro.');window.location='registro-usuarios.php'</script>";
-            } else {
-                // Verificar si el teléfono ya existe
-                $consulta_telefono = "SELECT * FROM usuarios WHERE telefono_usuario = '$telefono_usuario'";
-                $resultado_telefono = mysqli_query($conex, $consulta_telefono);
-
-                if (mysqli_num_rows($resultado_telefono) > 0) {
-                    echo "<script>alert('El teléfono ya existe. Por favor, ingrese otro.');window.location='registro-usuarios.php'</script>";
-                } else {
-                    // Insertar datos del usuario en la base de datos
-                    $insertar = "INSERT INTO usuarios (`tipo_documento_codigo_tipo_documento`, `documento_usuario`, `nombres_usuario`, `apellidos_usuario`, `correo_electronico_usuario`, `telefono_usuario`, `contrasena_usuario`, `rol_id_rol1`, `grupo_id_grupo`) VALUES ('$tipo_documento', '$documento_usuario', '$nombres_usuario', '$apellidos_usuario', '$correo_electronico_usuario', '$telefono_usuario', '$contraseña_usuario', '$id_rol', '$id_grupo')";
-                    $resultado = mysqli_query($conex, $insertar);
-
-                    if ($resultado) {
-                        echo "<script>alert('Usuario registrado exitosamente');</script>";
-                        header("location:usuarios.php");
-                        exit();
-                    } else {
-                        echo 'Error, no se pudo crear la cuenta';
-                    }
-                }
-            }
+            $_SESSION['mensaje'] = [
+                'tipo' => 'info',
+                'titulo' => 'Algo ocurrio',
+                'texto' => 'El correo ya existe. Por favor, ingrese otro.'
+            ];
+            header("Location: usuarios.php");
             exit();
-
         }
 
         // Verificar si el documento ya existe
@@ -61,7 +37,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_documento->execute(['documento' => $documento_usuario]);
 
         if ($stmt_documento->fetchColumn() > 0) {
-            echo "<script>alert('El documento ya existe. Por favor, ingrese otro.');window.location='registro-usuarios.php'</script>";
+            $_SESSION['mensaje'] = [
+                'tipo' => 'info',
+                'titulo' => 'Algo ocurrio',
+                'texto' => 'El documento ya existe. Por favor, ingrese otro.'
+            ];
+            header("Location: usuarios.php");
             exit();
         }
 
@@ -71,7 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_telefono->execute(['telefono' => $telefono_usuario]);
 
         if ($stmt_telefono->fetchColumn() > 0) {
-            echo "<script>alert('El teléfono ya existe. Por favor, ingrese otro.');window.location='registro-usuarios.php'</script>";
+            $_SESSION['mensaje'] = [
+                'tipo' => 'info',
+                'titulo' => 'Algo ocurrio',
+                'texto' => 'El teléfono ya existe. Por favor, ingrese otro.'
+            ];
+            header("Location: usuarios.php");
             exit();
         }
 
@@ -97,8 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             :rol, 
             :grupo
         )";
-        $stmt_insertar = $pdo->prepare($sql_insertar);
 
+        $stmt_insertar = $pdo->prepare($sql_insertar);
         $resultado = $stmt_insertar->execute([
             'tipo_documento' => $tipo_documento,
             'documento' => $documento_usuario,
@@ -112,13 +98,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ]);
 
         if ($resultado) {
+            $_SESSION['mensaje'] = [
+                'tipo' => 'success',
+                'titulo' => 'Correcto',
+                'texto' => 'El usuario se ha registrado exitosamente.'
+            ];
             header("Location: usuarios.php");
             exit();
         } else {
-            echo 'Error, no se pudo crear la cuenta';
+            $_SESSION['mensaje'] = [
+                'tipo' => 'error',
+                'titulo' => 'Ocurrio un error',
+                'texto' => 'No se registro el usuario.'
+            ];
+            header("Location: usuarios.php");
+            exit();
         }
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
-?>

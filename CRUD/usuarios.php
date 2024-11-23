@@ -1,4 +1,5 @@
 <?php
+session_start(); // Inicia la sesión
 require 'conexion.php';
 ?>
 <!DOCTYPE html>
@@ -10,8 +11,8 @@ require 'conexion.php';
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/estilos.css?v=<?php echo time(); ?>">
     <link rel="shortcut icon" href="../img/Logo SISADMEDU.jpg" type="image/x-icon">
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Usuarios y Roles</title>
 </head>
 
@@ -45,6 +46,29 @@ require 'conexion.php';
                             </thead>
                             <tbody>
                                 <?php
+                                // Verifica si hay un mensaje en la sesión
+                                if (isset($_SESSION['mensaje'])) {
+                                    $tipo = $_SESSION['mensaje']['tipo']; // 'success', 'error', 'info', etc.
+                                    $titulo = $_SESSION['mensaje']['titulo'];
+                                    $texto = $_SESSION['mensaje']['texto'];
+
+                                    // Muestra la alerta con SweetAlert
+                                    echo "
+                                   <script>
+                                       Swal.fire({
+                                           icon: '$tipo',
+                                           title: '$titulo',
+                                           text: '$texto',
+                                           confirmButtonColor: '#461c68;',
+                                           confirmButtonText: 'Aceptar'
+                                       });
+                                   </script>
+                                   ";
+
+                                    // Elimina el mensaje de la sesión
+                                    unset($_SESSION['mensaje']);
+                                }
+
                                 try {
                                     // Consulta para obtener los usuarios y sus roles
                                     $query = "SELECT usuarios.id_usuario, usuarios.documento_usuario, usuarios.nombres_usuario, 
@@ -71,7 +95,13 @@ require 'conexion.php';
                                             echo "<td data-label='Teléfono'>" . htmlspecialchars($row['telefono_usuario']) . "</td>";
                                             echo "<td data-label='Rol'>" . htmlspecialchars($row['rol']) . "</td>";
                                             echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn px-4 btn-edit'><i class='fa-solid fa-user-pen'></i></a></td>";
-                                            echo "<td data-label='Eliminar'><a onclick=\"return eliminar();\" class='btn px-4 btn-delete' href='eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "'><i class='fa-solid fa-user-minus'></i></a></td>";
+                                            echo "<td data-label='Eliminar'>
+                                                  <a onclick=\"eliminar(event, 'eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "');\" 
+                                                     class='btn px-4 btn-delete' 
+                                                     href='#'>
+                                                     <i class='fa-solid fa-user-minus'></i>
+                                                  </a>
+                                                </td>";
                                             echo "</tr>";
                                         }
                                     } else {
@@ -91,6 +121,7 @@ require 'conexion.php';
             </div>
         </div>
     </main>
+    <script src="../js/eliminar-usuario.js"></script>
 </body>
 
 </html>
