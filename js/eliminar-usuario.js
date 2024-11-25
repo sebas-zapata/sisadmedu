@@ -5,11 +5,13 @@ function eliminar(event, url) {
         title: '¿Estás seguro?',
         text: "No podrás revertir esta acción.",
         icon: 'warning',
+        iconColor: '#d33',
         showCancelButton: true,
         confirmButtonColor: '#461c68;',
+        width:'500px',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
     }).then((result) => {
         if (result.isConfirmed) {
             // Redirigir a la URL de eliminación si se confirma

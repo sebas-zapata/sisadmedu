@@ -16,7 +16,7 @@ document.getElementById("registroForm").addEventListener("submit", function(even
     // Validación del nombre
     const nombre = document.getElementById("nombre").value.trim();
     if (nombre === "") {
-        document.getElementById("nombreError").textContent = "El nombre es obligatorio.";
+        document.getElementById("nombreError").textContent = "Los nombres son obligatorios.";
         valid = false;
     }
 
@@ -60,13 +60,6 @@ document.getElementById("registroForm").addEventListener("submit", function(even
     const tipoDocumento = document.getElementById("tipo_documento").value;
     if (tipoDocumento === "") {
         document.getElementById("tipoDocumentoError").textContent = "Debe seleccionar un tipo de documento.";
-        valid = false;
-    }
-
-    // Validación del grupo
-    const grupo = document.getElementById("grupo").value;
-    if (grupo === "") {
-        document.getElementById("grupoError").textContent = "Debe seleccionar un grupo.";
         valid = false;
     }
 
