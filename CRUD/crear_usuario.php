@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $telefono_usuario = $_POST['telefono_usuario'];
     $contraseña_usuario = hash('sha512', $_POST['contrasena_usuario']); // Hashear la contraseña
     $id_rol = $_POST['id_rol'];
-    $id_grupo = $_POST['id_grupo'];
 
     try {
         // Verificar si el correo electrónico ya existe
@@ -70,8 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             correo_electronico_usuario, 
             telefono_usuario, 
             contrasena_usuario, 
-            rol_id_rol1, 
-            grupo_id_grupo
+            rol_id_rol1 
         ) VALUES (
             :tipo_documento, 
             :documento, 
@@ -80,8 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             :correo, 
             :telefono, 
             :contrasena, 
-            :rol, 
-            :grupo
+            :rol
         )";
 
         $stmt_insertar = $pdo->prepare($sql_insertar);
@@ -94,14 +91,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'telefono' => $telefono_usuario,
             'contrasena' => $contraseña_usuario,
             'rol' => $id_rol,
-            'grupo' => $id_grupo,
         ]);
 
         if ($resultado) {
             $_SESSION['mensaje'] = [
                 'tipo' => 'success',
                 'titulo' => 'Correcto',
-                'texto' => 'El usuario se ha registrado exitosamente.'
+                'texto' => 'Usuario registrado exitosamente.'
             ];
             header("Location: usuarios.php");
             exit();

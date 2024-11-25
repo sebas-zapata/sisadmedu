@@ -114,29 +114,6 @@ require 'conexion.php';
                         <span class="text-danger small error" id="rolError"></span>
                     </div>
 
-                    <!-- Selección de Grupo -->
-                    <div class="mb-3" id="grupoContainer" style="display: none;">
-                        <label for="grupo" class="form-label text-light">Grupo</label>
-                        <select class="form-control" name="id_grupo" id="grupo">
-
-                            <?php
-                            try {
-                                $consulta = $pdo->query("SELECT * FROM grupo");
-                                while ($grupo = $consulta->fetch(PDO::FETCH_ASSOC)) {
-                            ?>
-                                    <option value="<?php echo $grupo['id_grupo']; ?>">
-                                        <?php echo $grupo['nombre_grupo']; ?>
-                                    </option>
-                            <?php
-                                }
-                            } catch (PDOException $e) {
-                                echo "<p>Error al cargar grupos: " . $e->getMessage() . "</p>";
-                            }
-                            ?>
-                        </select>
-                        <span class="text-danger small error" id="grupoError"></span>
-                    </div>
-
                     <!-- Botón de Enviar -->
                     <div class="text-center">
                         <button type="submit" class="btn btn-guardar w-100 p-3">Guardar <i class="fa-solid fa-user-plus"></i></button>
@@ -148,19 +125,6 @@ require 'conexion.php';
     </div>
     <script src="../js/validar-registro-usuarios.js"></script>
     <script src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const rolSelect = document.getElementById('rol');
-        const grupoContainer = document.getElementById('grupoContainer');
-
-        rolSelect.addEventListener('change', () => {
-            const selectedOption = rolSelect.options[rolSelect.selectedIndex].text.toLowerCase();
-            if (selectedOption === 'estudiante') {
-                grupoContainer.style.display = 'block';
-            } else {
-                grupoContainer.style.display = 'none';
-            }
-        });
-    </script>
 </body>
 
 </html>

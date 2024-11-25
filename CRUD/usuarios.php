@@ -59,8 +59,10 @@ require 'conexion.php';
                                            icon: '$tipo',
                                            title: '$titulo',
                                            text: '$texto',
-                                           confirmButtonColor: '#461c68;',
-                                           confirmButtonText: 'Aceptar'
+                                           confirmButtonColor: '#461c68',
+                                           confirmButtonText: 'Aceptar',
+                                           width:'500px',
+                                           timer: 4000,
                                        });
                                    </script>
                                    ";
@@ -105,7 +107,7 @@ require 'conexion.php';
                                             echo "</tr>";
                                         }
                                     } else {
-                                        echo "<tr><td colspan='10'><h4>No hay usuarios registrados <i class='fa-solid fa-user-xmark'></i><h4></td></tr>";
+                                        echo "<tr><td colspan='10'><h4 class='text-center'>No hay usuarios registrados <i class='fa-solid fa-user-xmark'></i><h4></td></tr>";
                                     }
                                 } catch (PDOException $e) {
                                     echo "<tr><td colspan='9'>Error al cargar los usuarios: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
