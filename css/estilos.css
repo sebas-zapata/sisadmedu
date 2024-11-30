@@ -29,12 +29,9 @@ body {
 }
 
 header {
-    background-color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    padding: 10px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 ul {
@@ -54,6 +51,14 @@ li {
     font-weight: 700;
     border-radius: 20px;
     transition: 1s;
+}
+.navbar-toggler {
+    background-color: #7E08CA;
+    color: white;
+}
+.navbar-toggler:hover{
+    background-color: #6c4a83;
+
 }
 
 .links-encabezado:hover {
@@ -88,7 +93,7 @@ li {
 }
 
 .btn-mas-informacion {
-    width: 130px;
+    width: 230px;
     margin: 25px auto;
     display: block;
     background-color: black;
@@ -270,14 +275,8 @@ textarea::placeholder {
 }
 
 input {
-    display: inline;
-    width: auto;
-    padding: 10px 20px;
-    margin: 20px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    font-size: medium;
+    display: block;
+    margin: 10px auto;
 }
 
 input::placeholder {
@@ -302,6 +301,19 @@ input::placeholder {
 .btn-formulario-contacto:hover {
     background-color: white;
     color: #7E08CA;
+}
+
+.error {
+    color: red;
+    font-size: 15px;
+    text-align: center;
+    font-weight: 800;
+}
+
+input.error,
+textarea.error {
+    border: 1px solid red;
+    font-weight: 100;
 }
 
 footer {
@@ -453,18 +465,5 @@ th {
 
     .imagen-quienes-somos {
         width: 350px;
-    }
-
-    header {
-        flex-direction: column;
-    }
-
-    .links-encabezado {
-        display: block;
-        text-align: center;
-    }
-
-    ul {
-        flex-direction: column;
     }
 }
