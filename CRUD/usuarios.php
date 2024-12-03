@@ -18,21 +18,43 @@ require 'conexion.php';
 
 <body>
 
-    <header class="bg-light d-flex">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <header class="bg-light p-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-body-tertiary">
             <div class="container-fluid">
-                    <h5>Usuarios</h5>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- Título del módulo -->
+                <a class="navbar-brand" href="usuarios.php">
+                    <h5 class="m-0"><i class="fa-solid fa-users"></i> Usuarios</h5>
+                </a>
+
+                <!-- Botón para colapsar el menú en pantallas pequeñas -->
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
+
+                <!-- Contenido del menú -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <!-- Opciones desplegables -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a
+                                class=" dropdown-toggle btn btn-opciones p-2"
+                                href="#"
+                                id="userOptionsDropdown"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 Opciones
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="../admin.php">Panel</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userOptionsDropdown">
+                                <li><a class="dropdown-item link-panel" href="../admin.php"><i class="fas fa-gauge-high"></i>
+                                        Panel de Administración</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -41,15 +63,17 @@ require 'conexion.php';
         </nav>
     </header>
 
+
     <main>
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <a class="btn m-3 btn-registrar-usuarios" href="./registro-usuarios.php"><i class="fa-solid fa-user-plus"></i></a>
+                    <a class="btn m-3 p-2 btn-registrar-usuarios" href="./registro-usuarios.php"><i class="fa-solid fa-user-plus"></i> Añadir usuario</a>
                     <section>
                         <h2 class="titulo-gestion-usuarios">Tabla de usuarios <i class="fa-solid fa-users"></i></h2>
-                        <table class="text-center">
-                            <thead>
+                        <div class="table-responsive">
+                        <table class="table table-striped table-hover text-center">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th>ID Usuario</th>
                                     <th>Documento</th>
@@ -58,8 +82,7 @@ require 'conexion.php';
                                     <th>Correo Electrónico</th>
                                     <th>Teléfono</th>
                                     <th>Rol</th>
-                                    <th>Editar</th>
-                                    <th>Eliminar</th>
+                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,18 +95,18 @@ require 'conexion.php';
 
                                     // Muestra la alerta con SweetAlert
                                     echo "
-                                   <script>
-                                       Swal.fire({
-                                           icon: '$tipo',
-                                           title: '$titulo',
-                                           text: '$texto',
-                                           confirmButtonColor: '#461c68',
-                                           confirmButtonText: 'Aceptar',
-                                           width:'500px',
-                                           timer: 4000,
-                                       });
-                                   </script>
-                                   ";
+           <script>
+               Swal.fire({
+                   icon: '$tipo',
+                   title: '$titulo',
+                   text: '$texto',
+                   confirmButtonColor: '#461c68',
+                   confirmButtonText: 'Aceptar',
+                   width:'500px',
+                   timer: 4000,
+               });
+           </script>
+           ";
 
                                     // Elimina el mensaje de la sesión
                                     unset($_SESSION['mensaje']);
@@ -92,10 +115,10 @@ require 'conexion.php';
                                 try {
                                     // Consulta para obtener los usuarios y sus roles
                                     $query = "SELECT usuarios.id_usuario, usuarios.documento_usuario, usuarios.nombres_usuario, 
-                                     usuarios.apellidos_usuario, usuarios.correo_electronico_usuario, 
-                                    usuarios.telefono_usuario, rol.rol AS rol 
-                                    FROM usuarios 
-                                    INNER JOIN rol ON usuarios.rol_id_rol1 = rol.id_rol";
+             usuarios.apellidos_usuario, usuarios.correo_electronico_usuario, 
+            usuarios.telefono_usuario, rol.rol AS rol 
+            FROM usuarios 
+            INNER JOIN rol ON usuarios.rol_id_rol1 = rol.id_rol";
 
                                     // Preparar y ejecutar la consulta
                                     $stmt = $pdo->prepare($query);
@@ -107,34 +130,41 @@ require 'conexion.php';
                                     if (count($usuarios) > 0) {
                                         foreach ($usuarios as $row) {
                                             echo "<tr>";
-                                            echo "<td data-label='ID Usuario'>" . htmlspecialchars($row['id_usuario']) . "</td>";
-                                            echo "<td data-label='Documento'>" . htmlspecialchars($row['documento_usuario']) . "</td>";
-                                            echo "<td data-label='Nombres'>" . htmlspecialchars($row['nombres_usuario']) . "</td>";
-                                            echo "<td data-label='Apellidos'>" . htmlspecialchars($row['apellidos_usuario']) . "</td>";
-                                            echo "<td data-label='Correo Electrónico'>" . htmlspecialchars($row['correo_electronico_usuario']) . "</td>";
-                                            echo "<td data-label='Teléfono'>" . htmlspecialchars($row['telefono_usuario']) . "</td>";
-                                            echo "<td data-label='Rol'>" . htmlspecialchars($row['rol']) . "</td>";
-                                            echo "<td data-label='Editar'><a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn px-4 btn-edit'><i class='fa-solid fa-user-pen'></i></a></td>";
-                                            echo "<td data-label='Eliminar'>
-                                                  <a onclick=\"eliminar(event, 'eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "');\" 
-                                                     class='btn px-4 btn-delete' 
-                                                     href='#'>
-                                                     <i class='fa-solid fa-user-minus'></i>
-                                                  </a>
-                                                </td>";
+                                            echo "<td>" . htmlspecialchars($row['id_usuario']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['documento_usuario']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['nombres_usuario']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['apellidos_usuario']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['correo_electronico_usuario']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['telefono_usuario']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['rol']) . "</td>";
+                                            echo "<td>
+                    <div class='d-flex justify-content-around'>
+                        <a href='editar_usuarios.php?id_usuario=" . $row['id_usuario'] . "' class='btn btn-edit mx-1 p-2' title='Editar'>
+                            <i class='fa-solid fa-user-pen'></i>
+                            Editar
+                        </a>
+                        <a onclick=\"eliminar(event, 'eliminar_usuarios.php?id_usuario=" . $row['id_usuario'] . "');\" 
+                           class='btn btn-delete mx-1 p-2' 
+                           href='#' 
+                           title='Eliminar'>
+                            <i class='fa-solid fa-user-minus'></i>
+                             Eliminar
+                        </a>
+                    </div>
+                  </td>";
+
                                             echo "</tr>";
                                         }
                                     } else {
-                                        echo "<tr><td colspan='10'><h4 class='text-center'>No hay usuarios registrados <i class='fa-solid fa-user-xmark'></i><h4></td></tr>";
+                                        echo "<tr><td colspan='8' class='text-center'><h4>No hay usuarios registrados <i class='fa-solid fa-user-xmark'></i></h4></td></tr>";
                                     }
                                 } catch (PDOException $e) {
-                                    echo "<tr><td colspan='9'>Error al cargar los usuarios: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
+                                    echo "<tr><td colspan='8' class='text-center'>Error al cargar los usuarios: " . htmlspecialchars($e->getMessage()) . "</td></tr>";
                                 }
                                 ?>
-
                             </tbody>
-
                         </table>
+                        </div>
                     </section>
 
                 </div>
