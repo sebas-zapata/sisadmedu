@@ -52,11 +52,13 @@ li {
     border-radius: 20px;
     transition: 1s;
 }
+
 .navbar-toggler {
     background-color: #7E08CA;
     color: white;
 }
-.navbar-toggler:hover{
+
+.navbar-toggler:hover {
     background-color: #6c4a83;
 
 }
@@ -112,13 +114,21 @@ li {
 }
 
 .btn-registrar-usuarios {
+    width: 200px;
+    background-color: #9d7bca;
+}
+
+.btn-opciones {
     width: 100px;
     background-color: #9d7bca;
-    ;
+}
+
+.btn-opciones:hover {
+    background-color: black;
+    color: white;
 }
 
 .btn-registrar-usuarios:hover {
-    width: 100px;
     background-color: black;
     color: white;
 }
@@ -324,26 +334,6 @@ footer {
     font-weight: 800;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1em;
-}
-
-th,
-td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-td {
-    color: #ddd;
-}
-
-th {
-    background-color: #f4f4f4;
-}
 
 .titulo-gestion-usuarios {
     color: #ddd;
@@ -383,10 +373,12 @@ th {
 
 .btn-edit:hover {
     background-color: black;
+    color: white;
 }
 
 .btn-delete:hover {
     background-color: black;
+    color: white;
 }
 
 .btn-guardar:hover {
@@ -404,58 +396,82 @@ th {
 }
 
 .dashboard {
-    background-color: rgb(27, 2, 49);
-}
-
-.tarjeta {
-    background-color: rgb(27, 2, 49);
+    background-color: #461c68;
 }
 
 .btn-panel {
-    background-color: #7E08CA;
-
+    background-color: #6c4a83;
 }
 
 .btn-panel:hover {
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
 }
 
-/* Adaptabilidad de la tabla */
-@media (max-width: 768px) {
+.link-panel:hover {
+    background-color: #9d7bca;
+    color: white;
+}
 
-    table,
-    thead,
-    tbody,
-    th,
-    td,
-    tr {
-        display: block;
-    }
+.btn-usuario-dashboard {
+    background-color: #6c4a83;
+}
 
-    thead tr {
-        display: none;
-    }
+.btn-usuario-dashboard:hover {
+    background-color: white;
 
-    tr {
-        margin-bottom: 1em;
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
+}
 
-    td {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px;
-    }
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    /* Elimina bordes adicionales */
+    background-color: #6c4a83;
+    color: #fff;
+    overflow: hidden;
+}
 
-    td::before {
-        content: attr(data-label);
-        font-weight: bold;
-        flex-basis: 50%;
-        text-align: left;
-        padding-right: 1em;
-    }
+.hover-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    /* Eleva y agranda ligeramente la tarjeta */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    /* Agrega una sombra más intensa */
+}
+
+.hover-card .btn-link {
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.hover-card .btn-link:hover {
+    color: #000;
+    /* Cambia a negro el color del enlace */
+    text-decoration: none;
+    /* Quita subrayado */
+}
+
+.hover-card i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.hover-card:hover i {
+    transform: rotate(10deg) scale(1.1);
+    /* Gira y agranda el icono principal */
+    color: #fff;
+    /* Asegura que mantenga el color blanco */
+}
+
+.hover-card:hover {
+    background-color: #4e3760;
+}
+
+.btn-perfil {
+    color: #7E08CA;
+}
+
+.link-perfil:hover {
+    background-color: #9d7bca;
+    color: white;
 }
 
 @media (max-width:1200px) {
