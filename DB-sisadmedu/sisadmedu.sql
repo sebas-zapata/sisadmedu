@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-11-2024 a las 15:45:55
+-- Tiempo de generación: 04-12-2024 a las 04:36:32
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -401,7 +401,8 @@ INSERT INTO `grado` (`id_grado`, `nombre_grado`, `sede_id_sede`) VALUES
 (7, 'S?ptimo Grado', 3),
 (8, 'Octavo Grado', 4),
 (9, 'Noveno Grado', 4),
-(10, 'D?cimo Grado', 5);
+(10, 'D?cimo Grado', 5),
+(11, 'Once Grado', 5);
 
 -- --------------------------------------------------------
 
@@ -410,22 +411,47 @@ INSERT INTO `grado` (`id_grado`, `nombre_grado`, `sede_id_sede`) VALUES
 --
 
 CREATE TABLE `grupo` (
-  `id_grupo` int(11) NOT NULL,
+  `id_grupo` int(20) NOT NULL,
   `nombre_grupo` varchar(255) NOT NULL,
-  `fecha_registro` datetime DEFAULT current_timestamp(),
-  `grado_id_grado` int(11) NOT NULL,
-  `grado_sede_id_sede` int(11) NOT NULL
+  `id_grado` int(20) NOT NULL,
+  `fecha_registro` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `grupo`
 --
 
-INSERT INTO `grupo` (`id_grupo`, `nombre_grupo`, `fecha_registro`, `grado_id_grado`, `grado_sede_id_sede`) VALUES
-(1, 'Grupo A', '2024-10-30 11:00:21', 1, 1),
-(2, 'Grupo B', '2024-10-30 11:00:21', 1, 1),
-(3, 'Grupo C', '2024-10-30 11:00:21', 2, 1),
-(4, 'Grupo D', '2024-10-30 11:00:21', 2, 1);
+INSERT INTO `grupo` (`id_grupo`, `nombre_grupo`, `id_grado`, `fecha_registro`) VALUES
+(1, 'primerouno', 1, '2024-12-03 22:33:44'),
+(2, 'primerodos', 1, '2024-12-03 22:33:44'),
+(3, 'segundouno', 2, '2024-12-03 22:33:44'),
+(4, 'segundodos', 2, '2024-12-03 22:33:44'),
+(5, 'tercerouno', 3, '2024-12-03 22:33:44'),
+(6, 'tercerodos', 3, '2024-12-03 22:33:44'),
+(7, 'cuartouno', 4, '2024-12-03 22:33:44'),
+(8, 'cuartodos', 4, '2024-12-03 22:33:44'),
+(9, 'quintouno', 5, '2024-12-03 22:33:44'),
+(10, 'quintodos', 5, '2024-12-03 22:33:44'),
+(11, 'sextouno', 6, '2024-12-03 22:33:44'),
+(12, 'sextodos', 6, '2024-12-03 22:33:44'),
+(13, 'sextotres', 6, '2024-12-03 22:33:44'),
+(14, 'septimouno', 7, '2024-12-03 22:33:44'),
+(15, 'septimodos', 7, '2024-12-03 22:33:44'),
+(16, 'septimotres', 7, '2024-12-03 22:33:44'),
+(17, 'octavouno', 8, '2024-12-03 22:33:44'),
+(18, 'octavodos', 8, '2024-12-03 22:33:44'),
+(19, 'octavotres', 8, '2024-12-03 22:33:44'),
+(20, 'novenouno', 9, '2024-12-03 22:33:44'),
+(21, 'novenodos', 9, '2024-12-03 22:33:44'),
+(22, 'novenotres', 9, '2024-12-03 22:33:44'),
+(23, 'decimouno', 10, '2024-12-03 22:33:44'),
+(24, 'decimodos', 10, '2024-12-03 22:33:44'),
+(25, 'decimotres', 10, '2024-12-03 22:33:44'),
+(26, 'decimocuatro', 10, '2024-12-03 22:33:44'),
+(27, 'onceuno', 11, '2024-12-03 22:33:44'),
+(28, 'oncedos', 11, '2024-12-03 22:33:44'),
+(29, 'oncetres', 11, '2024-12-03 22:33:44'),
+(30, 'oncecuatro', 11, '2024-12-03 22:33:44');
 
 -- --------------------------------------------------------
 
@@ -690,12 +716,12 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`id_usuario`, `documento_usuario`, `nombres_usuario`, `apellidos_usuario`, `telefono_usuario`, `contrasena_usuario`, `activo`, `eliminar`, `fecha_registro`, `rol_id_rol`, `tipo_documento_codigo_tipo_documento`, `grupo_id_grupo`, `rol_id_rol1`, `id_rol`, `correo_electronico_usuario`) VALUES
 (1, 123456789, 'Juan', 'P?rez', '2147483647', 'default_password', 1, 0, '2024-10-30', 5, 1, 1, 6, NULL, NULL),
 (7, 131, 'Sof?a', 'P?rez', '3101234567', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
-(8, 132, 'Felipe', 'Hern?ndez', '3102345678', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
 (9, 133, 'Camila', 'Jim?nez', '3103456789', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
 (10, 134, 'Diego', 'Mora', '3104567890', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
 (11, 135, 'Sara', 'Salazar', '3105678901', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
 (12, 123456790, 'john', 'londoño', '1234567890', 'default_password1', 1, 0, '2024-10-30', 5, 1, 1, 6, NULL, NULL),
-(13, 123456794, 'kwfnv', 'mvfnfakh xkbvz', '098765432', 'default_password', 1, 0, '2024-10-30', 5, 1, 1, 6, NULL, 'kbhvash@gmail.com');
+(13, 123456794, 'kwfnv', 'mvfnfakh xkbvz', '098765432', 'default_password', 1, 0, '2024-10-30', 5, 1, 1, 6, NULL, 'kbhvash@gmail.com'),
+(16, 1038480603, 'brandon', 'mercado', '3042841413', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 0, 0, '0000-00-00', 0, 2, 0, 3, NULL, 'merca@gmail.com');
 
 --
 -- Disparadores `usuarios`
@@ -863,8 +889,7 @@ ALTER TABLE `grado`
 -- Indices de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  ADD PRIMARY KEY (`id_grupo`,`grado_id_grado`,`grado_sede_id_sede`),
-  ADD KEY `fk_grupo_grado1_idx` (`grado_id_grado`,`grado_sede_id_sede`);
+  ADD KEY `id_grado` (`id_grado`);
 
 --
 -- Indices de la tabla `historia_contrasena`
@@ -988,13 +1013,7 @@ ALTER TABLE `estudiantes`
 -- AUTO_INCREMENT de la tabla `grado`
 --
 ALTER TABLE `grado`
-  MODIFY `id_grado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT de la tabla `grupo`
---
-ALTER TABLE `grupo`
-  MODIFY `id_grupo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_grado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `historia_contrasena`
@@ -1042,7 +1061,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_usuario` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Restricciones para tablas volcadas
@@ -1064,7 +1083,6 @@ ALTER TABLE `asistencia`
 -- Filtros para la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  ADD CONSTRAINT `fk_docentes_grupo1` FOREIGN KEY (`grupo_id_grupo`,`grupo_grado_id_grado`) REFERENCES `grupo` (`id_grupo`, `grado_id_grado`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_docentes_sede1` FOREIGN KEY (`sede_id_sede`) REFERENCES `sede` (`id_sede`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_docentes_tipo_documento1` FOREIGN KEY (`tipo_documento_codigo_tipo_documento`) REFERENCES `tipo_documento` (`codigo_tipo_documento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -1073,7 +1091,6 @@ ALTER TABLE `docentes`
 --
 ALTER TABLE `estudiantes`
   ADD CONSTRAINT `fk_estudiantes_acudientes1` FOREIGN KEY (`acudientes_id_documento_acudiente`) REFERENCES `acudientes` (`id_documento_acudiente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_estudiantes_grupo1` FOREIGN KEY (`grupo_id_grupo`,`grupo_grado_id_grado`,`grupo_grado_sede_id_sede`) REFERENCES `grupo` (`id_grupo`, `grado_id_grado`, `grado_sede_id_sede`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_estudiantes_tipo_documento1` FOREIGN KEY (`tipo_documento_codigo_tipo_documento`) REFERENCES `tipo_documento` (`codigo_tipo_documento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -1086,7 +1103,7 @@ ALTER TABLE `grado`
 -- Filtros para la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  ADD CONSTRAINT `fk_grupo_grado1` FOREIGN KEY (`grado_id_grado`,`grado_sede_id_sede`) REFERENCES `grado` (`id_grado`, `sede_id_sede`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `grupo_ibfk_1` FOREIGN KEY (`id_grado`) REFERENCES `grado` (`id_grado`);
 
 --
 -- Filtros para la tabla `historia_contrasena`
@@ -1104,7 +1121,6 @@ ALTER TABLE `materia`
 -- Filtros para la tabla `materia_has_grupo`
 --
 ALTER TABLE `materia_has_grupo`
-  ADD CONSTRAINT `fk_materia_has_grupo_grupo1` FOREIGN KEY (`grupo_id_grupo`,`grupo_grado_id_grado`) REFERENCES `grupo` (`id_grupo`, `grado_id_grado`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_materia_has_grupo_materia1` FOREIGN KEY (`materia_id_materia`,`materia_docentes_id_documento_docente`) REFERENCES `materia` (`id_materia`, `docentes_id_documento_docente`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -1136,7 +1152,6 @@ ALTER TABLE `tema`
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `fk_usuarios_grupo1` FOREIGN KEY (`grupo_id_grupo`) REFERENCES `grupo` (`id_grupo`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_usuarios_rol1` FOREIGN KEY (`rol_id_rol1`) REFERENCES `rol` (`id_rol`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_usuarios_tipo_documento1` FOREIGN KEY (`tipo_documento_codigo_tipo_documento`) REFERENCES `tipo_documento` (`codigo_tipo_documento`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
