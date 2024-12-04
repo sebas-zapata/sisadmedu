@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-12-2024 a las 04:36:32
+-- Tiempo de generación: 04-12-2024 a las 04:52:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -466,13 +466,6 @@ CREATE TABLE `historia_contrasena` (
   `usuarios_rol_id_rol` int(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `historia_contrasena`
---
-
-INSERT INTO `historia_contrasena` (`id_historia_contrasena`, `historia_contrasena`, `usuarios_id_usuario`, `usuarios_rol_id_rol`) VALUES
-(4, 'default_password', 12, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -714,14 +707,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `documento_usuario`, `nombres_usuario`, `apellidos_usuario`, `telefono_usuario`, `contrasena_usuario`, `activo`, `eliminar`, `fecha_registro`, `rol_id_rol`, `tipo_documento_codigo_tipo_documento`, `grupo_id_grupo`, `rol_id_rol1`, `id_rol`, `correo_electronico_usuario`) VALUES
-(1, 123456789, 'Juan', 'P?rez', '2147483647', 'default_password', 1, 0, '2024-10-30', 5, 1, 1, 6, NULL, NULL),
-(7, 131, 'Sof?a', 'P?rez', '3101234567', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
-(9, 133, 'Camila', 'Jim?nez', '3103456789', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
-(10, 134, 'Diego', 'Mora', '3104567890', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
-(11, 135, 'Sara', 'Salazar', '3105678901', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, NULL),
-(12, 123456790, 'john', 'londoño', '1234567890', 'default_password1', 1, 0, '2024-10-30', 5, 1, 1, 6, NULL, NULL),
-(13, 123456794, 'kwfnv', 'mvfnfakh xkbvz', '098765432', 'default_password', 1, 0, '2024-10-30', 5, 1, 1, 6, NULL, 'kbhvash@gmail.com'),
-(16, 1038480603, 'brandon', 'mercado', '3042841413', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 0, 0, '0000-00-00', 0, 2, 0, 3, NULL, 'merca@gmail.com');
+(7, 131, 'Sof?a', 'P?rez', '3101234567', 'default_password', 1, 0, '2024-10-30', 4, 1, 1, 4, NULL, 'perez@gmail.com'),
+(17, 1820399603, 'carlos', 'gilberto', '3224976882', 'd9e6762dd1c8eaf6d61b3c6192fc408d4d6d5f1176d0c29169bc24e71c3f274ad27fcd5811b313d681f7e55ec02d73d499c95455b6b5bb503acf574fba8ffe85', 0, 0, '0000-00-00', 0, 1, 0, 5, NULL, 'girberl@gmail.com');
 
 --
 -- Disparadores `usuarios`
@@ -1061,7 +1048,7 @@ ALTER TABLE `tema`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_usuario` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Restricciones para tablas volcadas
