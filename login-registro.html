@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - SISADMEDU</title>
+  <link rel="shortcut icon" href="./img/Logo SISADMEDU.jpg" type="image/x-icon">
+  <link href="./bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/estilos-login.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <!-- Sección de Información -->
+    <div class="info-section">
+      <img class="rounded-circle img-fluid" src="./img/Logo SISADMEDU.jpg" alt="Logo del sistema" id="systemLogo">
+      <h1>SISADMEDU</h1>
+      <h6>Software Academico Administrativo</h6>
+    </div>
+
+    <!-- Sección de Formulario -->
+    <div class="form-container">
+      <form id="loginForm" autocomplete="off" novalidate>
+        <h4 class="text-center mb-4 text-light">Iniciar Sesión</h4>
+
+        <!-- Campo de Correo -->
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="loginEmail" placeholder="correo@ejemplo.com" required>
+          <label for="loginEmail">Correo electrónico</label>
+          <div class="invalid-feedback">Por favor, introduce un correo válido.</div>
+        </div>
+
+        <!-- Campo de Contraseña -->
+        <div class="form-floating mb-3 position-relative">
+          <input type="password" class="form-control" id="loginPassword" placeholder="Contraseña" minlength="6" required>
+          <label for="loginPassword">Contraseña</label>
+          <div class="invalid-feedback">La contraseña debe tener al menos 8 caracteres.</div>
+        </div>
+
+        <!-- Botón de Enviar -->
+        <button type="submit" class="btn custom-btn w-100">Acceder</button>
+      </form>
+      
+    </div>
+  </div>
+
+  <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/validar-login.js"></script>
+</body>
+
+</html>
