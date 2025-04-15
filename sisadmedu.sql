@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-04-2025 a las 16:30:13
+-- Tiempo de generación: 15-04-2025 a las 06:21:33
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -130,6 +130,30 @@ INSERT INTO `asistencia` (`id_asistencia`, `lunes`, `martes`, `miercoles`, `juev
 (8, 'P', 'A', 'A', 'A', 'P', 108),
 (9, 'A', 'P', 'A', 'A', 'A', 109),
 (10, 'P', 'P', 'P', 'A', 'P', 110);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cache`
+--
+
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cache_locks`
+--
+
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -378,6 +402,22 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `grado`
 --
 
@@ -443,6 +483,41 @@ CREATE TABLE `historia_contrasena` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `job_batches`
+--
+
+CREATE TABLE `job_batches` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `materia`
 --
 
@@ -494,6 +569,61 @@ INSERT INTO `materia_has_grupo` (`materia_id_materia`, `materia_docentes_id_docu
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2025_04_15_033436_create_acudientes_table', 0),
+(2, '2025_04_15_033436_create_asistencia_table', 0),
+(3, '2025_04_15_033436_create_centro_educativo_table', 0),
+(4, '2025_04_15_033436_create_docentes_table', 0),
+(5, '2025_04_15_033436_create_estudiantes_table', 0),
+(6, '2025_04_15_033436_create_grado_table', 0),
+(7, '2025_04_15_033436_create_grupo_table', 0),
+(8, '2025_04_15_033436_create_historia_contrasena_table', 0),
+(9, '2025_04_15_033436_create_materia_table', 0),
+(10, '2025_04_15_033436_create_materia_has_grupo_table', 0),
+(11, '2025_04_15_033436_create_nota_table', 0),
+(12, '2025_04_15_033436_create_rol_table', 0),
+(13, '2025_04_15_033436_create_sede_table', 0),
+(14, '2025_04_15_033436_create_seguimientos_table', 0),
+(15, '2025_04_15_033436_create_tema_table', 0),
+(16, '2025_04_15_033436_create_tipo_documento_table', 0),
+(17, '2025_04_15_033436_create_usuarios_table', 0),
+(18, '2025_04_15_033437_create_vista_docentes_materias_view', 0),
+(19, '2025_04_15_033437_create_vista_estudiantes_grados_view', 0),
+(20, '2025_04_15_033437_create_vista_usuario_roles_view', 0),
+(21, '2025_04_15_033439_add_foreign_keys_to_acudientes_table', 0),
+(22, '2025_04_15_033439_add_foreign_keys_to_asistencia_table', 0),
+(23, '2025_04_15_033439_add_foreign_keys_to_docentes_table', 0),
+(24, '2025_04_15_033439_add_foreign_keys_to_estudiantes_table', 0),
+(25, '2025_04_15_033439_add_foreign_keys_to_grado_table', 0),
+(26, '2025_04_15_033439_add_foreign_keys_to_grupo_table', 0),
+(27, '2025_04_15_033439_add_foreign_keys_to_historia_contrasena_table', 0),
+(28, '2025_04_15_033439_add_foreign_keys_to_materia_table', 0),
+(29, '2025_04_15_033439_add_foreign_keys_to_materia_has_grupo_table', 0),
+(30, '2025_04_15_033439_add_foreign_keys_to_nota_table', 0),
+(31, '2025_04_15_033439_add_foreign_keys_to_sede_table', 0),
+(32, '2025_04_15_033439_add_foreign_keys_to_seguimientos_table', 0),
+(33, '2025_04_15_033439_add_foreign_keys_to_tema_table', 0),
+(34, '2025_04_15_033439_add_foreign_keys_to_usuarios_table', 0),
+(35, '0001_01_01_000000_create_users_table', 1),
+(36, '0001_01_01_000001_create_cache_table', 1),
+(37, '0001_01_01_000002_create_jobs_table', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `nota`
 --
 
@@ -519,6 +649,18 @@ INSERT INTO `nota` (`id_nota`, `nota`, `tema_id_tema`, `tema_materia_id_materia`
 (8, 4.7, 2, 2, 108),
 (9, 3.3, 2, 2, 109),
 (10, 4.8, 2, 2, 110);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_reset_tokens`
+--
+
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -606,6 +748,28 @@ INSERT INTO `seguimientos` (`id_seguimiento`, `descripcion_seguimiento`, `fecha_
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `sessions`
+--
+
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('kjUbCNoL9BkkiizaOjvmTDl6eZHsTvdCvexovYNt', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 OPR/117.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiaHVKVGVRWEZFM24xb0pFcTFRUXdLa0k3dFFOWTY5Z1dyQTR1QWJYbiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC91c3VhcmlvcyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1744690788);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tema`
 --
 
@@ -655,6 +819,30 @@ INSERT INTO `tipo_documento` (`codigo_tipo_documento`, `descripcion_tipo_documen
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'brandon', 'brandonadri03@gmail.com', NULL, '$2y$12$LqYOYzA2sYj4Oy7w5gQyP.oZPmDKWq5oJecw64FInRnSZMW17Ai0O', NULL, '2025-04-15 08:46:03', '2025-04-15 08:46:03');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -665,16 +853,21 @@ CREATE TABLE `usuarios` (
   `apellidos_usuario` varchar(255) DEFAULT NULL,
   `telefono_usuario` varchar(15) DEFAULT NULL,
   `contrasena_usuario` varchar(255) DEFAULT NULL,
-  `activo` tinyint(1) NOT NULL,
-  `eliminar` tinyint(1) NOT NULL,
-  `fecha_registro` date NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `rol_id_rol` int(12) NOT NULL,
   `tipo_documento_codigo_tipo_documento` int(13) NOT NULL,
-  `grupo_id_grupo` int(20) NOT NULL,
+  `grupo_id_grupo` int(11) DEFAULT NULL,
   `rol_id_rol1` int(12) NOT NULL,
   `id_rol` int(11) DEFAULT NULL,
   `correo_electronico_usuario` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `documento_usuario`, `nombres_usuario`, `apellidos_usuario`, `telefono_usuario`, `contrasena_usuario`, `fecha_registro`, `rol_id_rol`, `tipo_documento_codigo_tipo_documento`, `grupo_id_grupo`, `rol_id_rol1`, `id_rol`, `correo_electronico_usuario`) VALUES
+(15, 1038480603, 'brandon adrian', 'mercado lambraño', '3042841413', '$2y$12$o4WYk1c6Xo6c1Cws63Q/Tek48yc6Ru3RcwoKWzLpm6EeG31.Cuk.e', '2025-04-15 03:53:10', 6, 1, 1, 6, 6, 'brandonadri03@gmail.com');
 
 --
 -- Disparadores `usuarios`
@@ -798,6 +991,18 @@ ALTER TABLE `asistencia`
   ADD KEY `fk_asistencia_estudiantes1_idx` (`estudiantes_id_documento_estudiante`);
 
 --
+-- Indices de la tabla `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indices de la tabla `cache_locks`
+--
+ALTER TABLE `cache_locks`
+  ADD PRIMARY KEY (`key`);
+
+--
 -- Indices de la tabla `centro_educativo`
 --
 ALTER TABLE `centro_educativo`
@@ -832,6 +1037,13 @@ ALTER TABLE `estudiantes`
   ADD KEY `fk_estudiantes_grupo1_idx` (`grupo_id_grupo`,`grupo_grado_id_grado`,`grupo_grado_sede_id_sede`);
 
 --
+-- Indices de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
 -- Indices de la tabla `grado`
 --
 ALTER TABLE `grado`
@@ -853,6 +1065,19 @@ ALTER TABLE `historia_contrasena`
   ADD KEY `fk_historia_contrasena_usuarios1_idx` (`usuarios_id_usuario`,`usuarios_rol_id_rol`);
 
 --
+-- Indices de la tabla `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
+
+--
+-- Indices de la tabla `job_batches`
+--
+ALTER TABLE `job_batches`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `materia`
 --
 ALTER TABLE `materia`
@@ -870,6 +1095,12 @@ ALTER TABLE `materia_has_grupo`
   ADD KEY `fk_materia_has_grupo_materia1_idx` (`materia_id_materia`,`materia_docentes_id_documento_docente`);
 
 --
+-- Indices de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `nota`
 --
 ALTER TABLE `nota`
@@ -877,6 +1108,12 @@ ALTER TABLE `nota`
   ADD UNIQUE KEY `id_nota` (`id_nota`),
   ADD KEY `fk_nota_tema1_idx` (`tema_id_tema`,`tema_materia_id_materia`),
   ADD KEY `fk_nota_estudiantes1_idx` (`estudiantes_id_documento_estudiante`);
+
+--
+-- Indices de la tabla `password_reset_tokens`
+--
+ALTER TABLE `password_reset_tokens`
+  ADD PRIMARY KEY (`email`);
 
 --
 -- Indices de la tabla `rol`
@@ -903,6 +1140,14 @@ ALTER TABLE `seguimientos`
   ADD KEY `fk_seguimientos_estudiantes1_idx` (`estudiantes_id_documento_estudiante`);
 
 --
+-- Indices de la tabla `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `sessions_user_id_index` (`user_id`),
+  ADD KEY `sessions_last_activity_index` (`last_activity`);
+
+--
 -- Indices de la tabla `tema`
 --
 ALTER TABLE `tema`
@@ -918,16 +1163,23 @@ ALTER TABLE `tipo_documento`
   ADD UNIQUE KEY `descripcion_tipo_documento_index` (`descripcion_tipo_documento`) USING BTREE;
 
 --
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_usuario`,`rol_id_rol`,`grupo_id_grupo`,`rol_id_rol1`),
+  ADD PRIMARY KEY (`id_usuario`,`rol_id_rol`,`rol_id_rol1`) USING BTREE,
   ADD UNIQUE KEY `id_usuario` (`id_usuario`),
   ADD UNIQUE KEY `documento_usuario` (`documento_usuario`),
   ADD UNIQUE KEY `telefono_usuario` (`telefono_usuario`),
   ADD KEY `fk_usuarios_tipo_documento1_idx` (`tipo_documento_codigo_tipo_documento`),
-  ADD KEY `fk_usuarios_grupo1_idx` (`grupo_id_grupo`),
-  ADD KEY `fk_usuarios_rol1_idx` (`rol_id_rol1`);
+  ADD KEY `fk_usuarios_rol1_idx` (`rol_id_rol1`),
+  ADD KEY `fk_usuarios_grupo1_idx` (`grupo_id_grupo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -964,6 +1216,12 @@ ALTER TABLE `estudiantes`
   MODIFY `id_documento_estudiante` bigint(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
+-- AUTO_INCREMENT de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `grado`
 --
 ALTER TABLE `grado`
@@ -982,10 +1240,22 @@ ALTER TABLE `historia_contrasena`
   MODIFY `id_historia_contrasena` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `materia`
 --
 ALTER TABLE `materia`
   MODIFY `id_materia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `nota`
@@ -1018,10 +1288,16 @@ ALTER TABLE `tema`
   MODIFY `id_tema` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_usuario` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
