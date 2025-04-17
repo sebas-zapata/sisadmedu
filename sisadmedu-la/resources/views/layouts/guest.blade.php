@@ -16,11 +16,10 @@
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+                <!-- Logo -->
+    <div class="text-center mb-4">
+        <img src="{{ asset('images/Logo SISADMEDU.jpg') }}" alt="Logo" class="mx-auto w-32 h-32 object-contain rounded-full border-4 border-indigo-500" width="120px">
+    </div>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}

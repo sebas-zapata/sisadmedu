@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <img src="{{ asset('images/Logo SISADMEDU.jpg') }}" alt="Logo" class="mx-auto w-32 h-32 object-contain rounded-full border-4 border-indigo-500" width="50px">
                     </a>
                 </div>
 

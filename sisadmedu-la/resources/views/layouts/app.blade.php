@@ -5,30 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Usuarios</title>
 
-    {{-- Estilos de Bootstrap --}}
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-
-    {{-- Estilos de Vite (si usas Laravel Breeze/Inertia) --}}
+    {{-- Estilos de Vite (si usas Laravel Breeze, Jetstream o Tailwind directamente) --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col">
 
     {{-- Barra de Navegación personalizada --}}
     @include('layouts.navigation')
 
     {{-- Contenido principal --}}
-    <div class="container mt-4">
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
         @yield('content')
-    </div>
+    </main>
 
     {{-- Footer --}}
-    <footer class="text-center mt-5 py-3 bg-light">
-        <div class="container">
-            <span class="text-muted">© {{ date('Y') }} Sistema de Gestión de Usuarios</span>
+    <footer class="bg-white border-t mt-auto py-4">
+        <div class="text-center text-sm text-gray-500">
+            © {{ date('Y') }} Sistema de Gestión de Usuarios
         </div>
     </footer>
 
-    {{-- Scripts de Bootstrap --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
