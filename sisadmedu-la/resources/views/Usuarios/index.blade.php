@@ -6,18 +6,11 @@
 
 
     <a href="{{ route('dashboard') }}" class="btn-panel">
-    <i class="fas fa-tachometer-alt"></i> Panel
+        <i class="fas fa-tachometer-alt"></i> Panel
     </a>
     <a href="{{ route('usuarios.create') }}" class="btn-nuevo-usuario">
         <i class="fas fa-user-plus"></i> Crear Nuevo Usuario
     </a>
-
-    @if ($message = Session::get('success'))
-    <div class="alert-success">
-        <p>{{ $message }}</p>
-    </div>
-    @endif
-
     <div class="table-container">
         <table class="users-table">
             <thead class="thead-table">
@@ -45,11 +38,12 @@
                     <td class="actions">
                         <a href="{{ route('usuarios.show', $usuario->id_usuario) }}" class="btn btn-view"><i class="fas fa-eye"></i></a>
                         <a href="{{ route('usuarios.edit', $usuario->id_usuario) }}" class="btn btn-edit"><i class="fas fa-edit"></i></a>
-                        <form action="{{ route('usuarios.destroy', $usuario->id_usuario) }}" method="POST" class="inline-form" onsubmit="return confirm('¿Está seguro de eliminar este usuario?')">
+                        <form action="{{ route('usuarios.destroy', $usuario->id_usuario) }}" method="POST" class="btn inline-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-delete"><i class="fas fa-trash"></i></button>
+                            <button type="button" class="btn-eliminar"><i class="fas fa-trash-alt"></i></button>
                         </form>
+
                     </td>
                 </tr>
                 @endforeach
