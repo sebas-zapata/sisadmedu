@@ -25,33 +25,58 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/confirmacion-eliminar.js') }}"></script>
     @if(session('success'))
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const mensaje = "{{ session('success') }}";
-        let icono = 'success';
-        let titulo = '¡Éxito!';
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mensaje = "{{ session('success') }}";
+            let icono = 'success';
+            let titulo = '¡Éxito!';
 
-        if (mensaje.includes('eliminado')) {
-            icono = 'success';
-            titulo = 'Eliminado';
-        } else if (mensaje.includes('actualizado')) {
-            icono = 'success';
-            titulo = 'Actualizado';
-        } else if (mensaje.includes('creado')) {
-            icono = 'success';
-            titulo = 'Creado';
-        }
+            if (mensaje.includes('eliminado')) {
+                icono = 'success';
+                titulo = 'Eliminado';
+            } else if (mensaje.includes('actualizado')) {
+                icono = 'success';
+                titulo = 'Actualizado';
+            } else if (mensaje.includes('creado')) {
+                icono = 'success';
+                titulo = 'Creado';
+            }
+
+            Swal.fire({
+                title: titulo,
+                text: mensaje,
+                icon: icono,
+                confirmButtonColor: '#461c68',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+    </script>
+    @endif
+
+    @if (session('success'))
+    <script>
 
         Swal.fire({
-            title: titulo,
-            text: mensaje,
-            icon: icono,
-            confirmButtonColor: '#461c68',
+            icon: 'success',
+            title: '¡Bienvenido!',
+            text: success,
             confirmButtonText: 'Aceptar'
         });
-    });
-</script>
+    </script>
 @endif
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Registro exitoso!',
+            text: success,
+            confirmButtonText: 'Aceptar'
+        });
+    </script>
+@endif
+
+
 </body>
 
 </html>
