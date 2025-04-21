@@ -22,8 +22,8 @@
         </div>
 
         <!-- Botones de acción -->
-        <div class="flex justify-center gap-4 mt-5">
-            <x-primary-button class="w-50 sm:w-auto flex justify-center items-cente">
+        <div class="flex justify-center m-5">
+            <x-primary-button class="w-50 sm:w-auto flex justify-center items-center">
                 {{ __('Acceder') }}
             </x-primary-button>
         </div>
