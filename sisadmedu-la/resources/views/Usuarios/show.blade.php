@@ -1,29 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-show">
-    <h1>Detalle del Usuario <br>{{ $usuario->nombres_usuario}} {{ $usuario->apellidos_usuario}}</h1>
+<div class="container py-4">
+    <h2 class="mb-4 text-light text-center fw-bold">
+        Detalles del Usuario <i class="fas fa-user-circle me-2"></i>
+    </h2>
 
-    <div class="info-row">
-        <div class="info-column">
-            <p><strong>ID:</strong> {{ $usuario->id_usuario }}</p>
-            <p><strong>Tipo de Documento:</strong> {{ $usuario->tipoDocumento->descripcion_tipo_documento ?? 'No asignado' }}</p>
-            <p><strong>Número de Documento:</strong> {{ $usuario->documento_usuario }}</p>
-            <p><strong>Nombres:</strong> {{ $usuario->nombres_usuario }}</p>
-            <p><strong>Apellidos:</strong> {{ $usuario->apellidos_usuario }}</p>
-        </div>
-        <div class="info-column">
-            <p><strong>Teléfono:</strong> {{ $usuario->telefono_usuario }}</p>
-            <p><strong>Correo Electrónico:</strong> {{ $usuario->correo_electronico_usuario }}</p>
-            <p><strong>Rol:</strong> {{ $usuario->rol->rol ?? 'No asignado' }}</p>
-            <p><strong>Grupo:</strong> {{ $usuario->grupo->nombre_grupo ?? 'No asignado' }}</p>
-            <p><strong>Fecha de Registro:</strong> {{ $usuario->fecha_registro }}</p>
+    <div class="card shadow rounded-4 border-0">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>ID:</strong></p>
+                    <p>{{ $usuario->id }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Documento:</strong></p>
+                    <p>{{ $usuario->documento }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Nombre completo:</strong></p>
+                    <p>{{ $usuario->nombres }} {{ $usuario->apellidos }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Correo electrónico:</strong></p>
+                    <p>{{ $usuario->correo_electronico }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Teléfono:</strong></p>
+                    <p>{{ $usuario->telefono }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Rol:</strong></p>
+                    <p>{{ $usuario->rol->nombre ?? 'Sin rol' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Tipo de documento:</strong></p>
+                    <p>{{ $usuario->tipoDocumento->descripcion ?? 'Sin tipo' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Grupo:</strong></p>
+                    <p>{{ $usuario->grupo->nombre ?? 'Sin grupo' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Fecha de creación:</strong></p>
+                    <p>{{ $usuario->created_at->format('d/m/Y H:i') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1 text-muted"><strong>Última actualización:</strong></p>
+                    <p>{{ $usuario->updated_at->format('d/m/Y H:i') }}</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="actions-show">
-        <a class="btn-guardar" href="{{ route('usuarios.edit', $usuario->id_usuario) }}"><i class="fas fa-edit"></i> Editar Usuario</a>
-        <a class="btn-cancelar" href="{{ route('usuarios.index') }}"><i class="fas fa-arrow-left"></i> Volver</a>
+    <div class="mt-4 d-flex justify-content-end">
+        <a href="{{ route('usuarios.index') }}" class="btn btn-cancelar rounded-3 m-2 p-2 text-white">
+            <i class="fas fa-arrow-left me-1"></i> Volver al listado
+        </a>
+        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-actualizar text-white rounded-3 m-2 p-2">
+            <i class="fas fa-edit"></i> Editar usuario
+        </a>
     </div>
 </div>
 @endsection

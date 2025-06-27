@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="form-container">
-    <h1 class="form-title">Editar Usuario</h1>
+<div class="container py-4">
+    <h2 class="mb-4 text-light"><i class="fas fa-edit"></i> Editar Usuario</h2>
 
     @if ($errors->any())
-    <div class="alert-error">
-        <strong>¡Error!</strong> Hay problemas con los datos ingresados.
-        <ul>
+    <div class="alert alert-danger">
+        <strong>¡Atención!</strong> Corrige los siguientes errores:
+        <ul class="mb-0">
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
             @endforeach
@@ -15,102 +15,81 @@
     </div>
     @endif
 
-    <form action="{{ route('usuarios.update', $usuario->id_usuario) }}" method="POST" class="custom-form">
+    <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST">
         @csrf
         @method('PUT')
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="tipo_documento_codigo_tipo_documento">Tipo de Documento</label>
-                <select id="tipo_documento_codigo_tipo_documento" name="tipo_documento_codigo_tipo_documento" required>
-                    <option value="">Seleccione un tipo de documento</option>
-                    @foreach ($tiposDocumento as $tipoDocumento)
-                    <option value="{{ $tipoDocumento->codigo_tipo_documento }}" 
-                        {{ $usuario->tipo_documento_codigo_tipo_documento == $tipoDocumento->codigo_tipo_documento ? 'selected' : '' }}>
-                        {{ $tipoDocumento->descripcion_tipo_documento }}
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="documento" class="form-label">Documento</label>
+                <input type="text" name="documento" class="form-control" required value="{{ old('documento', $usuario->documento) }}">
+            </div>
+            <div class="col-md-4">
+                <label for="nombres" class="form-label">Nombres</label>
+                <input type="text" name="nombres" class="form-control" required value="{{ old('nombres', $usuario->nombres) }}">
+            </div>
+            <div class="col-md-4">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input type="text" name="apellidos" class="form-control" required value="{{ old('apellidos', $usuario->apellidos) }}">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="correo_electronico" class="form-label">Correo Electrónico</label>
+                <input type="email" name="correo_electronico" class="form-control" required value="{{ old('correo_electronico', $usuario->correo_electronico) }}">
+            </div>
+            <div class="col-md-4">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="text" name="telefono" class="form-control" required value="{{ old('telefono', $usuario->telefono) }}">
+            </div>
+            <div class="col-md-4">
+                <label for="contrasena" class="form-label">Nueva Contraseña <small class="text-muted">(dejar vacío para no cambiar)</small></label>
+                <input type="password" name="contrasena" class="form-control">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="rol_id" class="form-label">Rol</label>
+                <select name="rol_id" class="form-select" required>
+                    @foreach($roles as $rol)
+                    <option value="{{ $rol->id }}" {{ $usuario->rol_id == $rol->id ? 'selected' : '' }}>
+                        {{ $rol->nombre }}
                     </option>
                     @endforeach
                 </select>
             </div>
-            <div class="form-group">
-                <label for="documento_usuario">Número de Documento</label>
-                <input type="number" name="documento_usuario" value="{{ $usuario->documento_usuario }}" required>
-            </div>
-        </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="nombres_usuario">Nombres</label>
-                <input type="text" name="nombres_usuario" value="{{ $usuario->nombres_usuario }}" required>
-            </div>
-            <div class="form-group">
-                <label for="apellidos_usuario">Apellidos</label>
-                <input type="text" name="apellidos_usuario" value="{{ $usuario->apellidos_usuario }}" required>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="telefono_usuario">Teléfono</label>
-                <input type="text" name="telefono_usuario" value="{{ $usuario->telefono_usuario }}" required>
-            </div>
-            <div class="form-group">
-                <label for="correo_electronico_usuario">Correo Electrónico</label>
-                <input type="email" name="correo_electronico_usuario" value="{{ $usuario->correo_electronico_usuario }}" required>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="contrasena_usuario">Contraseña</label>
-                <input type="password" name="contrasena_usuario" placeholder="Ingrese nueva contraseña (opcional)">
-            </div>
-            <div class="form-group">
-                <label for="rol_id_rol">Rol</label>
-                <select id="rol_id_rol" name="rol_id_rol" required onchange="mostrarGrupo()">
-                    <option value="">Seleccione un rol</option>
-                    @foreach ($roles as $rol)
-                    <option value="{{ $rol->id_rol }}" {{ $usuario->rol_id_rol == $rol->id_rol ? 'selected' : '' }}>
-                        {{ $rol->rol }}
+            <div class="col-md-4">
+                <label for="tipo_documento_id" class="form-label">Tipo de Documento</label>
+                <select name="tipo_documento_id" class="form-select" required>
+                    @foreach($tiposDocumento as $tipo)
+                    <option value="{{ $tipo->id }}" {{ $usuario->tipo_documento_id == $tipo->id ? 'selected' : '' }}>
+                        {{ $tipo->descripcion }}
                     </option>
                     @endforeach
                 </select>
             </div>
-        </div>
 
-        <div class="form-row" id="grupo_container" style="{{ $usuario->rol->rol == 'Estudiante' ? '' : 'display: none;' }}">
-            <div class="form-group">
-                <label for="grupo_id_grupo">Grupo</label>
-                <select id="grupo_id_grupo" name="grupo_id_grupo" {{ $usuario->rol->rol == 'Estudiante' ? 'required' : '' }}>
-                    <option value="">Seleccione un grupo</option>
-                    @foreach ($grupos as $grupo)
-                    <option value="{{ $grupo->id_grupo }}" {{ $usuario->grupo_id_grupo == $grupo->id_grupo ? 'selected' : '' }}>
-                        {{ $grupo->nombre_grupo }}
+            <div class="col-md-4">
+                <label for="grupo_id" class="form-label">Grupo (opcional)</label>
+                <select name="grupo_id" class="form-select">
+                    <option value="">Sin grupo</option>
+                    @foreach($grupos as $grupo)
+                    <option value="{{ $grupo->id }}" {{ $usuario->grupo_id == $grupo->id ? 'selected' : '' }}>
+                        {{ $grupo->nombre }}
                     </option>
                     @endforeach
                 </select>
             </div>
         </div>
 
-        <div class="form-actions">
-            <button type="submit" class="btn-guardar"><i class="fas fa-save"></i> Actualizar</button>
-            <a href="{{ route('usuarios.index') }}" class="btn-cancelar"><i class="fas fa-arrow-left"></i> Cancelar</a>
+        <div class="d-flex justify-content-end">
+            <a href="{{ route('usuarios.index') }}" class="btn btn-cancelar m-2 p-2 text-light rounded-2"> <i class="fas fa-arrow-left"></i> Cancelar</a>
+            <button type="submit" class="btn btn-actualizar m-2 p-2 text-light rounded-2"><i class="fa-solid fa-rotate-right"></i>
+                Actualizar</button>
         </div>
     </form>
 </div>
-
-<script>
-    function mostrarGrupo() {
-        var rolSeleccionado = document.getElementById('rol_id_rol').value;
-        var rolEstudiante = @json(App\Models\Rol::where('rol', 'Estudiante')->first()->id_rol ?? 0);
-
-        if (rolSeleccionado == rolEstudiante) {
-            document.getElementById('grupo_container').style.display = 'block';
-            document.getElementById('grupo_id_grupo').required = true;
-        } else {
-            document.getElementById('grupo_container').style.display = 'none';
-            document.getElementById('grupo_id_grupo').required = false;
-        }
-    }
-</script>
 @endsection

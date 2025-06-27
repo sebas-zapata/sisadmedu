@@ -3,20 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TipoDocumento extends Model
 {
-    protected $table = 'tipo_documento';
-    protected $primaryKey = 'codigo_tipo_documento';
-    public $timestamps = false;
+    use HasFactory;
+
+    protected $table = 'tipos_documento';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
 
     protected $fillable = [
-        'descripcion_tipo_documento'
+        'codigo',
+        'descripcion',
     ];
 
     // Relación con usuarios
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'tipo_documento_codigo_tipo_documento', 'codigo_tipo_documento');
+        return $this->hasMany(Usuario::class, 'tipo_documento_id');
     }
 }

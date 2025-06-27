@@ -1,108 +1,95 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="form-container">
-    <h1 class="form-title">Crear Nuevo Usuario</h1>
+<div class="container py-4">
+    <h2 class="mb-4">Registrar Nuevo Usuario <i class="fas fa-user-plus"></i></h2>
 
     @if ($errors->any())
-    <div class="alert-error">
-        <strong>¡Error!</strong> Hay problemas con los datos ingresados.
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+        <div class="alert alert-danger">
+            <strong>¡Atención!</strong> Corrige los siguientes errores:
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
-    <form action="{{ route('usuarios.store') }}" method="POST" class="custom-form">
+    <form id="formulario-usuario" action="{{ route('usuarios.store') }}" method="POST" novalidate>
         @csrf
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="tipo_documento_codigo_tipo_documento">Tipo de Documento</label>
-                <select id="tipo_documento_codigo_tipo_documento" name="tipo_documento_codigo_tipo_documento" required>
-                    <option value="">Seleccione un tipo de documento</option>
-                    @foreach ($tiposDocumento as $tipoDocumento)
-                    <option value="{{ $tipoDocumento->codigo_tipo_documento }}">{{ $tipoDocumento->descripcion_tipo_documento }}</option>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Documento</label>
+                <input type="text" name="documento" class="form-control" placeholder="Ej: 12345678" required value="{{ old('documento') }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Nombres</label>
+                <input type="text" name="nombres" class="form-control" placeholder="Ej: Juan Carlos" required value="{{ old('nombres') }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Apellidos</label>
+                <input type="text" name="apellidos" class="form-control" placeholder="Ej: Pérez Gómez" required value="{{ old('apellidos') }}">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Correo Electrónico</label>
+                <input type="email" name="correo_electronico" class="form-control" placeholder="Ej: ejemplo@correo.com" required value="{{ old('correo_electronico') }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Teléfono</label>
+                <input type="text" name="telefono" class="form-control" placeholder="Ej: 3001234567" required value="{{ old('telefono') }}">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Contraseña</label>
+                <input type="password" name="contrasena" class="form-control" placeholder="Mínimo 6 caracteres" required>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Rol</label>
+                <select name="rol_id" class="form-select" required>
+                    <option value="">Selecciona un rol</option>
+                    @foreach($roles as $rol)
+                        <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                            {{ $rol->nombre }}
+                        </option>
                     @endforeach
                 </select>
             </div>
-            <div class="form-group">
-                <label for="documento_usuario">Número de Documento</label>
-                <input type="number" name="documento_usuario" placeholder="Ingrese el número de documento" required>
-            </div>
-        </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="nombres_usuario">Nombres</label>
-                <input type="text" name="nombres_usuario" placeholder="Ingrese nombres" required>
+            <div class="col-md-4">
+                <label class="form-label">Tipo de Documento</label>
+                <select name="tipo_documento_id" class="form-select" required>
+                    <option value="">Selecciona un tipo</option>
+                    @foreach($tiposDocumento as $tipo)
+                        <option value="{{ $tipo->id }}" {{ old('tipo_documento_id') == $tipo->id ? 'selected' : '' }}>
+                            {{ $tipo->descripcion }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
-            <div class="form-group">
-                <label for="apellidos_usuario">Apellidos</label>
-                <input type="text" name="apellidos_usuario" placeholder="Ingrese apellidos" required>
-            </div>
-        </div>
 
-        <div class="form-row">
-            <div class="form-group">
-                <label for="telefono_usuario">Teléfono</label>
-                <input type="text" name="telefono_usuario" placeholder="Ingrese teléfono" required>
-            </div>
-            <div class="form-group">
-                <label for="correo_electronico_usuario">Correo Electrónico</label>
-                <input type="email" name="correo_electronico_usuario" placeholder="Ingrese correo electrónico" required>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="contrasena_usuario">Contraseña</label>
-                <input type="password" name="contrasena_usuario" placeholder="Ingrese contraseña" required>
-            </div>
-            <div class="form-group">
-                <label for="rol_id_rol">Rol</label>
-                <select id="rol_id_rol" name="rol_id_rol" required onchange="mostrarGrupo()">
-                    <option value="">Seleccione un rol</option>
-                    @foreach ($roles as $rol)
-                    <option value="{{ $rol->id_rol }}">{{ $rol->rol }}</option>
+            <div class="col-md-4">
+                <label class="form-label">Grupo (opcional)</label>
+                <select name="grupo_id" class="form-select">
+                    <option value="">Sin grupo</option>
+                    @foreach($grupos as $grupo)
+                        <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                            {{ $grupo->nombre }}
+                        </option>
                     @endforeach
                 </select>
             </div>
         </div>
 
-        <div class="form-row" id="grupo_container" style="display: none;">
-            <div class="form-group">
-                <label for="grupo_id_grupo">Grupo</label>
-                <select id="grupo_id_grupo" name="grupo_id_grupo">
-                    <option value="">Seleccione un grupo</option>
-                    @foreach ($grupos as $grupo)
-                    <option value="{{ $grupo->id_grupo }}">{{ $grupo->nombre_grupo }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit" class="btn-guardar"><i class="fas fa-user-plus"></i> Guardar</button>
-            <a href="{{ route('usuarios.index') }}" class="btn-cancelar"><i class="fas fa-arrow-left"></i> Volver</a>
+        <div class="d-flex justify-content-end">
+            <a href="{{ route('usuarios.index') }}" class="btn btn-cancelar btn-secondary m-2 p-2"><i class="fas fa-arrow-left"></i> Cancelar</a>
+            <button type="submit" class="btn btn-crear m-2 p-2"><i class="fas fa-user-plus"></i> Guardar</button>
         </div>
     </form>
 </div>
-
-<script>
-    function mostrarGrupo() {
-        var rolSeleccionado = document.getElementById('rol_id_rol').value;
-        var rolEstudiante = @json(App\Models\Rol::where('rol', 'Estudiante')->first()->id_rol ?? 0);
-
-        if (rolSeleccionado == rolEstudiante) {
-            document.getElementById('grupo_container').style.display = 'block';
-            document.getElementById('grupo_id_grupo').required = true;
-        } else {
-            document.getElementById('grupo_container').style.display = 'none';
-            document.getElementById('grupo_id_grupo').required = false;
-        }
-    }
-</script>
 @endsection

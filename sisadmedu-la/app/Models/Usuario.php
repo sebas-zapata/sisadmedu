@@ -2,43 +2,41 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
+    use HasFactory;
+
     protected $table = 'usuarios';
-    protected $primaryKey = 'id_usuario';
-    public $timestamps = false;
+    protected $primaryKey = 'id';
+    public $timestamps = true;
 
     protected $fillable = [
-        'documento_usuario',
-        'nombres_usuario',
-        'apellidos_usuario',
-        'telefono_usuario',
-        'contrasena_usuario',
-        'rol_id_rol',
-        'tipo_documento_codigo_tipo_documento',
-        'grupo_id_grupo',
-        'rol_id_rol1',
-        'id_rol',
-        'correo_electronico_usuario'
+        'documento',
+        'nombres',
+        'apellidos',
+        'correo_electronico',
+        'telefono',
+        'contrasena',
+        'rol_id',
+        'tipo_documento_id',
+        'grupo_id',
     ];
 
-    // Relación con el tipo de documento
-    public function tipoDocumento()
-    {
-        return $this->belongsTo(TipoDocumento::class, 'tipo_documento_codigo_tipo_documento', 'codigo_tipo_documento');
-    }
-
-    // Relación con el rol
     public function rol()
     {
-        return $this->belongsTo(Rol::class, 'rol_id_rol', 'id_rol');
+        return $this->belongsTo(Rol::class, 'rol_id');
     }
 
-    // Relación con el grupo
+    public function tipoDocumento()
+    {
+        return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id');
+    }
+
     public function grupo()
     {
-        return $this->belongsTo(Grupo::class, 'grupo_id_grupo', 'id_grupo');
+        return $this->belongsTo(Grupo::class, 'grupo_id');
     }
 }

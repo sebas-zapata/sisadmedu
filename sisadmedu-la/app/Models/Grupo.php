@@ -3,20 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Grupo extends Model
 {
-    protected $table = 'grupo';
-    protected $primaryKey = 'id_grupo';
-    public $timestamps = false;
+    use HasFactory;
+
+    // Tabla correcta
+    protected $table = 'grupos';
+
+    // Clave primaria estándar de Laravel
+    protected $primaryKey = 'id';
+
+    // Laravel maneja timestamps
+    public $timestamps = true;
 
     protected $fillable = [
-        'nombre_grupo'
+        'nombre',
     ];
 
     // Relación con usuarios
     public function usuarios()
     {
-        return $this->hasMany(Usuario::class, 'grupo_id_grupo', 'id_grupo');
+        return $this->hasMany(Usuario::class, 'grupo_id');
     }
 }

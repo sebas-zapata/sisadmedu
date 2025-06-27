@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
+<div class="container card w-100">
     <div class="card-header">
         <h2>Módulos del Sistema</h2>
     </div>

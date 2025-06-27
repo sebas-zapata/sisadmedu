@@ -16,6 +16,10 @@ body {
     border: 5px solid #7E08CA;
 }
 
+.navbar-sisadmedu {
+    background-color: #6c4a83;
+}
+
 .seccion-header-1 {
     width: 300px;
     display: flex;
@@ -602,8 +606,7 @@ footer {
 /* Contenedor general */
 .container {
     background-color: #9d7bca;
-    ;
-    width: 80%;
+    width: 100%;
     max-width: 1000px;
     margin: 50px auto;
     padding: 15px;
@@ -663,6 +666,10 @@ footer {
     border-bottom: 1px solid #ccc;
 }
 
+.thead-sisadmedu {
+    background-color: #461c68 !important;
+}
+
 .users-table thead {
     background-color: #461c68;
     color: white;
@@ -700,15 +707,16 @@ tbody {
 
 .btn-view:hover {
     background-color: #666;
+    transform: scale(1.05);
 }
 
 .btn-edit {
     background-color: #461c68;
-    color: white;
 }
 
 .btn-edit:hover {
     background-color: #666;
+    transform: scale(1.05);
 }
 
 .btn-delete {
@@ -717,6 +725,7 @@ tbody {
 
 .btn-delete:hover {
     background-color: #666;
+    transform: scale(1.05);
 }
 
 .btn-panel {
@@ -808,25 +817,31 @@ tbody {
 }
 
 .btn-guardar:hover {
+    background-color: #666;
+    transform: scale(1.05);
+}
+.btn-crear{
+    background-color: #461c68;
+}
+
+.btn-crear:hover{
+    background-color: #666;
+}
+
+.btn-cancelar {
+    background-color: #461c68;
+}
+
+.btn-cancelar:hover {
     background-color: #4e3760;
     transform: scale(1.05);
 }
 
-.btn-cancelar {
-    display: inline-block;
-    padding: 10px 15px;
-    margin: 5px;
-    background-color: #666;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    text-decoration: none;
+.btn-actualizar{
+    background-color: #461c68;
 }
 
-.btn-cancelar:hover {
+.btn-actualizar:hover {
     background-color: #4e3760;
     transform: scale(1.05);
 }
@@ -841,59 +856,11 @@ tbody {
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    text-align: center;
-    color: white;
-    margin-bottom: 30px;
-}
-
-.info-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.info-column {
-    width: 100%;
-    max-width: 50%;
-    box-sizing: border-box;
-}
-
-.info-column p {
-    margin: 10px 0;
-    color: #555;
-}
-
-.info-column strong {
-    color: #333;
-}
-
-.actions-show {
-    text-align: center;
-    margin-top: 30px;
-}
-
-@media (max-width: 600px) {
-    .info-column {
-        max-width: 100%;
-    }
-}
-
-.btn-crear-cuenta {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #6c2bd9;
-    color: white;
-    font-weight: 600;
-    font-size: 14px;
-    text-align: center;
-    border: none;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.btn-crear-cuenta:hover {
-    background-color: #834ef5;
-    transform: scale(1.05);
+.contenedor-componente {
+    background-color: #9d7bca;
+    color: #ffffff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    margin: 2rem auto;
 }

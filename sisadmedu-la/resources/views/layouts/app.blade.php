@@ -5,11 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISADMEDU</title>
+
+    {{-- Ícono del navegador --}}
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-    <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
+
+    {{-- Bootstrap CSS desde CDN --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    {{-- Font Awesome (íconos) --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    {{-- Estilos de Vite (si usas Laravel Breeze, Jetstream o Tailwind directamente) --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Tu hoja de estilos personalizada --}}
+    <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -18,27 +25,35 @@
     @include('layouts.navigation')
 
     {{-- Contenido principal --}}
-    <main>
+    <main class="container-fluid py-4">
         @yield('content')
     </main>
 
+    {{-- Bootstrap JS (opcional si usas navbar o modales) --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- SweetAlert para mensajes --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- Confirmación para eliminar --}}
     <script src="{{ asset('js/confirmacion-eliminar.js') }}"></script>
+
+    {{-- Tu archivo JS --}}
+    <script src="{{ asset('js/validar-usuario.js') }}"></script>
+
+    {{-- Mensajes de éxito con SweetAlert --}}
     @if(session('success'))
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const mensaje = "{{ session('success') }}";
+            const mensaje = @json(session('success'));
             let icono = 'success';
             let titulo = '¡Éxito!';
 
             if (mensaje.includes('eliminado')) {
-                icono = 'success';
                 titulo = 'Eliminado';
             } else if (mensaje.includes('actualizado')) {
-                icono = 'success';
                 titulo = 'Actualizado';
             } else if (mensaje.includes('creado')) {
-                icono = 'success';
                 titulo = 'Creado';
             }
 
@@ -52,30 +67,6 @@
         });
     </script>
     @endif
-
-    @if (session('success'))
-    <script>
-
-        Swal.fire({
-            icon: 'success',
-            title: '¡Bienvenido!',
-            text: success,
-            confirmButtonText: 'Aceptar'
-        });
-    </script>
-@endif
-
-@if (session('success'))
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '¡Registro exitoso!',
-            text: success,
-            confirmButtonText: 'Aceptar'
-        });
-    </script>
-@endif
-
 
 </body>
 
