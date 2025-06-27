@@ -2,17 +2,18 @@
 
 @section('content')
 <div class="container py-4">
-    <h2 class="mb-4">Registrar Nuevo Usuario <i class="fas fa-user-plus"></i></h2>
+    <h2 class="mb-4 text-light text-center">Registrar Nuevo Usuario <i class="fas fa-user-plus"></i></h2>
+    <hr>
 
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>¡Atención!</strong> Corrige los siguientes errores:
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="alert alert-danger">
+        <strong>¡Atención!</strong> Corrige los siguientes errores:
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
     <form id="formulario-usuario" action="{{ route('usuarios.store') }}" method="POST" novalidate>
@@ -54,9 +55,9 @@
                 <select name="rol_id" class="form-select" required>
                     <option value="">Selecciona un rol</option>
                     @foreach($roles as $rol)
-                        <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                            {{ $rol->nombre }}
-                        </option>
+                    <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                        {{ $rol->nombre }}
+                    </option>
                     @endforeach
                 </select>
             </div>
@@ -66,9 +67,9 @@
                 <select name="tipo_documento_id" class="form-select" required>
                     <option value="">Selecciona un tipo</option>
                     @foreach($tiposDocumento as $tipo)
-                        <option value="{{ $tipo->id }}" {{ old('tipo_documento_id') == $tipo->id ? 'selected' : '' }}>
-                            {{ $tipo->descripcion }}
-                        </option>
+                    <option value="{{ $tipo->id }}" {{ old('tipo_documento_id') == $tipo->id ? 'selected' : '' }}>
+                        {{ $tipo->descripcion }}
+                    </option>
                     @endforeach
                 </select>
             </div>
@@ -78,17 +79,21 @@
                 <select name="grupo_id" class="form-select">
                     <option value="">Sin grupo</option>
                     @foreach($grupos as $grupo)
-                        <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                            {{ $grupo->nombre }}
-                        </option>
+                    <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
+                        {{ $grupo->nombre }}
+                    </option>
                     @endforeach
                 </select>
             </div>
         </div>
 
         <div class="d-flex justify-content-end">
-            <a href="{{ route('usuarios.index') }}" class="btn btn-cancelar btn-secondary m-2 p-2"><i class="fas fa-arrow-left"></i> Cancelar</a>
-            <button type="submit" class="btn btn-crear m-2 p-2"><i class="fas fa-user-plus"></i> Guardar</button>
+            <x-boton-principal href="{{ route('usuarios.index') }}">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </x-boton-principal>
+            <x-boton-principal type="submit">
+                <i class="fas fa-user-plus"></i> Guardar
+            </x-boton-principal>
         </div>
     </form>
 </div>

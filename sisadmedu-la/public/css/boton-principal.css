@@ -1,0 +1,22 @@
+/* Estilos boton principal */
+.boton-principal {
+    width: auto;
+    margin: 7px;
+    display: inline-block;
+    background-color: #461c68;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.boton-principal:hover {
+    background-color: #666;
+    transform: scale(1.02);
+}

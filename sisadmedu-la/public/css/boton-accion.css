@@ -1,0 +1,56 @@
+/* Estilo base para todos los botones de acción */
+.btn-accion {
+    width: 50px;
+    margin: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #461c68;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.btn-accion i {
+    font-size: 16px;
+}
+
+/* Ver */
+.btn-ver {
+    background-color: #461c68;
+}
+
+.btn-ver:hover {
+    background-color: #666;
+    transform: scale(1.02);
+}
+
+/* Editar */
+.btn-editar {
+    background-color: #461c68;
+
+}
+
+.btn-editar:hover {
+    background-color: #666;
+    transform: scale(1.02);
+}
+
+/* Eliminar */
+.btn-eliminar {
+    background-color: #461c68;
+}
+
+.btn-eliminar:hover {
+    background-color: #666;
+    transform: scale(1.02);
+}

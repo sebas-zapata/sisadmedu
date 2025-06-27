@@ -17,6 +17,8 @@
 
     {{-- Tu hoja de estilos personalizada --}}
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/boton-principal.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/boton-accion.css') }}" rel="stylesheet">
 </head>
 
 <body>

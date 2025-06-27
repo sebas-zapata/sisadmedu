@@ -1,16 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid py-4">
-    <div class="d-flex justify-content-between text-light align-items-center mb-3">
-        <h2>Gestión de Usuarios <i class="fas fa-users"></i></h2>
-    </div>
+<div class="container-fluid p-2">
+    <h2 class="text-center text-light">Gestión de Usuarios <i class="fas fa-users"></i></h2>
 
     <div class="container-fluid p-3 contenedor-componente">
-        <a href="{{ route('usuarios.create') }}" class="btn btn-sm btn-guardar rounded-2">
+        <x-boton-principal href="{{ route('usuarios.create') }}">
             <i class="fas fa-user-plus"></i> Nuevo Usuario
-        </a>
-        <div class="table-responsive text-center">
+        </x-boton-principal>
+
+        <div class="table-responsive text-center m-1">
             <table class="table table-striped table-hover align-middle">
                 <thead class="thead-sisadmedu text-center">
                     <tr>
@@ -35,19 +34,16 @@
                         <td>{{ $usuario->telefono }}</td>
                         <td>{{ $usuario->rol->nombre ?? 'Sin rol' }}</td>
                         <td>
-                            <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-sm btn-view m-1 rounded-2">
-                                <i class="fas fa-eye"></i>
-                            </a>
-                            <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-sm btn-edit m-1 rounded-2">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline-block form-eliminar">
+                            <x-boton-accion tipo="ver" href="{{ route('usuarios.show', $usuario->id) }}" />
+                            <x-boton-accion tipo="editar" href="{{ route('usuarios.edit', $usuario->id) }}" />
+                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" class="btn btn-sm btn-delete m-1 btn-confirmar-eliminar rounded-2">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+
+                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar">
+                                </x-boton-accion>
                             </form>
+
 
                         </td>
                     </tr>

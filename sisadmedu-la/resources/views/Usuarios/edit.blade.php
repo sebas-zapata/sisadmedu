@@ -2,7 +2,8 @@
 
 @section('content')
 <div class="container py-4">
-    <h2 class="mb-4 text-light"><i class="fas fa-edit"></i> Editar Usuario</h2>
+    <h2 class="text-center text-light">Editar Usuario <i class="fas fa-edit"></i></h2>
+    <hr>
 
     @if ($errors->any())
     <div class="alert alert-danger">
@@ -86,9 +87,12 @@
         </div>
 
         <div class="d-flex justify-content-end">
-            <a href="{{ route('usuarios.index') }}" class="btn btn-cancelar m-2 p-2 text-light rounded-2"> <i class="fas fa-arrow-left"></i> Cancelar</a>
-            <button type="submit" class="btn btn-actualizar m-2 p-2 text-light rounded-2"><i class="fa-solid fa-rotate-right"></i>
-                Actualizar</button>
+            <x-boton-principal href="{{ route('usuarios.index') }}">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </x-boton-principal>
+            <x-boton-principal type="submit">
+                <i class="fa-solid fa-rotate-right"></i> Actualizar
+            </x-boton-principal>
         </div>
     </form>
 </div>

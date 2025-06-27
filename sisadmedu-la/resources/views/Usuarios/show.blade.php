@@ -2,9 +2,8 @@
 
 @section('content')
 <div class="container py-4">
-    <h2 class="mb-4 text-light text-center fw-bold">
-        Detalles del Usuario <i class="fas fa-user-circle me-2"></i>
-    </h2>
+    <h2 class="text-center text-light">Detalles del Usuario <i class="fas fa-user-circle me-2"></i></h2>
+    <hr>
 
     <div class="card shadow rounded-4 border-0">
         <div class="card-body">
@@ -54,12 +53,12 @@
     </div>
 
     <div class="mt-4 d-flex justify-content-end">
-        <a href="{{ route('usuarios.index') }}" class="btn btn-cancelar rounded-3 m-2 p-2 text-white">
+        <x-boton-principal href="{{ route('usuarios.index') }}">
             <i class="fas fa-arrow-left me-1"></i> Volver al listado
-        </a>
-        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-actualizar text-white rounded-3 m-2 p-2">
+        </x-boton-principal>
+        <x-boton-principal href="{{ route('usuarios.edit', $usuario->id) }}">
             <i class="fas fa-edit"></i> Editar usuario
-        </a>
+        </x-boton-principal>
     </div>
 </div>
 @endsection
