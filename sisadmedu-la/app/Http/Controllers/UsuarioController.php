@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Usuario;
 use App\Models\Rol;
-use App\Models\Grupo;
 use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,16 +12,15 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = Usuario::with(['rol', 'grupo', 'tipoDocumento'])->get();
+        $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get(); // 👈 Sin 'grupo'
         return view('usuarios.index', compact('usuarios'));
     }
 
     public function create()
     {
         $roles = Rol::all();
-        $grupos = Grupo::all();
         $tiposDocumento = TipoDocumento::all();
-        return view('usuarios.create', compact('roles', 'grupos', 'tiposDocumento'));
+        return view('usuarios.create', compact('roles', 'tiposDocumento')); // 👈 Sin $grupos
     }
 
     public function store(Request $request)
@@ -36,7 +34,6 @@ class UsuarioController extends Controller
             'contrasena' => 'required|min:6',
             'rol_id' => 'required|exists:roles,id',
             'tipo_documento_id' => 'required|exists:tipos_documento,id',
-            'grupo_id' => 'nullable|exists:grupos,id',
         ]);
 
         $datos = $request->all();
@@ -49,7 +46,7 @@ class UsuarioController extends Controller
 
     public function show($id)
     {
-        $usuario = Usuario::with(['rol', 'grupo', 'tipoDocumento'])->findOrFail($id);
+        $usuario = Usuario::with(['rol', 'tipoDocumento'])->findOrFail($id); // 👈 Sin 'grupo'
         return view('usuarios.show', compact('usuario'));
     }
 
@@ -57,9 +54,8 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::findOrFail($id);
         $roles = Rol::all();
-        $grupos = Grupo::all();
         $tiposDocumento = TipoDocumento::all();
-        return view('usuarios.edit', compact('usuario', 'roles', 'grupos', 'tiposDocumento'));
+        return view('usuarios.edit', compact('usuario', 'roles', 'tiposDocumento')); // 👈 Sin $grupos
     }
 
     public function update(Request $request, $id)
@@ -74,7 +70,6 @@ class UsuarioController extends Controller
             'telefono' => 'required|unique:usuarios,telefono,' . $id,
             'rol_id' => 'required|exists:roles,id',
             'tipo_documento_id' => 'required|exists:tipos_documento,id',
-            'grupo_id' => 'nullable|exists:grupos,id',
         ]);
 
         $datos = $request->all();

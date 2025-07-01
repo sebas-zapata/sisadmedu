@@ -37,11 +37,10 @@
     {{-- SweetAlert para mensajes --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- Confirmación para eliminar --}}
+    {{-- JS --}}
     <script src="{{ asset('js/confirmacion-eliminar.js') }}"></script>
-
-    {{-- Tu archivo JS --}}
     <script src="{{ asset('js/validar-usuario.js') }}"></script>
+    <script src="{{ asset('js/validar-editar-usuario.js') }}"></script>
 
     {{-- Mensajes de éxito con SweetAlert --}}
     @if(session('success'))

@@ -3,16 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form) return;
 
     form.addEventListener('submit', function (e) {
-        // Obtener valores de campos
+        // Obtener valores de campos con querySelector (más confiable)
         const documento = form.querySelector('[name="documento"]').value.trim();
         const nombres = form.querySelector('[name="nombres"]').value.trim();
         const apellidos = form.querySelector('[name="apellidos"]').value.trim();
         const correo = form.querySelector('[name="correo_electronico"]').value.trim();
         const telefono = form.querySelector('[name="telefono"]').value.trim();
         const contrasena = form.querySelector('[name="contrasena"]').value;
-
-        const rolSelect = form.querySelector('[name="rol_id"]');
-        const tipoDocSelect = form.querySelector('[name="tipo_documento_id"]');
+        const rol = form.querySelector('[name="rol_id"]').value;
+        const tipoDocumento = form.querySelector('[name="tipo_documento_id"]').value;
 
         // Validar campos obligatorios
         if (
@@ -33,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Validar selects requeridos
-        if (!rolSelect.value || !tipoDocSelect.value) {
+        // Validar selects
+        if (rol === '' || tipoDocumento === '') {
             e.preventDefault();
             Swal.fire({
                 icon: 'info',
@@ -45,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Validar formato de correo electrónico
+        // Validar correo
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regexCorreo.test(correo)) {
             e.preventDefault();
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Validar contraseña solo si se ingresó
+        // Validar contraseña si se ingresó
         if (contrasena.length > 0 && contrasena.length < 6) {
             e.preventDefault();
             Swal.fire({

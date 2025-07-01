@@ -37,10 +37,6 @@
                     <p>{{ $usuario->tipoDocumento->descripcion ?? 'Sin tipo' }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p class="mb-1 text-muted"><strong>Grupo:</strong></p>
-                    <p>{{ $usuario->grupo->nombre ?? 'Sin grupo' }}</p>
-                </div>
-                <div class="col-md-6">
                     <p class="mb-1 text-muted"><strong>Fecha de creación:</strong></p>
                     <p>{{ $usuario->created_at->format('d/m/Y H:i') }}</p>
                 </div>

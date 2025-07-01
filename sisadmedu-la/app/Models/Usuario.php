@@ -22,7 +22,6 @@ class Usuario extends Model
         'contrasena',
         'rol_id',
         'tipo_documento_id',
-        'grupo_id',
     ];
 
     public function rol()
@@ -33,10 +32,5 @@ class Usuario extends Model
     public function tipoDocumento()
     {
         return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id');
-    }
-
-    public function grupo()
-    {
-        return $this->belongsTo(Grupo::class, 'grupo_id');
     }
 }

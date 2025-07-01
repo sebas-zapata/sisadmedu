@@ -73,18 +73,6 @@
                     @endforeach
                 </select>
             </div>
-
-            <div class="col-md-4">
-                <label class="form-label">Grupo (opcional)</label>
-                <select name="grupo_id" class="form-select">
-                    <option value="">Sin grupo</option>
-                    @foreach($grupos as $grupo)
-                    <option value="{{ $grupo->id }}" {{ old('grupo_id') == $grupo->id ? 'selected' : '' }}>
-                        {{ $grupo->nombre }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
         </div>
 
         <div class="d-flex justify-content-end">
