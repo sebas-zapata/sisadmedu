@@ -19,17 +19,24 @@
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
     <link href="{{ asset('css/boton-principal.css') }}" rel="stylesheet">
     <link href="{{ asset('css/boton-accion.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/login/login.css') }}" rel="stylesheet">
 </head>
 
 <body>
 
+    @if (!isset($ocultarNavbar) || !$ocultarNavbar)
     {{-- Barra de Navegación personalizada --}}
     @include('layouts.navigation')
+    @endif
 
     {{-- Contenido principal --}}
     <main class="container-fluid py-4">
         @yield('content')
     </main>
+
+    @if(session('success'))
+    <div id="session-success" data-mensaje="{{ session('success') }}"></div>
+    @endif
 
     {{-- Bootstrap JS (opcional si usas navbar o modales) --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -38,36 +45,13 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/confirmacion-eliminar.js') }}"></script>
     <script src="{{ asset('js/validar-usuario.js') }}"></script>
     <script src="{{ asset('js/validar-editar-usuario.js') }}"></script>
-
-    {{-- Mensajes de éxito con SweetAlert --}}
-    @if(session('success'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mensaje = @json(session('success'));
-            let icono = 'success';
-            let titulo = '¡Éxito!';
-
-            if (mensaje.includes('eliminado')) {
-                titulo = 'Eliminado';
-            } else if (mensaje.includes('actualizado')) {
-                titulo = 'Actualizado';
-            } else if (mensaje.includes('creado')) {
-                titulo = 'Creado';
-            }
-
-            Swal.fire({
-                title: titulo,
-                text: mensaje,
-                icon: icono,
-                confirmButtonColor: '#461c68',
-                confirmButtonText: 'Aceptar'
-            });
-        });
-    </script>
-    @endif
+    <script src="{{ asset('js/mensaje-exito.js') }}"></script>
+    <script src="{{ asset('js/login/validacion-login.js') }}"></script>
+    <script src="{{ asset('js/particles-js/particles-config.js') }}"></script>
 
 </body>
 

@@ -5,17 +5,6 @@
     <h2 class="mb-4 text-light text-center">Registrar Nuevo Usuario <i class="fas fa-user-plus"></i></h2>
     <hr>
 
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>¡Atención!</strong> Corrige los siguientes errores:
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
     <form id="formulario-usuario" action="{{ route('usuarios.store') }}" method="POST" novalidate>
         @csrf
 
