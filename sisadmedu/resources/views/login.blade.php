@@ -33,10 +33,9 @@
                 <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
                 <label for="contrasena">Contraseña</label>
             </div>
-
-            <x-boton-principal type="submit" class="w-100 btn-eliminar">
+            <button class="btn-login w-100" type="submit">
                 Acceder
-            </x-boton-principal>
+            </button>
         </form>
 
         {{-- Link de recuperación y seguridad --}}

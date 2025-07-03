@@ -1,5 +1,5 @@
 .login-container {
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,12 +11,12 @@
 .login-box {
     background: #fff;
     padding: 2.5rem;
-    border-radius: 3rem;
+    border-radius: 1rem;
     width: 100%;
     max-width: 450px;
     text-align: center;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.20);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.30);
     position: relative;
     z-index: 1;
     /* ✅ El formulario estará encima del canvas */
@@ -55,8 +55,9 @@
     object-fit: cover;
     border-radius: 50%;
     margin-bottom: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .login-box img:hover {
