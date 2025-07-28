@@ -11,6 +11,9 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('login');
     }
     public function login(Request $request)
@@ -35,9 +38,13 @@ class LoginController extends Controller
     }
 
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        // Invalida la sesión actual y regenera el token CSRF
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect('/login');
     }
 }

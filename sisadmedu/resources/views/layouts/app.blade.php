@@ -20,6 +20,11 @@
     <link href="{{ asset('css/boton-principal.css') }}" rel="stylesheet">
     <link href="{{ asset('css/boton-accion.css') }}" rel="stylesheet">
     <link href="{{ asset('css/login/login.css') }}" rel="stylesheet">
+
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
 </head>
 
 <body>
@@ -51,6 +56,7 @@
     <script src="{{ asset('js/validar-editar-usuario.js') }}"></script>
     <script src="{{ asset('js/mensaje-exito.js') }}"></script>
     <script src="{{ asset('js/login/validacion-login.js') }}"></script>
+    <script src="{{ asset('js/login/validacion-logout.js') }}"></script>
     <script src="{{ asset('js/particles-js/particles-config.js') }}"></script>
 
 </body>
