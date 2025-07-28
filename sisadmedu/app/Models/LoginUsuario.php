@@ -9,10 +9,10 @@ class LoginUsuario extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'usuarios'; // Tu tabla real
+    protected $table = 'usuarios';
 
     protected $fillable = [
-        'correo_electronico', // o como se llame
+        'correo_electronico',
         'contrasena',
     ];
 

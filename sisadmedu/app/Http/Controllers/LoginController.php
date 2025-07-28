@@ -14,8 +14,9 @@ class LoginController extends Controller
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
-        return view('login');
+        return view('auth.login');
     }
+
     public function login(Request $request)
     {
         $request->validate([
@@ -45,6 +46,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('login')
+            ->with('success', 'Has cerrado sesión correctamente');
     }
 }

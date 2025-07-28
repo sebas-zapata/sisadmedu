@@ -12,7 +12,7 @@ class UsuarioController extends Controller
 {
     public function index()
     {
-        $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get(); // 👈 Sin 'grupo'
+        $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
         return view('usuarios.index', compact('usuarios'));
     }
 
@@ -20,7 +20,7 @@ class UsuarioController extends Controller
     {
         $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
-        return view('usuarios.create', compact('roles', 'tiposDocumento')); // 👈 Sin $grupos
+        return view('usuarios.create', compact('roles', 'tiposDocumento'));
     }
 
     public function store(Request $request)
@@ -46,7 +46,7 @@ class UsuarioController extends Controller
 
     public function show($id)
     {
-        $usuario = Usuario::with(['rol', 'tipoDocumento'])->findOrFail($id); // 👈 Sin 'grupo'
+        $usuario = Usuario::with(['rol', 'tipoDocumento'])->findOrFail($id);
         return view('usuarios.show', compact('usuario'));
     }
 
@@ -55,7 +55,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::findOrFail($id);
         $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
-        return view('usuarios.edit', compact('usuario', 'roles', 'tiposDocumento')); // 👈 Sin $grupos
+        return view('usuarios.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }
 
     public function update(Request $request, $id)

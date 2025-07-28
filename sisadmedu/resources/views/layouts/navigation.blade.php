@@ -23,32 +23,30 @@
           </a>
           <ul class="dropdown-menu shadow-sm">
             <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+            <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+            <!-- Agrega más módulos aquí -->
           </ul>
         </li>
       </ul>
 
-      <!-- Menú derecho alineado -->
-      <div class="d-flex align-items-center">
-        <span class="text-white me-3">
-          @if(Auth::check())
-          {{ Auth::user()->correo_electronico }}
-          @endif
-
-        </span>
-
-        <div class="dropdown">
-          <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Opciones
-          </button>
+      <!-- Menú derecho -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
+        @if(Auth::check())
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ Auth::user()->correo_electronico }}
+          </a>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
             <li>
-              <form action="{{ route('logout') }}" method="GET" class="d-flex justify-content-center px-3">
+              <form action="{{ route('logout') }}" method="POST" class="px-3">
+                @csrf
                 <button class="btn btn-danger btn-sm w-100" type="submit">Cerrar sesión</button>
               </form>
             </li>
           </ul>
-        </div>
-      </div>
+        </li>
+        @endif
+      </ul>
     </div>
   </div>
 </nav>
