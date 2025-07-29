@@ -42,6 +42,7 @@
                 @csrf
                 <button class="btn btn-danger btn-sm w-100" type="submit">Cerrar sesión</button>
               </form>
+              <li><a class="btn btn-secondary btn-sm " href="{{ route('perfil.edit') }}" class="dropdown-item">Editar perfil</a></li>
             </li>
           </ul>
         </li>

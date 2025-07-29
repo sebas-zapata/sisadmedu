@@ -25,7 +25,7 @@
             @csrf
 
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico">
+                <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico" value="{{ old('correo_electronico') }}" required>
                 <label for="correo_electronico">Correo electrónico</label>
             </div>
 

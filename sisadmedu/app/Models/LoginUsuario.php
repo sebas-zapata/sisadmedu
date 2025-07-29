@@ -19,6 +19,9 @@ class LoginUsuario extends Authenticatable
     // En este caso, solo los campos necesarios para la autenticación
     // Se debe tener cuidado de no incluir campos sensibles como contraseñas en las respuestas JSON
     protected $fillable = [
+        'nombres',
+        'apellidos',
+        'telefono',
         'correo_electronico',
         'contrasena',
     ];
