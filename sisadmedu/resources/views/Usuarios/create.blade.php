@@ -55,6 +55,7 @@
             <div class="form-floating">
                 <select name="rol_id" class="form-select" id="rol_id" required>
                     <option value="" disabled {{ old('rol_id') ? '' : 'selected' }}>Selecciona un rol</option>
+                    {{-- Asumiendo que $roles es una colección de roles pasados desde el controlador --}}
                     @foreach($roles as $rol)
                         <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
                             {{ $rol->nombre }}
@@ -69,6 +70,7 @@
             <div class="form-floating">
                 <select name="tipo_documento_id" class="form-select" id="tipo_documento_id" required>
                     <option value="" disabled {{ old('tipo_documento_id') ? '' : 'selected' }}>Selecciona un tipo</option>
+                    {{-- Asumiendo que $tiposDocumento es una colección de tipos de documento pasados desde el controlador --}}
                     @foreach($tiposDocumento as $tipo)
                         <option value="{{ $tipo->id }}" {{ old('tipo_documento_id') == $tipo->id ? 'selected' : '' }}>
                             {{ $tipo->descripcion }}

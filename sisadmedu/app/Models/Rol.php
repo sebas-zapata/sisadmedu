@@ -7,12 +7,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Rol extends Model
 {
+    // Importar el trait HasFactory para usar las fábricas de Eloquent
     use HasFactory;
 
+    // Definición de la tabla y clave primaria
     protected $table = 'roles';
     protected $primaryKey = 'id';
     public $timestamps = true;
 
+    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'nombre',
     ];

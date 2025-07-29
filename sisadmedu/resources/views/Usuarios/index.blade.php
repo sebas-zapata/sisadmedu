@@ -24,7 +24,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($usuarios as $usuario)
+                    {{-- Asumiendo que $usuarios es una colección de usuarios pasados desde el controlador --}}
+                    @foreach($usuarios as $usuario)
                     <tr>
                         <td>{{ $usuario->id }}</td>
                         <td>{{ $usuario->documento }}</td>
@@ -51,7 +52,7 @@
                     <tr>
                         <td colspan="10" class="text-center">No hay usuarios registrados.</td>
                     </tr>
-                    @endforelse
+                    @endforeach
                 </tbody>
             </table>
         </div>

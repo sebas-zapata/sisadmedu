@@ -7,8 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\LoginUsuario;
 
+
 class LoginController extends Controller
 {
+    // Método para mostrar el formulario de inicio de sesión
+    // Verifica si el usuario ya está autenticado
+    // Si está autenticado, redirige al dashboard
+    // Si no, muestra el formulario de inicio de sesión
     public function showLoginForm()
     {
         if (Auth::check()) {
@@ -17,6 +22,13 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+
+
+    // Método para manejar el inicio de sesión
+    // Validación de las credenciales del usuario
+    // Si las credenciales son correctas, se inicia sesión
+    // Si las credenciales son incorrectas, se redirige de vuelta con un mensaje
+    // de error
     public function login(Request $request)
     {
         $request->validate([
@@ -29,16 +41,15 @@ class LoginController extends Controller
         if ($usuario && Hash::check($request->contrasena, $usuario->contrasena)) {
             Auth::login($usuario);
 
-            // ✅ Envía mensaje de éxito a la sesión
             return redirect()->intended('/')
                 ->with('success', 'Bienvenido, has iniciado sesión correctamente');
         }
 
-        // Si fallan las credenciales
         return back()->with('error', 'Credenciales incorrectas');
     }
 
 
+    // Método para cerrar sesión
     public function logout(Request $request)
     {
         Auth::logout();
