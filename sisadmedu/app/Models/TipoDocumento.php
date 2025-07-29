@@ -18,7 +18,7 @@ class TipoDocumento extends Model
         'descripcion',
     ];
 
-    // Relación con usuarios
+    // Relación con el modelo de usuarios
     public function usuarios()
     {
         return $this->hasMany(Usuario::class, 'tipo_documento_id');
