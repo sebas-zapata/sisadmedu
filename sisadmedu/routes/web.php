@@ -6,7 +6,10 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SitioWebController;
 use App\Http\Controllers\DashboardController;
 
-// Login y logout
+// Rutas con el middleware de autenticación
+
+
+// Rutas para el Login y logout del sistema
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -17,5 +20,5 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 // Ruta para el sitio web
 Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('sitio.inicio');
 
-// CRUD de usuarios protegido
+// Modulo de Usuarios protegido por autenticación
 Route::resource('usuarios', UsuarioController::class)->middleware('auth');

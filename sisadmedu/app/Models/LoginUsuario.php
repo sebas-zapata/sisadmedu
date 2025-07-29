@@ -7,19 +7,28 @@ use Illuminate\Notifications\Notifiable;
 
 class LoginUsuario extends Authenticatable
 {
+    // Importar el trait Notifiable para enviar notificaciones
     use Notifiable;
 
+    // Definición de la tabla y clave primaria
     protected $table = 'usuarios';
+    protected $primaryKey = 'id';
 
+
+    // Campos que se pueden asignar masivamente
+    // En este caso, solo los campos necesarios para la autenticación
+    // Se debe tener cuidado de no incluir campos sensibles como contraseñas en las respuestas JSON
     protected $fillable = [
         'correo_electronico',
         'contrasena',
     ];
 
+    // Campos que no se deben incluir en las respuestas JSON
     public $timestamps = false;
 
+    //  Método para obtener el nombre del identificador de autenticación
     public function getAuthIdentifierName()
     {
-        return 'correo_electronico'; // campo que usas para login
+        return 'correo_electronico';
     }
 }

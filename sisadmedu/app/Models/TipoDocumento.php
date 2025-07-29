@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TipoDocumento extends Model
-{
+{ 
+    // Importar el trait HasFactory para usar las fábricas de Eloquent
     use HasFactory;
 
+    // Definición de la tabla y clave primaria
     protected $table = 'tipos_documento';
     protected $primaryKey = 'id';
     public $timestamps = true;
 
+    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'codigo',
         'descripcion',

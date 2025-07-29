@@ -15,12 +15,14 @@
     {{-- Font Awesome (íconos) --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-    {{-- Tu hoja de estilos personalizada --}}
+
+    {{-- estilos personalizados --}}
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
     <link href="{{ asset('css/boton-principal.css') }}" rel="stylesheet">
     <link href="{{ asset('css/boton-accion.css') }}" rel="stylesheet">
     <link href="{{ asset('css/login/login.css') }}" rel="stylesheet">
 
+    {{-- Meta tags para evitar caché --}}
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -29,8 +31,9 @@
 
 <body>
 
-    @if (!isset($ocultarNavbar) || !$ocultarNavbar)
+
     {{-- Barra de Navegación personalizada --}}
+    @if (!isset($ocultarNavbar) || !$ocultarNavbar)
     @include('layouts.navigation')
     @endif
 
@@ -39,17 +42,18 @@
         @yield('content')
     </main>
 
+    {{-- Mensaje de éxito --}}
     @if(session('success'))
     <div id="session-success" data-mensaje="{{ session('success') }}"></div>
     @endif
 
-    {{-- Bootstrap JS (opcional si usas navbar o modales) --}}
+    {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    {{-- SweetAlert para mensajes --}}
+    {{-- SweetAlert para alertas personalizadas --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    {{-- JS --}}
+    {{-- Scripts personalizados --}}
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/confirmacion-eliminar.js') }}"></script>
     <script src="{{ asset('js/validar-usuario.js') }}"></script>
