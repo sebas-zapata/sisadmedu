@@ -2,22 +2,27 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+
+    // Registrar los seeders que se ejecutarán al correr el comando `db:seed`
+    // En este caso, solo se registra el MateriaSeeder
+    // Esto permite poblar la tabla 'materias' con datos iniciales
+    // que son necesarios para el funcionamiento de la aplicación.
+    // Puedes agregar más seeders aquí si es necesario.
+    // Por ejemplo, si tienes un seeder para usuarios o roles, lo puedes agregar aquí
+    // para que se ejecute automáticamente al correr el comando `db:seed`.
+    // Esto es útil para mantener la base de datos con datos consistentes
+    // y para facilitar el desarrollo y las pruebas.
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            MateriaSeeder::class,
+            UsuarioSeeder::class, // Asegúrate de que este seeder exista
         ]);
     }
 }

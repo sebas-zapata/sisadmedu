@@ -1,13 +1,18 @@
-@extends('layouts.app')
+{{-- resources/views/usuarios/create.blade.php --}}
+@extends('layouts.form')
 
-@section('content')
-<div class="container py-4">
-    <h2 class="mb-4 text-light text-center">Registrar Nuevo Usuario <i class="fas fa-user-plus"></i></h2>
-    <hr>
-
-<form id="formulario-usuario" action="{{ route('usuarios.store') }}" method="POST" novalidate>
-    @csrf
-
+@section('titulo-formulario')
+    Registrar Nuevo Usuario <i class="fas fa-user-plus"></i>
+@endsection
+@section('id-form', 'formulario-usuario')
+@section('ruta-accion')
+    {{ route('usuarios.store') }}
+@endsection
+@section('metodo')
+    @method('POST')
+@endsection
+@section('campos-formulario')
+    {{-- Campos del formulario para registrar un nuevo usuario --}}
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-floating">
@@ -55,7 +60,6 @@
             <div class="form-floating">
                 <select name="rol_id" class="form-select" id="rol_id" required>
                     <option value="" disabled {{ old('rol_id') ? '' : 'selected' }}>Selecciona un rol</option>
-                    {{-- Asumiendo que $roles es una colección de roles pasados desde el controlador --}}
                     @foreach($roles as $rol)
                         <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
                             {{ $rol->nombre }}
@@ -65,12 +69,12 @@
                 <label for="rol_id">Rol</label>
             </div>
         </div>
+ 
 
         <div class="col-md-4">
             <div class="form-floating">
                 <select name="tipo_documento_id" class="form-select" id="tipo_documento_id" required>
                     <option value="" disabled {{ old('tipo_documento_id') ? '' : 'selected' }}>Selecciona un tipo</option>
-                    {{-- Asumiendo que $tiposDocumento es una colección de tipos de documento pasados desde el controlador --}}
                     @foreach($tiposDocumento as $tipo)
                         <option value="{{ $tipo->id }}" {{ old('tipo_documento_id') == $tipo->id ? 'selected' : '' }}>
                             {{ $tipo->descripcion }}
@@ -90,7 +94,4 @@
             <i class="fas fa-user-plus"></i> Guardar
         </x-boton-principal>
     </div>
-</form>
-
-</div>
 @endsection

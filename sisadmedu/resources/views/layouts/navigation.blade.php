@@ -23,7 +23,7 @@
           </a>
           <ul class="dropdown-menu shadow-sm">
             <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
-            <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+            <li><a class="dropdown-item" href="{{ route('docentes.index') }}">Docentes</a></li>
             <!-- Agrega más módulos aquí -->
           </ul>
         </li>
@@ -42,6 +42,7 @@
                 @csrf
                 <button class="btn btn-danger btn-sm w-100" type="submit">Cerrar sesión</button>
               </form>
+              <li><a class="btn btn-secondary btn-sm " href="{{ route('perfil.edit') }}" class="dropdown-item">Editar perfil</a></li>
             </li>
           </ul>
         </li>

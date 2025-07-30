@@ -1,15 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.gestion')
 
-@section('content')
-<div class="container-fluid p-2">
-    <h2 class="text-center text-light">Gestión de Usuarios <i class="fas fa-users"></i></h2>
-
-    <div class="container-fluid p-3 contenedor-componente">
-        <x-boton-principal href="{{ route('usuarios.create') }}">
-            <i class="fas fa-user-plus"></i> Nuevo Usuario
-        </x-boton-principal>
-
-        <div class="table-responsive text-center m-1">
+@section('titulo')
+Gestión de Usuarios <i class="fas fa-users"></i>
+@endsection
+@section('boton-registrar')
+<x-boton-principal href="{{ route('usuarios.create') }}">
+    <i class="fas fa-user-plus"></i> Nuevo Usuario
+</x-boton-principal>
+@endsection
+@section('tabla')
             <table class="table table-striped table-hover align-middle">
                 <thead class="thead-sisadmedu text-center">
                     <tr>
@@ -25,7 +24,7 @@
                 </thead>
                 <tbody>
                     {{-- Asumiendo que $usuarios es una colección de usuarios pasados desde el controlador --}}
-                    @foreach($usuarios as $usuario)
+                    @forelse($usuarios as $usuario)
                     <tr>
                         <td>{{ $usuario->id }}</td>
                         <td>{{ $usuario->documento }}</td>
@@ -37,7 +36,7 @@
                         <td>
                             <x-boton-accion tipo="ver" href="{{ route('usuarios.show', $usuario->id) }}" />
                             <x-boton-accion tipo="editar" href="{{ route('usuarios.edit', $usuario->id) }}" />
-                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="d-inline-block">
+                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" data-usuario="{{ $usuario->nombres }}" method="POST" class="d-inline-block">
                                 @csrf
                                 @method('DELETE')
 
@@ -50,13 +49,9 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="10" class="text-center">No hay usuarios registrados.</td>
+                        <td colspan="10" class="text-center text-muted">No hay usuarios registrados <i class="fas fa-user-slash"></i>.</td>
                     </tr>
-                    @endforeach
+                    @endforelse
                 </tbody>
             </table>
-        </div>
-
-    </div>
-</div>
 @endsection
