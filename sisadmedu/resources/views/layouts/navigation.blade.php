@@ -23,7 +23,7 @@
           </a>
           <ul class="dropdown-menu shadow-sm">
             <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
-            <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
+            <li><a class="dropdown-item" href="{{ route('docentes.index') }}">Docentes</a></li>
             <!-- Agrega más módulos aquí -->
           </ul>
         </li>

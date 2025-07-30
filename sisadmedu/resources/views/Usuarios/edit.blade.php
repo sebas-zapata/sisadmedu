@@ -1,13 +1,17 @@
-@extends('layouts.app')
+{{-- resources/views/usuarios/edit.blade.php --}}
+@extends('layouts.form')
 
-@section('content')
-<div class="container py-4">
-    <h2 class="text-center text-light">Editar Usuario <i class="fas fa-edit"></i></h2>
-    <hr>
-    <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST" id="formulario-usuario">
-    @csrf
+@section('titulo-formulario', 'Editar Usuario')
+
+@section('id-form', 'formulario-usuario')
+
+@section('ruta-accion', route('usuarios.update', $usuario->id))
+
+@section('metodo')
     @method('PUT')
+@endsection
 
+@section('campos-formulario')
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-floating">
@@ -61,7 +65,6 @@
             <div class="form-floating">
                 <select name="rol_id" id="rol_id" class="form-select" required>
                     <option disabled>Selecciona un rol</option>
-                    {{-- Asumiendo que $roles es una colección de roles pasados desde el controlador --}}
                     @foreach($roles as $rol)
                         <option value="{{ $rol->id }}" {{ $usuario->rol_id == $rol->id ? 'selected' : '' }}>
                             {{ $rol->nombre }}
@@ -76,7 +79,6 @@
             <div class="form-floating">
                 <select name="tipo_documento_id" id="tipo_documento_id" class="form-select">
                     <option disabled>Selecciona un tipo</option>
-                    {{-- Asumiendo que $tiposDocumento es una colección de tipos de documento pasados desde el controlador --}}
                     @foreach($tiposDocumento as $tipo)
                         <option value="{{ $tipo->id }}" {{ $usuario->tipo_documento_id == $tipo->id ? 'selected' : '' }}>
                             {{ $tipo->descripcion }}
@@ -87,16 +89,13 @@
             </div>
         </div>
     </div>
+@endsection
 
-    <div class="d-flex justify-content-end">
-        <x-boton-principal href="{{ route('usuarios.index') }}">
-            <i class="fas fa-arrow-left"></i> Cancelar
-        </x-boton-principal>
-        <x-boton-principal type="submit">
-            <i class="fa-solid fa-rotate-right"></i> Actualizar
-        </x-boton-principal>
-    </div>
-</form>
-
-</div>
+@section('botones-formulario')
+    <x-boton-principal href="{{ route('usuarios.index') }}">
+        <i class="fas fa-arrow-left"></i> Cancelar
+    </x-boton-principal>
+    <x-boton-principal type="submit">
+        <i class="fa-solid fa-rotate-right"></i> Actualizar
+    </x-boton-principal>
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SitioWebController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\DocenteController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -27,3 +28,6 @@ Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('sitio.inic
 
 // Modulo de Usuarios protegido por autenticación
 Route::resource('usuarios', UsuarioController::class)->middleware('auth');
+
+// Modulo de Docentes protegido por autenticación
+Route::resource('docentes', DocenteController::class)->middleware('auth');

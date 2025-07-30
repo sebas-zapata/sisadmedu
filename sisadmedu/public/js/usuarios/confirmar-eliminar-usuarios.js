@@ -4,9 +4,10 @@ document.addEventListener('DOMContentLoaded', function () {
     botonesEliminar.forEach(boton => {
         boton.addEventListener('click', function () {
             const form = this.closest('form');
+            const usuarioNombre = form.getAttribute('data-usuario');
 
             Swal.fire({
-                title: '¿Estás seguro de eliminar este usuario?',
+                title: `¿Estás seguro de eliminar el usuario '${usuarioNombre}'?`,
                 text: "¡No podrás revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,

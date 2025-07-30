@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('contenido')
 <div class="container card w-100">
     <div class="card-header">
         <h2>Módulos del Sistema</h2>
@@ -18,7 +18,7 @@
         <div class="module">
             <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>
             <p class="module-description">Control de los docentes, asignaturas, horarios y más.</p>
-            <a class="module-button" href="{{ route('usuarios.index') }}">
+            <a class="module-button" href="{{ route('docentes.index') }}">
                 <i class="fas fa-arrow-right"></i> Docentes
             </a>
         </div>

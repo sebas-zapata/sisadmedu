@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('contenido')
 <div class="container py-4">
     <h2 class="text-center text-light">Detalles del Usuario <i class="fas fa-user-circle me-2"></i></h2>
     <hr>

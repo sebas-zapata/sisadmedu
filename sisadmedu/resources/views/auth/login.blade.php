@@ -3,7 +3,7 @@
 
 @section('title', 'Iniciar sesión')
 
-@section('content')
+@section('contenido')
 
 {{-- Mensaje de error --}}
 @if(session('error'))
