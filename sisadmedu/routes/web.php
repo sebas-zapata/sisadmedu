@@ -7,6 +7,8 @@ use App\Http\Controllers\SitioWebController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\DocenteController;
+use App\Http\Controllers\GradoController;
+use App\Http\Controllers\EstudianteController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -31,3 +33,9 @@ Route::resource('usuarios', UsuarioController::class)->middleware('auth');
 
 // Modulo de Docentes protegido por autenticación
 Route::resource('docentes', DocenteController::class)->middleware('auth');
+
+// Modulo de Grados protegido por autenticación
+Route::resource('grados', GradoController::class)->middleware('auth');
+
+// Modulo de Estudiantes protegido por autenticación
+Route::resource('estudiantes', EstudianteController::class)->middleware('auth');
