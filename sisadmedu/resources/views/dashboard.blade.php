@@ -38,6 +38,14 @@
                 <i class="fas fa-arrow-right"></i> Informes
             </a>
         </div>
+        
+        <div class="module">
+            <p class="module-title"><i class="fas fa-chart-line"></i> Informes Académicos</p>
+            <p class="module-description">Generación de informes sobre el rendimiento y asistencia de los estudiantes.</p>
+            <a class="module-button" href="{{ route('usuarios.index') }}">
+                <i class="fas fa-arrow-right"></i> Informes
+            </a>
+        </div>
 
     </div>
 </div>
