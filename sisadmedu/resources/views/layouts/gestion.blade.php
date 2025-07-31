@@ -6,6 +6,9 @@
     @yield('boton-registrar')
     <div class="table-responsive text-center m-1">
         @yield('tabla')
+        <div class="d-flex justify-content-end">
+            @yield('paginacion')
+        </div>
     </div>
 </div>
 </div>

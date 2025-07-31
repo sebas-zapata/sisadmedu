@@ -63,6 +63,8 @@
     <script src="{{ asset('js/docentes/confirmar-eliminar-docentes.js') }}"></script>
     <script src="{{ asset('js/usuarios/confirmar-eliminar-usuarios.js') }}"></script>
     <script src="{{ asset('js/docentes/validar-docente.js')}}"></script>
+    <script src="{{ asset('js/grados/confirmar-eliminar-grados.js') }}"></script>
+    <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
 
 </body>
 
