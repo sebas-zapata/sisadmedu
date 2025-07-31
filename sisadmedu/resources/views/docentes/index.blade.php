@@ -37,7 +37,7 @@ Lista de Docentes <i class="fas fa-chalkboard-teacher"></i>
                             <form action="{{ route('docentes.destroy', $docente->id) }}" data-docente="{{ $docente->primer_nombre }} {{ $docente->segundo_nombre }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar">
+                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-docentes">
                                 </x-boton-accion>
                             </form>
                         </td>

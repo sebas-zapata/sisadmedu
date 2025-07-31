@@ -17,7 +17,6 @@ Gestión de Usuarios <i class="fas fa-users"></i>
                         <th>Nombres</th>
                         <th>Apellidos</th>
                         <th>Correo</th>
-                        <th>Teléfono</th>
                         <th>Rol</th>
                         <th>Acciones</th>
                     </tr>
@@ -31,7 +30,6 @@ Gestión de Usuarios <i class="fas fa-users"></i>
                         <td>{{ $usuario->nombres }}</td>
                         <td>{{ $usuario->apellidos }}</td>
                         <td>{{ $usuario->correo_electronico }}</td>
-                        <td>{{ $usuario->telefono }}</td>
                         <td>{{ $usuario->rol->nombre ?? 'Sin rol' }}</td>
                         <td>
                             <x-boton-accion tipo="ver" href="{{ route('usuarios.show', $usuario->id) }}" />
@@ -40,7 +38,7 @@ Gestión de Usuarios <i class="fas fa-users"></i>
                                 @csrf
                                 @method('DELETE')
 
-                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar">
+                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-usuarios">
                                 </x-boton-accion>
                             </form>
 
