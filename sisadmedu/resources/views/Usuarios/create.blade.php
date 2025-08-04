@@ -86,12 +86,12 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-end">
+    @section('botones-formulario')
         <x-boton-principal href="{{ route('usuarios.index') }}">
             <i class="fas fa-arrow-left"></i> Cancelar
         </x-boton-principal>
         <x-boton-principal type="submit">
             <i class="fas fa-user-plus"></i> Guardar
         </x-boton-principal>
-    </div>
+    @endsection
 @endsection

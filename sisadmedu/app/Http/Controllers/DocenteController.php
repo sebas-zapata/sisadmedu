@@ -20,17 +20,10 @@ class DocenteController extends Controller
     }
 
     // Método para mostrar el formulario de creación de un nuevo docente
-    // Obtiene todas las materias disponibles
-    // Retorna la vista 'docentes.create' con las materias
-    // compactadas en una variable
-    // Este método es útil para mostrar un formulario donde se puede
-    // ingresar la información de un nuevo docente, incluyendo la materia
-    // que se le asignará.
     public function create()
     {
         $materias = Materia::all();
-        $documentos = TipoDocumento::all();
-        return view('docentes.create', compact('materias', 'documentos'));
+        return view('docentes.create', compact('materias'));
     }
 
     // Método para almacenar un nuevo docente en la base de datos
@@ -42,13 +35,13 @@ class DocenteController extends Controller
     {
         $request->validate([
             'codigo_docente' => 'required|string|max:255|unique:docentes',
-            'documento' => 'nullable|string|max:255',
             'primer_nombre' => 'required|string|max:255',
             'segundo_nombre' => 'nullable|string|max:255',
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
             'correo_electronico' => 'required|string|email|max:255|unique:docentes',
             'id_materia' => 'required|exists:materias,id',
+            'id_tipo_documento' => 'required|exists:tipos_documento,id', // Validar que el tipo de documento exista
         ]);
 
         $docente = Docente::create($request->all());
@@ -61,7 +54,8 @@ class DocenteController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $docente = Docente::with(['materia', 'tipoDocumento'])->findOrFail($id);
+        return view('docentes.show', compact('docente'));
     }
 
     // Método para mostrar el formulario de edición de un docente
@@ -70,28 +64,29 @@ class DocenteController extends Controller
     // compactados en variables
     public function edit($id)
     {
-        $docente = Docente::findOrFail($id);
+        $docente = Docente::with(['materia', 'tipoDocumento'])->findOrFail($id);
         $materias = Materia::all();
         $documentos = TipoDocumento::all();
         return view('docentes.edit', compact('docente', 'materias', 'documentos'));
     }
 
 
+
     // Método para actualizar un docente existente
     // Valida los datos del formulario de edición
     // Busca el docente por su ID y actualiza sus datos
     // Redirige a la lista de docentes con un mensaje de éxito
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'codigo_docente' => 'required|string|max:255|unique:docentes,codigo_docente,' . $id,
-            'documento' => 'nullable|string|max:255',
             'primer_nombre' => 'required|string|max:255',
             'segundo_nombre' => 'nullable|string|max:255',
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
             'correo_electronico' => 'required|string|email|max:255|unique:docentes,correo_electronico,' . $id,
             'id_materia' => 'required|exists:materias,id',
+            'id_tipo_documento' => 'required|exists:tipos_documento,id', // Validar que el tipo de documento exista
         ]);
 
         $docente = Docente::findOrFail($id);

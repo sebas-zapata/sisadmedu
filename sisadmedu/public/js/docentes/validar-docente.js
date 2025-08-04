@@ -13,7 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const correo_electronico = form.querySelector('[name="correo_electronico"]').value;
 
         const materiaSelect = form.querySelector('[name="id_materia"]');
+<<<<<<< HEAD
         const tipoDocumentoSelect = form.querySelector('[name="id_tipo_documento"]');
+=======
+        const tipoDocumentoSelect = form.querySelector('[name="tipo_documento_id"]');
+>>>>>>> feature/nueva-funcionalidad
 
         if (codigo_docente === "" || documento === "" || primer_nombre === "" || segundo_nombre === "" || primer_apellido === "" || segundo_apellido === "") {
             e.preventDefault();
