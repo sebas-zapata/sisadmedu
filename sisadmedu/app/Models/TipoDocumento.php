@@ -26,4 +26,10 @@ class TipoDocumento extends Model
     {
         return $this->hasMany(Usuario::class, 'tipo_documento_id');
     }
+
+    // Relación con el modelo de estudiantes
+    public function estudiantes()
+    {
+        return $this->hasMany(Estudiante::class, 'id_tipo_documento');
+    }
 }

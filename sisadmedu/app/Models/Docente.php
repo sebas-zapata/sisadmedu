@@ -23,7 +23,8 @@ class Docente extends Model
         'primer_apellido',
         'segundo_apellido',
         'correo_electronico',
-        'id_materia'
+        'id_materia',
+        'id_tipo_documento'
     ];
 
     // Relación con el modelo de Materia
@@ -33,11 +34,6 @@ class Docente extends Model
     }
 
     // Relación con el modelo de TipoDocumento
-    public function tipoDocumento()
-    {
-        return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento', 'id');
-    }
-
     public function tipoDocumento()
     {
         return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento', 'id');

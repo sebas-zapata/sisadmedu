@@ -21,7 +21,7 @@ class UsuarioController extends Controller
         return view('usuarios.index', compact('usuarios'));
     }
 
-    
+    // Método para mostrar el formulario de creación de un nuevo usuario
     public function create()
     {
         $roles = Rol::all();
