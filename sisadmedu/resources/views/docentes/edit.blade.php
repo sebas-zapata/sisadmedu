@@ -23,6 +23,13 @@ Editar Docente <i class="fas fa-chalkboard-teacher"></i>
 
     <div class="col-md-4">
         <div class="form-floating">
+            <input type="text" class="form-control" id="documento" name="documento" placeholder="Ej: 12345678" required value="{{ old('documento', $docente->documento) }}">
+            <label for="documento">Documento del Docente</label>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-floating">
             <input type="text" class="form-control" id="primer_nombre" name="primer_nombre" placeholder="Ej: Ana" required value="{{ old('primer_nombre', $docente->primer_nombre) }}">
             <label for="primer_nombre">Primer Nombre</label>
         </div>
@@ -71,6 +78,19 @@ Editar Docente <i class="fas fa-chalkboard-teacher"></i>
             <label for="id_materia">Materia</label>
         </div>
     </div>
+
+    <div class="col-md-4">
+        <div class="form-floating">
+            <select class="form-select" id="id_tipo_documento" name="id_tipo_documento" required>
+                <option value="" disabled {{ old('id_tipo_documento', $docente->id_tipo_documento) ? '' : 'selected' }}>Seleccione un tipo de documento</option>
+                @foreach ($documentos as $documento)
+                    <option value="{{ $documento->id }}" {{ old('id_tipo_documento', $docente->id_tipo_documento) == $documento->id ? 'selected' : '' }}>
+                        {{ $documento->descripcion }}
+                    </option>
+                @endforeach
+            </select>
+            <label for="id_tipo_documento">Tipo de Documento</label>
+        </div>
 </div>
     <div class="d-flex justify-content-end">
         <x-boton-principal href="{{ route('docentes.index') }}">

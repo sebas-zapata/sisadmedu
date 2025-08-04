@@ -29,10 +29,18 @@ class Estudiante extends Model
         'correo_electronico_estudiante',
         'direccion_estudiante',
         'id_grado',
+        'id_tipo_documento', // Nuevo campo para el tipo de documento
     ];
 
+    // Relación con el modelo de Grado
     public function grado()
     {
         return $this->belongsTo(Grado::class, 'id_grado');
+    }
+    
+    // Relación con el modelo de TipoDocumento
+    public function tipodocumento()
+    {
+        return $this->belongsTo(TipoDocumento::class, 'id_documento_estudiante');
     }
 }

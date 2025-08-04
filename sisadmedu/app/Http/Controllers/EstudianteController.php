@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
 use App\Models\Grado;
+use App\Models\TipoDocumento;
 
 class EstudianteController extends Controller
 {
@@ -21,7 +22,8 @@ class EstudianteController extends Controller
     public function create()
     {
         $grados = Grado::all(); // Obtener todos los grados para el formulario
-        return view('estudiantes.create', compact('grados'));
+        $tiposDocumentos = TipoDocumento::all(); // Obtener todos los tipos de documento
+        return view('estudiantes.create', compact('grados', 'tiposDocumentos'));
     }
 
     // Guardar un nuevo estudiante y asignar un grado
@@ -41,6 +43,7 @@ class EstudianteController extends Controller
             'correo_electronico_estudiante' => 'nullable|email|max:100',
             'direccion_estudiante' => 'nullable|string|max:255',
             'id_grado' => 'required|exists:grados,id', // Validar que el grado exista
+            'id_tipo_documento' => 'required|exists:tipos_documento,id', // Validar que el tipo de documento exista
         ]);
 
         Estudiante::create($request->all());
@@ -80,6 +83,7 @@ class EstudianteController extends Controller
             'correo_electronico_estudiante' => 'nullable|email|max:100',
             'direccion_estudiante' => 'nullable|string|max:255',
             'id_grado' => 'required|exists:grados,id', // Validar que el grado exista
+            'id_tipo_documento' => 'required|exists:tipos_documento,id', // Validar que el tipo de documento exista
         ]);
 
         $estudiante->update($request->all());

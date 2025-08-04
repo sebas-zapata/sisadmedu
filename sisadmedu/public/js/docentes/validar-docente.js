@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', (e) => {
         // Obtener los valores de los campos
         const codigo_docente = form.querySelector('[name="codigo_docente"]').value.trim();
+        const documento = form.querySelector('[name="documento"]').value.trim();
         const primer_nombre = form.querySelector('[name="primer_nombre"]').value.trim();
         const segundo_nombre = form.querySelector('[name="segundo_nombre"]').value.trim();
         const primer_apellido = form.querySelector('[name="primer_apellido"]').value.trim();
@@ -12,8 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const correo_electronico = form.querySelector('[name="correo_electronico"]').value;
 
         const materiaSelect = form.querySelector('[name="id_materia"]');
+        const tipoDocumentoSelect = form.querySelector('[name="tipo_documento_id"]');
 
-        if (codigo_docente === "" || primer_nombre === "" || segundo_nombre === "" || primer_apellido === "" || segundo_apellido === "") {
+        if (codigo_docente === "" || documento === "" || primer_nombre === "" || segundo_nombre === "" || primer_apellido === "" || segundo_apellido === "") {
             e.preventDefault();
             Swal.fire({
                 icon: 'warning',
@@ -39,12 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Validar selects requeridos
-        if (!materiaSelect.value) {
+        if (!materiaSelect.value || !tipoDocumentoSelect.value) {
             e.preventDefault();
             Swal.fire({
                 icon: 'info',
                 title: 'Campos faltantes',
-                text: `Selecciona un materia para asignarla al docente ${primer_nombre}.`,
+                text: `Selecciona una materia y un tipo de documento para asignarlos al docente ${primer_nombre}.`,
                 confirmButtonColor: '#461c68'
             });
             return;

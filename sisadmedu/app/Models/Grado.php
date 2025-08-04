@@ -11,7 +11,8 @@ class Grado extends Model
 
     // Definir los campos que son asignables en masa
     protected $fillable = ['nombre_grado'];
-
+ 
+    // Relación con el modelo de Estudiante
     public function estudiantes()
     {
         return $this->hasMany(Estudiante::class, 'id_grado');
