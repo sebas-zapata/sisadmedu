@@ -12,16 +12,24 @@ class Docente extends Model
     protected $table = 'docentes';
     protected $fillable = [
         'codigo_docente',
+        'documento',
         'primer_nombre',
         'segundo_nombre',
         'primer_apellido',
         'segundo_apellido',
         'correo_electronico',
-        'id_materia'
+        'id_materia',
+        'id_tipo_documento',
     ];
 
     public function materia()
     {
         return $this->belongsTo(Materia::class, 'id_materia');
     }
+
+    public function tipoDocumento()
+    {
+        return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento', 'id');
+    }
+
 }

@@ -33,6 +33,7 @@ Lista de Docentes <i class="fas fa-chalkboard-teacher"></i>
                         <td>{{ $docente->correo_electronico }}</td>
                         <td>{{ $docente->materia->descripcion }}</td>
                         <td>
+                            <x-boton-accion tipo="ver" href="{{ route('docentes.show', $docente->id) }}" />
                             <x-boton-accion tipo="editar" href="{{ route('docentes.edit', $docente->id) }}" />
                             <form action="{{ route('docentes.destroy', $docente->id) }}" data-docente="{{ $docente->primer_nombre }} {{ $docente->segundo_nombre }}" method="POST" style="display:inline;">
                                 @csrf

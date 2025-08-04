@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Docente;
 use App\Models\Materia;
+use App\Models\TipoDocumento;
 
 class DocenteController extends Controller
 {
@@ -28,7 +29,8 @@ class DocenteController extends Controller
     public function create()
     {
         $materias = Materia::all();
-        return view('docentes.create', compact('materias'));
+        $documentos = TipoDocumento::all();
+        return view('docentes.create', compact('materias', 'documentos'));
     }
 
     // Método para almacenar un nuevo docente en la base de datos
@@ -40,6 +42,7 @@ class DocenteController extends Controller
     {
         $request->validate([
             'codigo_docente' => 'required|string|max:255|unique:docentes',
+            'documento' => 'nullable|string|max:255',
             'primer_nombre' => 'required|string|max:255',
             'segundo_nombre' => 'nullable|string|max:255',
             'primer_apellido' => 'required|string|max:255',
@@ -69,7 +72,8 @@ class DocenteController extends Controller
     {
         $docente = Docente::findOrFail($id);
         $materias = Materia::all();
-        return view('docentes.edit', compact('docente', 'materias'));
+        $documentos = TipoDocumento::all();
+        return view('docentes.edit', compact('docente', 'materias', 'documentos'));
     }
 
 
@@ -81,6 +85,7 @@ class DocenteController extends Controller
     {
         $request->validate([
             'codigo_docente' => 'required|string|max:255|unique:docentes,codigo_docente,' . $id,
+            'documento' => 'nullable|string|max:255',
             'primer_nombre' => 'required|string|max:255',
             'segundo_nombre' => 'nullable|string|max:255',
             'primer_apellido' => 'required|string|max:255',

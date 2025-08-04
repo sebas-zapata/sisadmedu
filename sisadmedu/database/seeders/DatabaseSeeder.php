@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MateriaSeeder::class,
             UsuarioSeeder::class, // Asegúrate de que este seeder exista
+            DocenteSeeder::class, // Asegúrate de que este seeder exista
         ]);
     }
 }
