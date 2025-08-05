@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validar campo obligatorio
         if (nombreGrado === '') {
-            e.preventDefault();
             Swal.fire({
                 icon: 'warning',
                 title: 'Campo requerido',

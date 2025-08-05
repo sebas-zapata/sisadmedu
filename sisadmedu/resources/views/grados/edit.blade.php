@@ -8,12 +8,12 @@ Editar Grado <i class="fas fa-edit"></i>
 @method('PUT')
 @endsection
 @section('campos-formulario')
-<div class="row mb-3">
+<div class="row justify-content-center mb-3">
     <div class="col-md-4">
-        <div class="form-floating">
-            <input type="text" name="nombre_grado" class="form-control" id="nombre_grado" placeholder="Ej: 12345678" required value="{{ old('nombre_grado', $grado->nombre_grado) }}">
-            <label for="nombre_grado">Grado</label>
-        </div>
+        <input type="text" name="nombre_grado" class="form-control @error('nombre_grado') is-invalid @enderror" id="nombre_grado" placeholder="Ej: 12345678" required value="{{ old('nombre_grado', $grado->nombre_grado) }}">
+        @error('nombre_grado')
+            <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+        @enderror
     </div>
 
     <div class="d-flex justify-content-end">
