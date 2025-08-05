@@ -45,7 +45,26 @@ class UsuarioController extends Controller
             'contrasena' => 'required|min:6',
             'rol_id' => 'required|exists:roles,id',
             'tipo_documento_id' => 'required|exists:tipos_documento,id',
-        ]);
+
+        ],
+
+        // Validaciones personalizadas para los mensajes de error
+        [
+            'documento.required' => 'El campo documento es obligatorio.',
+            'documento.unique' => 'El documento ya está registrado.',
+            'nombres.required' => 'El campo nombres es obligatorio.',
+            'apellidos.required' => 'El campo apellidos es obligatorio.',
+            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
+            'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
+            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+            'telefono.unique' => 'El teléfono ya está registrado.',
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'contrasena.required' => 'El campo contraseña es obligatorio.',
+            'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'rol_id.required' => 'Debe seleccionar un rol.',
+            'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
+        ]
+    );
 
         $datos = $request->all();
         $datos['contrasena'] = Hash::make($request->contrasena);
@@ -96,7 +115,24 @@ class UsuarioController extends Controller
             'telefono' => 'required|unique:usuarios,telefono,' . $id,
             'rol_id' => 'required|exists:roles,id',
             'tipo_documento_id' => 'required|exists:tipos_documento,id',
-        ]);
+        ]
+        // Validaciones personalizadas para los mensajes de error
+    ,   [
+            'documento.required' => 'El campo documento es obligatorio.',
+            'documento.unique' => 'El documento ya está registrado.',
+            'nombres.required' => 'El campo nombres es obligatorio.',
+            'apellidos.required' => 'El campo apellidos es obligatorio.',
+            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
+            'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
+            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+            'telefono.unique' => 'El teléfono ya está registrado.',
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'contrasena.required' => 'El campo contraseña es obligatorio.',
+            'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'rol_id.required' => 'Debe seleccionar un rol.',
+            'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
+        ]
+    );
 
         $datos = $request->all();
 

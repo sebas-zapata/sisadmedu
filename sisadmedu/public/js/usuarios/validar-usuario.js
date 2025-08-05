@@ -21,20 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
             correo === '' ||
             telefono === ''
         ) {
-            e.preventDefault();
             Swal.fire({
                 icon: 'warning',
                 title: 'Campos requeridos',
                 text: 'Por favor completa todos los campos obligatorios.',
                 confirmButtonColor: '#461c68',
-                confirmButtonText: 'Aceptar'
+                confirmButtonText: 'Aceptar',
             });
             return;
         }
 
         // Validar selects
         if (rol === '' || tipoDocumento === '') {
-            e.preventDefault();
             Swal.fire({
                 icon: 'info',
                 title: 'Campos faltantes',
@@ -47,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Validar correo
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regexCorreo.test(correo)) {
-            e.preventDefault();
             Swal.fire({
                 icon: 'warning',
                 title: 'Correo inválido',
@@ -59,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validar contraseña si se ingresó
         if (contrasena.length > 0 && contrasena.length < 6) {
-            e.preventDefault();
             Swal.fire({
                 icon: 'warning',
                 title: 'Contraseña muy corta',

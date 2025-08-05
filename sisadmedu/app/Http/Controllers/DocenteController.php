@@ -41,7 +41,26 @@ class DocenteController extends Controller
             'segundo_apellido' => 'nullable|string|max:255',
             'correo_electronico' => 'required|string|email|max:255|unique:docentes',
             'id_materia' => 'required|exists:materias,id',
-            'id_tipo_documento' => 'required|exists:tipos_documento,id', // Validar que el tipo de documento exista
+            'id_tipo_documento' => 'required|exists:tipos_documento,id',
+        ],
+        // Validaciones personalizadas para los mensajes de error
+        [
+            'codigo_docente.required' => 'El campo código del docente es obligatorio.',
+            'codigo_docente.unique' => 'El código del docente ya está registrado.',
+            'documento.unique' => 'El documento ya está registrado.',
+            'documento.required' => 'El campo documento es obligatorio.',
+            'documento.max' => 'El documento no puede tener más de 255 caracteres.',
+            'primer_nombre.required' => 'El campo primer nombre es obligatorio.',
+            'primer_nombre.max' => 'El primer nombre no puede tener más de 255 caracteres.',
+            'segundo_nombre.max' => 'El segundo nombre no puede tener más de 255 caracteres.',
+            'primer_apellido.required' => 'El campo primer apellido es obligatorio.',
+            'primer_apellido.max' => 'El primer apellido no puede tener más de 255 caracteres.',
+            'segundo_apellido.max' => 'El segundo apellido no puede tener más de 255 caracteres.',
+            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
+            'correo_electronico.email' => 'El formato del correo electrónico es inválido.',
+            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+            'id_materia.required' => 'Debe seleccionar una materia.',
+            'id_tipo_documento.required' => 'Debe seleccionar un tipo de documento.',
         ]);
 
         $docente = Docente::create($request->all());

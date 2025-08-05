@@ -47,12 +47,10 @@
     <div id="session-success" data-mensaje="{{ session('success') }}"></div>
     @endif
 
-    {{-- Bootstrap JS --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+    
     {{-- SweetAlert para alertas personalizadas --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    
     {{-- Scripts personalizados --}}
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/usuarios/validar-usuario.js') }}"></script>
@@ -65,6 +63,8 @@
     <script src="{{ asset('js/docentes/validar-docente.js')}}"></script>
     <script src="{{ asset('js/grados/confirmar-eliminar-grados.js') }}"></script>
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
+    {{-- Bootstrap JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

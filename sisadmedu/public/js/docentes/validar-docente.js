@@ -7,17 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const codigo_docente = form.querySelector('[name="codigo_docente"]').value.trim();
         const documento = form.querySelector('[name="documento"]').value.trim();
         const primer_nombre = form.querySelector('[name="primer_nombre"]').value.trim();
-        const segundo_nombre = form.querySelector('[name="segundo_nombre"]').value.trim();
         const primer_apellido = form.querySelector('[name="primer_apellido"]').value.trim();
-        const segundo_apellido = form.querySelector('[name="segundo_apellido"]').value.trim();
         const correo_electronico = form.querySelector('[name="correo_electronico"]').value;
 
         const materiaSelect = form.querySelector('[name="id_materia"]');
 
         const tipoDocumentoSelect = form.querySelector('[name="id_tipo_documento"]');
 
-        if (codigo_docente === "" || documento === "" || primer_nombre === "" || segundo_nombre === "" || primer_apellido === "" || segundo_apellido === "") {
-            e.preventDefault();
+        if (codigo_docente === "" || documento === "" || primer_nombre === "" || primer_apellido === "") {
             Swal.fire({
                 icon: 'warning',
                 title: 'Campos requeridos',
@@ -31,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Validar formato de correo electrónico
         const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!regexCorreo.test(correo_electronico || correo_electronico === "")) {
-            e.preventDefault();
             Swal.fire({
                 icon: 'warning',
                 title: 'Correo inválido',
@@ -43,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Validar selects requeridos
         if (!materiaSelect.value || !tipoDocumentoSelect.value) {
-            e.preventDefault();
             Swal.fire({
                 icon: 'info',
                 title: 'Campos faltantes',

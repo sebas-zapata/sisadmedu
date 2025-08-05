@@ -25,7 +25,13 @@ class GradoController extends Controller
     {
         $request->validate([
             'nombre_grado' => 'required|string|max:255|unique:grados',
-        ]);
+        ],
+        // Validaciones personalizadas para los mensajes de error
+        [
+            'nombre_grado.required' => 'El campo nombre del grado es obligatorio.',
+            'nombre_grado.unique' => 'El nombre del grado ya está registrado.',
+        ]
+    );
 
         Grado::create($request->all());
 
@@ -52,7 +58,13 @@ class GradoController extends Controller
     {
         $request->validate([
             'nombre_grado' => 'required|string|max:255|unique:grados,nombre_grado,' . $grado->id,
-        ]);
+        ],
+        // Validaciones personalizadas para los mensajes de error
+        [
+            'nombre_grado.required' => 'El campo nombre del grado es obligatorio.',
+            'nombre_grado.unique' => 'El nombre del grado ya está registrado.',
+        ]
+    );
 
         $grado->update($request->all());
 

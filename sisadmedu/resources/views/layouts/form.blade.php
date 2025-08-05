@@ -7,7 +7,6 @@
         @yield('titulo-formulario')
     </h2>
     <hr>
-
     <form id=@yield('id-form') action="@yield('ruta-accion')" method="POST" novalidate>
         @csrf
         @yield('metodo') {{-- Para usar @method('PUT') en edit --}}
