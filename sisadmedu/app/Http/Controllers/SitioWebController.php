@@ -9,6 +9,6 @@ class SitioWebController extends Controller
     // que contiene el contenido principal del sitio web
     public function index()
     {
-        return view('sitio_web.index');
+        return view('sitioweb.inicio');
     }
 }
