@@ -7,6 +7,7 @@ use App\Models\Rol;
 use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -36,35 +37,36 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function store(Request $request)
     {
-        $request->validate([
-            'documento' => 'required|unique:usuarios',
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'correo_electronico' => 'required|email|unique:usuarios',
-            'telefono' => 'required|unique:usuarios',
-            'contrasena' => 'required|min:6',
-            'rol_id' => 'required|exists:roles,id',
-            'tipo_documento_id' => 'required|exists:tipos_documento,id',
+        $request->validate(
+            [
+                'documento' => 'required|unique:usuarios',
+                'nombres' => 'required',
+                'apellidos' => 'required',
+                'correo_electronico' => 'required|email|unique:usuarios',
+                'telefono' => 'required|unique:usuarios',
+                'contrasena' => 'required|min:6',
+                'rol_id' => 'required|exists:roles,id',
+                'tipo_documento_id' => 'required|exists:tipos_documento,id',
 
-        ],
+            ],
 
-        // Validaciones personalizadas para los mensajes de error
-        [
-            'documento.required' => 'El campo documento es obligatorio.',
-            'documento.unique' => 'El documento ya está registrado.',
-            'nombres.required' => 'El campo nombres es obligatorio.',
-            'apellidos.required' => 'El campo apellidos es obligatorio.',
-            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
-            'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
-            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
-            'telefono.unique' => 'El teléfono ya está registrado.',
-            'telefono.required' => 'El campo teléfono es obligatorio.',
-            'contrasena.required' => 'El campo contraseña es obligatorio.',
-            'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
-            'rol_id.required' => 'Debe seleccionar un rol.',
-            'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
-        ]
-    );
+            // Validaciones personalizadas para los mensajes de error
+            [
+                'documento.required' => 'El campo documento es obligatorio.',
+                'documento.unique' => 'El documento ya está registrado.',
+                'nombres.required' => 'El campo nombres es obligatorio.',
+                'apellidos.required' => 'El campo apellidos es obligatorio.',
+                'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
+                'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
+                'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+                'telefono.unique' => 'El teléfono ya está registrado.',
+                'telefono.required' => 'El campo teléfono es obligatorio.',
+                'contrasena.required' => 'El campo contraseña es obligatorio.',
+                'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+                'rol_id.required' => 'Debe seleccionar un rol.',
+                'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
+            ]
+        );
 
         $datos = $request->all();
         $datos['contrasena'] = Hash::make($request->contrasena);
@@ -107,32 +109,34 @@ class UsuarioController extends Controller
     {
         $usuario = Usuario::findOrFail($id);
 
-        $request->validate([
-            'documento' => 'required|unique:usuarios,documento,' . $id,
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $id,
-            'telefono' => 'required|unique:usuarios,telefono,' . $id,
-            'rol_id' => 'required|exists:roles,id',
-            'tipo_documento_id' => 'required|exists:tipos_documento,id',
-        ]
-        // Validaciones personalizadas para los mensajes de error
-    ,   [
-            'documento.required' => 'El campo documento es obligatorio.',
-            'documento.unique' => 'El documento ya está registrado.',
-            'nombres.required' => 'El campo nombres es obligatorio.',
-            'apellidos.required' => 'El campo apellidos es obligatorio.',
-            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
-            'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
-            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
-            'telefono.unique' => 'El teléfono ya está registrado.',
-            'telefono.required' => 'El campo teléfono es obligatorio.',
-            'contrasena.required' => 'El campo contraseña es obligatorio.',
-            'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
-            'rol_id.required' => 'Debe seleccionar un rol.',
-            'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
-        ]
-    );
+        $request->validate(
+            [
+                'documento' => 'required|unique:usuarios,documento,' . $id,
+                'nombres' => 'required',
+                'apellidos' => 'required',
+                'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $id,
+                'telefono' => 'required|unique:usuarios,telefono,' . $id,
+                'rol_id' => 'required|exists:roles,id',
+                'tipo_documento_id' => 'required|exists:tipos_documento,id',
+            ]
+            // Validaciones personalizadas para los mensajes de error
+            ,
+            [
+                'documento.required' => 'El campo documento es obligatorio.',
+                'documento.unique' => 'El documento ya está registrado.',
+                'nombres.required' => 'El campo nombres es obligatorio.',
+                'apellidos.required' => 'El campo apellidos es obligatorio.',
+                'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
+                'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
+                'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+                'telefono.unique' => 'El teléfono ya está registrado.',
+                'telefono.required' => 'El campo teléfono es obligatorio.',
+                'contrasena.required' => 'El campo contraseña es obligatorio.',
+                'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+                'rol_id.required' => 'Debe seleccionar un rol.',
+                'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
+            ]
+        );
 
         $datos = $request->all();
 
@@ -156,5 +160,42 @@ class UsuarioController extends Controller
         $usuario->delete();
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+    }
+
+    public function editarPerfil()
+    {
+        // obtiene el usuario que está logueado
+        $usuario = Auth::user();
+
+        $roles = Rol::all(); // 👈 opcional, si quieres que el usuario vea su rol
+        $tiposDocumento = TipoDocumento::all();
+
+        return view('perfil.edit', compact('usuario', 'roles', 'tiposDocumento'));
+    }
+
+    public function actualizarPerfil(Request $request)
+    {
+        $usuario = Auth::user();
+
+        $request->validate([
+            'nombres_usuario' => 'required|string|max:255',
+            'apellidos_usuario' => 'required|string|max:255',
+            'correo_electronico_usuario' => 'required|email|unique:usuarios,correo_electronico_usuario,' . $usuario->id_usuario . ',id_usuario',
+            'telefono_usuario' => 'nullable|string|max:20',
+            'contraseña_usuario' => 'nullable|min:6|confirmed',
+        ]);
+
+        $usuario->nombres_usuario = $request->nombres_usuario;
+        $usuario->apellidos_usuario = $request->apellidos_usuario;
+        $usuario->correo_electronico_usuario = $request->correo_electronico_usuario;
+        $usuario->telefono_usuario = $request->telefono_usuario;
+
+        if ($request->filled('contraseña_usuario')) {
+            $usuario->contraseña_usuario = Hash::make($request->contraseña_usuario);
+        }
+
+        // $usuario->save();
+
+        return redirect()->route('perfil.editar')->with('success', 'Tu perfil fue actualizado correctamente.');
     }
 }

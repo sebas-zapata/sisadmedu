@@ -113,6 +113,8 @@ Registrar Nuevo Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 </div>
+
+<div></div>
 @endsection
 
 @section('botones-formulario')

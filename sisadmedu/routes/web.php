@@ -5,7 +5,6 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SitioWebController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\GradoController;
 use App\Http\Controllers\EstudianteController;
@@ -13,8 +12,8 @@ use App\Http\Controllers\EstudianteController;
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
     // Rutas para el perfil del usuario autenticado
-    Route::get('/perfil/edit', [PerfilController::class, 'edit'])->name('perfil.edit');
-    Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+    Route::get('/perfil/edit', [UsuarioController::class, 'editarPerfil'])->name('perfil.edit');
+    Route::put('/perfil/update', [UsuarioController::class, 'actualizarPerfil'])->name('perfil.update');
 });
 
 // Rutas para el Login y logout del sistema

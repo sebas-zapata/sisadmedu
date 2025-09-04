@@ -26,12 +26,13 @@ class LoginUsuario extends Authenticatable
         'contrasena',
     ];
 
-    // Campos que no se deben incluir en las respuestas JSON
-    public $timestamps = false;
+    protected $hidden = [
+        'contrasena',
+    ];
 
-    //  Método para obtener el nombre del identificador de autenticación
-    public function getAuthIdentifierName()
+    // muy importante: indicar a Auth cuál es el campo de password
+    public function getAuthPassword()
     {
-        return 'correo_electronico';
+        return $this->contrasena;
     }
 }

@@ -1,47 +1,58 @@
-@extends('layouts.app');
+{{-- resources/views/usuarios/perfil.blade.php --}}
+@extends('layouts.form')
 
-@section('content')
-<div class="container-fluid p-2">
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif
-    <h2 class="text-center text-light">Editar Perfil <i class="fas fa-user-edit"></i></h2>
-<form method="POST" action="{{ route('perfil.update') }}">
-    @csrf
+@section('titulo-formulario', 'Editar Perfil')
+
+@section('id-form', 'form-editar-perfil')
+
+@section('ruta-accion', route('perfil.update'))
+
+@section('metodo')
     @method('PUT')
+@endsection
 
-    <div>
-        <label>Nombres</label>
-        <input type="text" name="nombres" value="{{ old('nombres', $usuario->nombres) }}">
+@section('campos-formulario')
+    <div class="mb-3">
+        <label for="nombres" class="form-label text-light">Nombres</label>
+        <input type="text" name="nombres" id="nombres"
+               class="form-control"
+               value="{{ old('nombres', $usuario->nombres) }}" required>
     </div>
 
-    <div>
-        <label>Apellidos</label>
-        <input type="text" name="apellidos" value="{{ old('apellidos', $usuario->apellidos) }}">
+    <div class="mb-3">
+        <label for="apellidos" class="form-label text-light">Apellidos</label>
+        <input type="text" name="apellidos" id="apellidos"
+               class="form-control"
+               value="{{ old('apellidos', $usuario->apellidos) }}" required>
     </div>
 
-    <div>
-        <label>Correo electrónico</label>
-        <input type="email" name="correo_electronico" value="{{ old('correo_electronico', $usuario->correo_electronico) }}">
+    <div class="mb-3">
+        <label for="correo_electronico" class="form-label text-light">Correo electrónico</label>
+        <input type="email" name="correo_electronico" id="correo_electronico"
+               class="form-control"
+               value="{{ old('correo_electronico', $usuario->correo_electronico) }}" required>
     </div>
 
-    <div>
-        <label>Teléfono</label>
-        <input type="text" name="telefono" value="{{ old('telefono', $usuario->telefono) }}">
+    <div class="mb-3">
+        <label for="telefono" class="form-label text-light">Teléfono</label>
+        <input type="text" name="telefono" id="telefono"
+               class="form-control"
+               value="{{ old('telefono', $usuario->telefono) }}">
     </div>
 
-    <div>
-        <label>Contraseña (opcional)</label>
-        <input type="password" name="contrasena">
+    <div class="mb-3">
+        <label for="contrasena" class="form-label text-light">Contraseña (opcional)</label>
+        <input type="password" name="contrasena" id="contrasena"
+               class="form-control"
+               placeholder="Dejar en blanco si no deseas cambiarla">
     </div>
+@endsection
 
-    <button type="submit">Actualizar</button>
-</form>
-</div>
-<div class="container-fluid p-3 contenedor-componente">
-    <x-boton-principal href="{{ route('dashboard') }}">
-        <i class="fas fa-arrow-left"></i> Volver al Panel
-    </x-boton-principal>
+@section('botones-formulario')
+    <a href="{{ route('dashboard') }}" class="btn btn-secondary me-2">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+    <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Guardar cambios
+    </button>
 @endsection
