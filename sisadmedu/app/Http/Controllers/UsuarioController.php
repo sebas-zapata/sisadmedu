@@ -165,38 +165,58 @@ class UsuarioController extends Controller
     // Método para mostrar el formulario de edición del perfil del usuario autenticado
     public function editarPerfil()
     {
-        // obtiene el usuario que está logueado
-        $usuario = Auth::user();
+        // Obtenemos el id del usuario desde la sesión
+        $usuarioId = session('usuario_id');
 
-        $roles = Rol::all(); // 👈 opcional, si quieres que el usuario vea su rol
+        if (!$usuarioId) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
+        }
+
+        // Cargamos al usuario autenticado
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        $roles = Rol::all(); // si necesitas mostrar roles
         $tiposDocumento = TipoDocumento::all();
 
         return view('perfil.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }
 
+
     // Método para actualizar el perfil del usuario autenticado
     public function actualizarPerfil(Request $request)
     {
-        $usuario = Auth::user();
+        // Obtenemos el id del usuario desde la sesión
+        $usuarioId = session('usuario_id');
 
+        if (!$usuarioId) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
+        }
+
+        // Buscamos al usuario
+        $usuario = Usuario::findOrFail($usuarioId);
+
+        // Validación
         $request->validate([
             'nombres_usuario' => 'required|string|max:255',
             'apellidos_usuario' => 'required|string|max:255',
-            'correo_electronico_usuario' => 'required|email|unique:usuarios,correo_electronico_usuario,' . $usuario->id_usuario . ',id_usuario',
+            'correo_electronico_usuario' => 'required|email|unique:usuarios,correo_electronico_usuario,'
+                . $usuario->id_usuario . ',id_usuario',
             'telefono_usuario' => 'nullable|string|max:20',
             'contraseña_usuario' => 'nullable|min:6|confirmed',
         ]);
 
+        // Asignación de datos
         $usuario->nombres_usuario = $request->nombres_usuario;
         $usuario->apellidos_usuario = $request->apellidos_usuario;
         $usuario->correo_electronico_usuario = $request->correo_electronico_usuario;
         $usuario->telefono_usuario = $request->telefono_usuario;
 
+        // Solo actualiza la contraseña si viene en el request
         if ($request->filled('contraseña_usuario')) {
             $usuario->contraseña_usuario = Hash::make($request->contraseña_usuario);
         }
 
-        // $usuario->save();
+        $usuario->save();
 
         return redirect()->route('perfil.editar')->with('success', 'Tu perfil fue actualizado correctamente.');
     }
