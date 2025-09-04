@@ -1,6 +1,6 @@
 particlesJS("particles-js", {
     particles: {
-        number: { value: 65 },
+        number: { value: 100 },
         size: { value: 4 },
         color: { value: "#ffffff" },
         opacity: { value: 0.3 },
