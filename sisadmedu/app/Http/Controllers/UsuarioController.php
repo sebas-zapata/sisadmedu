@@ -162,6 +162,7 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
+    // Método para mostrar el formulario de edición del perfil del usuario autenticado
     public function editarPerfil()
     {
         // obtiene el usuario que está logueado
@@ -173,6 +174,7 @@ class UsuarioController extends Controller
         return view('perfil.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }
 
+    // Método para actualizar el perfil del usuario autenticado
     public function actualizarPerfil(Request $request)
     {
         $usuario = Auth::user();
