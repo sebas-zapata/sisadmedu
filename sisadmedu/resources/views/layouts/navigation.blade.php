@@ -38,14 +38,12 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
             <li><a class="btn btn-secondary btn-sm d-block m-auto w-50 " href="{{ route('perfil.edit') }}" class="dropdown-item"><i class="fas fa-user-circle"></i>
-            Perfil</a></li>
-            <li>
-              <a class="btn btn-secondary btn-sm d-block m-auto w-75 mb-2" href="{{ route('perfil.edit') }}" class="dropdown-item"><i class="fa-solid fa-user-pen"></i> Perfil</a>
-            </li>
+            Perfil</a></li><hr>
               <li>
                 <form action="{{ route('logout') }}" method="POST" class="px-3">
                 @csrf
-                <button class="btn btn-danger btn-sm w-100" type="submit">Cerrar sesión</button>
+                <button class="btn btn-danger btn-sm w-100" type="submit"><i class="fas fa-sign-out-alt"></i>
+ Cerrar sesión</button>
               </form>
             </li>
           </ul>
