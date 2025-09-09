@@ -26,7 +26,9 @@ class DatabaseSeeder extends Seeder
             MateriaSeeder::class,
             UsuarioSeeder::class, // Asegúrate de que este seeder exista
             DocenteSeeder::class, // Asegúrate de que este seeder exista
-            NuevoUsuarioSeeder::class
+            NuevoUsuarioSeeder::class,
+            OtroUsuarioSeeder::class,
+            TipoDocumentoSeeder::class
         ]);
     }
 }
