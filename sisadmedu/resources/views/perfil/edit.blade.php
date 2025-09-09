@@ -46,13 +46,21 @@
                class="form-control"
                placeholder="Dejar en blanco si no deseas cambiarla">
     </div>
+
+    <div class="mb-3">
+    <label for="contrasena_confirmation" class="form-label text-light">Confirmar contraseña</label>
+    <input type="password" name="contrasena_confirmation" id="contrasena_confirmation"
+           class="form-control" placeholder="Repite la contraseña">
+</div>
+
 @endsection
 
 @section('botones-formulario')
-    <a href="{{ route('dashboard') }}" class="btn btn-secondary me-2">
+    <x-boton-principal href="{{ route('dashboard') }}" class="btn btn-secondary me-2">
         <i class="fas fa-arrow-left"></i> Volver
-    </a>
-    <button type="submit" class="btn btn-primary">
-        <i class="fas fa-save"></i> Guardar cambios
-    </button>
+    </x-boton-principal>
+    
+    <x-boton-principal type="submit">
+        <i class="fas fa-user-plus"></i> Guardar
+    </x-boton-principal>
 @endsection

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\LoginUsuario;
-
+use App\Models\Usuario;
 
 class LoginController extends Controller
 {
@@ -36,17 +36,21 @@ class LoginController extends Controller
             'contrasena' => 'required',
         ]);
 
-        $usuario = LoginUsuario::where('correo_electronico', $request->correo_electronico)->first();
+        // Intentamos autenticar con Auth
+        if (Auth::attempt([
+            'correo_electronico' => $request->correo_electronico,
+            'password' => $request->contrasena
+        ])) {
+            // Regenera la sesión para mayor seguridad
+            $request->session()->regenerate();
 
-        if ($usuario && Hash::check($request->contrasena, $usuario->contrasena)) {
-            Auth::login($usuario);
-
-            return redirect()->intended('/')
-                ->with('success', 'Bienvenido, has iniciado sesión correctamente');
+            return redirect()->route('dashboard')
+                ->with('success', 'Bienvenido, ');
         }
 
         return back()->with('error', 'Credenciales incorrectas');
     }
+
 
 
     // Método para cerrar sesión
