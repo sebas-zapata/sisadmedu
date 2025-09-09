@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
+use App\Models\LoginUsuario;
 use App\Models\Rol;
 use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
@@ -165,59 +166,48 @@ class UsuarioController extends Controller
     // Método para mostrar el formulario de edición del perfil del usuario autenticado
     public function editarPerfil()
     {
-        // Obtenemos el id del usuario desde la sesión
-        $usuarioId = session('usuario_id');
-
-        if (!$usuarioId) {
+        // Verificamos si el usuario está autenticado
+        if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
         }
 
-        // Cargamos al usuario autenticado
-        $usuario = Usuario::findOrFail($usuarioId);
+        // Obtenemos al usuario autenticado directamente
+        $usuario = Auth::user();
 
-        $roles = Rol::all(); // si necesitas mostrar roles
+        $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
 
         return view('perfil.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }
 
 
-    // Método para actualizar el perfil del usuario autenticado
     public function actualizarPerfil(Request $request)
     {
-        // Obtenemos el id del usuario desde la sesión
-        $usuarioId = session('usuario_id');
-
-        if (!$usuarioId) {
+        if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
         }
 
-        // Buscamos al usuario
-        $usuario = Usuario::findOrFail($usuarioId);
+        
+        /** @var LoginUsuario $usuario */
+        $usuario = Auth::user();
 
-        // Validación
+
         $request->validate([
-            'nombres_usuario' => 'required|string|max:255',
-            'apellidos_usuario' => 'required|string|max:255',
-            'correo_electronico_usuario' => 'required|email|unique:usuarios,correo_electronico_usuario,'
-                . $usuario->id_usuario . ',id_usuario',
-            'telefono_usuario' => 'nullable|string|max:20',
-            'contraseña_usuario' => 'nullable|min:6|confirmed',
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
+            'telefono' => 'nullable|string|max:20',
+            'contrasena' => 'nullable|min:6|confirmed',
         ]);
 
-        // Asignación de datos
-        $usuario->nombres_usuario = $request->nombres_usuario;
-        $usuario->apellidos_usuario = $request->apellidos_usuario;
-        $usuario->correo_electronico_usuario = $request->correo_electronico_usuario;
-        $usuario->telefono_usuario = $request->telefono_usuario;
+        // Usar mass assignment
+        $usuario->update($request->only(['nombres', 'apellidos', 'correo_electronico', 'telefono']));
 
-        // Solo actualiza la contraseña si viene en el request
-        if ($request->filled('contraseña_usuario')) {
-            $usuario->contraseña_usuario = Hash::make($request->contraseña_usuario);
+        if ($request->filled('contrasena')) {
+            $usuario->contrasena = Hash::make($request->contrasena);
+            $usuario->save();
         }
 
-        $usuario->save();
-
-        return redirect()->route('perfil.editar')->with('success', 'Tu perfil fue actualizado correctamente.');
+        return redirect()->route('perfil.edit')->with('success', 'Tu perfil fue actualizado correctamente.');
     }
 }

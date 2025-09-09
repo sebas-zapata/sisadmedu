@@ -36,14 +36,16 @@ class LoginController extends Controller
             'contrasena' => 'required',
         ]);
 
-        $usuario = Usuario::where('correo_electronico', $request->correo_electronico)->first();
-
-        if ($usuario && Hash::check($request->contrasena, $usuario->contrasena)) {
-            // Guardamos el id en la sesión en vez de usar Auth
-            session(['usuario_id' => $usuario->id]);
+        // Intentamos autenticar con Auth
+        if (Auth::attempt([
+            'correo_electronico' => $request->correo_electronico,
+            'password' => $request->contrasena
+        ])) {
+            // Regenera la sesión para mayor seguridad
+            $request->session()->regenerate();
 
             return redirect()->route('dashboard')
-                ->with('success', 'Bienvenido, ' . $usuario->nombres_usuario);
+                ->with('success', 'Bienvenido, ');
         }
 
         return back()->with('error', 'Credenciales incorrectas');

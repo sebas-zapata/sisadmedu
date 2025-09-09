@@ -37,12 +37,14 @@
             <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->correo_electronico }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+            <li><a class="btn btn-secondary btn-sm d-block m-auto w-50 " href="{{ route('perfil.edit') }}" class="dropdown-item"><i class="fas fa-user-circle"></i>
+            Perfil</a></li>
             <li>
               <form action="{{ route('logout') }}" method="POST" class="px-3">
                 @csrf
-                <button class="btn btn-danger btn-sm w-100" type="submit">Cerrar sesión</button>
+                <button class="btn btn-danger btn-sm w-100 mt-2" type="submit"><i class="fas fa-sign-out-alt"></i>
+                Cerrar sesión</button>
               </form>
-              <li><a class="btn btn-secondary btn-sm m-auto w-80 " href="{{ route('perfil.edit') }}" class="dropdown-item">Editar perfil</a></li>
             </li>
           </ul>
         </li>

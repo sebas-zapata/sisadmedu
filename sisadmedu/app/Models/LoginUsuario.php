@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Testing\Fluent\Concerns\Has;
 
 class LoginUsuario extends Authenticatable
 {
     // Importar el trait Notifiable para enviar notificaciones
-    use Notifiable;
+    use Notifiable, HasFactory;
 
     // Definición de la tabla y clave primaria
     protected $table = 'usuarios';
