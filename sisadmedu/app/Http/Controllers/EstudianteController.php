@@ -31,7 +31,6 @@ class EstudianteController extends Controller
     {
         $request->validate([
             'id_documento_estudiante' => 'required|string|max:20|unique:estudiantes',
-            'codigo_estudiante' => 'required|string|max:10',
             'primer_nombre_estudiante' => 'required|string|max:50',
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',
@@ -71,7 +70,6 @@ class EstudianteController extends Controller
     {
         $request->validate([
             'id_documento_estudiante' => 'required|string|max:20|unique:estudiantes,id_documento_estudiante,' . $estudiante->id_documento_estudiante,
-            'codigo_estudiante' => 'required|string|max:10',
             'primer_nombre_estudiante' => 'required|string|max:50',
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',

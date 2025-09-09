@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('estudiantes', function (Blueprint $table) {
         $table->id('id_documento_estudiante');
-        $table->string('codigo_estudiante')->unique();
         $table->string('primer_nombre_estudiante');
         $table->string('segundo_nombre_estudiante')->nullable();
         $table->string('primer_apellido_estudiante');
