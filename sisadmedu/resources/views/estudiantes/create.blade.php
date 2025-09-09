@@ -13,101 +13,101 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
 <div class="row mb-3">
     <div class="col-md-3">
         <div class="form-floating">
-            <input type="text" class="form-control" id="codigo_estudiante" name="codigo_estudiante" placeholder="Ej: EST001" required value="{{ old('codigo_estudiante') }}">
+            <input type="text" class="form-control" id="codigo_estudiante" name="codigo_estudiante" required value="{{ old('codigo_estudiante') }}">
             <label for="codigo_estudiante">Código del Estudiante</label>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="form-floating">
-            <input type="text" class="form-control" id="documento_estudiante" name="documento_estudiante" placeholder="Ej: 123456789" required value="{{ old('documento_estudiante') }}">
-            <label for="documento_estudiante">Documento del Estudiante</label>
+            <input type="text" class="form-control" id="id_documento_estudiante" name="id_documento_estudiante"  required value="{{ old('id_documento_estudiante') }}">
+            <label for="id_documento_estudiante">Documento del Estudiante</label>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="form-floating">
-            <input type="text" class="form-control" id="primer_nombre" name="primer_nombre" placeholder="Ej: Juan" required value="{{ old('primer_nombre') }}">
-            <label for="primer_nombre">Primer Nombre</label>
+            <input type="text" class="form-control" id="primer_nombre_estudiante" name="primer_nombre_estudiante"  required value="{{ old('primer_nombre_estudiante') }}">
+            <label for="primer_nombre_estudiante">Primer Nombre</label>
         </div>
     </div>
 
     <div class="col-md-3">
         <div class="form-floating">
-            <input type="text" class="form-control" id="segundo_nombre" name="segundo_nombre" placeholder="Ej: Carlos" value="{{ old('segundo_nombre') }}">
-            <label for="segundo_nombre">Segundo Nombre</label>
-        </div>
-    </div>
-
-</div>
-<div class="row mb-3">
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="primer_apellido" name="primer_apellido" placeholder="Ej: López" required value="{{ old('primer_apellido') }}">
-            <label for="primer_apellido">Primer Apellido</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" placeholder="Ej: Martínez" value="{{ old('segundo_apellido') }}">
-            <label for="segundo_apellido">Segundo Apellido</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="edad" name="edad" placeholder="Ej: 20" required value="{{ old('edad') }}">
-            <label for="edad">Edad del estudiante</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Ej: 2003-05-15" required value="{{ old('fecha_nacimiento') }}">
-            <label for="fecha_nacimiento">Fecha de nacimiento</label>
-        </div>
-    </div>
-
-</div>
-<div class="row mb-3">
-        <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="celular_estudiante" name="celular_estudiante" placeholder="Ej: 3001234567" required value="{{ old('celular') }}">
-            <label for="celular">Celular del estudiante</label>
-        </div>
-    </div>
-
-
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="Ej: juan.lopez@example.com" required value="{{ old('correo_electronico') }}">
-            <label for="correo_electronico">Correo Electrónico</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="telefono" name="telefono" placeholder="Ej: 123456789" required value="{{ old('telefono') }}">
-            <label for="telefono">Teléfono del estudiante</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ej: Calle Falsa 123" required value="{{ old('direccion') }}">
-            <label for="direccion">Dirección del estudiante</label>
+            <input type="text" class="form-control" id="segundo_nombre_estudiante" name="segundo_nombre_estudiante"  value="{{ old('segundo_nombre_estudiante') }}">
+            <label for="segundo_nombre_estudiante">Segundo Nombre</label>
         </div>
     </div>
 </div>
+
 <div class="row mb-3">
-    <div class="col-md-3 mb-3">
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="text" class="form-control" id="primer_apellido_estudiante" name="primer_apellido_estudiante"  required value="{{ old('primer_apellido_estudiante') }}">
+            <label for="primer_apellido_estudiante">Primer Apellido</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="text" class="form-control" id="segundo_apellido_estudiante" name="segundo_apellido_estudiante" value="{{ old('segundo_apellido_estudiante') }}">
+            <label for="segundo_apellido_estudiante">Segundo Apellido</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="number" class="form-control" id="edad_estudiante" name="edad_estudiante" required value="{{ old('edad_estudiante') }}">
+            <label for="edad_estudiante">Edad</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="date" class="form-control" id="fecha_nacimiento_estudiante" name="fecha_nacimiento_estudiante" required value="{{ old('fecha_nacimiento_estudiante') }}">
+            <label for="fecha_nacimiento_estudiante">Fecha de nacimiento</label>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="text" class="form-control" id="celular_estudiante" name="celular_estudiante"  value="{{ old('celular_estudiante') }}">
+            <label for="celular_estudiante">Celular</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="text" class="form-control" id="telefono_estudiante" name="telefono_estudiante" value="{{ old('telefono_estudiante') }}">
+            <label for="telefono_estudiante">Teléfono</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="email" class="form-control" id="correo_electronico_estudiante" name="correo_electronico_estudiante" value="{{ old('correo_electronico_estudiante') }}">
+            <label for="correo_electronico_estudiante">Correo Electrónico</label>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input type="text" class="form-control" id="direccion_estudiante" name="direccion_estudiante" value="{{ old('direccion_estudiante') }}">
+            <label for="direccion_estudiante">Dirección</label>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-3">
         <div class="form-floating">
             <select name="id_grado" class="form-select" id="id_grado" required>
                 <option value="" disabled {{ old('id_grado') ? '' : 'selected' }}>Selecciona un grado</option>
                 @foreach($grados as $grado)
                     <option value="{{ $grado->id }}" {{ old('id_grado') == $grado->id ? 'selected' : '' }}>
-                        {{ $grado->nombre }}
+                        {{ $grado->nombre_grado }}
                     </option>
                 @endforeach
             </select>
@@ -115,7 +115,7 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
         </div>
     </div>
 
-    <div class="col-md-4 mb-3">
+    <div class="col-md-4">
         <div class="form-floating">
             <select name="id_tipo_documento" class="form-select" id="id_tipo_documento" required>
                 <option value="" disabled {{ old('id_tipo_documento') ? '' : 'selected' }}>Selecciona un tipo de documento</option>
@@ -127,13 +127,15 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
             </select>
             <label for="id_tipo_documento">Tipo de Documento</label>
         </div>
+    </div>
 </div>
-    @section('botones-formulario')
-            <x-boton-principal href="{{ route('estudiantes.index') }}">
-            <i class="fas fa-arrow-left"></i> Cancelar
-        </x-boton-principal>
-        <x-boton-principal type="submit">
-            <i class="fas fa-user-plus"></i> Guardar
-        </x-boton-principal>
-    @endsection
+
+@section('botones-formulario')
+    <x-boton-principal href="{{ route('estudiantes.index') }}">
+        <i class="fas fa-arrow-left"></i> Cancelar
+    </x-boton-principal>
+    <x-boton-principal type="submit">
+        <i class="fas fa-user-plus"></i> Guardar
+    </x-boton-principal>
+@endsection
 @endsection
