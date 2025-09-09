@@ -187,7 +187,7 @@ class UsuarioController extends Controller
             return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
         }
 
-        
+
         /** @var LoginUsuario $usuario */
         $usuario = Auth::user();
 
@@ -196,9 +196,28 @@ class UsuarioController extends Controller
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
-            'telefono' => 'nullable|string|max:20',
-            'contrasena' => 'nullable|min:6|confirmed',
+            'telefono' => 'required|string|max:20',
+            'contrasena' => 'nullable|confirmed',
+        ], [
+            'nombres.required' => 'El campo nombres es obligatorio.',
+            'nombres.string' => 'El campo nombres debe ser texto.',
+            'nombres.max' => 'El campo nombres no puede tener más de 255 caracteres.',
+
+            'apellidos.required' => 'El campo apellidos es obligatorio.',
+            'apellidos.string' => 'El campo apellidos debe ser texto.',
+            'apellidos.max' => 'El campo apellidos no puede tener más de 255 caracteres.',
+
+            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico.email' => 'El correo electrónico debe ser válido.',
+            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.string' => 'El teléfono debe ser texto.',
+            'telefono.max' => 'El teléfono no puede tener más de 20 caracteres.',
+
+            'contrasena.confirmed' => 'Las contraseñas no coinciden.',
         ]);
+
 
         // Usar mass assignment
         $usuario->update($request->only(['nombres', 'apellidos', 'correo_electronico', 'telefono']));
