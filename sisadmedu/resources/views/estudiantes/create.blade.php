@@ -11,12 +11,7 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
 @endsection
 @section('campos-formulario')
 <div class="row mb-3">
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="codigo_estudiante" name="codigo_estudiante" required value="{{ old('codigo_estudiante') }}">
-            <label for="codigo_estudiante">Código del Estudiante</label>
-        </div>
-    </div>
+
 
     <div class="col-md-3">
         <div class="form-floating">

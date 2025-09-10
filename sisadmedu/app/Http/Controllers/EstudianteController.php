@@ -9,9 +9,7 @@ use App\Models\TipoDocumento;
 
 class EstudianteController extends Controller
 {
-
     // Listar estudiantes y sus grados
-    
     public function index()
     {
         $estudiantes = Estudiante::with('grado')->paginate(5);
@@ -30,7 +28,7 @@ class EstudianteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_documento_estudiante' => 'required|string|max:20|unique:estudiantes',
+            'documento_estudiante' => 'required|string|max:20|unique:estudiantes,documento_estudiante',
             'primer_nombre_estudiante' => 'required|string|max:50',
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',
@@ -41,15 +39,14 @@ class EstudianteController extends Controller
             'telefono_estudiante' => 'nullable|string|max:15',
             'correo_electronico_estudiante' => 'nullable|email|max:100',
             'direccion_estudiante' => 'nullable|string|max:255',
-            'id_grado' => 'required|exists:grados,id', // Validar que el grado exista
-            'id_tipo_documento' => 'required|exists:tipos_documento,id', // Validar que el tipo de documento exista
+            'id_grado' => 'required|exists:grados,id',
+            'id_tipo_documento' => 'required|exists:tipos_documento,id',
         ]);
 
         Estudiante::create($request->all());
 
         return redirect()->route('estudiantes.index')->with('success', 'Estudiante creado exitosamente.');
     }
-
 
     // Mostrar los detalles de un estudiante específico y su grado
     public function show(Estudiante $estudiante)
@@ -60,16 +57,16 @@ class EstudianteController extends Controller
     // Mostrar el formulario para editar un estudiante y su grado
     public function edit(Estudiante $estudiante)
     {
-        $grados = Grado::all(); // Obtener todos los grados para el formulario
-        return view('estudiantes.edit', compact('estudiante', 'grados'));
+        $grados = Grado::all();
+        $tiposDocumentos = TipoDocumento::all();
+        return view('estudiantes.edit', compact('estudiante', 'grados', 'tiposDocumentos'));
     }
-
 
     // Actualizar un estudiante y su grado
     public function update(Request $request, Estudiante $estudiante)
     {
         $request->validate([
-            'id_documento_estudiante' => 'required|string|max:20|unique:estudiantes,id_documento_estudiante,' . $estudiante->id_documento_estudiante,
+            'documento_estudiante' => 'required|string|max:20|unique:estudiantes,documento_estudiante,' . $estudiante->id,
             'primer_nombre_estudiante' => 'required|string|max:50',
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',
@@ -80,15 +77,14 @@ class EstudianteController extends Controller
             'telefono_estudiante' => 'nullable|string|max:15',
             'correo_electronico_estudiante' => 'nullable|email|max:100',
             'direccion_estudiante' => 'nullable|string|max:255',
-            'id_grado' => 'required|exists:grados,id', // Validar que el grado exista
-            'id_tipo_documento' => 'required|exists:tipos_documento,id', // Validar que el tipo de documento exista
+            'id_grado' => 'required|exists:grados,id',
+            'id_tipo_documento' => 'required|exists:tipos_documento,id',
         ]);
 
         $estudiante->update($request->all());
 
         return redirect()->route('estudiantes.index')->with('success', 'Estudiante actualizado exitosamente.');
     }
-
 
     // Eliminar un estudiante
     public function destroy(Estudiante $estudiante)

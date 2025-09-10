@@ -16,7 +16,7 @@ class Estudiante extends Model
     protected $keyType = 'int';
 
     protected $fillable = [
-        'id_documento_estudiante',
+        'documento_estudiante',
         'primer_nombre_estudiante',
         'segundo_nombre_estudiante',
         'primer_apellido_estudiante',
