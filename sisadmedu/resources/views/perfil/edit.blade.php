@@ -1,7 +1,9 @@
 {{-- resources/views/usuarios/perfil.blade.php --}}
 @extends('layouts.form')
 
-@section('titulo-formulario', 'Editar Perfil')
+@section('titulo-formulario')
+<i class="fas fa-user-edit"></i> Editar informacion
+@endsection
 
 @section('id-form', 'form-editar-perfil')
 
@@ -20,7 +22,9 @@
                    class="form-control @error('nombres') is-invalid @enderror"
                    value="{{ old('nombres', $usuario->nombres) }}" required>
             <label for="nombres">Nombres</label>
-
+            @error('nombres')
+            <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+            @enderror
         </div>
 
         <div class="form-floating mb-3">
@@ -29,7 +33,7 @@
                    value="{{ old('apellidos', $usuario->apellidos) }}" required>
             <label for="apellidos">Apellidos</label>
             @error('apellidos')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>
 
@@ -39,7 +43,7 @@
                    value="{{ old('correo_electronico', $usuario->correo_electronico) }}" required>
             <label for="correo_electronico">Correo electrónico</label>
             @error('correo_electronico')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>
     </div>
@@ -52,7 +56,7 @@
                    value="{{ old('telefono', $usuario->telefono) }}">
             <label for="telefono">Teléfono</label>
             @error('telefono')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>
 
@@ -62,7 +66,7 @@
                    placeholder="Dejar en blanco si no deseas cambiarla">
             <label for="contrasena">Contraseña (opcional)</label>
             @error('contrasena')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>
 
@@ -72,7 +76,7 @@
                    placeholder="Repite la contraseña">
             <label for="contrasena_confirmation">Confirmar contraseña</label>
             @error('contrasena_confirmation')
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>
     </div>

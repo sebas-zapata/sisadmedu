@@ -33,7 +33,7 @@ class LoginController extends Controller
     {
         $request->validate([
             'correo_electronico' => 'required|email',
-            'contrasena' => 'required',
+            'contrasena' => 'required|min:6',
         ]);
 
         // Intentamos autenticar con Auth
@@ -45,10 +45,12 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             return redirect()->route('dashboard')
-                ->with('success', 'Bienvenido, ');
+                ->with('success', 'Bienvenido, '. Auth::user()->nombres);
         }
-
-        return back()->with('error', 'Credenciales incorrectas');
+        // Login fallido: redirigimos de vuelta con error y mantenemos el correo
+        return back()
+            ->with('error', 'Credenciales incorrectas') // Mensaje
+            ->withInput(); // <- esto es lo que mantiene el valor del correo
     }
 
 

@@ -34,7 +34,7 @@
         @if(Auth::check())
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->correo_electronico }}
+            <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->nombres }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
             <li><a class="btn btn-secondary btn-sm d-block m-auto w-50 " href="{{ route('perfil.edit') }}" class="dropdown-item"><i class="fas fa-user-circle"></i>
@@ -43,7 +43,8 @@
                 <form action="{{ route('logout') }}" method="POST" class="px-3">
                 @csrf
                 <button class="btn btn-danger btn-sm w-100" type="submit"><i class="fas fa-sign-out-alt"></i>
- Cerrar sesión</button>
+                Cerrar sesión
+                </button>
               </form>
             </li>
           </ul>
