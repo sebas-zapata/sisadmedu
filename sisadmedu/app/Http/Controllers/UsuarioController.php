@@ -197,7 +197,7 @@ class UsuarioController extends Controller
             'apellidos' => 'required|string|max:255',
             'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
             'telefono' => 'required|string|max:20',
-            'contrasena' => 'nullable|confirmed',
+            'contrasena' => 'nullable|confirmed|confirmed',
         ], [
             'nombres.required' => 'El campo nombres es obligatorio.',
             'nombres.string' => 'El campo nombres debe ser texto.',
@@ -216,6 +216,7 @@ class UsuarioController extends Controller
             'telefono.max' => 'El teléfono no puede tener más de 20 caracteres.',
 
             'contrasena.confirmed' => 'Las contraseñas no coinciden.',
+            'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
         ]);
 
 
@@ -227,6 +228,6 @@ class UsuarioController extends Controller
             $usuario->save();
         }
 
-        return redirect()->route('perfil.edit')->with('success', 'Tu perfil fue actualizado correctamente.');
+        return redirect()->route('perfil.edit')->with('success', "{$request->nombres} tu informacion fue actualizado correctamente.");
     }
 }

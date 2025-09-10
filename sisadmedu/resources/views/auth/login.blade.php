@@ -18,14 +18,14 @@
 
         {{-- Nombre del sistema y bienvenida --}}
         <h2 class="fw-bold">SISADMEDU</h2>
-        <p class="text-muted mb-4">Bienvenido, por favor ingresa tus credenciales</p>
+        <p class="text-muted mb-4">Bienvenido, por favor ingresa tus credenciales.</p>
 
         {{-- Formulario de acceso --}}
         <form id="loginForm" action="{{ route('login.post') }}" method="POST" autocomplete="off">
             @csrf
 
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico" value="{{ old('correo_electronico') }}" required>
+                <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico" value="{{ old('correo_electronico') }}">
                 <label for="correo_electronico">Correo electrónico</label>
             </div>
 
