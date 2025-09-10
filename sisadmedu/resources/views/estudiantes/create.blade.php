@@ -15,8 +15,8 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
 
     <div class="col-md-3">
         <div class="form-floating">
-            <input type="text" class="form-control" id="id_documento_estudiante" name="id_documento_estudiante"  required value="{{ old('id_documento_estudiante') }}">
-            <label for="id_documento_estudiante">Documento del Estudiante</label>
+            <input type="text" class="form-control" id="documento_estudiante" name="documento_estudiante"  required value="{{ old('documento_estudiante') }}">
+            <label for="documento_estudiante">Documento del Estudiante</label>
         </div>
     </div>
 

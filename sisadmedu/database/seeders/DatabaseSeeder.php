@@ -28,7 +28,8 @@ class DatabaseSeeder extends Seeder
             DocenteSeeder::class, // Asegúrate de que este seeder exista
             NuevoUsuarioSeeder::class,
             OtroUsuarioSeeder::class,
-            TipoDocumentoSeeder::class
+            TipoDocumentoSeeder::class,
+            EstudianteSeeder::class, // Asegúrate de que este seeder exista
         ]);
     }
 }

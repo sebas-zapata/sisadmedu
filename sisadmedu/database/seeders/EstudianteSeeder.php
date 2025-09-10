@@ -13,8 +13,7 @@ class EstudianteSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Estudiante::create([
-            'id_documento_estudiante' => '123456789',
-            'codigo_estudiante' => 'EST001',
+            'documento_estudiante' => '123456789',
             'primer_nombre_estudiante' => 'Juan',
             'segundo_nombre_estudiante' => 'Carlos',
             'primer_apellido_estudiante' => 'Pérez',
