@@ -5,6 +5,7 @@
 
 @section('contenido')
 <div class="login-container">
+    <div id="particles-js"></div>
     <div class="login-box">
         <h2 class="fw-bold">Verificar código</h2>
         <p class="text-muted mb-4">Hemos enviado un código de 6 dígitos a tu correo <b>{{ $email }}</b>. Ingrésalo aquí.</p>

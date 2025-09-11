@@ -5,6 +5,7 @@
 
 @section('contenido')
 <div class="login-container">
+    <div id="particles-js"></div>
     <div class="login-box">
         <h2 class="fw-bold">¿Olvidaste tu contraseña?</h2>
         <p class="text-muted mb-4">Ingresa tu correo electrónico y te enviaremos un código de verificación.</p>
