@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\LoginUsuario;
-
+use App\Models\Usuario;
 
 class LoginController extends Controller
 {
@@ -33,20 +33,26 @@ class LoginController extends Controller
     {
         $request->validate([
             'correo_electronico' => 'required|email',
-            'contrasena' => 'required',
+            'contrasena' => 'required|min:6',
         ]);
 
-        $usuario = LoginUsuario::where('correo_electronico', $request->correo_electronico)->first();
+        // Intentamos autenticar con Auth
+        if (Auth::attempt([
+            'correo_electronico' => $request->correo_electronico,
+            'password' => $request->contrasena
+        ])) {
+            // Regenera la sesión para mayor seguridad
+            $request->session()->regenerate();
 
-        if ($usuario && Hash::check($request->contrasena, $usuario->contrasena)) {
-            Auth::login($usuario);
-
-            return redirect()->intended('/')
-                ->with('success', 'Bienvenido, has iniciado sesión correctamente');
+            return redirect()->route('dashboard')
+                ->with('success', 'Bienvenido, '. Auth::user()->nombres);
         }
-
-        return back()->with('error', 'Credenciales incorrectas');
+        // Login fallido: redirigimos de vuelta con error y mantenemos el correo
+        return back()
+            ->with('error', 'Credenciales incorrectas.') // Mensaje
+            ->withInput(); // <- esto es lo que mantiene el valor del correo
     }
+
 
 
     // Método para cerrar sesión
@@ -58,6 +64,6 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login')
-            ->with('success', 'Has cerrado sesión correctamente');
+            ->with('success', 'Has cerrado sesión exitosamente.');
     }
 }

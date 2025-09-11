@@ -41,9 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (errorMsg) {
             Swal.fire({
                 icon: 'error',
-                title: 'Error de inicio de sesión',
+                title: 'Acceso denegado',
                 text: errorMsg,
-                confirmButtonColor: '#461c68'
+                confirmButtonColor: '#461c68',
+                confirmButtonText: 'Aceptar',
             });
         }
     }

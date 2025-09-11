@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Usuario;
+use App\Models\LoginUsuario;
 use App\Models\Rol;
 use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
@@ -111,13 +112,16 @@ class UsuarioController extends Controller
 
         $request->validate(
             [
-                'documento' => 'required|unique:usuarios,documento,' . $id,
-                'nombres' => 'required',
-                'apellidos' => 'required',
-                'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $id,
-                'telefono' => 'required|unique:usuarios,telefono,' . $id,
+                'documento' => 'required|string|max:20|unique:usuarios,documento,' . $usuario->id,
+                'nombres' => 'required|string|max:100',
+                'apellidos' => 'required|string|max:100',
+                'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
+                'telefono' => 'nullable|string|max:20',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
+
+                // Contraseña solo si la quiere cambiar
+                'contrasena' => 'nullable|min:6|confirmed',
             ]
             // Validaciones personalizadas para los mensajes de error
             ,
@@ -131,8 +135,8 @@ class UsuarioController extends Controller
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
                 'telefono.unique' => 'El teléfono ya está registrado.',
                 'telefono.required' => 'El campo teléfono es obligatorio.',
-                'contrasena.required' => 'El campo contraseña es obligatorio.',
                 'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+                'contrasena.confirmed' => 'La confirmación de la contraseña no coincide.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
                 'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
             ]
@@ -162,40 +166,71 @@ class UsuarioController extends Controller
         return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
+    // Método para mostrar el formulario de edición del perfil del usuario autenticado
     public function editarPerfil()
     {
-        // obtiene el usuario que está logueado
+        // Verificamos si el usuario está autenticado
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
+        }
+
+        // Obtenemos al usuario autenticado directamente
         $usuario = Auth::user();
 
-        $roles = Rol::all(); // 👈 opcional, si quieres que el usuario vea su rol
+        $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
 
         return view('perfil.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }
 
+
     public function actualizarPerfil(Request $request)
     {
-        $usuario = Auth::user();
-
-        $request->validate([
-            'nombres_usuario' => 'required|string|max:255',
-            'apellidos_usuario' => 'required|string|max:255',
-            'correo_electronico_usuario' => 'required|email|unique:usuarios,correo_electronico_usuario,' . $usuario->id_usuario . ',id_usuario',
-            'telefono_usuario' => 'nullable|string|max:20',
-            'contraseña_usuario' => 'nullable|min:6|confirmed',
-        ]);
-
-        $usuario->nombres_usuario = $request->nombres_usuario;
-        $usuario->apellidos_usuario = $request->apellidos_usuario;
-        $usuario->correo_electronico_usuario = $request->correo_electronico_usuario;
-        $usuario->telefono_usuario = $request->telefono_usuario;
-
-        if ($request->filled('contraseña_usuario')) {
-            $usuario->contraseña_usuario = Hash::make($request->contraseña_usuario);
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
         }
 
-        // $usuario->save();
 
-        return redirect()->route('perfil.editar')->with('success', 'Tu perfil fue actualizado correctamente.');
+        /** @var LoginUsuario $usuario */
+        $usuario = Auth::user();
+
+
+        $request->validate([
+            'nombres' => 'required|string|max:255',
+            'apellidos' => 'required|string|max:255',
+            'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
+            'telefono' => 'required|string|max:20',
+            'contrasena' => 'nullable|confirmed|confirmed',
+        ], [
+            'nombres.required' => 'El campo nombres es obligatorio.',
+            'nombres.string' => 'El campo nombres debe ser texto.',
+            'nombres.max' => 'El campo nombres no puede tener más de 255 caracteres.',
+
+            'apellidos.required' => 'El campo apellidos es obligatorio.',
+            'apellidos.string' => 'El campo apellidos debe ser texto.',
+            'apellidos.max' => 'El campo apellidos no puede tener más de 255 caracteres.',
+
+            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico.email' => 'El correo electrónico debe ser válido.',
+            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.string' => 'El teléfono debe ser texto.',
+            'telefono.max' => 'El teléfono no puede tener más de 20 caracteres.',
+
+            'contrasena.confirmed' => 'Las contraseñas no coinciden.',
+            'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+        ]);
+
+
+        // Usar mass assignment
+        $usuario->update($request->only(['nombres', 'apellidos', 'correo_electronico', 'telefono']));
+
+        if ($request->filled('contrasena')) {
+            $usuario->contrasena = Hash::make($request->contrasena);
+            $usuario->save();
+        }
+
+        return redirect()->route('perfil.edit')->with('success', "{$request->nombres} tu informacion fue actualizada correctamente.");
     }
 }

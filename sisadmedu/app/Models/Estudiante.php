@@ -13,11 +13,9 @@ class Estudiante extends Model
 
     protected $primaryKey = 'id'; // Ahora será "id"
     public $incrementing = true;  // Autoincrementable
-    protected $keyType = 'int';
 
     protected $fillable = [
-        'id_documento_estudiante',
-        'codigo_estudiante',
+        'documento_estudiante',
         'primer_nombre_estudiante',
         'segundo_nombre_estudiante',
         'primer_apellido_estudiante',

@@ -19,11 +19,13 @@
         <!-- Dropdown Módulos -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Módulos
+             <i class="fas fa-th-large me-1"></i> Módulos
           </a>
           <ul class="dropdown-menu shadow-sm">
-            <li><a class="dropdown-item" href="{{ route('usuarios.index') }}">Usuarios</a></li>
-            <li><a class="dropdown-item" href="{{ route('docentes.index') }}">Docentes</a></li>
+            <li><a class="dropdown-item" href="{{ route('usuarios.index') }}"><i class="fas fa-users me-2"></i> Usuarios</a></li>
+            <li><a class="dropdown-item" href="{{ route('docentes.index') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Docentes</a></li>
+            <li><a class="dropdown-item" href="{{ route('estudiantes.index') }}"><i class="fas fa-user-graduate me-2"></i> Estudiantes</a></li>
+            <li><a class="dropdown-item" href="{{ route('grados.index') }}"><i class="fas fa-layer-group me-2"></i> Grados</a></li>
             <!-- Agrega más módulos aquí -->
           </ul>
         </li>
@@ -34,15 +36,18 @@
         @if(Auth::check())
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->correo_electronico }}
+            <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->nombres }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-            <li>
-              <form action="{{ route('logout') }}" method="POST" class="px-3">
+            <li><a class="btn btn-secondary btn-sm d-block m-auto w-50 " href="{{ route('perfil.edit') }}" class="dropdown-item"><i class="fas fa-user-circle"></i>
+            Perfil</a></li><hr>
+              <li>
+                <form action="{{ route('logout') }}" method="POST" class="px-3">
                 @csrf
-                <button class="btn btn-danger btn-sm w-100" type="submit">Cerrar sesión</button>
+                <button class="btn btn-danger btn-sm w-100" type="submit"><i class="fas fa-sign-out-alt"></i>
+                Cerrar sesión
+                </button>
               </form>
-              <li><a class="btn btn-secondary btn-sm m-auto w-80 " href="{{ route('perfil.edit') }}" class="dropdown-item">Editar perfil</a></li>
             </li>
           </ul>
         </li>

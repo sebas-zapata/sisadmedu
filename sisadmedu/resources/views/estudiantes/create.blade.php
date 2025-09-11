@@ -11,17 +11,12 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
 @endsection
 @section('campos-formulario')
 <div class="row mb-3">
-    <div class="col-md-3">
-        <div class="form-floating">
-            <input type="text" class="form-control" id="codigo_estudiante" name="codigo_estudiante" required value="{{ old('codigo_estudiante') }}">
-            <label for="codigo_estudiante">Código del Estudiante</label>
-        </div>
-    </div>
+
 
     <div class="col-md-3">
         <div class="form-floating">
-            <input type="text" class="form-control" id="id_documento_estudiante" name="id_documento_estudiante"  required value="{{ old('id_documento_estudiante') }}">
-            <label for="id_documento_estudiante">Documento del Estudiante</label>
+            <input type="text" class="form-control" id="documento_estudiante" name="documento_estudiante"  required value="{{ old('documento_estudiante') }}">
+            <label for="documento_estudiante">Documento del Estudiante</label>
         </div>
     </div>
 
@@ -38,15 +33,15 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
             <label for="segundo_nombre_estudiante">Segundo Nombre</label>
         </div>
     </div>
-</div>
-
-<div class="row mb-3">
     <div class="col-md-3">
         <div class="form-floating">
             <input type="text" class="form-control" id="primer_apellido_estudiante" name="primer_apellido_estudiante"  required value="{{ old('primer_apellido_estudiante') }}">
             <label for="primer_apellido_estudiante">Primer Apellido</label>
         </div>
     </div>
+</div>
+
+<div class="row mb-3">
 
     <div class="col-md-3">
         <div class="form-floating">
@@ -68,15 +63,16 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
             <label for="fecha_nacimiento_estudiante">Fecha de nacimiento</label>
         </div>
     </div>
-</div>
 
-<div class="row mb-3">
     <div class="col-md-3">
         <div class="form-floating">
             <input type="text" class="form-control" id="celular_estudiante" name="celular_estudiante"  value="{{ old('celular_estudiante') }}">
             <label for="celular_estudiante">Celular</label>
         </div>
     </div>
+</div>
+
+<div class="row mb-3">
 
     <div class="col-md-3">
         <div class="form-floating">
@@ -98,11 +94,8 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
             <label for="direccion_estudiante">Dirección</label>
         </div>
     </div>
-</div>
-
-<div class="row mb-3">
     <div class="col-md-3">
-        <div class="form-floating">
+        <div class="form-floating mt-2">
             <select name="id_grado" class="form-select" id="id_grado" required>
                 <option value="" disabled {{ old('id_grado') ? '' : 'selected' }}>Selecciona un grado</option>
                 @foreach($grados as $grado)
@@ -114,6 +107,9 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
             <label for="id_grado">Grado</label>
         </div>
     </div>
+</div>
+
+<div class="row mb-3">
 
     <div class="col-md-4">
         <div class="form-floating">

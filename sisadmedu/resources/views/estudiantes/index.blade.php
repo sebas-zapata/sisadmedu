@@ -12,7 +12,6 @@ Lista de Estudiantes <i class="fas fa-user-graduate"></i>
     <thead>
         <tr>
             <th>ID</th>
-            <th>Código</th>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Grado</th>
@@ -23,13 +22,16 @@ Lista de Estudiantes <i class="fas fa-user-graduate"></i>
         @forelse ($estudiantes as $estudiante)
         <tr>
             <td>{{ $estudiante->id }}</td>
-            <td>{{ $estudiante->codigo_estudiante }}</td>
             <td>{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->segundo_nombre_estudiante }}</td>
             <td>{{ $estudiante->primer_apellido_estudiante }} {{ $estudiante->segundo_apellido_estudiante }}</td>
             <td>{{ $estudiante->grado->nombre_grado }}</td>
             <td>
                 <x-boton-accion tipo="editar" href="{{ route('estudiantes.edit', $estudiante) }}" />
-                <x-boton-accion tipo="eliminar" href="{{ route('estudiantes.destroy', $estudiante) }}" />
+                <form action="{{ route('estudiantes.destroy', $estudiante) }}" method="POST" class="d-inline-block" data-estudiante="{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }}">
+                    @csrf
+                    @method('DELETE')
+                    <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-estudiantes" />
+                </form>
             </td>
         </tr>
         @empty
