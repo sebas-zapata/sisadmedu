@@ -41,7 +41,7 @@
         {{-- Link de recuperación y seguridad --}}
         <hr>
         <div class="mt-4 text-center small text-muted">
-            <a href="#" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+           <a class="text-decoration-none">¿Olvidaste tu contraseña?</a>
             <div class="mt-2">
                 <i class="fas fa-lock me-1"></i> Conexión segura
             </div>
