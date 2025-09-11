@@ -6,6 +6,19 @@
         <h2>
    <i class="fas fa-graduation-cap"></i> Áreas Académicas
 </h2>
+@if(session('debe_cambiar_contrasena'))
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+    <div id="alertaContrasena" class="toast align-items-center text-bg-danger border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Estás usando la contraseña por defecto. 
+                <a href="{{ route('cambiar_contraseña') }}" class="fw-bold text-decoration-underline text-light">Cámbiala aquí</a>.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+        </div>
+    </div>
+</div>
+@endif
     </div>
     <div class="card-body">
 

@@ -107,28 +107,8 @@
                 <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>
-
         <div class="col-md-4">
-            <div class="form-floating">
-                <input 
-                    type="password" 
-                    name="contrasena" 
-                    id="contrasena" 
-                    class="form-control @error('contrasena') is-invalid @enderror" 
-                    placeholder=" " 
-                    required
-                >
-                <label for="contrasena">Contraseña</label>
-            </div>
-            @error('contrasena')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <div class="form-floating">
+            <div class="form-floating mt-2">
                 <select 
                     name="rol_id" 
                     id="rol_id" 
@@ -148,6 +128,9 @@
                 <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>
+    </div>
+
+    <div class="row mb-3">
 
         <div class="col-md-4">
             <div class="form-floating">

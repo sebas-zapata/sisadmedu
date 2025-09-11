@@ -38,3 +38,9 @@ Route::resource('grados', GradoController::class)->middleware('auth');
 
 // Modulo de Estudiantes protegido por autenticación
 Route::resource('estudiantes', EstudianteController::class)->middleware('auth');
+
+// Rutas para cambiar la contraseña, protegidas por autenticación
+Route::middleware('auth')->group(function () {
+    Route::get('/cambiar-contraseña', [LoginController::class, 'formCambiarContrasena'])->name('cambiar_contraseña');
+    Route::post('/cambiar-contraseña', [LoginController::class, 'actualizarContrasena'])->name('actualizar_contraseña');
+});

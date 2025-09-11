@@ -9,6 +9,7 @@ use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class UsuarioController extends Controller
 {
@@ -38,6 +39,7 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function store(Request $request)
     {
+        // 1️⃣ Validar los datos del formulario
         $request->validate(
             [
                 'documento' => 'required|unique:usuarios',
@@ -45,13 +47,9 @@ class UsuarioController extends Controller
                 'apellidos' => 'required',
                 'correo_electronico' => 'required|email|unique:usuarios',
                 'telefono' => 'required|unique:usuarios',
-                'contrasena' => 'required|min:6',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
-
             ],
-
-            // Validaciones personalizadas para los mensajes de error
             [
                 'documento.required' => 'El campo documento es obligatorio.',
                 'documento.unique' => 'El documento ya está registrado.',
@@ -62,20 +60,26 @@ class UsuarioController extends Controller
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
                 'telefono.unique' => 'El teléfono ya está registrado.',
                 'telefono.required' => 'El campo teléfono es obligatorio.',
-                'contrasena.required' => 'El campo contraseña es obligatorio.',
-                'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
                 'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
             ]
         );
 
+        // Obtener todos los datos del formulario
         $datos = $request->all();
-        $datos['contrasena'] = Hash::make($request->contrasena);
 
+        // Asignar el documento como contraseña por defecto
+        // Se guarda hasheada para seguridad
+        $datos['contrasena'] = Hash::make($request->documento);
+        // Crear el usuario en la base de datos
         Usuario::create($datos);
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario creado correctamente.');
+        // Redirigir con mensaje indicando que la contraseña inicial es el documento
+        return redirect()->route('usuarios.index')
+            ->with('success', "Usuario creado correctamente. La contraseña inicial es el documento del usuario.");
     }
+
+
 
     // Método para mostrar un usuario específico
     // Este método busca el usuario por su ID y retorna la vista 'usuarios.show'
