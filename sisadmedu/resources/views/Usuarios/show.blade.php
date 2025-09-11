@@ -1,8 +1,5 @@
 @extends('layouts.show')
-
-@section('titulo')
-{{ $usuario->nombres}}
-@endsection
+    
 @section('informacion')
 <div class="text-center">
     <img src="{{ asset('images/avatar.png') }}" alt="Avatar" class="rounded-circle shadow mb-3" width="100" height="100">

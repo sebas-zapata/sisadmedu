@@ -49,7 +49,7 @@ class LoginController extends Controller
         }
         // Login fallido: redirigimos de vuelta con error y mantenemos el correo
         return back()
-            ->with('error', 'Credenciales incorrectas') // Mensaje
+            ->with('error', 'Credenciales incorrectas.') // Mensaje
             ->withInput(); // <- esto es lo que mantiene el valor del correo
     }
 
@@ -64,6 +64,6 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login')
-            ->with('success', 'Has cerrado sesión correctamente');
+            ->with('success', 'Has cerrado sesión exitosamente.');
     }
 }

@@ -112,13 +112,16 @@ class UsuarioController extends Controller
 
         $request->validate(
             [
-                'documento' => 'required|unique:usuarios,documento,' . $id,
-                'nombres' => 'required',
-                'apellidos' => 'required',
-                'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $id,
-                'telefono' => 'required|unique:usuarios,telefono,' . $id,
+                'documento' => 'required|string|max:20|unique:usuarios,documento,' . $usuario->id,
+                'nombres' => 'required|string|max:100',
+                'apellidos' => 'required|string|max:100',
+                'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
+                'telefono' => 'nullable|string|max:20',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
+
+                // Contraseña solo si la quiere cambiar
+                'contrasena' => 'nullable|min:6|confirmed',
             ]
             // Validaciones personalizadas para los mensajes de error
             ,
@@ -132,8 +135,8 @@ class UsuarioController extends Controller
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
                 'telefono.unique' => 'El teléfono ya está registrado.',
                 'telefono.required' => 'El campo teléfono es obligatorio.',
-                'contrasena.required' => 'El campo contraseña es obligatorio.',
                 'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+                'contrasena.confirmed' => 'La confirmación de la contraseña no coincide.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
                 'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
             ]
@@ -228,6 +231,6 @@ class UsuarioController extends Controller
             $usuario->save();
         }
 
-        return redirect()->route('perfil.edit')->with('success', "{$request->nombres} tu informacion fue actualizado correctamente.");
+        return redirect()->route('perfil.edit')->with('success', "{$request->nombres} tu informacion fue actualizada correctamente.");
     }
 }
