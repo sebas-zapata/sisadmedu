@@ -16,7 +16,6 @@ class Docente extends Model
 
     // definir campos que se pueden asignar masivamente
     protected $fillable = [
-        'codigo_docente',
         'documento',
         'primer_nombre',
         'segundo_nombre',
