@@ -10,19 +10,26 @@
         <h2 class="fw-bold">¿Olvidaste tu contraseña?</h2>
         <p class="text-muted mb-4">Ingresa tu correo electrónico y te enviaremos un código de verificación.</p>
 
-        {{-- Mostrar errores --}}
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                {{ $errors->first() }}
-            </div>
-        @endif
-
         <form action="{{ route('password.send.code') }}" method="POST">
             @csrf
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico" required>
-                <label for="correo_electronico">Correo electrónico</label>
-            </div>
+<div class="form-floating mb-3">
+    <input 
+        type="email" 
+        class="form-control @error('correo_electronico') is-invalid @enderror" 
+        id="correo_electronico" 
+        name="correo_electronico" 
+        placeholder="Correo electrónico"
+        value="{{ old('correo_electronico') }}"
+    >
+    <label for="correo_electronico">Correo electrónico</label>
+
+    @error('correo_electronico')
+        <div class="invalid-feedback p-2" style="background-color: #ffe6e6; border-radius: 4px;">
+            {{ $message }}
+        </div>
+    @enderror
+</div>
+
 
             <button class="btn-login w-100" type="submit">Enviar código</button>
         </form>

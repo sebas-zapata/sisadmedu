@@ -194,38 +194,37 @@ class UsuarioController extends Controller
             return redirect()->route('login')->with('error', 'Debes iniciar sesión primero.');
         }
 
-
         /** @var LoginUsuario $usuario */
         $usuario = Auth::user();
-
 
         $request->validate([
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
             'telefono' => 'required|string|max:20',
-            'contrasena' => 'nullable|confirmed|confirmed',
+            'contrasena' => 'nullable|confirmed|min:6',
         ], [
             'nombres.required' => 'El campo nombres es obligatorio.',
-            'nombres.string' => 'El campo nombres debe ser texto.',
-            'nombres.max' => 'El campo nombres no puede tener más de 255 caracteres.',
-
+            'nombres.string'   => 'El campo nombres debe ser texto.',
+            'nombres.max'      => 'El campo nombres no puede tener más de 255 caracteres.',
             'apellidos.required' => 'El campo apellidos es obligatorio.',
-            'apellidos.string' => 'El campo apellidos debe ser texto.',
-            'apellidos.max' => 'El campo apellidos no puede tener más de 255 caracteres.',
-
+            'apellidos.string'   => 'El campo apellidos debe ser texto.',
+            'apellidos.max'      => 'El campo apellidos no puede tener más de 255 caracteres.',
             'correo_electronico.required' => 'El correo electrónico es obligatorio.',
-            'correo_electronico.email' => 'El correo electrónico debe ser válido.',
-            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
-
+            'correo_electronico.email'    => 'El correo electrónico debe ser válido.',
+            'correo_electronico.unique'   => 'El correo electrónico ya está registrado.',
             'telefono.required' => 'El teléfono es obligatorio.',
-            'telefono.string' => 'El teléfono debe ser texto.',
-            'telefono.max' => 'El teléfono no puede tener más de 20 caracteres.',
-
+            'telefono.string'   => 'El teléfono debe ser texto.',
+            'telefono.max'      => 'El teléfono no puede tener más de 20 caracteres.',
             'contrasena.confirmed' => 'Las contraseñas no coinciden.',
-            'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'contrasena.min'       => 'La contraseña debe tener al menos 6 caracteres.',
         ]);
 
+
+        // Validar que la contraseña no sea igual al documento
+        if ($request->filled('contrasena') && $request->contrasena === $usuario->documento) {
+            return back()->withErrors(['contrasena' => 'La contraseña no puede ser igual al documento.']);
+        }
 
         // Usar mass assignment
         $usuario->update($request->only(['nombres', 'apellidos', 'correo_electronico', 'telefono']));
@@ -235,6 +234,6 @@ class UsuarioController extends Controller
             $usuario->save();
         }
 
-        return redirect()->route('perfil.edit')->with('success', "{$request->nombres} tu informacion fue actualizada correctamente.");
+        return redirect()->route('perfil.edit')->with('success', "{$request->nombres} tu información fue actualizada correctamente.");
     }
 }

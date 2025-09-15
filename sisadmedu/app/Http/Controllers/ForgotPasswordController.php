@@ -21,6 +21,10 @@ class ForgotPasswordController extends Controller
     {
         $request->validate([
             'correo_electronico' => 'required|email|exists:usuarios,correo_electronico',
+        ], [
+            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico.email'    => 'El correo electrónico debe tener un formato válido.',
+            'correo_electronico.exists'   => 'El correo electrónico no está registrado en el sistema.',
         ]);
 
         $user = Usuario::where('correo_electronico', $request->correo_electronico)->first();
@@ -35,12 +39,13 @@ class ForgotPasswordController extends Controller
         // Enviar correo con SendGrid (ya configurado)
         Mail::raw("Tu código de recuperación es: $code", function ($message) use ($user) {
             $message->to($user->correo_electronico)
-                    ->subject('Código de recuperación de contraseña');
+                ->subject('Código de recuperación de contraseña');
         });
 
         return redirect()->route('password.verify.form')
-                         ->with('email', $user->correo_electronico);
+            ->with('email', $user->correo_electronico);
     }
+
 
     // 3. Mostrar formulario para ingresar el código
     public function showVerifyForm(Request $request)
@@ -53,19 +58,27 @@ class ForgotPasswordController extends Controller
     public function verifyCode(Request $request)
     {
         $request->validate([
-            'correo_electronico' => 'required|email',
+            'correo_electronico' => 'required|email|exists:usuarios,correo_electronico',
             'code' => 'required|digits:6',
+        ], [
+            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico.email'    => 'El correo electrónico no es válido.',
+            'correo_electronico.exists'   => 'El correo electrónico no está registrado en el sistema.',
+
+            'code.required' => 'El código de verificación es obligatorio.',
+            'code.digits'   => 'El código de verificación debe tener exactamente 6 dígitos.',
         ]);
 
         $user = Usuario::where('correo_electronico', $request->correo_electronico)->first();
 
         if (!$user || $user->reset_code !== $request->code || Carbon::now()->greaterThan($user->reset_code_expires_at)) {
-            return back()->withErrors(['code' => 'El código no es válido o ha expirado']);
+            return back()->withErrors(['code' => 'El código no es válido o ha expirado, por favor reenvíalo nuevamente.'])->withInput();
         }
 
         return redirect()->route('password.reset.form')
-                         ->with(['email' => $user->correo_electronico, 'code' => $request->code]);
+            ->with(['email' => $user->correo_electronico, 'code' => $request->code]);
     }
+
 
     // 5. Mostrar formulario para nueva contraseña
     public function showResetForm(Request $request)
@@ -75,21 +88,43 @@ class ForgotPasswordController extends Controller
         return view('auth.reset-password', compact('email', 'code'));
     }
 
-    // 6. Guardar nueva contraseña
     public function resetPassword(Request $request)
     {
         $request->validate([
-            'correo_electronico' => 'required|email',
+            'correo_electronico' => 'required|email|exists:usuarios,correo_electronico',
             'code' => 'required|digits:6',
             'contrasena' => 'required|min:6|confirmed',
+        ], [
+            // Correo
+            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico.email'    => 'El correo electrónico no es válido.',
+            'correo_electronico.exists'   => 'El correo electrónico no está registrado en el sistema.',
+
+            // Código
+            'code.required' => 'El código de verificación es obligatorio.',
+            'code.digits'   => 'El código de verificación debe tener exactamente 6 números.',
+
+            // Contraseña
+            'contrasena.required' => 'La nueva contraseña es obligatoria.',
+            'contrasena.min'      => 'La contraseña debe tener al menos 6 caracteres.',
+            'contrasena.confirmed' => 'Las contraseñas no coinciden.',
         ]);
 
         $user = Usuario::where('correo_electronico', $request->correo_electronico)
-                       ->where('reset_code', $request->code)
-                       ->first();
+            ->where('reset_code', $request->code)
+            ->first();
 
         if (!$user || Carbon::now()->greaterThan($user->reset_code_expires_at)) {
-            return back()->withErrors(['code' => 'El código no es válido o ha expirado']);
+            return back()
+                ->withErrors(['code' => 'El código no es válido o ha expirado, por favor solicita uno nuevo.'])
+                ->withInput();
+        }
+
+        // Validar que la contraseña no sea igual al documento
+        if ($request->contrasena === $user->documento) {
+            return back()
+                ->withErrors(['contrasena' => 'La contraseña no puede ser igual a tu documento.'])
+                ->withInput();
         }
 
         // Actualizar contraseña
