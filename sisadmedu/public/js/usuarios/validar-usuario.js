@@ -6,18 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Obtener valores de campos con querySelector (más confiable)
         const documento = form.querySelector('[name="documento"]').value.trim();
         const nombres = form.querySelector('[name="nombres"]').value.trim();
-        const apellidos = form.querySelector('[name="apellidos"]').value.trim();
         const correo = form.querySelector('[name="correo_electronico"]').value.trim();
         const telefono = form.querySelector('[name="telefono"]').value.trim();
         const contrasena = form.querySelector('[name="contrasena"]').value;
         const rol = form.querySelector('[name="rol_id"]').value;
         const tipoDocumento = form.querySelector('[name="tipo_documento_id"]').value;
 
+
         // Validar campos obligatorios
         if (
             documento === '' ||
             nombres === '' ||
-            apellidos === '' ||
             correo === '' ||
             telefono === ''
         ) {
@@ -63,6 +62,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 confirmButtonColor: '#461c68'
             });
             return;
+        }
+
+    });
+
+    document.getElementById("telefono").addEventListener("keypress", function (e) {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault(); // bloquea letras y símbolos
+        }
+    });
+
+    document.getElementById("documento").addEventListener("keypress", function (e) {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault(); // bloquea letras y símbolos
         }
     });
 });
