@@ -16,10 +16,10 @@
 
 @section('campos-formulario')
     <div class="row mb-3">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-floating">
                 <input 
-                    type="text" 
+                    type="number" 
                     name="documento" 
                     id="documento" 
                     class="form-control @error('documento') is-invalid @enderror" 
@@ -34,7 +34,29 @@
             @enderror
         </div>
 
-        <div class="col-md-4">
+                <div class="col-md-3 mt-2">
+            <div class="form-floating">
+                <select 
+                    name="tipo_documento_id" 
+                    id="tipo_documento_id" 
+                    class="form-select @error('tipo_documento_id') is-invalid @enderror" 
+                    required
+                >
+                    <option value="" disabled selected>Selecciona un tipo</option>
+                    @foreach($tiposDocumento as $tipo)
+                        <option value="{{ $tipo->id }}" {{ old('tipo_documento_id') == $tipo->id ? 'selected' : '' }}>
+                            {{ $tipo->descripcion }}
+                        </option>
+                    @endforeach
+                </select>
+                <label for="tipo_documento_id">Tipo de Documento</label>
+            </div>
+            @error('tipo_documento_id')
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="col-md-3">
             <div class="form-floating">
                 <input 
                     type="text" 
@@ -52,7 +74,7 @@
             @enderror
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-floating">
                 <input 
                     type="text" 
@@ -125,31 +147,6 @@
                 <label for="rol_id">Rol</label>
             </div>
             @error('rol_id')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
-            @enderror
-        </div>
-    </div>
-
-    <div class="row mb-3">
-
-        <div class="col-md-4">
-            <div class="form-floating">
-                <select 
-                    name="tipo_documento_id" 
-                    id="tipo_documento_id" 
-                    class="form-select @error('tipo_documento_id') is-invalid @enderror" 
-                    required
-                >
-                    <option value="" disabled selected>Selecciona un tipo</option>
-                    @foreach($tiposDocumento as $tipo)
-                        <option value="{{ $tipo->id }}" {{ old('tipo_documento_id') == $tipo->id ? 'selected' : '' }}>
-                            {{ $tipo->descripcion }}
-                        </option>
-                    @endforeach
-                </select>
-                <label for="tipo_documento_id">Tipo de Documento</label>
-            </div>
-            @error('tipo_documento_id')
                 <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror
         </div>

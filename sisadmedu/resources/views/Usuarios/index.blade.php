@@ -7,6 +7,8 @@ Gestión de Usuarios <i class="fas fa-users"></i>
 <x-boton-principal href="{{ route('usuarios.create') }}">
     <i class="fas fa-user-plus"></i> Nuevo Usuario
 </x-boton-principal>
+<x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}" >
+</x-boton-accion>
 @endsection
 @section('tabla')
             <table class="table table-striped table-hover align-middle">
@@ -22,7 +24,6 @@ Gestión de Usuarios <i class="fas fa-users"></i>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- Asumiendo que $usuarios es una colección de usuarios pasados desde el controlador --}}
                     @forelse($usuarios as $usuario)
                     <tr>
                         <td>{{ $usuario->id }}</td>
@@ -41,7 +42,6 @@ Gestión de Usuarios <i class="fas fa-users"></i>
                                 <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-usuarios">
                                 </x-boton-accion>
                             </form>
-                            <x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}" />
                         </td>
                     </tr>
                     @empty

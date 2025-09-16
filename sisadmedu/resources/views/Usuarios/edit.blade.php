@@ -16,7 +16,7 @@
 @endsection
 
 @section('campos-formulario')
-    {{-- Primera fila --}}
+    {{-- FILA 1 --}}
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-floating">
@@ -32,7 +32,33 @@
                 <label for="documento">Documento</label>
             </div>
             @error('documento')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-floating mt-2">
+                <select 
+                    name="tipo_documento_id" 
+                    id="tipo_documento_id" 
+                    class="form-select @error('tipo_documento_id') is-invalid @enderror" 
+                    required
+                >
+                    <option value="" disabled>Selecciona un tipo</option>
+                    @foreach($tiposDocumento as $tipo)
+                        <option value="{{ $tipo->id }}" {{ old('tipo_documento_id', $usuario->tipo_documento_id) == $tipo->id ? 'selected' : '' }}>
+                            {{ $tipo->descripcion }}
+                        </option>
+                    @endforeach
+                </select>
+                <label for="tipo_documento_id">Tipo de Documento</label>
+            </div>
+            @error('tipo_documento_id')
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
 
@@ -50,10 +76,15 @@
                 <label for="nombres">Nombres</label>
             </div>
             @error('nombres')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
+    </div>
 
+    {{-- FILA 2 --}}
+    <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-floating">
                 <input 
@@ -68,13 +99,12 @@
                 <label for="apellidos">Apellidos</label>
             </div>
             @error('apellidos')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
-    </div>
 
-    {{-- Segunda fila --}}
-    <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-floating">
                 <input 
@@ -89,7 +119,9 @@
                 <label for="correo_electronico">Correo Electrónico</label>
             </div>
             @error('correo_electronico')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
 
@@ -107,12 +139,17 @@
                 <label for="telefono">Teléfono</label>
             </div>
             @error('telefono')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
+    </div>
 
+    {{-- FILA 3 --}}
+    <div class="row mb-3">
         <div class="col-md-4">
-            <div class="form-floating">
+            <div class="form-floating mt-2">
                 <select 
                     name="rol_id" 
                     id="rol_id" 
@@ -129,13 +166,12 @@
                 <label for="rol_id">Rol</label>
             </div>
             @error('rol_id')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
-    </div>
 
-    {{-- Tercera fila --}}
-    <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-floating">
                 <input 
@@ -148,7 +184,9 @@
                 <label for="contrasena">Nueva Contraseña (opcional)</label>
             </div>
             @error('contrasena')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
             @enderror
         </div>
 
@@ -163,28 +201,6 @@
                 >
                 <label for="contrasena_confirmation">Confirmar Contraseña</label>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-floating">
-                <select 
-                    name="tipo_documento_id" 
-                    id="tipo_documento_id" 
-                    class="form-select @error('tipo_documento_id') is-invalid @enderror" 
-                    required
-                >
-                    <option value="" disabled>Selecciona un tipo</option>
-                    @foreach($tiposDocumento as $tipo)
-                        <option value="{{ $tipo->id }}" {{ old('tipo_documento_id', $usuario->tipo_documento_id) == $tipo->id ? 'selected' : '' }}>
-                            {{ $tipo->descripcion }}
-                        </option>
-                    @endforeach
-                </select>
-                <label for="tipo_documento_id">Tipo de Documento</label>
-            </div>
-            @error('tipo_documento_id')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
-            @enderror
         </div>
     </div>
 @endsection

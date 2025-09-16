@@ -42,24 +42,24 @@ class UsuarioController extends Controller
         // 1️⃣ Validar los datos del formulario
         $request->validate(
             [
-                'documento' => 'required|unique:usuarios',
+                'documento' => 'required|numeric|unique:usuarios',
                 'nombres' => 'required',
-                'apellidos' => 'required',
                 'correo_electronico' => 'required|email|unique:usuarios',
-                'telefono' => 'required|unique:usuarios',
+                'telefono' => 'required|numeric|unique:usuarios',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
             ],
             [
                 'documento.required' => 'El campo documento es obligatorio.',
                 'documento.unique' => 'El documento ya está registrado.',
+                'documento.numeric' => 'El campo documento debe ser un número.',
                 'nombres.required' => 'El campo nombres es obligatorio.',
-                'apellidos.required' => 'El campo apellidos es obligatorio.',
                 'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
                 'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
                 'telefono.unique' => 'El teléfono ya está registrado.',
                 'telefono.required' => 'El campo teléfono es obligatorio.',
+                'telefono.numeric' => 'El campo teléfono debe ser un número.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
                 'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
             ]
