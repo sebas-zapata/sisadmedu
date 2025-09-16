@@ -60,3 +60,7 @@ Route::middleware('auth')->group(function () {
 
 // Ruta para generar el PDF de usuarios
 Route::get('/usuarios-pdf', [PdfController::class, 'usuarioPdf'])->name('usuarios.pdf')->middleware('auth');
+
+// Ruta para generar el PDF de constancias
+Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
+    ->name('pdf.constancia');

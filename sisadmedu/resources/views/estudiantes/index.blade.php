@@ -26,12 +26,17 @@ Lista de Estudiantes <i class="fas fa-user-graduate"></i>
             <td>{{ $estudiante->primer_apellido_estudiante }} {{ $estudiante->segundo_apellido_estudiante }}</td>
             <td>{{ $estudiante->grado->nombre_grado }}</td>
             <td>
+                {{-- Botón Editar --}}
                 <x-boton-accion tipo="editar" href="{{ route('estudiantes.edit', $estudiante) }}" />
+                {{-- Botón Eliminar --}}
                 <form action="{{ route('estudiantes.destroy', $estudiante) }}" method="POST" class="d-inline-block" data-estudiante="{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }}">
                     @csrf
                     @method('DELETE')
                     <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-estudiantes" />
                 </form>
+                {{-- Botón Generar Constancia PDF --}}
+                <x-boton-accion tipo="descargar" href="{{ route('pdf.constancia', $estudiante->id) }}" />
+
             </td>
         </tr>
         @empty
