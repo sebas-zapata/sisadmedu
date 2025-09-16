@@ -9,7 +9,7 @@ use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\GradoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\ForgotPasswordController;
-
+use App\Http\Controllers\PdfController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -57,3 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/cambiar-contraseña', [LoginController::class, 'formCambiarContrasena'])->name('cambiar_contraseña');
     Route::post('/cambiar-contraseña', [LoginController::class, 'actualizarContrasena'])->name('actualizar_contraseña');
 });
+
+// Ruta para generar el PDF de usuarios
+Route::get('/usuarios-pdf', [PdfController::class, 'usuarioPdf'])->name('usuarios.pdf')->middleware('auth');

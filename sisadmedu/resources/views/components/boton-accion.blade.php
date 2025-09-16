@@ -10,16 +10,16 @@
         'ver' => 'fa-eye',
         'editar' => 'fa-pen',
         'eliminar' => 'fa-trash',
+        'descargar' => 'fa-download',
     ];
-
-    $colores = [
+    $icono = $iconos[$tipo] ?? ''; 
+    $estilos = [
         'ver' => 'btn-ver',
         'editar' => 'btn-editar',
         'eliminar' => 'btn-eliminar',
+        'descargar' => 'btn-descargar',
     ];
-
-    $icono = $iconos[$tipo] ?? '';
-    $estilo = $colores[$tipo] ?? '';
+    $estilo = $estilos[$tipo] ?? 'btn-accion-default';
     $title = ucfirst($tipo);
 @endphp
 

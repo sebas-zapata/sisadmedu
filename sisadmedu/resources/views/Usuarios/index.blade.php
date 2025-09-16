@@ -41,8 +41,7 @@ Gestión de Usuarios <i class="fas fa-users"></i>
                                 <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-usuarios">
                                 </x-boton-accion>
                             </form>
-
-
+                            <x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}" />
                         </td>
                     </tr>
                     @empty
