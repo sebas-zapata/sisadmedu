@@ -10,6 +10,12 @@
 
 <div class="row mb-3">
     <div class="col-md-6 mb-3 text-center">
+        <i class="fa-solid fa-key text-light"></i>
+        <strong>Identificador:</strong>
+        <p class="mb-0">#{{ $usuario->id }}</p>
+    </div>
+
+    <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-id-card me-2 text-light"></i>
         <strong>Documento:</strong>
         <p class="mb-0">{{ $usuario->documento }}</p>

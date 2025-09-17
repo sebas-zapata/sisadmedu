@@ -2,50 +2,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formulario-docente');
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
-        // Obtener los valores de los campos
-        const codigo_docente = form.querySelector('[name="codigo_docente"]').value.trim();
+    form.addEventListener('submit', function (e) {
+        // Obtener valores de campos
         const documento = form.querySelector('[name="documento"]').value.trim();
         const primer_nombre = form.querySelector('[name="primer_nombre"]').value.trim();
         const primer_apellido = form.querySelector('[name="primer_apellido"]').value.trim();
-        const correo_electronico = form.querySelector('[name="correo_electronico"]').value;
+        const correo = form.querySelector('[name="correo_electronico"]').value.trim();
+        const materia = form.querySelector('[name="id_materia"]').value;
+        const tipoDocumento = form.querySelector('[name="id_tipo_documento"]').value;
 
-        const materiaSelect = form.querySelector('[name="id_materia"]');
-
-        const tipoDocumentoSelect = form.querySelector('[name="id_tipo_documento"]');
-
-        if (codigo_docente === "" || documento === "" || primer_nombre === "" || primer_apellido === "") {
+        // Validar campos obligatorios
+        if (
+            documento === '' ||
+            primer_nombre === '' ||
+            primer_apellido === '' ||
+            correo === ''
+        ) {
             Swal.fire({
                 icon: 'warning',
                 title: 'Campos requeridos',
                 text: 'Por favor completa todos los campos obligatorios.',
                 confirmButtonColor: '#461c68',
-                confirmButtonText: 'Aceptar'
+                confirmButtonText: 'Aceptar',
             });
             return;
         }
 
-        // Validar formato de correo electrónico
-        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!regexCorreo.test(correo_electronico || correo_electronico === "")) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Correo inválido',
-                text: 'Por favor ingresa un correo electrónico o uno válido.',
-                confirmButtonColor: '#461c68'
-            });
-            return;
-        }
-
-        // Validar selects requeridos
-        if (!materiaSelect.value || !tipoDocumentoSelect.value) {
+        // Validar selects
+        if (materia === '' || tipoDocumento === '') {
             Swal.fire({
                 icon: 'info',
                 title: 'Campos faltantes',
-                text: `Selecciona una materia y un tipo de documento para asignarlos al docente ${primer_nombre}.`,
+                text: 'Selecciona una materia y un tipo de documento.',
                 confirmButtonColor: '#461c68'
             });
             return;
         }
-    })
-})
+
+        // Validar correo
+        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regexCorreo.test(correo)) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Correo inválido',
+                text: 'Por favor ingresa un correo electrónico válido.',
+                confirmButtonColor: '#461c68'
+            });
+            return;
+        }
+    });
+
+    // Validar que documento solo acepte números
+    document.getElementById("documento").addEventListener("keypress", function (e) {
+        if (!/[0-9]/.test(e.key)) {
+            e.preventDefault(); // bloquea letras y símbolos
+        }
+    });
+});
