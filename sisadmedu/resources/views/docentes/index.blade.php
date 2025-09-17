@@ -6,7 +6,7 @@ Lista de Docentes <i class="fas fa-chalkboard-teacher"></i>
 
 @section('boton-registrar')
 <x-boton-principal href="{{ route('docentes.create') }}">
-    <i class="fas fa-user-plus"></i> Nuevo Docente
+    <i class="fas fa-chalkboard-teacher"></i>
 </x-boton-principal>
 @endsection
 
@@ -15,7 +15,6 @@ Lista de Docentes <i class="fas fa-chalkboard-teacher"></i>
                 <thead class="thead-sisadmedu text-center">
                     <tr>
                         <th>ID</th>
-                        <th>Código</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
                         <th>Correo Electrónico</th>
@@ -27,7 +26,6 @@ Lista de Docentes <i class="fas fa-chalkboard-teacher"></i>
                     @forelse ($docentes as $docente)
                     <tr>
                         <td>{{ $docente->id }}</td>
-                        <td>{{ $docente->codigo_docente }}</td>
                         <td>{{ $docente->primer_nombre }} {{ $docente->segundo_nombre }}</td>
                         <td>{{ $docente->primer_apellido }} {{ $docente->segundo_apellido }}</td>
                         <td>{{ $docente->correo_electronico }}</td>
