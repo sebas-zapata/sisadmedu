@@ -1,18 +1,17 @@
 @extends('layouts.show')
 @section('titulo')
-Docente {{ $docente->primer_nombre }} {{ $docente->segundo_nombre }} <i class="fas fa-chalkboard-teacher"></i>
 @endsection
 @section('informacion')
 <div class="text-center">
-    <img src="{{ asset('images/avatar.png') }}" alt="Avatar" class="rounded-circle shadow mb-3" width="100" height="100">
+    <img src="{{ Avatar::create($docente->primer_nombre . ' ' . $docente->segundo_nombre . ' ' . $docente->primer_apellido . ' ' . $docente->segundo_apellido)->toBase64() }}" alt="Avatar" class="rounded-circle shadow mb-3" width="100" height="100">
     <h4 class="fw-bold mb-0">{{ $docente->primer_nombre }} {{ $docente->segundo_nombre }} {{ $docente->primer_apellido }} {{ $docente->segundo_apellido }}</h4>
     <hr class="my-4">
 </div>
 <div class="row mb-3">
     <div class="col-md-6 mb-3 text-center">
-        <i class="fas fa-id-card me-2 text-light"></i>
-        <strong>Código:</strong>
-        <p class="mb-0">{{ $docente->codigo_docente }}</p>
+        <i class="fa-solid fa-key text-light"></i>
+        <strong>Identificador:</strong>
+        <p class="mb-0">{{ $docente->id }}</p>
     </div>
 
     <div class="col-md-6 mb-3 text-center">

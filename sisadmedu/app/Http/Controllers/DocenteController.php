@@ -40,7 +40,6 @@ class DocenteController extends Controller
         [
             'documento.unique' => 'El documento ya está registrado.',
             'documento.required' => 'El campo documento es obligatorio.',
-            'documento.max' => 'El documento no puede tener más de 255 caracteres.',
             'primer_nombre.required' => 'El campo primer nombre es obligatorio.',
             'primer_apellido.required' => 'El campo primer apellido es obligatorio.',
             'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
@@ -83,6 +82,17 @@ class DocenteController extends Controller
             'correo_electronico' => 'required|string|email|max:255|unique:docentes,correo_electronico,' . $id,
             'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
+        ],
+        [
+            'documento.unique' => 'El documento ya está registrado.',
+            'documento.required' => 'El campo documento es obligatorio.',
+            'primer_nombre.required' => 'El campo primer nombre es obligatorio.',
+            'primer_apellido.required' => 'El campo primer apellido es obligatorio.',
+            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
+            'correo_electronico.email' => 'El formato del correo electrónico es inválido.',
+            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+            'id_materia.required' => 'Debe seleccionar una materia.',
+            'id_tipo_documento.required' => 'Debe seleccionar un tipo de documento.',
         ]);
 
         $docente = Docente::findOrFail($id);

@@ -5,7 +5,7 @@ Gestión de Usuarios <i class="fas fa-users"></i>
 @endsection
 @section('boton-registrar')
 <x-boton-principal href="{{ route('usuarios.create') }}">
-    <i class="fas fa-user-plus"></i> Nuevo Usuario
+    <i class="fas fa-user-plus"></i>
 </x-boton-principal>
 <x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}" >
 </x-boton-accion>
