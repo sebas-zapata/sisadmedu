@@ -12,6 +12,7 @@
             Hemos enviado un código de 6 dígitos a tu correo <b>{{ $email }}</b>. Ingrésalo aquí.
         </p>
 
+        {{-- Formulario para verificar código --}}
         <form action="{{ route('password.verify') }}" method="POST">
             @csrf
             <input type="hidden" name="correo_electronico" value="{{ $email }}">
@@ -25,7 +26,6 @@
                     placeholder="Código" 
                     maxlength="6" 
                     value="{{ old('code') }}" 
-                    
                 >
                 <label for="code">Código de verificación</label>
 
@@ -36,7 +36,7 @@
                 @enderror
             </div>
 
-            <button class="btn-login w-100" type="submit">Verificar</button>
+            <button class="btn-login w-100 mb-2" type="submit">Verificar</button>
         </form>
 
         <hr>

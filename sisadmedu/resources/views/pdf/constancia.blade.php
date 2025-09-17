@@ -17,7 +17,7 @@
    <div class="contenido">
     La presente certifica que el(la) estudiante <strong>{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->segundo_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }} {{ $estudiante->segundo_apellido_estudiante }}</strong>,
     identificado(a) con documento de identidad N.° <strong>{{ $estudiante->documento_estudiante }}</strong>,
-    se encuentra debidamente matriculado(a) y cursando el grado <strong>{{ $estudiante->grado->nombre_grado }}</strong> en la
+    se encuentra debidamente matriculado(a) con el codigo <strong>{{ $estudiante->matricula }}</strong> y cursando el grado <strong>{{ $estudiante->grado->nombre_grado }}</strong> en la
     <strong>Institución Educativa Alfonso López Pumarejo</strong>, durante el presente año lectivo.
 
     <br><br>

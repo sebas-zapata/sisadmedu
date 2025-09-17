@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cambiar-contraseña', [LoginController::class, 'actualizarContrasena'])->name('actualizar_contraseña');
 });
 
+
 // Ruta para generar el PDF de usuarios
 Route::get('/usuarios-pdf', [PdfController::class, 'usuarioPdf'])->name('usuarios.pdf')->middleware('auth');
 
