@@ -43,9 +43,18 @@ class EstudianteController extends Controller
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
         ]);
 
-        Estudiante::create($request->all());
+        // guardamos el estudiante sin matricula aca
+        $estudiante = Estudiante::create($request->all());
 
-        return redirect()->route('estudiantes.index')->with('success', 'Estudiante creado exitosamente.');
+        // Generamos la matrícula única (ejemplo: MAT-2025-0001)
+        $estudiante->matricula = 'MAT-' . date('Y') . '-' . str_pad($estudiante->id, 4, '0', STR_PAD_LEFT);
+
+        // Guardamos el cambio
+        $estudiante->save();
+
+        return redirect()->route('estudiantes.index')
+            ->with('success', 'Estudiante creado exitosamente con matrícula: ' . $estudiante->matricula);
+
     }
 
     // Mostrar los detalles de un estudiante específico y su grado
