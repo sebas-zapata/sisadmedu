@@ -2,7 +2,7 @@
     
 @section('informacion')
 <div class="text-center">
-    <img src="{{ asset('images/avatar.png') }}" alt="Avatar" class="rounded-circle shadow mb-3" width="100" height="100">
+    <img src="{{ Avatar::create($usuario->nombres . ' ' . $usuario->apellidos)->toBase64() }}" alt="Avatar de {{ $usuario->nombres }}" class="rounded-full w-24 h-24 shadow-md">
     <h4 class="fw-bold mb-0">{{ $usuario->nombres }} {{ $usuario->apellidos }}</h4>
     <p class="text-muted">{{ $usuario->rol->nombre ?? 'Sin rol' }}</p>
     <hr class="my-4">

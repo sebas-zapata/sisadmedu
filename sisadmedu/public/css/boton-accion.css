@@ -54,3 +54,14 @@
     background-color: #666;
     transform: scale(1.02);
 }
+
+/* Descargar */
+.btn-descargar {
+    background-color: #461c68;
+    padding:7px;
+}
+
+.btn-descargar:hover {
+    background-color: #666;
+    transform: scale(1.02);
+}

@@ -3,19 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>Constancia de Estudio</title>
-    <link href="{{ public_path('css/estilos-pdf/usuarios.css') }}" rel="stylesheet">
-    <style>
-        .firma {
-            text-align: center; /* Centra todo el contenido de la firma */
-            margin-top: 50px;   /* Espacio superior para separarla del texto */
-        }
-        .firma img {
-            width: 300px; /* Ajusta el tamaño según necesites */
-            height: auto;
-            display: block;
-            margin: 0 auto; /* Asegura que la imagen esté centrada */
-        }
-    </style>
+    <link href="{{ public_path('css/estilos-pdf/pdf.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Encabezado -->
@@ -34,7 +22,11 @@
 
     <br><br>
     Esta constancia se expide a solicitud del interesado(a) para los fines que estime convenientes, y se firma en la ciudad de
-    <strong>Medellín, Antioquia</strong>, a los <strong>{{ now()->format('d') }}</strong> días del mes de <strong>{{ \Carbon\Carbon::now()->translatedFormat('F') }}</strong> del año <strong>{{ now()->format('Y') }}</strong>.
+    <strong>Medellín, Antioquia</strong>, a los 
+    <strong>{{ now()->format('d') }}</strong> días del mes de 
+    <strong>{{ \Carbon\Carbon::now()->locale('es')->isoFormat('MMMM') }}</strong> 
+    del año <strong>{{ now()->format('Y') }}</strong>.
+
 
     <br><br>
     Se deja constancia de que la información aquí consignada corresponde a los registros oficiales de la institución y tiene plena validez para trámites académicos, administrativos o legales que así lo requieran.

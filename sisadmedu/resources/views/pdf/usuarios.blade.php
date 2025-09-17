@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Reporte de Usuarios</title>
-    <link href="{{ public_path('css/estilos-pdf/usuarios.css') }}" rel="stylesheet">
+    <link href="{{ public_path('css/estilos-pdf/pdf.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Encabezado -->

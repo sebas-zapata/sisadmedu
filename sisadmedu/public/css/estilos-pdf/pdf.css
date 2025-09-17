@@ -10,6 +10,7 @@
             border-bottom: 2px solid #444;
             padding-bottom: 10px;
         }
+
         .logo {
             width: 80px;
             margin-bottom: 8px;
@@ -67,4 +68,20 @@
             color: #666;
             border-top: 1px solid #ccc;
             padding-top: 5px;
+        }
+
+        .firma {
+            text-align: center;
+            /* Centra todo el contenido de la firma */
+            margin-top: 50px;
+            /* Espacio superior para separarla del texto */
+        }
+
+        .firma img {
+            width: 300px;
+            /* Ajusta el tamaño según necesites */
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            /* Asegura que la imagen esté centrada */
         }

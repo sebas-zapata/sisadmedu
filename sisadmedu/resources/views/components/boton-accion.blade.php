@@ -10,7 +10,7 @@
         'ver' => 'fa-eye',
         'editar' => 'fa-pen',
         'eliminar' => 'fa-trash',
-        'descargar' => 'fa-download',
+        'descargar' => 'fa-file-pdf',
     ];
     $icono = $iconos[$tipo] ?? ''; 
     $estilos = [
