@@ -42,7 +42,7 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('sitio.inicio');
 
 // Modulo de Usuarios protegido por autenticación
-Route::resource('usuarios', UsuarioController::class)->middleware('auth');
+Route::resource('usuarios', UsuarioController::class)->middleware(['auth']);
 
 // Modulo de Docentes protegido por autenticación
 Route::resource('docentes', DocenteController::class)->middleware('auth');

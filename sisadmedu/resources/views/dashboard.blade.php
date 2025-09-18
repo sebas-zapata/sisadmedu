@@ -11,6 +11,11 @@
             </h2>
         </div>
         <div class="card-body d-flex flex-wrap justify-content-between">
+            @php
+                /** @var LoginUsuario $usuario */
+                $usuario = Auth::user();
+            @endphp
+            @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
             <div class="module">
                 <p class="module-title"><i class="fas fa-users"></i> Gestión de Usuarios</p>
                     <p class="module-total">
@@ -20,6 +25,7 @@
                     <i class="fas fa-sign-in-alt"></i> Usuarios
                 </a>
             </div>
+            @endif
 
             <div class="module">
                 <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>

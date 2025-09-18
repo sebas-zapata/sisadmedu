@@ -37,4 +37,9 @@ class LoginUsuario extends Authenticatable
     {
         return $this->contrasena;
     }
+
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class, 'rol_id');
+    }
 }

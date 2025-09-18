@@ -21,6 +21,14 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function index()
     {
+        /** @var LoginUsuario $usuario */
+        $usuario = Auth::user();
+
+        // Validación: si no tiene rol o es docente, redirige
+        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
+            return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
+        }
+
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
         return view('usuarios.index', compact('usuarios'));
     }
@@ -28,6 +36,14 @@ class UsuarioController extends Controller
     // Método para mostrar el formulario de creación de un nuevo usuario
     public function create()
     {
+                /** @var LoginUsuario $usuario */
+        $usuario = Auth::user();
+
+        // Validación: si no tiene rol o es docente, redirige
+        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
+            return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
+        }
+
         $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
         return view('usuarios.create', compact('roles', 'tiposDocumento'));
@@ -88,6 +104,13 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function show($id)
     {
+                /** @var LoginUsuario $usuario */
+        $usuario = Auth::user();
+
+        // Validación: si no tiene rol o es docente, redirige
+        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
+            return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
+        }
         $usuario = Usuario::with(['rol', 'tipoDocumento'])->findOrFail($id);
         return view('usuarios.show', compact('usuario'));
     }
@@ -100,6 +123,13 @@ class UsuarioController extends Controller
     // si no se encuentra
     public function edit($id)
     {
+                /** @var LoginUsuario $usuario */
+        $usuario = Auth::user();
+
+        // Validación: si no tiene rol o es docente, redirige
+        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
+            return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
+        }
         $usuario = Usuario::findOrFail($id);
         $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();

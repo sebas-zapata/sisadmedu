@@ -79,5 +79,6 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'cache.headers' => SetCacheHeaders::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
 }
