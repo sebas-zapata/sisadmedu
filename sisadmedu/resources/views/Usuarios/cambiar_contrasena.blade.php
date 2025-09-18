@@ -1,4 +1,4 @@
-z{{-- resources/views/usuarios/cambiar_contrasena.blade.php --}}
+{{-- resources/views/usuarios/cambiar_contrasena.blade.php --}}
 @extends('layouts.form')
 
 @section('titulo-formulario')
