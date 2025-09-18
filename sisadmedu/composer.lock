@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75682588a460e70b8b0f1c600c42072c",
+    "content-hash": "8500aede8b9db9dc1290a9096d9e2603",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1987,16 +1987,16 @@
         },
         {
             "name": "laravolt/avatar",
-            "version": "6.3.1",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravolt/avatar.git",
-                "reference": "dea77b6fbff08f38e744a9e23855369c8270f2aa"
+                "reference": "083fcbbf621d56f74f2498f1eb0bd462d71d3a7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravolt/avatar/zipball/dea77b6fbff08f38e744a9e23855369c8270f2aa",
-                "reference": "dea77b6fbff08f38e744a9e23855369c8270f2aa",
+                "url": "https://api.github.com/repos/laravolt/avatar/zipball/083fcbbf621d56f74f2498f1eb0bd462d71d3a7e",
+                "reference": "083fcbbf621d56f74f2498f1eb0bd462d71d3a7e",
                 "shasum": ""
             },
             "require": {
@@ -2058,7 +2058,7 @@
             ],
             "support": {
                 "issues": "https://github.com/laravolt/avatar/issues",
-                "source": "https://github.com/laravolt/avatar/tree/6.3.1"
+                "source": "https://github.com/laravolt/avatar/tree/6.3.0"
             },
             "funding": [
                 {
@@ -2074,7 +2074,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2025-08-27T08:20:27+00:00"
+            "time": "2025-08-27T07:42:59+00:00"
         },
         {
             "name": "league/commonmark",
