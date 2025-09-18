@@ -1,7 +1,7 @@
 @extends('layouts.gestion')
 
 @section('titulo')
-Lista de Docentes <i class="fas fa-chalkboard-teacher"></i>
+Docentes <i class="fas fa-chalkboard-teacher"></i>
 @endsection
 
 @section('boton-registrar')

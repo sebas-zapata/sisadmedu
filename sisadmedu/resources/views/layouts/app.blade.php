@@ -63,6 +63,7 @@
     <script src="{{ asset('js/docentes/validar-docente.js')}}"></script>
     <script src="{{ asset('js/grados/confirmar-eliminar-grados.js') }}"></script>
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
+    <script src="{{ asset('js/estudiantes/validar-estudiante.js') }}"></script>
     {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

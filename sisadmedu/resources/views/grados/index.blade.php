@@ -1,6 +1,6 @@
 @extends('layouts.gestion')
 @section('titulo')
-Lista de Grados <i class="fas fa-graduation-cap"></i>
+Grados <i class="fas fa-graduation-cap"></i>
 @endsection
 @section('boton-registrar')
 <x-boton-principal href="{{ route('grados.create') }}">

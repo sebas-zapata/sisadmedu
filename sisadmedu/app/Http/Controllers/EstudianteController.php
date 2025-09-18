@@ -35,13 +35,64 @@ class EstudianteController extends Controller
             'segundo_apellido_estudiante' => 'nullable|string|max:50',
             'edad_estudiante' => 'required|integer|min:1',
             'fecha_nacimiento_estudiante' => 'required|date',
-            'celular_estudiante' => 'nullable|string|max:15',
-            'telefono_estudiante' => 'nullable|string|max:15',
-            'correo_electronico_estudiante' => 'nullable|email|max:100',
-            'direccion_estudiante' => 'nullable|string|max:255',
+            'celular_estudiante' => 'required|string|max:15',
+            'telefono_estudiante' => 'required|string|max:15',
+            'correo_electronico_estudiante' => 'required|email|max:100|unique:estudiantes,correo_electronico_estudiante',
+            'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
+        ], [
+            'documento_estudiante.required' => 'El número de documento es obligatorio.',
+            'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
+            'documento_estudiante.max' => 'El número de documento no puede superar los 20 caracteres.',
+            'documento_estudiante.unique' => 'Este número de documento ya está registrado.',
+
+            'primer_nombre_estudiante.required' => 'El primer nombre es obligatorio.',
+            'primer_nombre_estudiante.string' => 'El primer nombre debe ser una cadena de texto.',
+            'primer_nombre_estudiante.max' => 'El primer nombre no puede superar los 50 caracteres.',
+
+            'segundo_nombre_estudiante.string' => 'El segundo nombre debe ser una cadena de texto.',
+            'segundo_nombre_estudiante.max' => 'El segundo nombre no puede superar los 50 caracteres.',
+
+            'primer_apellido_estudiante.required' => 'El primer apellido es obligatorio.',
+            'primer_apellido_estudiante.string' => 'El primer apellido debe ser una cadena de texto.',
+            'primer_apellido_estudiante.max' => 'El primer apellido no puede superar los 50 caracteres.',
+
+            'segundo_apellido_estudiante.string' => 'El segundo apellido debe ser una cadena de texto.',
+            'segundo_apellido_estudiante.max' => 'El segundo apellido no puede superar los 50 caracteres.',
+
+            'edad_estudiante.required' => 'La edad es obligatoria.',
+            'edad_estudiante.integer' => 'La edad debe ser un número entero.',
+            'edad_estudiante.min' => 'La edad mínima permitida es 1 año.',
+
+            'fecha_nacimiento_estudiante.required' => 'La fecha de nacimiento es obligatoria.',
+            'fecha_nacimiento_estudiante.date' => 'La fecha de nacimiento debe tener un formato válido.',
+
+            'celular_estudiante.required' => 'El celular es obligatorio.',
+            'celular_estudiante.string' => 'El celular debe ser una cadena de texto.',
+            'celular_estudiante.max' => 'El celular no puede superar los 15 caracteres.',
+
+            'telefono_estudiante.required' => 'El teléfono es obligatorio.',
+            'telefono_estudiante.string' => 'El teléfono debe ser una cadena de texto.',
+            'telefono_estudiante.max' => 'El teléfono no puede superar los 15 caracteres.',
+
+            'correo_electronico_estudiante.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico_estudiante.email' => 'El correo electrónico debe tener un formato válido.',
+            'correo_electronico_estudiante.max' => 'El correo electrónico no puede superar los 100 caracteres.',
+            'correo_electronico_estudiante.unique' => 'Este correo electrónico ya está registrado.',
+
+            'direccion_estudiante.required' => 'La dirección es obligatoria.',
+            'direccion_estudiante.string' => 'La dirección debe ser una cadena de texto.',
+            'direccion_estudiante.max' => 'La dirección no puede superar los 255 caracteres.',
+
+            'id_grado.required' => 'El grado es obligatorio.',
+            'id_grado.exists' => 'El grado seleccionado no es válido.',
+
+            'id_tipo_documento.required' => 'El tipo de documento es obligatorio.',
+            'id_tipo_documento.exists' => 'El tipo de documento seleccionado no es válido.',
         ]);
+
+
 
         // guardamos el estudiante sin matricula aca
         $estudiante = Estudiante::create($request->all());
@@ -54,7 +105,6 @@ class EstudianteController extends Controller
 
         return redirect()->route('estudiantes.index')
             ->with('success', 'Estudiante creado exitosamente con matrícula: ' . $estudiante->matricula);
-
     }
 
     // Mostrar los detalles de un estudiante específico y su grado
@@ -82,13 +132,64 @@ class EstudianteController extends Controller
             'segundo_apellido_estudiante' => 'nullable|string|max:50',
             'edad_estudiante' => 'required|integer|min:1',
             'fecha_nacimiento_estudiante' => 'required|date',
-            'celular_estudiante' => 'nullable|string|max:15',
-            'telefono_estudiante' => 'nullable|string|max:15',
-            'correo_electronico_estudiante' => 'nullable|email|max:100',
-            'direccion_estudiante' => 'nullable|string|max:255',
+            'celular_estudiante' => 'required|string|max:15',
+            'telefono_estudiante' => 'required|string|max:15',
+            'correo_electronico_estudiante' => 'required|email|max:100|unique:estudiantes,correo_electronico_estudiante,' . $estudiante->id,
+            'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
+        ], [
+            'documento_estudiante.required' => 'El número de documento es obligatorio.',
+            'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
+            'documento_estudiante.max' => 'El número de documento no puede superar los 20 caracteres.',
+            'documento_estudiante.unique' => 'Este número de documento ya está registrado.',
+
+            'primer_nombre_estudiante.required' => 'El primer nombre es obligatorio.',
+            'primer_nombre_estudiante.string' => 'El primer nombre debe ser una cadena de texto.',
+            'primer_nombre_estudiante.max' => 'El primer nombre no puede superar los 50 caracteres.',
+
+            'segundo_nombre_estudiante.string' => 'El segundo nombre debe ser una cadena de texto.',
+            'segundo_nombre_estudiante.max' => 'El segundo nombre no puede superar los 50 caracteres.',
+
+            'primer_apellido_estudiante.required' => 'El primer apellido es obligatorio.',
+            'primer_apellido_estudiante.string' => 'El primer apellido debe ser una cadena de texto.',
+            'primer_apellido_estudiante.max' => 'El primer apellido no puede superar los 50 caracteres.',
+
+            'segundo_apellido_estudiante.string' => 'El segundo apellido debe ser una cadena de texto.',
+            'segundo_apellido_estudiante.max' => 'El segundo apellido no puede superar los 50 caracteres.',
+
+            'edad_estudiante.required' => 'La edad es obligatoria.',
+            'edad_estudiante.integer' => 'La edad debe ser un número entero.',
+            'edad_estudiante.min' => 'La edad mínima permitida es 1 año.',
+
+            'fecha_nacimiento_estudiante.required' => 'La fecha de nacimiento es obligatoria.',
+            'fecha_nacimiento_estudiante.date' => 'La fecha de nacimiento debe tener un formato válido.',
+
+            'celular_estudiante.required' => 'El celular es obligatorio.',
+            'celular_estudiante.string' => 'El celular debe ser una cadena de texto.',
+            'celular_estudiante.max' => 'El celular no puede superar los 15 caracteres.',
+
+            'telefono_estudiante.required' => 'El teléfono es obligatorio.',
+            'telefono_estudiante.string' => 'El teléfono debe ser una cadena de texto.',
+            'telefono_estudiante.max' => 'El teléfono no puede superar los 15 caracteres.',
+
+            'correo_electronico_estudiante.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico_estudiante.email' => 'El correo electrónico debe tener un formato válido.',
+            'correo_electronico_estudiante.max' => 'El correo electrónico no puede superar los 100 caracteres.',
+            'correo_electronico_estudiante.unique' => 'Este correo electrónico ya está registrado.',
+
+            'direccion_estudiante.required' => 'La dirección es obligatoria.',
+            'direccion_estudiante.string' => 'La dirección debe ser una cadena de texto.',
+            'direccion_estudiante.max' => 'La dirección no puede superar los 255 caracteres.',
+
+            'id_grado.required' => 'El grado es obligatorio.',
+            'id_grado.exists' => 'El grado seleccionado no es válido.',
+
+            'id_tipo_documento.required' => 'El tipo de documento es obligatorio.',
+            'id_tipo_documento.exists' => 'El tipo de documento seleccionado no es válido.',
         ]);
+
+
 
         $estudiante->update($request->all());
 

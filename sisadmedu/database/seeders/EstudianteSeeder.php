@@ -24,7 +24,7 @@ class EstudianteSeeder extends Seeder
             'telefono_estudiante' => '1234567',
             'correo_electronico_estudiante' => 'juan.perez@example.com',
             'direccion_estudiante' => 'Calle Falsa 123',
-            'id_grado' => 1,
+            'id_grado' => 7,
             'id_tipo_documento' => 1,
         ]);
     }

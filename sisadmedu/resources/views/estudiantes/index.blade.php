@@ -1,10 +1,10 @@
 @extends('layouts.gestion')
 @section('titulo')
-Lista de Estudiantes <i class="fas fa-user-graduate"></i>
+Estudiantes <i class="fas fa-user-graduate"></i>
 @endsection
 @section('boton-registrar')
 <x-boton-principal href="{{ route('estudiantes.create') }}">
-    <i class="fas fa-plus"></i> Nuevo Estudiante
+    <i class="fas fa-user-graduate"></i>
 </x-boton-principal>
 @endsection
 @section('tabla')
@@ -12,6 +12,8 @@ Lista de Estudiantes <i class="fas fa-user-graduate"></i>
     <thead>
         <tr>
             <th>ID</th>
+            <th>Matricula</th>
+            <th>Documento</th>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Grado</th>
@@ -22,13 +24,14 @@ Lista de Estudiantes <i class="fas fa-user-graduate"></i>
         @forelse ($estudiantes as $estudiante)
         <tr>
             <td>{{ $estudiante->id }}</td>
+            <td>{{ $estudiante->matricula }}</td>
+            <td>{{ $estudiante->documento_estudiante }}</td>
             <td>{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->segundo_nombre_estudiante }}</td>
             <td>{{ $estudiante->primer_apellido_estudiante }} {{ $estudiante->segundo_apellido_estudiante }}</td>
             <td>{{ $estudiante->grado->nombre_grado }}</td>
             <td>
-                {{-- Botón Editar --}}
+                <x-boton-accion tipo="ver" href="{{ route('estudiantes.show', $estudiante) }}" />
                 <x-boton-accion tipo="editar" href="{{ route('estudiantes.edit', $estudiante) }}" />
-                {{-- Botón Eliminar --}}
                 <form action="{{ route('estudiantes.destroy', $estudiante) }}" method="POST" class="d-inline-block" data-estudiante="{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }}">
                     @csrf
                     @method('DELETE')

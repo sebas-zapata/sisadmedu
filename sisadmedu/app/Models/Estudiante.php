@@ -15,6 +15,7 @@ class Estudiante extends Model
     public $incrementing = true;  // Autoincrementable
 
     protected $fillable = [
+        'matricula',
         'documento_estudiante',
         'primer_nombre_estudiante',
         'segundo_nombre_estudiante',

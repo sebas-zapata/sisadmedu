@@ -1,7 +1,7 @@
 @extends('layouts.gestion')
 
 @section('titulo')
-Gestión de Usuarios <i class="fas fa-users"></i>
+Usuarios <i class="fas fa-users"></i>
 @endsection
 @section('boton-registrar')
 <x-boton-principal href="{{ route('usuarios.create') }}">
