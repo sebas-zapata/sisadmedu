@@ -23,19 +23,43 @@ class GradoController extends Controller
     // Almacenar un nuevo grado
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre_grado' => 'required|string|max:255|unique:grados',
-        ],
-        // Validaciones personalizadas para los mensajes de error
-        [
-            'nombre_grado.required' => 'El campo nombre del grado es obligatorio.',
-            'nombre_grado.unique' => 'El nombre del grado ya está registrado.',
-        ]
-    );
+        $request->validate(
+            [
+                'nivel_grado' => 'required|integer|min:1|max:11',
+                'grupo_grado' => 'required|integer|min:1|max:5',
+            ],
+            [
+                'nivel_grado.required' => 'Debe seleccionar un nivel.',
+                'nivel_grado.integer'  => 'El nivel debe ser un número.',
+                'nivel_grado.min'      => 'El nivel no puede ser menor que 1.',
+                'nivel_grado.max'      => 'El nivel no puede ser mayor que 11.',
 
-        Grado::create($request->all());
+                'grupo_grado.required' => 'Debe seleccionar un grupo.',
+                'grupo_grado.integer'  => 'El grupo debe ser un número.',
+                'grupo_grado.min'      => 'El grupo no puede ser menor que 1.',
+                'grupo_grado.max'      => 'El grupo no puede ser mayor que 5.',
+            ]
+        );
 
-        return redirect()->route('grados.index')->with('success', 'Grado creado exitosamente.');
+        // Verificar si ya existe un grado con el mismo nivel y grupo
+        $existe = Grado::where('nivel_grado', $request->nivel_grado)
+            ->where('grupo_grado', $request->grupo_grado)
+            ->exists();
+
+        if ($existe) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['grupo_grado' => 'Ese grado ya está registrado.']);
+        }
+
+        // Crear el nuevo grado
+        Grado::create([
+            'nivel_grado' => $request->nivel_grado,
+            'grupo_grado' => $request->grupo_grado,
+        ]);
+
+        return redirect()->route('grados.index')
+            ->with('success', 'Grado creado exitosamente.');
     }
 
 
@@ -56,20 +80,46 @@ class GradoController extends Controller
     // Actualizar un grado específico
     public function update(Request $request, Grado $grado)
     {
-        $request->validate([
-            'nombre_grado' => 'required|string|max:255|unique:grados,nombre_grado,' . $grado->id,
-        ],
-        // Validaciones personalizadas para los mensajes de error
-        [
-            'nombre_grado.required' => 'El campo nombre del grado es obligatorio.',
-            'nombre_grado.unique' => 'El nombre del grado ya está registrado.',
-        ]
-    );
+        $request->validate(
+            [
+                'nivel_grado' => 'required|integer|min:1|max:11',
+                'grupo_grado' => 'required|integer|min:1|max:5',
+            ],
+            [
+                'nivel_grado.required' => 'Debe seleccionar un nivel.',
+                'nivel_grado.integer'  => 'El nivel debe ser un número.',
+                'nivel_grado.min'      => 'El nivel no puede ser menor que 1.',
+                'nivel_grado.max'      => 'El nivel no puede ser mayor que 11.',
 
-        $grado->update($request->all());
+                'grupo_grado.required' => 'Debe seleccionar un grupo.',
+                'grupo_grado.integer'  => 'El grupo debe ser un número.',
+                'grupo_grado.min'      => 'El grupo no puede ser menor que 1.',
+                'grupo_grado.max'      => 'El grupo no puede ser mayor que 5.',
+            ]
+        );
 
-        return redirect()->route('grados.index')->with('success', 'Grado actualizado exitosamente.');
+        // Verificar si ya existe un grado con el mismo nivel y grupo (excepto el actual)
+        $existe = Grado::where('nivel_grado', $request->nivel_grado)
+            ->where('grupo_grado', $request->grupo_grado)
+            ->where('id', '!=', $grado->id)
+            ->exists();
+
+        if ($existe) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['grupo_grado' => 'Ese grado ya está registrado.']);
+        }
+
+        // Actualizar el registro
+        $grado->update([
+            'nivel_grado' => $request->nivel_grado,
+            'grupo_grado' => $request->grupo_grado,
+        ]);
+
+        return redirect()->route('grados.index')
+            ->with('success', 'Grado actualizado exitosamente.');
     }
+
 
 
     // Eliminar un grado específico

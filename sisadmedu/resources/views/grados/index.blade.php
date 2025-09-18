@@ -4,7 +4,7 @@ Grados <i class="fas fa-graduation-cap"></i>
 @endsection
 @section('boton-registrar')
 <x-boton-principal href="{{ route('grados.create') }}">
-    <i class="fas fa-plus"></i> Nuevo Grado
+    <i class="fas fa-layer-group"></i>
 </x-boton-principal>
 @endsection
 @section('tabla')
@@ -12,6 +12,8 @@ Grados <i class="fas fa-graduation-cap"></i>
     <thead class="thead-sisadmedu text-center">
         <tr>
             <th>ID</th>
+            <th>Nivel grado</th>
+            <th>Grupo grado</th>
             <th>Nombre del Grado</th>
             <th>Acciones</th>
         </tr>
@@ -20,6 +22,8 @@ Grados <i class="fas fa-graduation-cap"></i>
         @forelse($grados as $grado)
         <tr>
             <td>{{ $grado->id }}</td>
+            <td>{{ $grado->nivel_grado }}</td>
+            <td>{{ $grado->grupo_grado }}</td>
             <td>{{ $grado->nombre_grado }}</td>
             <td>
                 <x-boton-accion tipo="editar" href="{{ route('grados.edit', $grado) }}" />

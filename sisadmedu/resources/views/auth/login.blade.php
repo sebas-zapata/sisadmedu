@@ -5,10 +5,11 @@
 
 @section('contenido')
 
-{{-- Mensaje de error --}}
+{{-- Mensaje de error general de autenticación --}}
 @if(session('error'))
-<div id="session-error" data-error="{{ session('error') }}"></div>
+    <div id="session-error" data-error="{{ session('error') }}"></div>
 @endif
+
 <div class="login-container">
     <div id="particles-js"></div>
 
@@ -18,23 +19,56 @@
 
         {{-- Nombre del sistema y bienvenida --}}
         <h2 class="fw-bold">SISADMEDU</h2>
-        <p class="text-muted mb-4">Bienvenido, por favor ingresa tus credenciales.</p>
+{{-- Mensaje dinámico de bienvenida o error --}}
+@if(session('error'))
+    <div class="alert alert-danger text-center mb-4" role="alert">
+        {{ session('error') }}
+    </div>
+@else
+    <p class="text-muted mb-4">Bienvenido, por favor ingresa tus credenciales.</p>
+@endif
+
 
         {{-- Formulario de acceso --}}
         <form id="loginForm" action="{{ route('login.post') }}" method="POST" autocomplete="off">
             @csrf
 
+            {{-- Correo electrónico --}}
             <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" placeholder="Correo electrónico" value="{{ old('correo_electronico') }}">
+                <input type="email"
+                       class="form-control @error('correo_electronico') is-invalid @enderror"
+                       id="correo_electronico"
+                       name="correo_electronico"
+                       placeholder="Correo electrónico"
+                       value="{{ old('correo_electronico') }}">
                 <label for="correo_electronico">Correo electrónico</label>
+
+                @error('correo_electronico')
+                    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
 
+            {{-- Contraseña --}}
             <div class="form-floating mb-4">
-                <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
+                <input type="password"
+                       class="form-control @error('contrasena') is-invalid @enderror"
+                       id="contrasena"
+                       name="contrasena"
+                       placeholder="Contraseña">
                 <label for="contrasena">Contraseña</label>
+
+                @error('contrasena')
+                    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
+
+            {{-- Botón de acceso --}}
             <button class="btn-login w-100" type="submit">
-                Acceder
+                <i class="fas fa-sign-in-alt me-2"></i> Acceder
             </button>
         </form>
 
@@ -50,6 +84,5 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection

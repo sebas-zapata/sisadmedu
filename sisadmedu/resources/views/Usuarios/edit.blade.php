@@ -210,6 +210,6 @@
         <i class="fas fa-arrow-left"></i> Cancelar
     </x-boton-principal>
     <x-boton-principal type="submit">
-        <i class="fa-solid fa-rotate-right"></i> Actualizar
+        <i class="fas fa-save"></i> Actualizar
     </x-boton-principal>
 @endsection

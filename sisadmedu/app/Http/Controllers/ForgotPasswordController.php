@@ -21,6 +21,11 @@ class ForgotPasswordController extends Controller
     {
         $request->validate([
             'correo_electronico' => 'required|email|exists:usuarios,correo_electronico',
+        ],
+        [
+            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+            'correo_electronico.email'    => 'Ingresa un correo electrónico válido.',
+            'correo_electronico.exists'   => 'No existe una cuenta con este correo electrónico.',
         ]);
 
         $user = Usuario::where('correo_electronico', $request->correo_electronico)->first();

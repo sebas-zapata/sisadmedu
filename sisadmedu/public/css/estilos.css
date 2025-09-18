@@ -6,6 +6,9 @@
 body {
     background-color: #461c68;
 }
+.titulo{
+    color:#461c68;
+}
 
 .logo {
     display: inline;

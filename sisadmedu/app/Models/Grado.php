@@ -10,7 +10,7 @@ class Grado extends Model
     use HasFactory;
 
     // Definir los campos que son asignables en masa
-    protected $fillable = ['nombre_grado'];
+    protected $fillable = ['nivel_grado', 'grupo_grado', 'nombre_grado'];
  
     // Relación con el modelo de Estudiante
     public function estudiantes()

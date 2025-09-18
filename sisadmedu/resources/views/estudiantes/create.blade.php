@@ -225,6 +225,6 @@
         <i class="fas fa-arrow-left"></i> Cancelar
     </x-boton-principal>
     <x-boton-principal type="submit">
-        <i class="fas fa-user-plus"></i> Guardar
+        <i class="fas fa-save"></i> Guardar
     </x-boton-principal>
 @endsection

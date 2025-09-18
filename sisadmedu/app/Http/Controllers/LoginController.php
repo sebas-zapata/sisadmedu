@@ -31,10 +31,19 @@ class LoginController extends Controller
     // de error
     public function login(Request $request)
     {
-        $request->validate([
-            'correo_electronico' => 'required|email',
-            'contrasena' => 'required|min:6',
-        ]);
+        $request->validate(
+            [
+                'correo_electronico' => 'required|email',
+                'contrasena' => 'required|string|min:6',
+            ],
+            [
+                'correo_electronico.required' => 'El correo electrónico es obligatorio.',
+                'correo_electronico.email'    => 'Ingresa un correo electrónico válido.',
+                'contrasena.required'         => 'La contraseña es obligatoria.',
+                'contrasena.min'              => 'La contraseña debe tener al menos 6 caracteres.',
+            ]
+        );
+
 
         // Intentamos autenticar con Auth
         if (Auth::attempt([

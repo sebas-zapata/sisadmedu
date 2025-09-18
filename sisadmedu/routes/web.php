@@ -10,6 +10,7 @@ use App\Http\Controllers\GradoController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\GraficosController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -65,3 +66,7 @@ Route::get('/usuarios-pdf', [PdfController::class, 'usuarioPdf'])->name('usuario
 // Ruta para generar el PDF de constancias
 Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
     ->name('pdf.constancia');
+
+// Ruta para el dashboard con gráficos    
+Route::get('/', [GraficosController::class, 'index'])
+    ->name('dashboard')->middleware('auth');    

@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const botonesEliminar = document.querySelectorAll('.btn-eliminar-estudiantes');
+    const botonesEliminar = document.querySelectorAll('.btn-eliminar-grados');
 
     botonesEliminar.forEach(boton => {
         boton.addEventListener('click', function () {
             const form = this.closest('form');
-            const estudianteNombre = form.getAttribute('data-estudiante');
+            const gradoNombre = form.getAttribute('data-grado');
 
             Swal.fire({
-                title: `¿Estás seguro de eliminar el estudiante '${estudianteNombre}'?`,
+                title: `¿Estás seguro de eliminar el grado '${gradoNombre}'?`,
                 text: "¡No podrás revertir esto!",
                 icon: 'warning',
                 showCancelButton: true,
