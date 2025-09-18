@@ -22,7 +22,10 @@
              <i class="fas fa-th-large me-1"></i> Módulos
           </a>
           <ul class="dropdown-menu shadow-sm">
+            {{-- Solo Administrador puede ver Usuarios --}}
+            @if(Auth::user()->rol_id == 1)
             <li><a class="dropdown-item" href="{{ route('usuarios.index') }}"><i class="fas fa-users me-2"></i> Usuarios</a></li>
+            @endif
             <li><a class="dropdown-item" href="{{ route('docentes.index') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Docentes</a></li>
             <li><a class="dropdown-item" href="{{ route('estudiantes.index') }}"><i class="fas fa-user-graduate me-2"></i> Estudiantes</a></li>
             <li><a class="dropdown-item" href="{{ route('grados.index') }}"><i class="fas fa-layer-group me-2"></i> Grados</a></li>
