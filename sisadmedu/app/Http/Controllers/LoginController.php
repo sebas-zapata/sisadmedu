@@ -58,11 +58,9 @@ class LoginController extends Controller
             // Lógica de contraseña por defecto
             // Comprobamos si la contraseña coincide con el documento
             if (Hash::check($usuario->documento, $usuario->contrasena)) {
-                // Guardamos flag en sesión
-                $request->session()->put('debe_cambiar_contrasena', true);
-
                 // Redirigimos al formulario de cambio de contraseña
                 return redirect()->route('dashboard')
+                    ->with('debe_cambiar_contrasena', true)
                     ->with('success', 'Bienvenido, ' . $usuario->nombres . '! Debes cambiar tu contraseña por seguridad.');
             }
 
@@ -96,13 +94,19 @@ class LoginController extends Controller
 
     public function formCambiarContrasena()
     {
-        // Solo permitir acceso si está usando contraseña por defecto
-        if (!session('debe_cambiar_contrasena')) {
+        $usuario = Auth::user();
+        if (!$usuario) {
+            return redirect()->route('login')->with('error', 'Usuario no encontrado.');
+        }
+
+        // Solo permitir si la contraseña es igual al documento
+        if (!Hash::check($usuario->documento, $usuario->contrasena)) {
             return redirect()->route('dashboard');
         }
 
         return view('usuarios.cambiar_contrasena');
     }
+
 
     public function actualizarContrasena(Request $request)
     {
@@ -130,11 +134,11 @@ class LoginController extends Controller
             ])->withInput();
         }
 
-        // 3️⃣ Actualizar la contraseña
+        //  Actualizar la contraseña
         $usuario->contrasena = Hash::make($request->nueva_contrasena);
         $usuario->save();
 
-        // 4️⃣ Limpiar el flag de sesión
+        //  Limpiar el flag de sesión
         session()->forget('debe_cambiar_contrasena');
 
         // 5 Redirigir con mensaje de éxito

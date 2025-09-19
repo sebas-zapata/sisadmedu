@@ -38,7 +38,6 @@
     @endif
 
     {{-- Contenido principal --}}
-    <main class="container-fluid py-4">
         @yield('contenido')
     </main>
 

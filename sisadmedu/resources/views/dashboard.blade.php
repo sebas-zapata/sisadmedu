@@ -5,6 +5,30 @@
 
     {{-- Tarjeta de módulos --}}
     <div class="card w-100 mb-4">
+            <main class="container-fluid py-4">
+@if(session('debe_cambiar_contrasena'))
+    <div class="position-fixed top-2 end-2 p-3" style="z-index: 1100">
+        <div id="toastContrasena" class="toast align-items-center text-bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    ⚠️ Debes cambiar tu contraseña por seguridad.
+                    <a href="{{ route('cambiar_contraseña') }}" class="btn btn-sm btn-secondary ms-2">Cambiar</a>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.getElementById('toastContrasena');
+            if(toastEl){
+                var toast = new bootstrap.Toast(toastEl, { delay: 10000 }); // Aparece 10s
+                toast.show();
+            }
+        });
+    </script>
+@endif
         <div class="card-header">
             <h2>
                 <i class="fas fa-graduation-cap"></i> Áreas Académicas
