@@ -36,7 +36,7 @@ class UsuarioController extends Controller
     // Método para mostrar el formulario de creación de un nuevo usuario
     public function create()
     {
-                /** @var LoginUsuario $usuario */
+        /** @var LoginUsuario $usuario */
         $usuario = Auth::user();
 
         // Validación: si no tiene rol o es docente, redirige
@@ -65,6 +65,8 @@ class UsuarioController extends Controller
                 'telefono' => 'required|numeric|unique:usuarios',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
+                // validación para estudiante_id solo si es acudiente
+                'estudiante_id' => 'nullable|exists:estudiantes,id',
             ],
             [
                 'documento.required' => 'El campo documento es obligatorio.',
@@ -86,15 +88,21 @@ class UsuarioController extends Controller
         $datos = $request->all();
 
         // Asignar el documento como contraseña por defecto
-        // Se guarda hasheada para seguridad
         $datos['contrasena'] = Hash::make($request->documento);
-        // Crear el usuario en la base de datos
-        Usuario::create($datos);
 
-        // Redirigir con mensaje indicando que la contraseña inicial es el documento
+        // Crear el usuario en la base de datos
+        $usuario = Usuario::create($datos);
+
+        // 2️⃣ Verificar si el usuario es acudiente y se seleccionó un estudiante
+        $rolAcudiente = Rol::where('nombre', 'Acudiente')->first();
+        if ($rolAcudiente && $request->rol_id == $rolAcudiente->id && $request->filled('estudiante_id')) {
+            $usuario->estudiantes()->attach($request->estudiante_id);
+        }
+
         return redirect()->route('usuarios.index')
             ->with('success', "Usuario creado correctamente. La contraseña inicial es el documento del usuario.");
     }
+
 
 
 
@@ -104,16 +112,20 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function show($id)
     {
-                /** @var LoginUsuario $usuario */
+        /** @var LoginUsuario $usuario */
         $usuario = Auth::user();
 
         // Validación: si no tiene rol o es docente, redirige
         if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
             return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
         }
-        $usuario = Usuario::with(['rol', 'tipoDocumento'])->findOrFail($id);
+
+        // Cargar rol, tipoDocumento y estudiantes asociados
+        $usuario = Usuario::with(['rol', 'tipoDocumento', 'estudiantes'])->findOrFail($id);
+
         return view('usuarios.show', compact('usuario'));
     }
+
 
     // Método para mostrar el formulario de edición de un usuario
     // Este método busca el usuario por su ID y retorna la vista 'usuarios.edit'
@@ -123,7 +135,7 @@ class UsuarioController extends Controller
     // si no se encuentra
     public function edit($id)
     {
-                /** @var LoginUsuario $usuario */
+        /** @var LoginUsuario $usuario */
         $usuario = Auth::user();
 
         // Validación: si no tiene rol o es docente, redirige
@@ -157,6 +169,7 @@ class UsuarioController extends Controller
 
                 // Contraseña solo si la quiere cambiar
                 'contrasena' => 'nullable|min:6|confirmed',
+                'estudiante_id' => 'nullable|exists:estudiantes,id',
             ]
             // Validaciones personalizadas para los mensajes de error
             ,
@@ -186,6 +199,18 @@ class UsuarioController extends Controller
         }
 
         $usuario->update($datos);
+
+        // Actualizar la relación si es acudiente
+        $rolAcudiente = Rol::where('nombre', 'Acudiente')->first();
+        if ($rolAcudiente && $request->rol_id == $rolAcudiente->id) {
+            if ($request->filled('estudiante_id')) {
+                // sincroniza el acudiente con un solo estudiante (reemplaza)
+                $usuario->estudiantes()->sync([$request->estudiante_id]);
+            } else {
+                // si no selecciona ninguno, elimina las relaciones
+                $usuario->estudiantes()->detach();
+            }
+        }
 
         return redirect()->route('usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }
@@ -266,5 +291,23 @@ class UsuarioController extends Controller
         }
 
         return redirect()->route('perfil.edit')->with('success', "{$request->nombres} tu información fue actualizada correctamente.");
+    }
+
+    public function buscarAcudientes(Request $request)
+    {
+        $query = $request->get('query');
+
+        $acudientes = Usuario::whereHas('rol', function ($q) {
+            $q->whereRaw('LOWER(nombre) = ?', ['acudiente']);
+        })
+            ->where(function ($q) use ($query) {
+                $q->where('nombres', 'LIKE', "%{$query}%")
+                    ->orWhere('apellidos', 'LIKE', "%{$query}%")
+                    ->orWhere('documento', 'LIKE', "%{$query}%");
+            })
+            ->limit(10)
+            ->get(['id', 'nombres', 'apellidos', 'documento']);
+
+        return response()->json($acudientes);
     }
 }

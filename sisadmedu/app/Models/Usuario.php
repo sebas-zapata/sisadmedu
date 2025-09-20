@@ -38,4 +38,10 @@ class Usuario extends Model
     {
         return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id');
     }
+
+    public function estudiantes()
+    {
+        return $this->belongsToMany(Estudiante::class, 'acudiente_estudiante', 'acudiente_id', 'estudiante_id')
+            ->withTimestamps();
+    }
 }

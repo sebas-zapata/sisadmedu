@@ -1,14 +1,20 @@
+{{-- resources/views/estudiantes/create.blade.php --}}
 @extends('layouts.form')
+
 @section('titulo-formulario')
     Crear Estudiante <i class="fas fa-user-graduate"></i>
 @endsection
+
 @section('id-form', 'formulario-estudiante')
+
 @section('ruta-accion')
     {{ route('estudiantes.store') }}
 @endsection
+
 @section('metodo')
     @method('POST')
 @endsection
+
 @section('campos-formulario')
 
 <div class="row mb-3">
@@ -82,7 +88,7 @@
                    value="{{ old('segundo_apellido_estudiante') }}">
             <label for="segundo_apellido_estudiante">Segundo Apellido</label>
             @error('segundo_apellido_estudiante')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;"">{{ $message }}</div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
             @enderror
         </div>
     </div>
@@ -218,6 +224,21 @@
     </div>
 </div>
 
+<div class="row mb-3">
+    <div class="col-md-12 position-relative">
+        <label for="buscar_acudiente" class="form-label">Buscar Acudiente</label>
+        <input type="text" id="buscar_acudiente" class="form-control" placeholder="Escribe nombre o documento del acudiente...">
+
+        {{-- Resultados dinámicos --}}
+        <ul id="resultados_acudientes" class="list-group mt-1 position-absolute w-100" 
+            style="z-index: 1050; max-height: 200px; overflow-y: auto;">
+        </ul>
+
+        <input type="hidden" name="acudiente_id" id="acudiente_id">
+    </div>
+</div>
+
+
 @endsection
 
 @section('botones-formulario')
@@ -228,3 +249,47 @@
         <i class="fas fa-save"></i> Guardar
     </x-boton-principal>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const inputBusqueda = document.getElementById("buscar_acudiente");
+    const resultadosDiv = document.getElementById("resultados_acudientes");
+    const inputHidden = document.getElementById("acudiente_id");
+
+    inputBusqueda.addEventListener("keyup", function () {
+        const query = inputBusqueda.value;
+
+        if (query.length < 2) {
+            resultadosDiv.innerHTML = "";
+            return;
+        }
+
+        fetch(`/buscar-acudientes?query=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                resultadosDiv.innerHTML = "";
+
+                if (data.length > 0) {
+                    data.forEach(acudiente => {
+                        const li = document.createElement("li");
+                        li.classList.add("list-group-item", "list-group-item-action");
+                        li.textContent = `${acudiente.nombres} ${acudiente.apellidos} - ${acudiente.documento}`;
+
+                        li.addEventListener("click", function () {
+                            inputBusqueda.value = `${acudiente.nombres} ${acudiente.apellidos}`;
+                            inputHidden.value = acudiente.id;
+                            resultadosDiv.innerHTML = "";
+                        });
+
+                        resultadosDiv.appendChild(li);
+                    });
+                } else {
+                    resultadosDiv.innerHTML = '<li class="list-group-item">No se encontraron acudientes</li>';
+                }
+            });
+    });
+});
+</script>
+@endpush
+

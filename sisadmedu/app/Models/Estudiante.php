@@ -40,4 +40,10 @@ class Estudiante extends Model
     {
         return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento');
     }
+
+    public function acudientes()
+    {
+        return $this->belongsToMany(Usuario::class, 'acudiente_estudiante', 'estudiante_id', 'acudiente_id')
+            ->withTimestamps();
+    }
 }

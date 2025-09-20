@@ -41,6 +41,7 @@ class EstudianteController extends Controller
             'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
+            'acudiente_id' => 'nullable|exists:usuarios,id',
         ], [
             'documento_estudiante.required' => 'El número de documento es obligatorio.',
             'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
@@ -90,6 +91,8 @@ class EstudianteController extends Controller
 
             'id_tipo_documento.required' => 'El tipo de documento es obligatorio.',
             'id_tipo_documento.exists' => 'El tipo de documento seleccionado no es válido.',
+
+            'acudiente_id.exists' => 'El acudiente seleccionado no es válido.',
         ]);
 
 
@@ -103,13 +106,21 @@ class EstudianteController extends Controller
         // Guardamos el cambio
         $estudiante->save();
 
+        if ($request->filled('acudiente_id')) {
+            // Añade la relación si no existe (no rompe otras relaciones)
+            $estudiante->acudientes()->syncWithoutDetaching([$request->input('acudiente_id')]);
+        }
+
         return redirect()->route('estudiantes.index')
             ->with('success', 'Estudiante creado exitosamente con matrícula: ' . $estudiante->matricula);
     }
 
     // Mostrar los detalles de un estudiante específico y su grado
-    public function show(Estudiante $estudiante)
+    public function show($id)
     {
+        $estudiante = Estudiante::with(['grado', 'tipoDocumento', 'acudientes.rol'])
+            ->findOrFail($id);
+
         return view('estudiantes.show', compact('estudiante'));
     }
 
@@ -138,6 +149,7 @@ class EstudianteController extends Controller
             'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
+            'acudiente_id' => 'nullable|exists:usuarios,id',
         ], [
             'documento_estudiante.required' => 'El número de documento es obligatorio.',
             'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
@@ -192,6 +204,14 @@ class EstudianteController extends Controller
 
 
         $estudiante->update($request->all());
+
+        if ($request->filled('acudiente_id')) {
+            // Reemplaza las relaciones actuales por la seleccionada
+            $estudiante->acudientes()->sync([$request->input('acudiente_id')]);
+        } else {
+            // Si no selecciona ninguno, quita todas las relaciones (opcional)
+            $estudiante->acudientes()->detach();
+        }
 
         return redirect()->route('estudiantes.index')->with('success', 'Estudiante actualizado exitosamente.');
     }
