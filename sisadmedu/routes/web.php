@@ -69,4 +69,12 @@ Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
 
 // Ruta para el dashboard con gráficos    
 Route::get('/', [GraficosController::class, 'index'])
-    ->name('dashboard')->middleware('auth');    
+    ->name('dashboard')->middleware('auth');  
+    
+
+// ruta para buscar acudientes 
+Route::get('/buscar-acudientes', [App\Http\Controllers\UsuarioController::class, 'buscarAcudientes'])
+     ->name('acudientes.search');
+
+
+

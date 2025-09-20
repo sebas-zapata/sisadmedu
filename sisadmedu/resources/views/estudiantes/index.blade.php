@@ -35,7 +35,7 @@ Estudiantes <i class="fas fa-user-graduate"></i>
                 <form action="{{ route('estudiantes.destroy', $estudiante) }}" method="POST" class="d-inline-block" data-estudiante="{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }}">
                     @csrf
                     @method('DELETE')
-                    <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-estudiantes" />
+                    <x-boton-accion tipo="eliminar" type="submit" class="btn-eliminar-estudiantes" />
                 </form>
                 {{-- Botón Generar Constancia PDF --}}
                 <x-boton-accion tipo="descargar" href="{{ route('pdf.constancia', $estudiante->id) }}" />

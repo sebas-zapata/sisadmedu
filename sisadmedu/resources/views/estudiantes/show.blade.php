@@ -96,6 +96,43 @@
     </div>
 </div>
 
+<hr class="my-4">
+
+{{-- Mostrar acudientes solo si existen --}}
+@if($estudiante->acudientes && $estudiante->acudientes->isNotEmpty())
+    <div class="mt-4">
+        <h5 class="fw-bold text-center text-light">Acudientes Asignados</h5>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-sm text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Documento</th>
+                        <th>Nombre Completo</th>
+                        <th>Teléfono</th>
+                        <th>Correo Electrónico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($estudiante->acudientes as $acudiente)
+                        <tr>
+                            <td>{{ $acudiente->id }}</td>
+                            <td>{{ $acudiente->documento }}</td>
+                            <td>{{ $acudiente->nombres }} {{ $acudiente->apellidos }}</td>
+                            <td>{{ $acudiente->telefono ?? 'No registrado' }}</td>
+                            <td>{{ $acudiente->correo_electronico ?? 'No registrado' }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+@else
+    <p class="text-center text-muted">Este estudiante aún no tiene acudientes asignados.</p>
+@endif
+
+
 <div class="d-flex justify-content-end gap-2 mt-4">
     <x-boton-principal href="{{ route('estudiantes.index') }}">
         <i class="fas fa-arrow-left me-1"></i> Volver

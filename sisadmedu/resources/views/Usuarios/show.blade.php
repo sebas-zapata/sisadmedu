@@ -52,6 +52,51 @@
     </div>
 </div>
 
+<hr class="my-4">
+
+{{-- Mostrar tabla solo si el rol es Acudiente --}}
+@if($usuario->rol && $usuario->rol->nombre === 'Acudiente')
+    <div class="mt-4">
+        <h5 class="fw-bold text-center text-light">Estudiantes Asignados</h5>
+
+        @if($usuario->estudiantes->isEmpty())
+            <p class="text-center text-muted">Este acudiente aún no tiene estudiantes asignados.</p>
+        @else
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-sm text-center align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Matricula</th>
+                            <th>Documento</th>
+                            <th>Nombre Completo</th>
+                            <th>Grado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($usuario->estudiantes as $estudiante)
+                            <tr>
+                                <td>{{ $estudiante->id }}</td>
+                                <td>{{ $estudiante->matricula }}</td>
+                                <td>{{ $estudiante->documento_estudiante }}</td>
+                                <td>
+                                    {{ $estudiante->primer_nombre_estudiante }}
+                                    {{ $estudiante->segundo_nombre_estudiante }}
+                                    {{ $estudiante->primer_apellido_estudiante }}
+                                    {{ $estudiante->segundo_apellido_estudiante }}
+                                </td>
+                                <td>{{ $estudiante->grado->nombre_grado ?? 'Sin grado' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </div>
+@endif
+
+
+
 <div class="d-flex justify-content-end gap-2 mt-4">
     <x-boton-principal href="{{ route('usuarios.index') }}">
         <i class="fas fa-arrow-left me-1"></i> Volver
