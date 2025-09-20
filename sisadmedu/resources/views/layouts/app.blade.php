@@ -57,7 +57,7 @@
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/graficos/graficos.js') }}"></script>
     <script src="{{ asset('js/usuarios/validar-usuario.js') }}"></script>
-    <script src="{{ asset('js/mensaje-exito.js') }}"></script>
+    <script src="{{ asset('js/alertas.js') }}"></script>
     <script src="{{ asset('js/login/validacion-login.js') }}"></script>
     <script src="{{ asset('js/login/validacion-logout.js') }}"></script>
     <script src="{{ asset('js/particles-js/particles-config.js') }}"></script>

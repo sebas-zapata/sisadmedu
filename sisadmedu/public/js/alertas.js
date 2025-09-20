@@ -1,3 +1,4 @@
+// Alerta de éxito con SweetAlert2
 document.addEventListener('DOMContentLoaded', function () {
     const divExito = document.getElementById('session-success');
     if (!divExito) return;
@@ -23,4 +24,13 @@ document.addEventListener('DOMContentLoaded', function () {
         confirmButtonColor: '#461c68',
         confirmButtonText: 'Aceptar'
     });
+});
+
+// Alerta de cambio de contraseña con Bootstrap Toast
+document.addEventListener('DOMContentLoaded', function () {
+    var toastEl = document.getElementById('toastContrasena');
+    if (toastEl) {
+        var toast = new bootstrap.Toast(toastEl, { delay: 60000 }); // Aparece 60s
+        toast.show();
+    }
 });

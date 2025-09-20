@@ -59,8 +59,8 @@ class LoginController extends Controller
             // Comprobamos si la contraseña coincide con el documento
             if (Hash::check($usuario->documento, $usuario->contrasena)) {
                 // Redirigimos al formulario de cambio de contraseña
+                session(['debe_cambiar_contrasena' => true]);
                 return redirect()->route('dashboard')
-                    ->with('debe_cambiar_contrasena', true)
                     ->with('success', 'Bienvenido, ' . $usuario->nombres . '! Debes cambiar tu contraseña por seguridad.');
             }
 
