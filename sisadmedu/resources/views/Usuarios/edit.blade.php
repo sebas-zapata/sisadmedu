@@ -19,26 +19,6 @@
     {{-- FILA 1 --}}
     <div class="row mb-3">
         <div class="col-md-4">
-            <div class="form-floating">
-                <input 
-                    type="text" 
-                    name="documento" 
-                    id="documento" 
-                    class="form-control @error('documento') is-invalid @enderror" 
-                    value="{{ old('documento', $usuario->documento) }}" 
-                    placeholder=" " 
-                    required
-                >
-                <label for="documento">Documento</label>
-            </div>
-            @error('documento')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-
-        <div class="col-md-4">
             <div class="form-floating mt-2">
                 <select 
                     name="tipo_documento_id" 
@@ -61,6 +41,26 @@
                 </div>
             @enderror
         </div>
+        <div class="col-md-4">
+            <div class="form-floating">
+                <input 
+                    type="text" 
+                    name="documento" 
+                    id="documento" 
+                    class="form-control @error('documento') is-invalid @enderror" 
+                    value="{{ old('documento', $usuario->documento) }}" 
+                    placeholder=" " 
+                    required
+                >
+                <label for="documento">Documento</label>
+            </div>
+            @error('documento')
+                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
 
         <div class="col-md-4">
             <div class="form-floating">

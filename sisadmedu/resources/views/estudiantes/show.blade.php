@@ -2,15 +2,15 @@
 
 @section('informacion')
 <div class="text-center">
-    <img src="{{ Avatar::create($estudiante->primer_nombre_estudiante . ' ' . $estudiante->segundo_nombre_estudiante . ' ' . $estudiante->primer_apellido_estudiante . ' ' . $estudiante->segundo_apellido_estudiante)->toBase64() }}" 
-         alt="Avatar" 
-         class="rounded-circle shadow mb-3" 
-         width="100" 
-         height="100">
+    <img src="{{ Avatar::create($estudiante->primer_nombre_estudiante . ' ' . $estudiante->segundo_nombre_estudiante . ' ' . $estudiante->primer_apellido_estudiante . ' ' . $estudiante->segundo_apellido_estudiante)->toBase64() }}"
+        alt="Avatar"
+        class="rounded-circle shadow mb-3"
+        width="100"
+        height="100">
     <h4 class="fw-bold mb-0">
-        {{ $estudiante->primer_nombre_estudiante }} 
-        {{ $estudiante->segundo_nombre_estudiante }} 
-        {{ $estudiante->primer_apellido_estudiante }} 
+        {{ $estudiante->primer_nombre_estudiante }}
+        {{ $estudiante->segundo_nombre_estudiante }}
+        {{ $estudiante->primer_apellido_estudiante }}
         {{ $estudiante->segundo_apellido_estudiante }}
     </h4>
     <hr class="my-4">
@@ -100,36 +100,37 @@
 
 {{-- Mostrar acudientes solo si existen --}}
 @if($estudiante->acudientes && $estudiante->acudientes->isNotEmpty())
-    <div class="mt-4">
-        <h5 class="fw-bold text-center text-light">Acudientes Asignados</h5>
+<div class="mt-4">
+    <h5 class="fw-bold text-center text-light">Acudientes Asignados</h5>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover table-sm text-center align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Documento</th>
-                        <th>Nombre Completo</th>
-                        <th>Teléfono</th>
-                        <th>Correo Electrónico</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($estudiante->acudientes as $acudiente)
-                        <tr>
-                            <td>{{ $acudiente->id }}</td>
-                            <td>{{ $acudiente->documento }}</td>
-                            <td>{{ $acudiente->nombres }} {{ $acudiente->apellidos }}</td>
-                            <td>{{ $acudiente->telefono ?? 'No registrado' }}</td>
-                            <td>{{ $acudiente->correo_electronico ?? 'No registrado' }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+    <div class="list-group">
+        @foreach($estudiante->acudientes as $acudiente)
+        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div>
+                <h6 class="fw-bold mb-1">
+                    {{ $acudiente->nombres }} {{ $acudiente->apellidos }}
+                </h6>
+                <small class="text-muted d-block">
+                    <strong>ID:</strong> {{ $acudiente->id }} |
+                    <strong>Documento:</strong> {{ $acudiente->documento }}
+                </small>
+                <small class="text-muted d-block">
+                    <strong>Teléfono:</strong> {{ $acudiente->telefono ?? 'No registrado' }}
+                </small>
+                <small class="text-muted d-block">
+                    <strong>Correo:</strong> {{ $acudiente->correo_electronico ?? 'No registrado' }}
+                </small>
+            </div>
+            <span class="badge bg-dark rounded-pill">
+                Acudiente
+            </span>
         </div>
+        @endforeach
     </div>
+
+</div>
 @else
-    <p class="text-center text-muted">Este estudiante aún no tiene acudientes asignados.</p>
+<p class="text-center text-muted">Este estudiante aún no tiene acudientes asignados.</p>
 @endif
 
 

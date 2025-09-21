@@ -1,5 +1,5 @@
 @extends('layouts.show')
-    
+
 @section('informacion')
 <div class="text-center">
     <img src="{{ Avatar::create($usuario->nombres . ' ' . $usuario->apellidos)->toBase64() }}" alt="Avatar de {{ $usuario->nombres }}" class="rounded-full w-24 h-24 shadow-md">
@@ -56,43 +56,33 @@
 
 {{-- Mostrar tabla solo si el rol es Acudiente --}}
 @if($usuario->rol && $usuario->rol->nombre === 'Acudiente')
-    <div class="mt-4">
-        <h5 class="fw-bold text-center text-light">Estudiantes Asignados</h5>
+<div class="mt-4">
+    <h5 class="fw-bold text-center text-light">Estudiantes Asignados</h5>
 
-        @if($usuario->estudiantes->isEmpty())
-            <p class="text-center text-muted">Este acudiente aún no tiene estudiantes asignados.</p>
-        @else
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table-sm text-center align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Matricula</th>
-                            <th>Documento</th>
-                            <th>Nombre Completo</th>
-                            <th>Grado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($usuario->estudiantes as $estudiante)
-                            <tr>
-                                <td>{{ $estudiante->id }}</td>
-                                <td>{{ $estudiante->matricula }}</td>
-                                <td>{{ $estudiante->documento_estudiante }}</td>
-                                <td>
-                                    {{ $estudiante->primer_nombre_estudiante }}
-                                    {{ $estudiante->segundo_nombre_estudiante }}
-                                    {{ $estudiante->primer_apellido_estudiante }}
-                                    {{ $estudiante->segundo_apellido_estudiante }}
-                                </td>
-                                <td>{{ $estudiante->grado->nombre_grado ?? 'Sin grado' }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    @if($usuario->estudiantes->isEmpty())
+    <p class="text-center text-muted">Este acudiente aún no tiene estudiantes asignados.</p>
+    @else
+    <div class="list-group">
+        @foreach($usuario->estudiantes as $estudiante)
+        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div>
+                <h6 class="fw-bold mb-1">
+                    {{ $estudiante->primer_nombre_estudiante }}
+                    {{ $estudiante->segundo_nombre_estudiante }}
+                    {{ $estudiante->primer_apellido_estudiante }}
+                    {{ $estudiante->segundo_apellido_estudiante }}
+                </h6>
+                <small class="text-muted">Documento: {{ $estudiante->documento_estudiante }} | Matrícula: {{ $estudiante->matricula }}</small>
             </div>
-        @endif
+            <span class="badge bg-dark rounded-pill">
+                {{ $estudiante->grado->nombre_grado ?? 'Sin grado' }}
+            </span>
+        </div>
+        @endforeach
     </div>
+
+    @endif
+</div>
 @endif
 
 

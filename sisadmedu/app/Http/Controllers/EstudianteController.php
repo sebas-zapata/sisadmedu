@@ -41,7 +41,7 @@ class EstudianteController extends Controller
             'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
-            'acudiente_id' => 'nullable|exists:usuarios,id',
+            'acudiente_id' => 'nullable|required|exists:usuarios,id',
         ], [
             'documento_estudiante.required' => 'El número de documento es obligatorio.',
             'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
@@ -93,6 +93,7 @@ class EstudianteController extends Controller
             'id_tipo_documento.exists' => 'El tipo de documento seleccionado no es válido.',
 
             'acudiente_id.exists' => 'El acudiente seleccionado no es válido.',
+            'acudiente_id.required' => 'Debes seleccionar un acudiente si deseas registrar un nuevo estudiante.',
         ]);
 
 
