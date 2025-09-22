@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravolt\Avatar\Facade as Avatar;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
@@ -295,15 +296,16 @@ class UsuarioController extends Controller
 
     public function buscarAcudientes(Request $request)
     {
-        $query = $request->get('query');
+        $query = strtolower($request->get('query')); // pasamos todo a minúsculas para que coincida
 
         $acudientes = Usuario::whereHas('rol', function ($q) {
             $q->whereRaw('LOWER(nombre) = ?', ['acudiente']);
         })
             ->where(function ($q) use ($query) {
-                $q->where('nombres', 'LIKE', "%{$query}%")
-                    ->orWhere('apellidos', 'LIKE', "%{$query}%")
-                    ->orWhere('documento', 'LIKE', "%{$query}%");
+                $q->whereRaw("LOWER(CONCAT(nombres, ' ', apellidos)) LIKE ?", ["%{$query}%"])
+                    ->orWhereRaw("LOWER(nombres) LIKE ?", ["%{$query}%"])
+                    ->orWhereRaw("LOWER(apellidos) LIKE ?", ["%{$query}%"])
+                    ->orWhereRaw("documento LIKE ?", ["%{$query}%"]);
             })
             ->limit(10)
             ->get(['id', 'nombres', 'apellidos', 'documento']);
