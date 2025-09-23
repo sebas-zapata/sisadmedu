@@ -254,9 +254,10 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
 
         {{-- Resultados dinámicos --}}
         <ul id="resultados_acudientes"
-            class="list-group mt-1 position-absolute w-100"
-            style="z-index: 1050; max-height: 200px; overflow-y: auto;">
+            class="list-group position-absolute shadow-lg rounded w-50 w-md-75 w-lg-50 bg-white"
+            style="z-index: 1050; max-height: 250px; overflow-y: auto;">
         </ul>
+
 
         <input type="hidden" name="acudiente_id" id="acudiente_id">
     </div>
