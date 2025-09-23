@@ -14,6 +14,14 @@ class ObservacionController extends Controller
             'docente_id'    => 'required|exists:docentes,id',
             'tipo'          => 'required|string',
             'descripcion'   => 'required|string',
+        ],
+        [
+            'estudiante_id.required' => 'El campo estudiante es obligatorio.',
+            'estudiante_id.exists'   => 'El estudiante seleccionado no existe.',
+            'docente_id.required'    => 'El campo docente es obligatorio.',
+            'docente_id.exists'      => 'El docente seleccionado no existe.',
+            'tipo.required'          => 'El campo tipo es obligatorio.',
+            'descripcion.required'   => 'El campo descripción es obligatorio.',
         ]);
 
         Observacion::create([
@@ -21,9 +29,8 @@ class ObservacionController extends Controller
             'docente_id'    => $request->docente_id,
             'tipo'          => $request->tipo,
             'descripcion'   => $request->descripcion,
-            'fecha'         => now(),
         ]);
 
-        return redirect()->back()->with('success', 'Observación registrada correctamente.');
+        return redirect()->back()->with('success', 'Observación registrada exitosamente.');
     }
 }

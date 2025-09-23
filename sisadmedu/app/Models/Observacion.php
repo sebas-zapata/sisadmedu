@@ -16,16 +16,15 @@ class Observacion extends Model
         'docente_id',
         'tipo',
         'descripcion',
-        'fecha',
     ];
     
     // Relación con Estudiante
     public function estudiante()
     {
-        return $this->belongsTo(Estudiante::class);
+        return $this->belongsTo(Estudiante::class, 'estudiante_id');
     }
 
-    // Relación con Docente ✅
+    // Relación con Docente
     public function docente()
     {
         return $this->belongsTo(Docente::class, 'docente_id');

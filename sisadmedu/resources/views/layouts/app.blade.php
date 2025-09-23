@@ -15,7 +15,6 @@
     {{-- Font Awesome (íconos) --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-
     {{-- estilos personalizados --}}
     <link href="{{ asset('css/estilos.css') }}" rel="stylesheet">
     <link href="{{ asset('css/boton-principal.css') }}" rel="stylesheet">
@@ -31,14 +30,13 @@
 
 <body>
 
-
     {{-- Barra de Navegación personalizada --}}
     @if (!isset($ocultarNavbar) || !$ocultarNavbar)
     @include('layouts.navigation')
     @endif
 
     {{-- Contenido principal --}}
-        @yield('contenido')
+    @yield('contenido')
     </main>
 
     {{-- Mensaje de éxito --}}
@@ -46,13 +44,16 @@
     <div id="session-success" data-mensaje="{{ session('success') }}"></div>
     @endif
 
-    
+
+    {{-- Bootstrap JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     {{-- SweetAlert para alertas personalizadas --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Chart.js para gráficos --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     {{-- Scripts personalizados --}}
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/graficos/graficos.js') }}"></script>
@@ -69,10 +70,7 @@
     <script src="{{ asset('js/estudiantes/validar-estudiante.js') }}"></script>
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
     <script src="{{ asset('js/buscadores/buscar-acudiente.js') }}"></script>
-    {{-- Bootstrap JS --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    @stack('scripts')
+    <script src="{{ asset('js/observaciones/modal-error.js') }}"></script>
 
 </body>
 

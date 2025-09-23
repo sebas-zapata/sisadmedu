@@ -11,7 +11,7 @@ Usuarios <i class="fas fa-users"></i>
 </x-boton-accion>
 @endsection
 @section('tabla')
-            <table class="table table-striped table-hover align-middle">
+            <table class="table table-striped table-hover align-middle" id="usuarios">
                 <thead class="thead-sisadmedu text-center">
                     <tr>
                         <th>ID</th>
