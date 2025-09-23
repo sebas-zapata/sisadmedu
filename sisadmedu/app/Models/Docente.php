@@ -38,4 +38,8 @@ class Docente extends Model
         return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento', 'id');
     }
 
+    public function observaciones()
+    {
+        return $this->hasMany(Observacion::class, 'docente_id');
+    }
 }

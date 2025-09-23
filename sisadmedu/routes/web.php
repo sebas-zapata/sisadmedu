@@ -11,6 +11,7 @@ use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\GraficosController;
+use App\Http\Controllers\ObservacionController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -75,6 +76,9 @@ Route::get('/', [GraficosController::class, 'index'])
 // ruta para buscar acudientes 
 Route::get('/buscar-acudientes', [App\Http\Controllers\UsuarioController::class, 'buscarAcudientes'])
      ->name('acudientes.search');
+
+//ruta obcervaciones
+Route::post('/observaciones', [ObservacionController::class, 'store'])->name('observacion.store');
 
 
 

@@ -46,4 +46,9 @@ class Estudiante extends Model
         return $this->belongsToMany(Usuario::class, 'acudiente_estudiante', 'estudiante_id', 'acudiente_id')
             ->withTimestamps();
     }
+
+    public function observaciones()
+    {
+        return $this->hasMany(Observacion::class, 'estudiante_id');
+    }
 }

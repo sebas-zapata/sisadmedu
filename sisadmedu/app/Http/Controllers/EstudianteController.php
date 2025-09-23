@@ -6,6 +6,7 @@ use App\Models\Estudiante;
 use Illuminate\Http\Request;
 use App\Models\Grado;
 use App\Models\TipoDocumento;
+use App\Models\Docente;
 
 class EstudianteController extends Controller
 {
@@ -122,7 +123,15 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::with(['grado', 'tipoDocumento', 'acudientes.rol'])
             ->findOrFail($id);
 
-        return view('estudiantes.show', compact('estudiante'));
+            // cargo relaciones útiles para la vista
+        $estudiante = Estudiante::with(['observaciones.docente', 'acudientes'])->findOrFail($id);
+
+        // traigo todos los docentes para el select (puedes filtrar/ordenar si quieres)
+        $docentes = Docente::select('id','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido')
+                           ->orderBy('primer_nombre')
+                           ->get();
+
+        return view('estudiantes.show', compact('estudiante','docentes'));
     }
 
     // Mostrar el formulario para editar un estudiante y su grado
