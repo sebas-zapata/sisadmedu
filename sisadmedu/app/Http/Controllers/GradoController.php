@@ -66,6 +66,8 @@ class GradoController extends Controller
     // Mostrar un grado específico
     public function show(Grado $grado)
     {
+        // Cargar la relación estudiantes
+        $grado->load('estudiantes');
         return view('grados.show', compact('grado'));
     }
 

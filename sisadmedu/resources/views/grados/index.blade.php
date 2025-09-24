@@ -26,6 +26,7 @@ Grados <i class="fas fa-graduation-cap"></i>
             <td>{{ $grado->grupo_grado }}</td>
             <td>{{ $grado->nombre_grado }}</td>
             <td>
+                <x-boton-accion tipo="ver" href="{{ route('grados.show', $grado) }}" />
                 <x-boton-accion tipo="editar" href="{{ route('grados.edit', $grado) }}" />
                 <form action="{{ route('grados.destroy', $grado) }}" data-grado="{{ $grado->nombre_grado }}" method="post" style="display:inline-block;">
                     @csrf

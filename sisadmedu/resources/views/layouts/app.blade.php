@@ -37,7 +37,6 @@
 
     {{-- Contenido principal --}}
     @yield('contenido')
-    </main>
 
     {{-- Mensaje de éxito --}}
     @if(session('success'))

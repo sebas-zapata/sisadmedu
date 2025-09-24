@@ -137,15 +137,17 @@
                         @enderror
                     </div>
 
-                    <!-- Docente (solo el actual logueado) -->
                     <div class="form-floating mb-3">
                         <select name="docente_id" id="docente_id"
                             class="form-select @error('docente_id') is-invalid @enderror">
-                            <option value="{{ Auth::user()->docente->id ?? '' }}" selected>
-                                {{ Auth::user()->nombres }}
-                                {{ Auth::user()->apellidos }}
-                                (Usuario actual)
+                            @foreach($docentes as $docente)
+                            <option value="{{ $docente->id }}" selected>
+                                {{ $docente->primer_nombre }}
+                                {{ $docente->segundo_nombre }}
+                                {{ $docente->primer_apellido }}
+                                {{ $docente->segundo_apellido }}
                             </option>
+                            @endforeach
                         </select>
                         <label for="docente_id">Docente</label>
                         @error('docente_id')

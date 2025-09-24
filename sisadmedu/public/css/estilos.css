@@ -6,8 +6,9 @@
 body {
     background-color: #461c68;
 }
-.titulo{
-    color:#461c68;
+
+.titulo {
+    color: #461c68;
 }
 
 .logo {
@@ -528,57 +529,55 @@ footer {
     }
 }
 
-.card {
-    background-color: #9d7bca;
-    width: 80%;
+.contenedor-dashboard {
+    background-color: #461c68;
+    width: 100%;
     max-width: 1000px;
     margin: 50px auto;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
-.card-header {
-    background-color: #9d7bca;
-    ;
+.encabezado-dashboard {
+    background-color: white;
     color: white;
     text-align: center;
     padding: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
-.card-header h2 {
+.encabezado-dashboard h2 {
     margin: 0;
     font-size: 24px;
+    color: black;
 }
 
-.card-header p {
-    margin: 5px 0 0;
-    font-size: 14px;
-}
-
-.card-body {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    flex-wrap: wrap;
-    /* Esto permite que los módulos se acomoden en una nueva fila cuando no haya espacio */
-}
 
 .module {
-    background-color: #f4f4f9;
-    border-radius: 8px;
-    padding: 15px;
+    background: linear-gradient(145deg, #ffffff, #f4f4f9);
+    /* fondo con leve degradado */
+    border-radius: 12px;
+    /* esquinas más redondeadas */
+    padding: 25px;
+    /* más espacio interno */
     width: 22%;
-    /* Cada módulo ocupa el 22% del contenedor */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    margin-bottom: 15px;
+    min-width: 220px;
+    /* que no se haga muy pequeño */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    /* sombra más suave y elegante */
+    margin: 20px auto;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
 }
 
 .module:hover {
-    transform: scale(1.05);
+    transform: translateY(-6px) scale(1.05);
+    /* se eleva y crece un poquito */
+    box-shadow: 0 10px 10px white;
 }
+
 
 .module-title {
     font-weight: bold;
@@ -606,16 +605,20 @@ footer {
 }
 
 /* Contenedor general */
-.container {
+.contenedor {
     background-color: #9d7bca;
-    width: 100%;
-    max-width: 1000px;
-    margin: 50px auto;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    width: 90%;
+    /* ocupa el 90% del ancho */
+    max-width: 1200px;
+    /* no crece más de 1200px */
+    margin: 30px auto;
+    /* centrado horizontal + margen arriba/abajo */
+    padding: 30px;
+    /* más espacio interno */
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
+
 
 /* Título */
 .title {
@@ -637,16 +640,6 @@ footer {
     color: white;
     margin-bottom: 20px;
     transition: background-color 0.3s ease;
-}
-
-/* Mensaje de éxito */
-.alert-success {
-    background-color: #d4edda;
-    border-left: 5px solid #28a745;
-    padding: 10px 15px;
-    margin-bottom: 20px;
-    color: #155724;
-    border-radius: 5px;
 }
 
 /* Tabla de usuarios */
@@ -765,13 +758,6 @@ tbody {
     color: white;
 }
 
-.alert-error {
-    background-color: #f8d7da;
-    color: #842029;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
 
 .custom-form .form-row {
     display: flex;
@@ -822,11 +808,12 @@ tbody {
     background-color: #666;
     transform: scale(1.05);
 }
-.btn-crear{
+
+.btn-crear {
     background-color: #461c68;
 }
 
-.btn-crear:hover{
+.btn-crear:hover {
     background-color: #666;
 }
 
@@ -839,7 +826,7 @@ tbody {
     transform: scale(1.05);
 }
 
-.btn-actualizar{
+.btn-actualizar {
     background-color: #461c68;
 }
 
@@ -848,15 +835,6 @@ tbody {
     transform: scale(1.05);
 }
 
-.container-show {
-    background-color: #9d7bca;
-    max-width: 800px;
-    margin: 40px auto;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-}
 
 .contenedor-componente {
     background-color: #9d7bca;
@@ -867,6 +845,64 @@ tbody {
     margin: 2rem auto;
 }
 
-.modal-header{
+.modal-header {
     background-color: #461c68;
+}
+
+/* === Contenedor principal de cada columna === */
+.columna-estudiante {
+    display: flex;
+}
+
+/* === Tarjeta del estudiante === */
+.tarjeta-estudiante {
+    background: linear-gradient(145deg, #ffffff, #f5f5f9);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.tarjeta-estudiante:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* === Encabezado === */
+.encabezado-estudiante {
+    background: linear-gradient(135deg, #6f42c1, #563d7c);
+    padding: 12px;
+    font-weight: 600;
+}
+
+.nombre-estudiante {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.matricula-estudiante {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* === Cuerpo === */
+.cuerpo-estudiante {
+    padding: 20px;
+}
+
+.dato-estudiante {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* Íconos */
+.dato-estudiante i {
+    font-size: 1.1rem;
+    opacity: 0.8;
 }

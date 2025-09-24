@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         datos.docentes,
         datos.grados,
     ];
-    const colores = ["#461c68", "#7E08CA", "#333", "white"];
+    const colores = ["#461c68", "#7E08CA", "#333", "#6c4a83"];
 
     // Gráfico de Líneas
     new Chart(document.getElementById("barChart"), {

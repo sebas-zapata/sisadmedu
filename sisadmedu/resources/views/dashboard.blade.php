@@ -1,51 +1,50 @@
 @extends('layouts.app')
 
 @section('contenido')
-<div class="container">
+<div class="contenedor">
     {{-- Identificamos al usuario autenticado NO TOCAR --}}
-            @php
-                /** @var LoginUsuario $usuario */
-                $usuario = Auth::user();
-            @endphp
+    @php
+    /** @var LoginUsuario $usuario */
+    $usuario = Auth::user();
+    @endphp
     {{-- Tarjeta de módulos --}}
-    <div class="card w-100 mb-4">
-            <main class="container-fluid py-4">
-                @if(session('debe_cambiar_contrasena'))
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
-        <div id="toastContrasena" 
-             class="toast show align-items-center text-bg-light border-0 shadow-lg" 
-             role="alert" aria-live="assertive" aria-atomic="true">
-             
-            <div class="d-flex">
-                <div class="toast-body d-flex align-items-center">
-                    <i class="fa-solid fa-triangle-exclamation me-2 fa-lg"></i>
-                    <span>
-                        <b>{{ Auth::user()->nombres }}</b>, cambia tu contraseña por seguridad.
-                    </span>
-                    <a href="{{ route('cambiar_contraseña') }}" class="module-button btn-sm">
-                        Cambiar
-                    </a>
-                </div>
+    <div class="contenedor-dashboard mb-4">
+        @if(session('debe_cambiar_contrasena'))
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
+            <div id="toastContrasena"
+                class="toast show align-items-center text-bg-light border-0 shadow-lg"
+                role="alert" aria-live="assertive" aria-atomic="true">
 
-                <button type="button" 
-                        class="btn-close btn-close-dark me-2 m-auto" 
+                <div class="d-flex">
+                    <div class="toast-body d-flex align-items-center">
+                        <i class="fa-solid fa-triangle-exclamation me-2 fa-lg"></i>
+                        <span>
+                            <b>{{ Auth::user()->nombres }}</b>, cambia tu contraseña por seguridad.
+                        </span>
+                        <a href="{{ route('cambiar_contraseña') }}" class="module-button btn-sm">
+                            Cambiar
+                        </a>
+                    </div>
+
+                    <button type="button"
+                        class="btn-close btn-close-dark me-2 m-auto"
                         data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                </div>
             </div>
         </div>
-    </div>
-@endif
+        @endif
 
-        <div class="card-header">
+        <div class="encabezado-dashboard">
             <h2>
                 <i class="fas fa-graduation-cap"></i> Áreas Académicas
             </h2>
         </div>
-        <div class="card-body d-flex flex-wrap justify-content-evenly gap-2">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-4 p-4">
             @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
             <div class="module">
                 <p class="module-title"><i class="fas fa-users"></i> Gestión de Usuarios</p>
-                    <p class="module-total">
-                Total: <strong>{{ $totalUsuarios }}</strong>
+                <p class="module-total">
+                    Total: <strong>{{ $totalUsuarios }}</strong>
                 </p>
                 <a class="module-button" href="{{ route('usuarios.index') }}">
                     <i class="fas fa-sign-in-alt"></i> Usuarios
@@ -55,8 +54,17 @@
 
             <div class="module">
                 <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>
-                    <p class="module-total">
-                Total: <strong>{{ $totalDocentes }}</strong>
+                <p class="module-total">
+                    Total: <strong>{{ $totalDocentes }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('docentes.index') }}">
+                    <i class="fas fa-sign-in-alt"></i> Docentes
+                </a>
+            </div>
+            <div class="module">
+                <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalDocentes }}</strong>
                 </p>
                 <a class="module-button" href="{{ route('docentes.index') }}">
                     <i class="fas fa-sign-in-alt"></i> Docentes
@@ -65,8 +73,8 @@
 
             <div class="module">
                 <p class="module-title"><i class="fas fa-layer-group"></i> Gestión de Grados</p>
-                    <p class="module-total">
-                        Total: <strong>{{ $totalGrados }}</strong>
+                <p class="module-total">
+                    Total: <strong>{{ $totalGrados }}</strong>
                 </p>
                 <a class="module-button" href="{{ route('grados.index') }}">
                     <i class="fas fa-sign-in-alt"></i> Grados
@@ -112,21 +120,21 @@
         </div>
 
         {{-- Gráfico de líneas --}}
-<div class="col-md-4 mb-4">
-    <div class="card shadow-sm">
-        <div class="card-header bg-light text-white">
-            <strong class="module-title">Evolución</strong>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light text-white">
+                    <strong class="module-title">Evolución</strong>
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
         </div>
-        <div class="card-body" style="height: 350px;">
-            <canvas id="lineChart"></canvas>
-        </div>
-    </div>
-</div>
 
     </div>
 
     {{-- Contenedor de datos --}}
-    <div 
+    <div
         id="datos-dashboard"
         data-estudiantes="{{ $totalEstudiantes }}"
         data-usuarios="{{ $totalUsuarios }}"

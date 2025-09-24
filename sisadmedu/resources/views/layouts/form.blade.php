@@ -1,8 +1,7 @@
-{{-- resources/views/layouts/formulario.blade.php --}}
 @extends('layouts.app')
 
 @section('contenido')
-<div class="container py-4">
+<div class="contenedor py-4">
     <h2 class="mb-4 text-light text-center">
         @yield('titulo-formulario')
     </h2>

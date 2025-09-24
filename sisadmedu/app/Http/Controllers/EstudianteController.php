@@ -126,7 +126,7 @@ class EstudianteController extends Controller
             // cargo relaciones útiles para la vista
         $estudiante = Estudiante::with(['observaciones.docente', 'acudientes'])->findOrFail($id);
 
-        // traigo todos los docentes para el select (puedes filtrar/ordenar si quieres)
+        // traigo todos los docentes para el select
         $docentes = Docente::select('id','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido')
                            ->orderBy('primer_nombre')
                            ->get();
