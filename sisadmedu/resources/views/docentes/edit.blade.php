@@ -149,7 +149,7 @@ Editar Docente <i class="fas fa-chalkboard-teacher"></i>
                 name="correo_electronico"
                 placeholder="Ej: ejemplo@correo.com"
                 required
-                value="{{ old('correo_electronico', $docente->correo_electronico) }}">
+                value="{{ old('correo_electronico', $docente->usuario->correo_electronico) }}">
             <label for="correo_electronico">Correo Electrónico</label>
         </div>
         @error('correo_electronico')

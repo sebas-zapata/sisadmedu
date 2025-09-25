@@ -7,39 +7,39 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Docente extends Model
 {
-    // Importar el trait HasFactory para usar las fábricas de Eloquent
     use HasFactory;
-    // Definición de la tabla
+
     protected $table = 'docentes';
-    // Definición de la clave primaria
     protected $primaryKey = 'id';
 
-    // definir campos que se pueden asignar masivamente
     protected $fillable = [
+        'usuario_id',
         'documento',
         'primer_nombre',
         'segundo_nombre',
         'primer_apellido',
         'segundo_apellido',
-        'correo_electronico',
         'id_materia',
         'id_tipo_documento'
     ];
 
-    // Relación con el modelo de Materia
     public function materia()
     {
-        return $this->belongsTo(Materia::class, 'id_materia', 'id');
+        return $this->belongsTo(Materia::class, 'id_materia');
     }
 
-    // Relación con el modelo de TipoDocumento
     public function tipoDocumento()
     {
-        return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento', 'id');
+        return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento');
     }
 
     public function observaciones()
     {
         return $this->hasMany(Observacion::class, 'docente_id');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 }
