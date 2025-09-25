@@ -8,11 +8,17 @@
         <div class=" shadow-lg border-0 rounded-4 p-4">
             @section('informacion')
             @if($grado->estudiantes->isEmpty())
-            <p class="text-center text-muted">No hay estudiantes registrados en este grado.</p>
+            <p class="text-center text-light">No hay estudiantes registrados en este grado.</p>
             @else
             <div class="row">
+                <input
+                    type="text"
+                    class="form-control w-75"
+                    id="filtroNombre"
+                    placeholder="Filtrar por nombre"
+                    pattern="[A-Za-z\s]*"></input>
                 @foreach($grado->estudiantes as $est)
-                <div class="columna-estudiante col-md-6 col-lg-4 mb-2">
+                <div class="columna-estudiante col-md-6 col-lg-4 mb-2" data-nombre="{{ strtolower($est->primer_nombre_estudiante . ' ' . $est->primer_apellido_estudiante) }}">
                     <div class="tarjeta-estudiante sombra h-100">
 
                         <!-- Encabezado -->
@@ -45,7 +51,7 @@
                 @endforeach
             </div>
             @endif
-            @endsection
         </div>
+        @endsection
     </div>
     @endsection

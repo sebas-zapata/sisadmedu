@@ -62,16 +62,6 @@
                 </a>
             </div>
             <div class="module">
-                <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>
-                <p class="module-total">
-                    Total: <strong>{{ $totalDocentes }}</strong>
-                </p>
-                <a class="module-button" href="{{ route('docentes.index') }}">
-                    <i class="fas fa-sign-in-alt"></i> Docentes
-                </a>
-            </div>
-
-            <div class="module">
                 <p class="module-title"><i class="fas fa-layer-group"></i> Gestión de Grados</p>
                 <p class="module-total">
                     Total: <strong>{{ $totalGrados }}</strong>

@@ -1,3 +1,4 @@
+@include('layouts.offcanvas')
 <nav class="navbar navbar-expand-lg navbar-sisadmedu shadow-sm">
   <div class="container-fluid">
     <!-- Logo y nombre -->
@@ -14,41 +15,33 @@
 
     <!-- Contenido colapsable -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Menú izquierdo -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- Dropdown Módulos -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-             <i class="fas fa-th-large me-1"></i> Módulos
-          </a>
-          <ul class="dropdown-menu shadow-sm">
-            {{-- Solo Administrador puede ver Usuarios --}}
-            @if(Auth::user()->rol_id == 1)
-            <li><a class="dropdown-item" href="{{ route('usuarios.index') }}"><i class="fas fa-users me-2"></i> Usuarios</a></li>
-            @endif
-            <li><a class="dropdown-item" href="{{ route('docentes.index') }}"><i class="fas fa-chalkboard-teacher me-2"></i> Docentes</a></li>
-            <li><a class="dropdown-item" href="{{ route('estudiantes.index') }}"><i class="fas fa-user-graduate me-2"></i> Estudiantes</a></li>
-            <li><a class="dropdown-item" href="{{ route('grados.index') }}"><i class="fas fa-layer-group me-2"></i> Grados</a></li>
-            <!-- Agrega más módulos aquí -->
-          </ul>
-        </li>
-      </ul>
-
       <!-- Menú derecho -->
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center">
+
+        <!-- Botón que abre el offcanvas -->
+        <li class="nav-item me-2 mt-2">
+          <button class="btn btn-light text-dark btn-sm mt-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="menuOffcanvas">
+            <i class="fas fa-bars"></i> Panel
+          </button>
+        </li>
+
         @if(Auth::check())
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->nombres }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-            <li><a class="btn btn-secondary btn-sm d-block m-auto w-50 " href="{{ route('perfil.edit') }}" class="dropdown-item"><i class="fas fa-user-circle"></i>
-            Perfil</a></li><hr>
-              <li>
-                <form action="{{ route('logout') }}" method="POST" class="px-3">
+            <li>
+              <a class="btn btn-secondary btn-sm d-block m-auto w-50" href="{{ route('perfil.edit') }}">
+                <i class="fas fa-user-circle"></i> Perfil
+              </a>
+            </li>
+            <hr>
+            <li>
+              <form action="{{ route('logout') }}" method="POST" class="px-3">
                 @csrf
                 <button class="btn btn-danger btn-sm w-100" type="submit"><i class="fas fa-sign-out-alt"></i>
-                Cerrar sesión
+                  Cerrar sesión
                 </button>
               </form>
             </li>

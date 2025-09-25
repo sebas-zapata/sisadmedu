@@ -6,9 +6,15 @@ Estudiantes <i class="fas fa-user-graduate"></i>
 <x-boton-principal href="{{ route('estudiantes.create') }}">
     <i class="fas fa-user-graduate"></i>
 </x-boton-principal>
+{{-- Input de búsqueda --}}
+<div class="mb-3">
+    <input type="text" id="filtroEstudiantes" class="form-control" placeholder="Filtrar por nombre" pattern="[A-Za-z\s]*" title="Solo letras">
+</div>
 @endsection
+
+
 @section('tabla')
-<table class="table table-striped table-hover align-middle">
+<table class="table table-striped table-hover align-middle" id="tabla-estudiantes">
     <thead>
         <tr>
             <th>ID</th>
@@ -22,7 +28,7 @@ Estudiantes <i class="fas fa-user-graduate"></i>
     </thead>
     <tbody>
         @forelse ($estudiantes as $estudiante)
-        <tr>
+        <tr data-nombre="{{ strtolower($estudiante->primer_nombre_estudiante . ' ' . $estudiante->segundo_nombre_estudiante . ' ' . $estudiante->primer_apellido_estudiante . ' ' . $estudiante->segundo_apellido_estudiante) }}">
             <td>{{ $estudiante->id }}</td>
             <td>{{ $estudiante->matricula }}</td>
             <td>{{ $estudiante->documento_estudiante }}</td>
@@ -39,7 +45,6 @@ Estudiantes <i class="fas fa-user-graduate"></i>
                 </form>
                 {{-- Botón Generar Constancia PDF --}}
                 <x-boton-accion tipo="descargar" href="{{ route('pdf.constancia', $estudiante->id) }}" />
-
             </td>
         </tr>
         @empty
@@ -49,7 +54,4 @@ Estudiantes <i class="fas fa-user-graduate"></i>
         @endforelse
     </tbody>
 </table>
-@section('paginacion')
-    {{ $estudiantes->links() }}
-@endsection
 @endsection

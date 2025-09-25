@@ -6,9 +6,15 @@ Grados <i class="fas fa-graduation-cap"></i>
 <x-boton-principal href="{{ route('grados.create') }}">
     <i class="fas fa-layer-group"></i>
 </x-boton-principal>
+{{-- Input de búsqueda --}}
+<div class="mb-3">
+    <input type="number" id="filtroGrados" class="form-control" placeholder="Filtrar por nivel">
+</div>
 @endsection
+
+
 @section('tabla')
-<table class="table table-striped table-hover align-middle">
+<table class="table table-striped table-hover align-middle" id="tabla-grados">
     <thead class="thead-sisadmedu text-center">
         <tr>
             <th>ID</th>
@@ -20,7 +26,7 @@ Grados <i class="fas fa-graduation-cap"></i>
     </thead>
     <tbody>
         @forelse($grados as $grado)
-        <tr>
+        <tr data-nombre="{{ strtolower($grado->nivel_grado)}}">
             <td>{{ $grado->id }}</td>
             <td>{{ $grado->nivel_grado }}</td>
             <td>{{ $grado->grupo_grado }}</td>
@@ -42,7 +48,4 @@ Grados <i class="fas fa-graduation-cap"></i>
         @endforelse
     </tbody>
 </table>
-@section('paginacion')
-    {{ $grados->links() }}
-@endsection
 @endsection

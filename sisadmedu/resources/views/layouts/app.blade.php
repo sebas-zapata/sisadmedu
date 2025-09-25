@@ -68,8 +68,16 @@
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
     <script src="{{ asset('js/estudiantes/validar-estudiante.js') }}"></script>
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
-    <script src="{{ asset('js/buscadores/buscar-acudiente.js') }}"></script>
     <script src="{{ asset('js/observaciones/modal-error.js') }}"></script>
+
+   {{-- Filtros no tocar --}}
+    <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-estudiantes-grado.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-usuarios.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-acudiente.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-estudiantes.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-grados.js') }}"></script>
 
 </body>
 

@@ -10,7 +10,7 @@ class GradoController extends Controller
     // Mostrar todos los grados
     public function index()
     {
-        $grados = Grado::paginate(3);
+        $grados = Grado::all();
         return view('grados.index', compact('grados'));
     }
 

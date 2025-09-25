@@ -4,51 +4,70 @@
 Usuarios <i class="fas fa-users"></i>
 @endsection
 @section('boton-registrar')
-<x-boton-principal href="{{ route('usuarios.create') }}">
-    <i class="fas fa-user-plus"></i>
-</x-boton-principal>
-<x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}" >
-</x-boton-accion>
-@endsection
-@section('tabla')
-            <table class="table table-striped table-hover align-middle" id="usuarios">
-                <thead class="thead-sisadmedu text-center">
-                    <tr>
-                        <th>ID</th>
-                        <th>Documento</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($usuarios as $usuario)
-                    <tr>
-                        <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->documento }}</td>
-                        <td>{{ $usuario->nombres }}</td>
-                        <td>{{ $usuario->apellidos }}</td>
-                        <td>{{ $usuario->correo_electronico }}</td>
-                        <td>{{ $usuario->rol->nombre ?? 'Sin rol' }}</td>
-                        <td>
-                            <x-boton-accion tipo="ver" href="{{ route('usuarios.show', $usuario->id) }}" />
-                            <x-boton-accion tipo="editar" href="{{ route('usuarios.edit', $usuario->id) }}" />
-                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" data-usuario="{{ $usuario->nombres }}" method="POST" class="d-inline-block">
-                                @csrf
-                                @method('DELETE')
+<div class="container-fluid d-flex justify-content-between flex-wrap align-items-center gap-2 mb-3">
+    <div>
+        <!-- Botón registrar -->
+        <x-boton-principal href="{{ route('usuarios.create') }}">
+            <i class="fas fa-user-plus"></i>
+        </x-boton-principal>
 
-                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-usuarios">
-                                </x-boton-accion>
-                            </form>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="10" class="text-center text-muted">No hay usuarios registrados <i class="fas fa-user-slash"></i>.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <!-- Botón descargar -->
+        <x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}">
+        </x-boton-accion>
+    </div>
+
+    <!-- Input de búsqueda -->
+    <div>
+        <input
+            type="text"
+            class="form-control"
+            id="filtroUsuarios"
+            placeholder="Filtrar por nombre"
+            pattern="[A-Za-z\s]*"
+            title="Solo letras">
+    </div>
+</div>
+@endsection
+
+@section('tabla')
+<table class="table table-striped table-hover align-middle" id="usuarios">
+    <thead class="thead-sisadmedu text-center">
+        <tr>
+            <th>ID</th>
+            <th>Documento</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($usuarios as $usuario)
+        <tr data-nombre="{{ strtolower($usuario->nombres . ' ' . $usuario->apellidos) }}">
+            <td>{{ $usuario->id }}</td>
+            <td>{{ $usuario->documento }}</td>
+            <td>{{ $usuario->nombres }}</td>
+            <td>{{ $usuario->apellidos }}</td>
+            <td>{{ $usuario->correo_electronico }}</td>
+            <td>{{ $usuario->rol->nombre ?? 'Sin rol' }}</td>
+            <td>
+                <x-boton-accion tipo="ver" href="{{ route('usuarios.show', $usuario->id) }}" />
+                <x-boton-accion tipo="editar" href="{{ route('usuarios.edit', $usuario->id) }}" />
+                <form action="{{ route('usuarios.destroy', $usuario->id) }}" data-usuario="{{ $usuario->nombres }}" method="POST" class="d-inline-block">
+                    @csrf
+                    @method('DELETE')
+
+                    <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-usuarios">
+                    </x-boton-accion>
+                </form>
+            </td>
+        </tr>
+        @empty
+        <tr>
+            <td colspan="10" class="text-center text-muted">No hay usuarios registrados <i class="fas fa-user-slash"></i>.</td>
+        </tr>
+        @endforelse
+    </tbody>
+</table>
 @endsection
