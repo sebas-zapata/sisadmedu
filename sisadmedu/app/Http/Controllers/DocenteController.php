@@ -6,17 +6,18 @@ use Illuminate\Http\Request;
 use App\Models\Docente;
 use App\Models\Materia;
 use App\Models\TipoDocumento;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DocenteController extends Controller
 {
-    // Método para mostrar la lista de docentes
     public function index()
     {
-        $docentes = Docente::with('materia')->get();
+        $docentes = Docente::with(['materia', 'usuario'])->get();
         return view('docentes.index', compact('docentes'));
     }
 
-    // Método para mostrar el formulario de creación de un nuevo docente
     public function create()
     {
         $materias = Materia::all();
@@ -24,89 +25,128 @@ class DocenteController extends Controller
         return view('docentes.create', compact('materias', 'tipoDocumentos'));
     }
 
-    // Método para almacenar un nuevo docente en la base de datos
     public function store(Request $request)
     {
         $request->validate([
-            'documento' => 'required|string|max:255|unique:docentes',
+            'documento' => 'required|string|max:255|unique:docentes,documento|unique:usuarios,documento',
             'primer_nombre' => 'required|string|max:255',
             'segundo_nombre' => 'nullable|string|max:255',
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
-            'correo_electronico' => 'required|string|email|max:255|unique:docentes',
+            'correo_electronico' => 'required|string|email|max:255|unique:usuarios,correo_electronico',
             'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
-        ],
-        [
-            'documento.unique' => 'El documento ya está registrado.',
-            'documento.required' => 'El campo documento es obligatorio.',
-            'primer_nombre.required' => 'El campo primer nombre es obligatorio.',
-            'primer_apellido.required' => 'El campo primer apellido es obligatorio.',
-            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
-            'correo_electronico.email' => 'El formato del correo electrónico es inválido.',
-            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
-            'id_materia.required' => 'Debe seleccionar una materia.',
-            'id_tipo_documento.required' => 'Debe seleccionar un tipo de documento.',
         ]);
 
-        Docente::create($request->all());
+        DB::beginTransaction();
 
-        return redirect()->route('docentes.index')->with('success', 'Docente creado exitosamente.');
+        try {
+            // 1️⃣ Crear usuario
+            $usuario = Usuario::create([
+                'documento' => $request->documento,
+                'nombres' => trim($request->primer_nombre . ' ' . $request->segundo_nombre),
+                'apellidos' => trim($request->primer_apellido . ' ' . $request->segundo_apellido),
+                'correo_electronico' => $request->correo_electronico,
+                'telefono' => null,
+                'contrasena' => Hash::make($request->documento), // contraseña inicial = documento
+                'rol_id' => 8, // rol docente
+                'tipo_documento_id' => $request->id_tipo_documento,
+            ]);
+
+            // 2️⃣ Crear docente y vincular usuario
+            Docente::create([
+                'usuario_id' => $usuario->id,
+                'id_tipo_documento' => $request->id_tipo_documento,
+                'documento' => $request->documento,
+                'primer_nombre' => $request->primer_nombre,
+                'segundo_nombre' => $request->segundo_nombre,
+                'primer_apellido' => $request->primer_apellido,
+                'segundo_apellido' => $request->segundo_apellido,
+                'id_materia' => $request->id_materia,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('docentes.index')->with('success', 'Docente creado y usuario vinculado exitosamente.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al crear docente: ' . $e->getMessage()]);
+        }
     }
 
-    // Método para mostrar un docente en detalle
     public function show(string $id)
     {
-        $docente = Docente::with(['materia', 'tipoDocumento'])->findOrFail($id);
+        $docente = Docente::with(['materia', 'tipoDocumento', 'usuario'])->findOrFail($id);
         return view('docentes.show', compact('docente'));
     }
 
-    // Método para mostrar el formulario de edición de un docente
     public function edit($id)
     {
-        $docente = Docente::with(['materia', 'tipoDocumento'])->findOrFail($id);
+        $docente = Docente::with(['materia', 'tipoDocumento', 'usuario'])->findOrFail($id);
         $materias = Materia::all();
         $documentos = TipoDocumento::all();
         return view('docentes.edit', compact('docente', 'materias', 'documentos'));
     }
 
-    // Método para actualizar un docente existente
     public function update(Request $request, $id)
     {
+        $docente = Docente::with('usuario')->findOrFail($id);
+
         $request->validate([
-            'documento' => 'required|string|max:255|unique:docentes,documento,' . $id,
+            'documento' => 'required|string|max:255|unique:docentes,documento,' . $docente->id
+                . '|unique:usuarios,documento,' . $docente->usuario_id,
             'primer_nombre' => 'required|string|max:255',
             'segundo_nombre' => 'nullable|string|max:255',
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
-            'correo_electronico' => 'required|string|email|max:255|unique:docentes,correo_electronico,' . $id,
+            'correo_electronico' => 'required|string|email|max:255|unique:usuarios,correo_electronico,' . $docente->usuario_id,
             'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
-        ],
-        [
-            'documento.unique' => 'El documento ya está registrado.',
-            'documento.required' => 'El campo documento es obligatorio.',
-            'primer_nombre.required' => 'El campo primer nombre es obligatorio.',
-            'primer_apellido.required' => 'El campo primer apellido es obligatorio.',
-            'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
-            'correo_electronico.email' => 'El formato del correo electrónico es inválido.',
-            'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
-            'id_materia.required' => 'Debe seleccionar una materia.',
-            'id_tipo_documento.required' => 'Debe seleccionar un tipo de documento.',
         ]);
 
-        $docente = Docente::findOrFail($id);
-        $docente->update($request->all());
+        DB::beginTransaction();
 
-        return redirect()->route('docentes.index')->with('success', 'Docente actualizado exitosamente.');
+        try {
+            // 1️⃣ Actualizar docente
+            $docente->update([
+                'id_tipo_documento' => $request->id_tipo_documento,
+                'documento' => $request->documento,
+                'primer_nombre' => $request->primer_nombre,
+                'segundo_nombre' => $request->segundo_nombre,
+                'primer_apellido' => $request->primer_apellido,
+                'segundo_apellido' => $request->segundo_apellido,
+                'id_materia' => $request->id_materia,
+            ]);
+
+            // 2️⃣ Actualizar usuario vinculado
+            $docente->usuario->update([
+                'documento' => $request->documento,
+                'nombres' => trim($request->primer_nombre . ' ' . $request->segundo_nombre),
+                'apellidos' => trim($request->primer_apellido . ' ' . $request->segundo_apellido),
+                'correo_electronico' => $request->correo_electronico,
+                'tipo_documento_id' => $request->id_tipo_documento,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('docentes.index')->with('success', 'Docente y usuario actualizados exitosamente.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al actualizar docente: ' . $e->getMessage()]);
+        }
     }
 
-    // Método para eliminar un docente
     public function destroy(string $id)
     {
-        $docente = Docente::findOrFail($id);
-        $docente->delete();
+        $docente = Docente::with('usuario')->findOrFail($id);
 
-        return redirect()->route('docentes.index')->with('success', 'Docente eliminado exitosamente.');
+        DB::transaction(function () use ($docente) {
+            $docente->usuario()->delete(); // eliminar usuario vinculado
+            $docente->delete();
+        });
+
+        return redirect()->route('docentes.index')->with('success', 'Docente y usuario eliminados exitosamente.');
     }
 }

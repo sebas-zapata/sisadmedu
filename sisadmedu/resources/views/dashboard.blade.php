@@ -7,6 +7,16 @@
     /** @var LoginUsuario $usuario */
     $usuario = Auth::user();
     @endphp
+    {{-- Mensaje de bienvenida --}}
+    <div class="alert shadow-sm d-flex align-items-center justify-content-center mb-4" style="background-color: #4B0082; color: #fff; font-size: 1.2rem; border-radius: 10px;">
+        <i class="fas fa-handshake me-2 fa-lg"></i>
+        <div>
+            Bienvenido <strong>{{ $usuario->nombres }}</strong>, estás en el panel del rol 
+            <strong>{{ $usuario->rol->nombre }}</strong>.
+        </div>
+    </div>
+
+
     {{-- Tarjeta de módulos --}}
     <div class="contenedor-dashboard mb-4">
         @if(session('debe_cambiar_contrasena'))

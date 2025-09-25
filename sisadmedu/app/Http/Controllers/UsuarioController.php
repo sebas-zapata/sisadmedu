@@ -63,7 +63,6 @@ class UsuarioController extends Controller
                 'documento' => 'required|numeric|unique:usuarios',
                 'nombres' => 'required',
                 'correo_electronico' => 'required|email|unique:usuarios',
-                'telefono' => 'required|numeric|unique:usuarios',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
                 // validación para estudiante_id solo si es acudiente
@@ -77,9 +76,6 @@ class UsuarioController extends Controller
                 'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
                 'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
-                'telefono.unique' => 'El teléfono ya está registrado.',
-                'telefono.required' => 'El campo teléfono es obligatorio.',
-                'telefono.numeric' => 'El campo teléfono debe ser un número.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
                 'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
             ]
@@ -164,7 +160,6 @@ class UsuarioController extends Controller
                 'nombres' => 'required|string|max:100',
                 'apellidos' => 'required|string|max:100',
                 'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
-                'telefono' => 'nullable|string|max:20',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
 
@@ -182,8 +177,6 @@ class UsuarioController extends Controller
                 'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
                 'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
-                'telefono.unique' => 'El teléfono ya está registrado.',
-                'telefono.required' => 'El campo teléfono es obligatorio.',
                 'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
                 'contrasena.confirmed' => 'La confirmación de la contraseña no coincide.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
@@ -258,7 +251,6 @@ class UsuarioController extends Controller
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
-            'telefono' => 'required|string|max:20',
             'contrasena' => 'nullable|confirmed|min:6',
         ], [
             'nombres.required' => 'El campo nombres es obligatorio.',
@@ -270,9 +262,6 @@ class UsuarioController extends Controller
             'correo_electronico.required' => 'El correo electrónico es obligatorio.',
             'correo_electronico.email'    => 'El correo electrónico debe ser válido.',
             'correo_electronico.unique'   => 'El correo electrónico ya está registrado.',
-            'telefono.required' => 'El teléfono es obligatorio.',
-            'telefono.string'   => 'El teléfono debe ser texto.',
-            'telefono.max'      => 'El teléfono no puede tener más de 20 caracteres.',
             'contrasena.confirmed' => 'Las contraseñas no coinciden.',
             'contrasena.min'       => 'La contraseña debe tener al menos 6 caracteres.',
         ]);

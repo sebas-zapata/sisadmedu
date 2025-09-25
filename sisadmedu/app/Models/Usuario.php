@@ -21,7 +21,6 @@ class Usuario extends Model
         'nombres',
         'apellidos',
         'correo_electronico',
-        'telefono',
         'contrasena',
         'rol_id',
         'tipo_documento_id',
@@ -43,5 +42,10 @@ class Usuario extends Model
     {
         return $this->belongsToMany(Estudiante::class, 'acudiente_estudiante', 'acudiente_id', 'estudiante_id')
             ->withTimestamps();
+    }
+
+    public function docente()
+    {
+        return $this->hasOne(Docente::class, 'usuario_id');
     }
 }
