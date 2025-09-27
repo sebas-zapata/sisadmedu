@@ -24,11 +24,7 @@ class UsuarioController extends Controller
     {
         /** @var LoginUsuario $usuario */
         $usuario = Auth::user();
-
-        // Validación: si no tiene rol o es docente, redirige
-        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
-            return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
-        }
+        
 
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
         return view('usuarios.index', compact('usuarios'));

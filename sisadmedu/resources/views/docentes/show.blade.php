@@ -26,7 +26,7 @@
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-envelope me-2 text-light"></i>
         <strong>Correo Electrónico:</strong>
-        <p class="mb-0">{{ $docente->usuario->correo_electronico }}</p> {{-- ✅ Corregido --}}
+        <p class="mb-0">{{ $docente->usuario->correo_electronico }}</p>
     </div>
 
     <div class="col-md-6 mb-3 text-center">
