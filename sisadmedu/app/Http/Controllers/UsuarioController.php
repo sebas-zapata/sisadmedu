@@ -37,11 +37,12 @@ class UsuarioController extends Controller
         $usuario = Auth::user();
 
         // Validación: si no tiene rol o es docente, redirige
-        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
+        if (!$usuario->rol || $usuario->rol->nombre === 'Docente') {
             return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
         }
 
-        $roles = Rol::all();
+        $roles = Rol::whereNotIn('nombre', ['Acudiente', 'Docente', 'Estudiante'])->get();
+
         $tiposDocumento = TipoDocumento::all();
         return view('usuarios.create', compact('roles', 'tiposDocumento'));
     }
@@ -109,7 +110,7 @@ class UsuarioController extends Controller
         $usuario = Auth::user();
 
         // Validación: si no tiene rol o es docente, redirige
-        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
+        if (!$usuario->rol || $usuario->rol->nombre === 'Docente') {
             return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
         }
 
@@ -132,11 +133,11 @@ class UsuarioController extends Controller
         $usuario = Auth::user();
 
         // Validación: si no tiene rol o es docente, redirige
-        if (!$usuario->rol || $usuario->rol->nombre === 'Invitado' || $usuario->rol->nombre === 'Docente') {
+        if (!$usuario->rol || $usuario->rol->nombre === 'Docente') {
             return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
         }
         $usuario = Usuario::findOrFail($id);
-        $roles = Rol::all();
+        $roles = Rol::whereNotIn('nombre', ['Acudiente', 'Docente', 'Estudiante'])->get();
         $tiposDocumento = TipoDocumento::all();
         return view('usuarios.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }

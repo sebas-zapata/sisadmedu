@@ -13,6 +13,18 @@ class RolSeeder extends Seeder
      */
     public function run(): void
     {
-        Rol::create(['nombre' => 'Docente']);
+        $roles = [
+            'Administrador',
+            'Rector',
+            'Coordinador',
+            'Secretaria',
+            'Acudiente',
+            'Docente',
+            'Estudiante', // nuevo rol
+        ];
+
+        foreach ($roles as $rol) {
+            Rol::firstOrCreate(['nombre' => $rol]);
+        }
     }
 }
