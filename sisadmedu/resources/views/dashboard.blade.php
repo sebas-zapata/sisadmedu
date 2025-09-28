@@ -60,7 +60,6 @@
                     <i class="fas fa-sign-in-alt"></i> Usuarios
                 </a>
             </div>
-            @endif
 
             <div class="module">
                 <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>
@@ -71,6 +70,7 @@
                     <i class="fas fa-sign-in-alt"></i> Docentes
                 </a>
             </div>
+            @endif
             <div class="module">
                 <p class="module-title"><i class="fas fa-layer-group"></i> Gestión de Grados</p>
                 <p class="module-total">

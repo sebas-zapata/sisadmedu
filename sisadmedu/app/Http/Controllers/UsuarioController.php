@@ -137,7 +137,7 @@ class UsuarioController extends Controller
             return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
         }
         $usuario = Usuario::findOrFail($id);
-        $roles = Rol::whereNotIn('nombre', ['Acudiente', 'Docente', 'Estudiante'])->get();
+        $roles = Rol::whereNotIn('nombre', ['Acudiente', 'Docente','Estudiante'])->get();
         $tiposDocumento = TipoDocumento::all();
         return view('usuarios.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }

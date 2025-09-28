@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Grado;
 use App\Models\TipoDocumento;
 use App\Models\Docente;
+use App\Models\Usuario;
+use App\Models\Rol;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EstudianteController extends Controller
 {
@@ -29,7 +33,7 @@ class EstudianteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'documento_estudiante' => 'required|string|max:20|unique:estudiantes,documento_estudiante',
+            'documento_estudiante' => 'required|string|max:20|unique:estudiantes,documento_estudiante|unique:usuarios,documento',
             'primer_nombre_estudiante' => 'required|string|max:50',
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',
@@ -38,11 +42,11 @@ class EstudianteController extends Controller
             'fecha_nacimiento_estudiante' => 'required|date',
             'celular_estudiante' => 'required|string|max:15',
             'telefono_estudiante' => 'required|string|max:15',
-            'correo_electronico_estudiante' => 'required|email|max:100|unique:estudiantes,correo_electronico_estudiante',
+            'correo_electronico_estudiante' => 'required|email|max:100|unique:estudiantes,correo_electronico_estudiante|unique:usuarios,correo_electronico',
             'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
-            'acudiente_id' => 'nullable|required|exists:usuarios,id',
+            'acudiente_id' => 'nullable|exists:usuarios,id',
         ], [
             'documento_estudiante.required' => 'El número de documento es obligatorio.',
             'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
@@ -99,22 +103,57 @@ class EstudianteController extends Controller
 
 
 
-        // guardamos el estudiante sin matricula aca
-        $estudiante = Estudiante::create($request->all());
+        DB::beginTransaction();
 
-        // Generamos la matrícula única (ejemplo: MAT-2025-0001)
-        $estudiante->matricula = 'MAT-' . date('Y') . '-' . str_pad($estudiante->id, 4, '0', STR_PAD_LEFT);
+        try {
+            // 1️⃣ Crear usuario con rol estudiante
+            $rolEstudiante = Rol::where('nombre', 'Estudiante')->firstOrFail();
 
-        // Guardamos el cambio
-        $estudiante->save();
+            $usuario = Usuario::create([
+                'documento' => $request->documento_estudiante,
+                'nombres' => trim($request->primer_nombre_estudiante . ' ' . $request->segundo_nombre_estudiante),
+                'apellidos' => trim($request->primer_apellido_estudiante . ' ' . $request->segundo_apellido_estudiante),
+                'correo_electronico' => $request->correo_electronico_estudiante,
+                'contrasena' => Hash::make($request->documento_estudiante), // contraseña = documento
+                'rol_id' => $rolEstudiante->id,
+                'tipo_documento_id' => $request->id_tipo_documento,
+            ]);
 
-        if ($request->filled('acudiente_id')) {
-            // Añade la relación si no existe (no rompe otras relaciones)
-            $estudiante->acudientes()->syncWithoutDetaching([$request->input('acudiente_id')]);
+            // 2️⃣ Crear estudiante y vincular usuario
+            $estudiante = Estudiante::create([
+                'usuario_id' => $usuario->id,
+                'id_tipo_documento' => $request->id_tipo_documento,
+                'documento_estudiante' => $request->documento_estudiante,
+                'primer_nombre_estudiante' => $request->primer_nombre_estudiante,
+                'segundo_nombre_estudiante' => $request->segundo_nombre_estudiante,
+                'primer_apellido_estudiante' => $request->primer_apellido_estudiante,
+                'segundo_apellido_estudiante' => $request->segundo_apellido_estudiante,
+                'edad_estudiante' => $request->edad_estudiante,
+                'fecha_nacimiento_estudiante' => $request->fecha_nacimiento_estudiante,
+                'celular_estudiante' => $request->celular_estudiante,
+                'telefono_estudiante' => $request->telefono_estudiante,
+                'correo_electronico_estudiante' => $request->correo_electronico_estudiante,
+                'direccion_estudiante' => $request->direccion_estudiante,
+                'id_grado' => $request->id_grado,
+            ]);
+
+            // Generar matrícula única
+            $estudiante->matricula = 'MAT-' . date('Y') . '-' . str_pad($estudiante->id, 4, '0', STR_PAD_LEFT);
+            $estudiante->save();
+
+            // 3️⃣ Relacionar con acudiente (si aplica)
+            if ($request->filled('acudiente_id')) {
+                $estudiante->acudientes()->syncWithoutDetaching([$request->input('acudiente_id')]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('estudiantes.index')
+                ->with('success', 'Estudiante creado exitosamente con matrícula: ' . $estudiante->matricula);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al crear estudiante: ' . $e->getMessage()]);
         }
-
-        return redirect()->route('estudiantes.index')
-            ->with('success', 'Estudiante creado exitosamente con matrícula: ' . $estudiante->matricula);
     }
 
     // Mostrar los detalles de un estudiante específico y su grado
@@ -123,15 +162,15 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::with(['grado', 'tipoDocumento', 'acudientes.rol'])
             ->findOrFail($id);
 
-            // cargo relaciones útiles para la vista
+        // cargo relaciones útiles para la vista
         $estudiante = Estudiante::with(['observaciones.docente', 'acudientes'])->findOrFail($id);
 
         // traigo todos los docentes para el select
-        $docentes = Docente::select('id','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido')
-                           ->orderBy('primer_nombre')
-                           ->get();
+        $docentes = Docente::select('id', 'primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido')
+            ->orderBy('primer_nombre')
+            ->get();
 
-        return view('estudiantes.show', compact('estudiante','docentes'));
+        return view('estudiantes.show', compact('estudiante', 'docentes'));
     }
 
     // Mostrar el formulario para editar un estudiante y su grado
@@ -210,26 +249,58 @@ class EstudianteController extends Controller
             'id_tipo_documento.required' => 'El tipo de documento es obligatorio.',
             'id_tipo_documento.exists' => 'El tipo de documento seleccionado no es válido.',
         ]);
+        DB::beginTransaction();
 
+        try {
+            // 1️⃣ Actualizar estudiante
+            $estudiante->update($request->all());
 
+            // 2️⃣ Actualizar usuario vinculado
+            if ($estudiante->usuario) {
+                $estudiante->usuario->update([
+                    'documento' => $request->documento_estudiante,
+                    'nombres' => trim($request->primer_nombre_estudiante . ' ' . $request->segundo_nombre_estudiante),
+                    'apellidos' => trim($request->primer_apellido_estudiante . ' ' . $request->segundo_apellido_estudiante),
+                    'correo_electronico' => $request->correo_electronico_estudiante,
+                    'tipo_documento_id' => $request->id_tipo_documento,
+                ]);
+            }
 
-        $estudiante->update($request->all());
+            // 3️⃣ Manejo de acudiente
+            if ($request->filled('acudiente_id')) {
+                $estudiante->acudientes()->sync([$request->input('acudiente_id')]);
+            } else {
+                $estudiante->acudientes()->detach();
+            }
 
-        if ($request->filled('acudiente_id')) {
-            // Reemplaza las relaciones actuales por la seleccionada
-            $estudiante->acudientes()->sync([$request->input('acudiente_id')]);
-        } else {
-            // Si no selecciona ninguno, quita todas las relaciones (opcional)
-            $estudiante->acudientes()->detach();
+            DB::commit();
+
+            return redirect()->route('estudiantes.index')->with('success', 'Estudiante y usuario actualizados exitosamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al actualizar estudiante: ' . $e->getMessage()]);
         }
-
-        return redirect()->route('estudiantes.index')->with('success', 'Estudiante actualizado exitosamente.');
     }
 
-    // Eliminar un estudiante
     public function destroy(Estudiante $estudiante)
     {
-        $estudiante->delete();
-        return redirect()->route('estudiantes.index')->with('success', 'Estudiante eliminado exitosamente.');
+        DB::beginTransaction();
+
+        try {
+            // Elimina primero el usuario vinculado si existe
+            if ($estudiante->usuario) {
+                $estudiante->usuario->delete();
+            }
+
+            // Luego elimina al estudiante
+            $estudiante->delete();
+
+            DB::commit();
+
+            return redirect()->route('estudiantes.index')->with('success', 'Estudiante y usuario eliminados exitosamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Error al eliminar estudiante: ' . $e->getMessage()]);
+        }
     }
 }

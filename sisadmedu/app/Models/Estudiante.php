@@ -11,8 +11,8 @@ class Estudiante extends Model
 
     protected $table = 'estudiantes';
 
-    protected $primaryKey = 'id'; // Ahora será "id"
-    public $incrementing = true;  // Autoincrementable
+    protected $primaryKey = 'id';
+    public $incrementing = true;
 
     protected $fillable = [
         'matricula',
@@ -29,26 +29,37 @@ class Estudiante extends Model
         'direccion_estudiante',
         'id_grado',
         'id_tipo_documento',
+        'usuario_id', // 👈 importante para la relación
     ];
 
+    // 🔹 Un estudiante pertenece a un grado
     public function grado()
     {
         return $this->belongsTo(Grado::class, 'id_grado');
     }
 
-    public function tipodocumento()
+    // 🔹 Un estudiante pertenece a un tipo de documento
+    public function tipoDocumento()
     {
         return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento');
     }
 
+    // 🔹 Relación muchos a muchos con acudientes (usuarios)
     public function acudientes()
     {
         return $this->belongsToMany(Usuario::class, 'acudiente_estudiante', 'estudiante_id', 'acudiente_id')
             ->withTimestamps();
     }
 
+    // 🔹 Un estudiante puede tener varias observaciones
     public function observaciones()
     {
         return $this->hasMany(Observacion::class, 'estudiante_id');
+    }
+
+    // 🔹 Relación directa con el usuario (rol estudiante)
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 }

@@ -47,7 +47,6 @@ class DocenteController extends Controller
                 'nombres' => trim($request->primer_nombre . ' ' . $request->segundo_nombre),
                 'apellidos' => trim($request->primer_apellido . ' ' . $request->segundo_apellido),
                 'correo_electronico' => $request->correo_electronico,
-                'telefono' => null,
                 'contrasena' => Hash::make($request->documento), // contraseña inicial = documento
                 'rol_id' => 8, // rol docente
                 'tipo_documento_id' => $request->id_tipo_documento,

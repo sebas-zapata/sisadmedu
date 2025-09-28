@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
 class Usuario extends Model
 {
-    // Importar el trait HasFactory para usar las fábricas de Eloquent
     use HasFactory;
 
-    // Definición de la tabla y clave primaria
     protected $table = 'usuarios';
     protected $primaryKey = 'id';
     public $timestamps = true;
 
-    // Campos que se pueden asignar masivamente
     protected $fillable = [
         'documento',
         'nombres',
@@ -26,26 +28,34 @@ class Usuario extends Model
         'tipo_documento_id',
     ];
 
-    // Relación con el modelo Rol
+    // 🔹 Un usuario pertenece a un rol
     public function rol()
     {
         return $this->belongsTo(Rol::class, 'rol_id');
     }
 
-    // Relación con el modelo TipoDocumento
+    // 🔹 Un usuario pertenece a un tipo de documento
     public function tipoDocumento()
     {
         return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id');
     }
 
+    // 🔹 Relación muchos a muchos con estudiantes como acudiente
     public function estudiantes()
     {
         return $this->belongsToMany(Estudiante::class, 'acudiente_estudiante', 'acudiente_id', 'estudiante_id')
             ->withTimestamps();
     }
 
+    // 🔹 Un usuario puede ser un docente
     public function docente()
     {
         return $this->hasOne(Docente::class, 'usuario_id');
+    }
+
+    // 🔹 Un usuario puede ser un estudiante (relación 1 a 1)
+    public function estudiante()
+    {
+        return $this->hasOne(Estudiante::class, 'usuario_id');
     }
 }
