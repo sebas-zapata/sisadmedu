@@ -7,7 +7,7 @@
 
 {{-- Mensaje de error general de autenticación --}}
 @if(session('error'))
-    <div id="session-error" data-error="{{ session('error') }}"></div>
+<div id="session-error" data-error="{{ session('error') }}"></div>
 @endif
 
 <div class="login-container">
@@ -19,14 +19,20 @@
 
         {{-- Nombre del sistema y bienvenida --}}
         <h2 class="fw-bold">SISADMEDU</h2>
-{{-- Mensaje dinámico de bienvenida o error --}}
-@if(session('error'))
-    <div class="alert alert-danger text-center mb-4" role="alert">
-        {{ session('error') }}
-    </div>
-@else
-    <p class="text-muted mb-4">Bienvenido, por favor ingresa tus credenciales.</p>
-@endif
+
+        {{-- Mensaje dinámico de bienvenida o error --}}
+        @if(session('error'))
+        <div class="alert alert-danger text-center mb-4" role="alert">
+            {{ session('error') }}
+        </div>
+        @else
+        <p class="text-muted small mb-4">
+            <i class="fas fa-graduation-cap text-secondary"></i>
+        Bienvenido al <strong>Sistema Académico.</strong> <br> Accede con tus credenciales institucionales.
+        </p>
+
+        @endif
+
 
 
         {{-- Formulario de acceso --}}
@@ -36,33 +42,33 @@
             {{-- Correo electrónico --}}
             <div class="form-floating mb-3">
                 <input type="email"
-                       class="form-control @error('correo_electronico') is-invalid @enderror"
-                       id="correo_electronico"
-                       name="correo_electronico"
-                       placeholder="Correo electrónico"
-                       value="{{ old('correo_electronico') }}">
+                    class="form-control @error('correo_electronico') is-invalid @enderror"
+                    id="correo_electronico"
+                    name="correo_electronico"
+                    placeholder="Correo electrónico"
+                    value="{{ old('correo_electronico') }}">
                 <label for="correo_electronico">Correo electrónico</label>
 
                 @error('correo_electronico')
-                    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
-                        {{ $message }}
-                    </div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
             {{-- Contraseña --}}
             <div class="form-floating mb-4">
                 <input type="password"
-                       class="form-control @error('contrasena') is-invalid @enderror"
-                       id="contrasena"
-                       name="contrasena"
-                       placeholder="Contraseña">
+                    class="form-control @error('contrasena') is-invalid @enderror"
+                    id="contrasena"
+                    name="contrasena"
+                    placeholder="Contraseña">
                 <label for="contrasena">Contraseña</label>
 
                 @error('contrasena')
-                    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
-                        {{ $message }}
-                    </div>
+                <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
+                    {{ $message }}
+                </div>
                 @enderror
             </div>
 
@@ -75,9 +81,9 @@
         {{-- Link de recuperación y seguridad --}}
         <hr>
         <div class="mt-4 text-center small text-muted">
-           <a class="text-decoration-none" href="{{ route('password.forgot') }}">
-            ¿Olvidaste tu contraseña?
-           </a>
+            <a class="text-decoration-none" href="{{ route('password.forgot') }}">
+                ¿Olvidaste tu contraseña?
+            </a>
 
             <div class="mt-2">
                 <i class="fas fa-lock me-1"></i> Conexión segura

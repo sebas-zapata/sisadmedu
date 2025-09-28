@@ -7,11 +7,11 @@
       <img src="{{ asset('images/Logo SISADMEDU.jpg') }}" alt="Logo"
         class="rounded-circle me-2" width="60" height="60">
     </a>
-    
+
     <!-- Botón hamburguesa que abre el offcanvas -->
-    <button class="btn text-white mt-3 me-2" type="button" data-bs-toggle="offcanvas"
+    <button class="btn mt-3 me-2 btn-hamburguesa" type="button" data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-      <i class="fas fa-bars fs-4"></i>
+      <i class="fas fa-align-left fs-4"></i>
     </button>
 
 
@@ -31,25 +31,35 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center" href="#"
             id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-2"></i> {{ Auth::user()->nombres }}
+            <i class="fas fa-user-circle me-2 fs-5"></i>
+            <span>{{ Auth::user()->nombres }}</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="navbarDropdownMenuLink">
+
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 p-2" aria-labelledby="navbarDropdownMenuLink">
+            <!-- Perfil -->
             <li>
-              <a class="dropdown-item" href="{{ route('perfil.edit') }}">
-                <i class="fas fa-user-circle me-2"></i> Perfil
+              <a class="dropdown-item rounded-2 d-flex align-items-center py-2" href="{{ route('perfil.edit') }}">
+                <i class="fas fa-user-circle me-2 icono-perfil"></i>
+                Perfil
               </a>
             </li>
-            <li><hr class="dropdown-divider"></li>
+
             <li>
-              <form action="{{ route('logout') }}" method="POST" class="px-3">
+              <hr class="dropdown-divider my-2">
+            </li>
+
+            <!-- Cerrar sesión -->
+            <li>
+              <form action="{{ route('logout') }}" method="POST" class="px-1">
                 @csrf
-                <button class="btn btn-danger btn-sm w-100" type="submit">
+                <button class="btn btn-sm w-100 d-flex align-items-center justify-content-center gap-2 btn-logout" type="submit">
                   <i class="fas fa-sign-out-alt"></i> Cerrar sesión
                 </button>
               </form>
             </li>
           </ul>
         </li>
+
         @endif
 
       </ul>

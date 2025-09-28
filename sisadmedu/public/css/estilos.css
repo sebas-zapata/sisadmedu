@@ -906,6 +906,57 @@ tbody {
     font-size: 1.1rem;
     opacity: 0.8;
 }
-.offcanvas{
+
+.offcanvas {
     background-color: #6c4a83;
+}
+
+.link-modulo {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.link-modulo:hover {
+    background-color: #f3f3f3;
+    color: #461c68 !important;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-logout {
+    background-color: #dc3545;
+    color: #fff;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #bb2d3b;
+}
+
+.icono-perfil {
+    color: #7E08CA;
+}
+
+.btn-hamburguesa {
+    background-color: white;
+    color: #7E08CA;
+    border-radius: 8px;
+    padding: 0.6rem 0.9rem;
+    transition: all 0.3s ease;
+}
+
+/* Hover con animación */
+.btn-hamburguesa:hover {
+    background-color: #9b59b6;
+    color: white;
+    transform: scale(1.1) rotate(360deg);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    cursor: grab;
 }
