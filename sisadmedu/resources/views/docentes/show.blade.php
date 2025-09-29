@@ -47,6 +47,43 @@
         <p class="mb-0">{{ $docente->usuario->celular}}</p>
     </div>
 
+   <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-birthday-cake me-2 text-light"></i>
+        <strong>Fecha de Nacimiento:</strong>
+        <p class="mb-0">{{ $docente->fecha_nacimiento }}</p>
+    </div>
+
+    <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-map-marker-alt me-2 text-light"></i>
+        <strong>Dirección:</strong>
+        <p class="mb-0">{{ $docente->direccion }}</p>
+    </div>
+
+    <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-ring me-2 text-light"></i>
+        <strong>Estado Civil:</strong>
+        <p class="mb-0">{{ $docente->estado_civil }}</p>
+    </div>
+
+    <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-graduation-cap me-2 text-light"></i>
+        <strong>Especialización:</strong>
+        <p class="mb-0">{{ $docente->especializacion }}</p>
+    </div>
+
+    <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-briefcase me-2 text-light"></i>
+        <strong>Años de Experiencia:</strong>
+        <p class="mb-0">{{ $docente->anios_experiencia }}</p>
+    </div>
+
+    <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-calendar-check me-2 text-light"></i>
+        <strong>Fecha de Ingreso:</strong>
+        <p class="mb-0">{{ $docente->fecha_ingreso }}</p>
+    </div>
+
+    {{-- 🔹 Fechas de sistema --}}
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-calendar-plus me-2 text-light"></i>
         <strong>Fecha de creación:</strong>
@@ -58,7 +95,6 @@
         <strong>Última actualización:</strong>
         <p class="mb-0">{{ $docente->updated_at->format('d/m/Y H:i') }}</p>
     </div>
-
 </div>
 
 

@@ -16,7 +16,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
 
 @section('campos-formulario')
 <div class="row mb-3">
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating mt-2">
             <select
                 name="id_tipo_documento"
@@ -36,7 +36,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
         @enderror
     </div>
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
                 type="number"
@@ -46,7 +46,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
                 value="{{ old('documento') }}"
                 placeholder=" "
                 required>
-            <label for="documento">Documento del Docente</label>
+            <label for="documento">Documento</label>
         </div>
         @error('documento')
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
@@ -54,7 +54,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
     </div>
 
 
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
                 type="text"
@@ -71,7 +71,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
                 type="text"
@@ -90,7 +90,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
 </div>
 
 <div class="row mb-3">
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
                 type="text"
@@ -107,7 +107,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
                 type="text"
@@ -123,7 +123,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
                 type="email"
@@ -140,7 +140,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
                 type="text"
@@ -156,8 +156,112 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
         @enderror
     </div>
+</div>
 
-    <div class="col-md-3">
+<div class="row mb-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+        <div class="form-floating">
+            <input
+                type="date"
+                name="fecha_nacimiento"
+                id="fecha_nacimiento"
+                class="form-control @error('fecha_nacimiento') is-invalid @enderror"
+                value="{{ old('fecha_nacimiento') }}"
+                placeholder=" ">
+            <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+        </div>
+        @error('fecha_nacimiento')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+        <div class="form-floating">
+            <input
+                type="text"
+                name="direccion"
+                id="direccion"
+                class="form-control @error('direccion') is-invalid @enderror"
+                value="{{ old('direccion') }}"
+                placeholder=" ">
+            <label for="direccion">Dirección</label>
+        </div>
+        @error('direccion')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+        <div class="form-floating">
+            <input
+                type="text"
+                name="especializacion"
+                id="especializacion"
+                class="form-control @error('especializacion') is-invalid @enderror"
+                value="{{ old('especializacion') }}"
+                placeholder=" ">
+            <label for="especializacion">Especialización</label>
+        </div>
+        @error('especializacion')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+        <div class="form-floating">
+            <input
+                type="number"
+                name="anios_experiencia"
+                id="anios_experiencia"
+                class="form-control @error('anios_experiencia') is-invalid @enderror"
+                value="{{ old('anios_experiencia') }}"
+                placeholder=" "
+                min="0">
+            <label for="anios_experiencia">Años de Experiencia</label>
+        </div>
+        @error('anios_experiencia')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+        <div class="form-floating">
+            <input
+                type="date"
+                name="fecha_ingreso"
+                id="fecha_ingreso"
+                class="form-control @error('fecha_ingreso') is-invalid @enderror"
+                value="{{ old('fecha_ingreso') }}"
+                placeholder=" ">
+            <label for="fecha_ingreso">Fecha de Ingreso</label>
+        </div>
+        @error('fecha_ingreso')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+        <div class="form-floating">
+            <select
+                name="estado_civil"
+                id="estado_civil"
+                class="form-select @error('estado_civil') is-invalid @enderror">
+                <option value="">Seleccione...</option>
+                <option value="Soltero" {{ old('estado_civil') == 'Soltero' ? 'selected' : '' }}>Soltero</option>
+                <option value="Casado" {{ old('estado_civil') == 'Casado' ? 'selected' : '' }}>Casado</option>
+                <option value="Divorciado" {{ old('estado_civil') == 'Divorciado' ? 'selected' : '' }}>Divorciado</option>
+                <option value="Viudo" {{ old('estado_civil') == 'Viudo' ? 'selected' : '' }}>Viudo</option>
+            </select>
+            <label for="estado_civil">Estado Civil</label>
+        </div>
+        @error('estado_civil')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating mt-2">
             <select
                 name="id_materia"
@@ -177,6 +281,42 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
         @enderror
     </div>
+
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+    <div class="form-floating">
+        <input
+            type="text"
+            name="telefono"
+            id="telefono"
+            class="form-control @error('telefono') is-invalid @enderror"
+            value="{{ old('telefono') }}"
+            placeholder=" ">
+        <label for="telefono">Teléfono</label>
+    </div>
+    @error('telefono')
+    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+    @enderror
+</div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
+    <div class="form-floating">
+        <select
+            name="tipo_contrato"
+            id="tipo_contrato"
+            class="form-select @error('tipo_contrato') is-invalid @enderror">
+            <option value="">Seleccione...</option>
+            <option value="Planta" {{ old('tipo_contrato') == 'Planta' ? 'selected' : '' }}>Planta</option>
+            <option value="Catedratico" {{ old('tipo_contrato') == 'Catedratico' ? 'selected' : '' }}>Catedrático</option>
+            <option value="Temporal" {{ old('tipo_contrato') == 'Temporal' ? 'selected' : '' }}>Temporal</option>
+        </select>
+        <label for="tipo_contrato">Tipo de Contrato</label>
+    </div>
+    @error('tipo_contrato')
+    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+    @enderror
+</div>
 </div>
 @endsection
 
