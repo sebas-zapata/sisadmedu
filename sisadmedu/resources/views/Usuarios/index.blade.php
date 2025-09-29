@@ -22,9 +22,10 @@ Usuarios <i class="fas fa-users"></i>
             type="text"
             class="form-control"
             id="filtroUsuarios"
-            placeholder="Filtrar por nombre"
-            pattern="[A-Za-z\s]*"
-            title="Solo letras">
+            placeholder="Filtrar por documento"
+            pattern="[0-9]*"
+            title="Solo números">
+
     </div>
 </div>
 @endsection

@@ -1,82 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formulario-estudiante');
-    if (!form) return;
 
-    form.addEventListener('submit', function (e) {
-        // Obtener valores
-        const documento = form.querySelector('[name="documento_estudiante"]').value.trim();
-        const primerNombre = form.querySelector('[name="primer_nombre_estudiante"]').value.trim();
-        const primerApellido = form.querySelector('[name="primer_apellido_estudiante"]').value.trim();
-        const edad = form.querySelector('[name="edad_estudiante"]').value.trim();
-        const fechaNacimiento = form.querySelector('[name="fecha_nacimiento_estudiante"]').value.trim();
-        const correo = form.querySelector('[name="correo_electronico_estudiante"]').value.trim();
-        const grado = form.querySelector('[name="id_grado"]').value;
-        const tipoDocumento = form.querySelector('[name="id_tipo_documento"]').value;
+    // Campos
+    const documento = document.getElementById('documento_estudiante');
+    const nombres1 = document.getElementById('primer_nombre_estudiante');
+    const nombres2 = document.getElementById('segundo_nombre_estudiante');
+    const apellidos1 = document.getElementById('primer_apellido_estudiante');
+    const apellidos2 = document.getElementById('segundo_apellido_estudiante');
+    const edad = document.getElementById('edad_estudiante');
+    const celular = document.getElementById('celular_estudiante');
+    const telefono = document.getElementById('telefono_estudiante');
+    const correo = document.getElementById('correo_electronico_estudiante');
+    const direccion = document.getElementById('direccion_estudiante');
 
-        // Validar campos obligatorios
-        if (
-            documento === '' ||
-            primerNombre === '' ||
-            primerApellido === '' ||
-            edad === '' ||
-            fechaNacimiento === ''
-        ) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Campos requeridos',
-                text: 'Por favor completa todos los campos obligatorios.',
-                confirmButtonColor: '#461c68',
-                confirmButtonText: 'Aceptar',
-            });
-            return;
-        }
-
-        // Validar selects
-        if (grado === '' || tipoDocumento === '') {
-            Swal.fire({
-                icon: 'info',
-                title: 'Campos faltantes',
-                text: 'Selecciona un grado y un tipo de documento.',
-                confirmButtonColor: '#461c68'
-            });
-            return;
-        }
-
-        // Validar edad
-        if (isNaN(edad) || edad < 3 || edad > 100) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Edad inválida',
-                text: 'Por favor ingresa una edad válida entre 3 y 100 años.',
-                confirmButtonColor: '#461c68'
-            });
-            return;
-        }
-
-        // Validar correo si se ingresó
-        if (correo.length > 0) {
-            const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!regexCorreo.test(correo)) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Correo inválido',
-                    text: 'Por favor ingresa un correo electrónico válido.',
-                    confirmButtonColor: '#461c68'
-                });
-                return;
-            }
-        }
-    });
-
-    // Restringir solo números en documento, celular y teléfono
-    ["documento_estudiante", "celular_estudiante", "telefono_estudiante", "edad_estudiante"].forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener("keypress", function (e) {
-                if (!/[0-9]/.test(e.key)) {
-                    e.preventDefault();
-                }
-            });
-        }
-    });
+    // --- Restricciones de escritura ---
+    documento.addEventListener('input', e => e.target.value = e.target.value.replace(/[^0-9]/g, ''));
+    nombres1.addEventListener('input', e => e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, ''));
+    nombres2.addEventListener('input', e => e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, ''));
+    apellidos1.addEventListener('input', e => e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, ''));
+    apellidos2.addEventListener('input', e => e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, ''));
+    edad.addEventListener('input', e => e.target.value = e.target.value.replace(/[^0-9]/g, ''));
+    celular.addEventListener('input', e => e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 10));
+    telefono.addEventListener('input', e => e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 10));
+    correo.addEventListener('input', e => e.target.value = e.target.value.replace(/\s/g, ''));
+    direccion.addEventListener('input', e => e.target.value = e.target.value.replace(/[^A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s\-\#]/g, ''));
 });

@@ -8,7 +8,7 @@ Estudiantes <i class="fas fa-user-graduate"></i>
 </x-boton-principal>
 {{-- Input de búsqueda --}}
 <div class="mb-3">
-    <input type="text" id="filtroEstudiantes" class="form-control" placeholder="Filtrar por nombre" pattern="[A-Za-z\s]*" title="Solo letras">
+    <input type="text" id="filtroEstudiantes" class="form-control" placeholder="Filtrar por documento" pattern="">
 </div>
 @endsection
 

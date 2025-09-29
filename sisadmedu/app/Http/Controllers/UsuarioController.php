@@ -59,6 +59,7 @@ class UsuarioController extends Controller
             [
                 'documento' => 'required|numeric|unique:usuarios',
                 'nombres' => 'required',
+                'apellidos' => 'required',
                 'correo_electronico' => 'required|email|unique:usuarios',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
@@ -71,6 +72,7 @@ class UsuarioController extends Controller
                 'documento.unique' => 'El documento ya está registrado.',
                 'documento.numeric' => 'El campo documento debe ser un número.',
                 'nombres.required' => 'El campo nombres es obligatorio.',
+                'apellidos.required' => 'El campo apellidos es obligatorio.',
                 'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
                 'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',

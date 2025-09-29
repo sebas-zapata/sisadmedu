@@ -245,7 +245,6 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
             </label>
         </div>
 
-        {{-- Validación --}}
         @error('acudiente_id')
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
             {{ $message }}

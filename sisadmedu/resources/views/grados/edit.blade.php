@@ -15,7 +15,6 @@ Editar Grado <i class="fas fa-edit"></i>
 @section('campos-formulario')
 <div class="row justify-content-center mb-3">
     <div class="col-md-6 mb-3">
-        <label for="nivel_grado" class="form-label">Nivel</label>
         <select name="nivel_grado" id="nivel_grado"
             class="form-control @error('nivel_grado') is-invalid @enderror" required>
             <option value="">-- Seleccione un nivel --</option>
@@ -34,7 +33,6 @@ Editar Grado <i class="fas fa-edit"></i>
     </div>
 
     <div class="col-md-6 mb-3">
-        <label for="grupo_grado" class="form-label">Grupo</label>
         <select name="grupo_grado" id="grupo_grado"
             class="form-control @error('grupo_grado') is-invalid @enderror" required>
             <option value="">-- Seleccione un grupo --</option>

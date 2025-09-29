@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let mensajeNoEncontrado;
 
     input.addEventListener('input', () => {
-        // Solo letras y espacios
-        input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+        // Solo números
+        input.value = input.value.replace(/[^0-9]/g, '');
         const texto = input.value.toLowerCase();
         let coincidencias = 0;
 
         filas.forEach(fila => {
-            const nombreCompleto = fila.dataset.nombre; // nombre + apellido
-            if(nombreCompleto.includes(texto)) {
+            const documento = fila.querySelector('td:nth-child(2)').textContent.toLowerCase(); 
+            if(documento.includes(texto)) {
                 fila.style.display = '';
                 coincidencias++;
             } else {

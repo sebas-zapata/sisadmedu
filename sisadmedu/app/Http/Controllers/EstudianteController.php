@@ -29,7 +29,7 @@ class EstudianteController extends Controller
         return view('estudiantes.create', compact('grados', 'tiposDocumentos'));
     }
 
-    // Guardar un nuevo estudiante y asignar un grado
+    // Guardar un nuevo estudiante
     public function store(Request $request)
     {
         $request->validate([
@@ -38,15 +38,15 @@ class EstudianteController extends Controller
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',
             'segundo_apellido_estudiante' => 'nullable|string|max:50',
-            'edad_estudiante' => 'required|integer|min:1',
-            'fecha_nacimiento_estudiante' => 'required|date',
-            'celular_estudiante' => 'required|string|max:15|unique:usuarios,celular',
-            'telefono_estudiante' => 'required|string|max:15',
+            'edad_estudiante' => 'required|integer',
+            'fecha_nacimiento_estudiante' => 'required|',
+            'celular_estudiante' => 'required|max:15|unique:usuarios,celular',
+            'telefono_estudiante' => '|max:15',
             'correo_electronico_estudiante' => 'required|email|max:100|unique:usuarios,correo_electronico',
-            'direccion_estudiante' => 'required|string|max:255',
+            'direccion_estudiante' => 'required|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
-            'acudiente_id' => 'nullable|exists:usuarios,id',
+            'acudiente_id' => 'required|exists:usuarios,id',
         ], [
             'documento_estudiante.required' => 'El número de documento es obligatorio.',
             'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
@@ -75,10 +75,10 @@ class EstudianteController extends Controller
             'fecha_nacimiento_estudiante.date' => 'La fecha de nacimiento debe tener un formato válido.',
 
             'celular_estudiante.required' => 'El celular es obligatorio.',
+            'celular_estudiante.unique' => 'Este celular ya está registrado.',
             'celular_estudiante.string' => 'El celular debe ser una cadena de texto.',
             'celular_estudiante.max' => 'El celular no puede superar los 15 caracteres.',
 
-            'telefono_estudiante.required' => 'El teléfono es obligatorio.',
             'telefono_estudiante.string' => 'El teléfono debe ser una cadena de texto.',
             'telefono_estudiante.max' => 'El teléfono no puede superar los 15 caracteres.',
 
@@ -106,7 +106,7 @@ class EstudianteController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1️⃣ Crear usuario con rol estudiante
+            // Crear usuario con rol estudiante
             $rolEstudiante = Rol::where('nombre', 'Estudiante')->firstOrFail();
 
             $usuario = Usuario::create([
@@ -120,7 +120,7 @@ class EstudianteController extends Controller
                 'tipo_documento_id' => $request->id_tipo_documento,
             ]);
 
-            // 2️⃣ Crear estudiante (ya sin documento, correo ni celular)
+            // Crear estudiante (ya sin documento, correo ni celular)
             $estudiante = Estudiante::create([
                 'usuario_id' => $usuario->id,
                 'id_tipo_documento' => $request->id_tipo_documento,
@@ -133,6 +133,7 @@ class EstudianteController extends Controller
                 'telefono_estudiante' => $request->telefono_estudiante,
                 'direccion_estudiante' => $request->direccion_estudiante,
                 'id_grado' => $request->id_grado,
+                'id_acudiente' => $request->acudiente_id,
             ]);
 
             $estudiante->matricula = 'MAT-' . date('Y') . '-' . str_pad($estudiante->id, 4, '0', STR_PAD_LEFT);
@@ -176,7 +177,7 @@ class EstudianteController extends Controller
         return view('estudiantes.edit', compact('estudiante', 'grados', 'tiposDocumentos'));
     }
 
-    // Actualizar un estudiante y su grado
+    // Actualizar un estudiante
     public function update(Request $request, Estudiante $estudiante)
     {
         $request->validate([

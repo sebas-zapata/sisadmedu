@@ -1,73 +1,33 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('formulario-usuario');
-    if (!form) return;
+    const documento = document.getElementById('documento');
+    const nombres = document.getElementById('nombres');
+    const apellidos = document.getElementById('apellidos');
+    const correo = document.getElementById('correo_electronico');
+    const celular = document.getElementById('celular');
 
-    form.addEventListener('submit', function (e) {
-        // Obtener valores de campos con querySelector (más confiable)
-        const documento = form.querySelector('[name="documento"]').value.trim();
-        const nombres = form.querySelector('[name="nombres"]').value.trim();
-        const correo = form.querySelector('[name="correo_electronico"]').value.trim();
-        const contrasena = form.querySelector('[name="contrasena"]').value;
-        const rol = form.querySelector('[name="rol_id"]').value;
-        const tipoDocumento = form.querySelector('[name="tipo_documento_id"]').value;
-
-
-        // Validar campos obligatorios
-        if (
-            documento === '' ||
-            nombres === '' ||
-            correo === ''
-        ) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Campos requeridos',
-                text: 'Por favor completa todos los campos obligatorios.',
-                confirmButtonColor: '#461c68',
-                confirmButtonText: 'Aceptar',
-            });
-            return;
-        }
-
-        // Validar selects
-        if (rol === '' || tipoDocumento === '') {
-            Swal.fire({
-                icon: 'info',
-                title: 'Campos faltantes',
-                text: 'Selecciona un rol y un tipo de documento.',
-                confirmButtonColor: '#461c68'
-            });
-            return;
-        }
-
-        // Validar correo
-        const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!regexCorreo.test(correo)) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Correo inválido',
-                text: 'Por favor ingresa un correo electrónico válido.',
-                confirmButtonColor: '#461c68'
-            });
-            return;
-        }
-
-        // Validar contraseña si se ingresó
-        if (contrasena.length > 0 && contrasena.length < 6) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Contraseña muy corta',
-                text: 'La nueva contraseña debe tener al menos 6 caracteres.',
-                confirmButtonColor: '#461c68'
-            });
-            return;
-        }
-
+    // --- Restricciones de escritura ---
+    documento.addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
     });
 
+    nombres.addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+    });
 
-    document.getElementById("documento").addEventListener("keypress", function (e) {
-        if (!/[0-9]/.test(e.key)) {
-            e.preventDefault(); // bloquea letras y símbolos
+    apellidos.addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñ\s]/g, '');
+    });
+
+    correo.addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/\s/g, '');
+    });
+
+    celular.addEventListener('input', e => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        if (e.target.value.length > 10) {
+            e.target.value = e.target.value.slice(0, 10);
         }
     });
+
 });
