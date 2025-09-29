@@ -23,6 +23,7 @@ class Usuario extends Model
         'nombres',
         'apellidos',
         'correo_electronico',
+        'celular',
         'contrasena',
         'rol_id',
         'tipo_documento_id',

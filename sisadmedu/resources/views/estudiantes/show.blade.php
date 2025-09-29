@@ -33,13 +33,13 @@
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-id-card me-2 text-light"></i>
         <strong>Documento:</strong>
-        <p class="mb-0">{{ $estudiante->documento_estudiante }}</p>
+        <p class="mb-0">{{ $estudiante->usuario->documento}}</p>
     </div>
 
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-envelope me-2 text-light"></i>
         <strong>Correo Electrónico:</strong>
-        <p class="mb-0">{{ $estudiante->correo_electronico_estudiante ?? 'No registrado' }}</p>
+        <p class="mb-0">{{ $estudiante->usuario->correo_electronico ?? 'No registrado' }}</p>
     </div>
 
     <div class="col-md-6 mb-3 text-center">
@@ -63,7 +63,7 @@
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-mobile-alt me-2 text-light"></i>
         <strong>Celular:</strong>
-        <p class="mb-0">{{ $estudiante->celular_estudiante ?? 'No registrado' }}</p>
+        <p class="mb-0">{{ $estudiante->usuario->celular ?? 'No registrado' }}</p>
     </div>
 
     <div class="col-md-6 mb-3 text-center">
@@ -97,6 +97,7 @@
     </div>
 
 </div>
+
 <!-- Modal Observacion -->
 <div class="modal fade" id="modalObservacion" tabindex="-1" aria-labelledby="modalObservacionLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -112,8 +113,35 @@
                 <div class="modal-body">
                     <!-- Campo oculto estudiante -->
                     <input type="hidden" name="estudiante_id" value="{{ $estudiante->id }}">
-                    <!-- Campo oculto docente (ejemplo si tienes auth) -->
-                    <input type="hidden" name="docente_id" value="{{ Auth::user()->docente->id ?? '' }}">
+
+                    <!-- Si es docente logueado -->
+                    @if(Auth::user()->rol->nombre === 'Docente' && Auth::user()->docente)
+                        <input type="hidden" name="docente_id" value="{{ Auth::user()->docente->id }}">
+                    @else
+                        <!-- Select de docentes solo si NO es docente -->
+                        <div class="form-floating mb-3">
+                            <select name="docente_id" id="docente_id"
+                                class="form-select @error('docente_id') is-invalid @enderror">
+                                <option value="" disabled selected>Seleccione un docente</option>
+                                @foreach($docentes as $docente)
+                                    <option value="{{ $docente->id }}">
+                                        {{ $docente->primer_nombre }}
+                                        {{ $docente->segundo_nombre }}
+                                        {{ $docente->primer_apellido }}
+                                        {{ $docente->segundo_apellido }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <label for="docente_id">Docente</label>
+                            @error('docente_id')
+                            <div class="text-danger mt-1 px-2 py-1"
+                                style="background-color:#ffe6e6; border-radius:4px;">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                    @endif
+
                     <!-- Tipo de Observación -->
                     <div class="form-floating mb-3">
                         <select name="tipo" id="tipo" class="form-select @error('tipo') is-invalid @enderror">
@@ -134,27 +162,6 @@
                         <label for="descripcion">Descripción</label>
                         @error('descripcion')
                         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <select name="docente_id" id="docente_id"
-                            class="form-select @error('docente_id') is-invalid @enderror">
-                            @foreach($docentes as $docente)
-                            <option value="{{ $docente->id }}" selected>
-                                {{ $docente->primer_nombre }}
-                                {{ $docente->segundo_nombre }}
-                                {{ $docente->primer_apellido }}
-                                {{ $docente->segundo_apellido }}
-                            </option>
-                            @endforeach
-                        </select>
-                        <label for="docente_id">Docente</label>
-                        @error('docente_id')
-                        <div class="text-danger mt-1 px-2 py-1"
-                            style="background-color:#ffe6e6; border-radius:4px;">
-                            {{ $message }}
-                        </div>
                         @enderror
                     </div>
                 </div>
@@ -192,7 +199,7 @@
                     <strong>Documento:</strong> {{ $acudiente->documento }}
                 </small>
                 <small class="text-muted d-block">
-                    <strong>Teléfono:</strong> {{ $acudiente->telefono ?? 'No registrado' }}
+                    <strong>Celular:</strong> {{ $acudiente->celular ?? 'No registrado' }}
                 </small>
                 <small class="text-muted d-block">
                     <strong>Correo:</strong> {{ $acudiente->correo_electronico ?? 'No registrado' }}

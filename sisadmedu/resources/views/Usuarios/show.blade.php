@@ -29,8 +29,8 @@
 
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-phone me-2 text-light"></i>
-        <strong>Teléfono:</strong>
-        <p class="mb-0">{{ $usuario->telefono }}</p>
+        <strong>Celular:</strong>
+        <p class="mb-0">{{ $usuario->celular }}</p>
     </div>
 
     <div class="col-md-6 mb-3 text-center">

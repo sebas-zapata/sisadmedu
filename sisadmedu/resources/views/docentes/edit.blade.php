@@ -52,7 +52,7 @@ Editar Docente <i class="fas fa-chalkboard-teacher"></i>
                 name="documento"
                 placeholder="Ej: DOC001"
                 required
-                value="{{ old('documento', $docente->documento) }}">
+                value="{{ old('documento', $docente->usuario->documento) }}">
             <label for="documento">Documento del Docente</label>
         </div>
         @error('documento')
@@ -158,6 +158,26 @@ Editar Docente <i class="fas fa-chalkboard-teacher"></i>
         </div>
         @enderror
     </div>
+
+    <div class="col-md-3">
+        <div class="form-floating">
+            <input
+                type="number"
+                class="form-control @error('celular') is-invalid @enderror"
+                id="celular"
+                name="celular"
+                placeholder="Ej: 3012356797"
+                required
+                value="{{ old('celular', $docente->usuario->celular) }}">
+            <label for="celular">Celular</label>
+        </div>
+        @error('celular')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
+            {{ $message }}
+        </div>
+        @enderror
+    </div>
+
 
     <div class="col-md-3">
         <div class="form-floating mt-2">

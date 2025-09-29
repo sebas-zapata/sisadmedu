@@ -33,16 +33,16 @@ class EstudianteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'documento_estudiante' => 'required|string|max:20|unique:estudiantes,documento_estudiante|unique:usuarios,documento',
+            'documento_estudiante' => 'required|string|max:20|unique:usuarios,documento',
             'primer_nombre_estudiante' => 'required|string|max:50',
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',
             'segundo_apellido_estudiante' => 'nullable|string|max:50',
             'edad_estudiante' => 'required|integer|min:1',
             'fecha_nacimiento_estudiante' => 'required|date',
-            'celular_estudiante' => 'required|string|max:15',
+            'celular_estudiante' => 'required|string|max:15|unique:usuarios,celular',
             'telefono_estudiante' => 'required|string|max:15',
-            'correo_electronico_estudiante' => 'required|email|max:100|unique:estudiantes,correo_electronico_estudiante|unique:usuarios,correo_electronico',
+            'correo_electronico_estudiante' => 'required|email|max:100|unique:usuarios,correo_electronico',
             'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
@@ -114,40 +114,35 @@ class EstudianteController extends Controller
                 'nombres' => trim($request->primer_nombre_estudiante . ' ' . $request->segundo_nombre_estudiante),
                 'apellidos' => trim($request->primer_apellido_estudiante . ' ' . $request->segundo_apellido_estudiante),
                 'correo_electronico' => $request->correo_electronico_estudiante,
-                'contrasena' => Hash::make($request->documento_estudiante), // contraseña = documento
+                'celular' => $request->celular_estudiante,
+                'contrasena' => Hash::make($request->documento_estudiante),
                 'rol_id' => $rolEstudiante->id,
                 'tipo_documento_id' => $request->id_tipo_documento,
             ]);
 
-            // 2️⃣ Crear estudiante y vincular usuario
+            // 2️⃣ Crear estudiante (ya sin documento, correo ni celular)
             $estudiante = Estudiante::create([
                 'usuario_id' => $usuario->id,
                 'id_tipo_documento' => $request->id_tipo_documento,
-                'documento_estudiante' => $request->documento_estudiante,
                 'primer_nombre_estudiante' => $request->primer_nombre_estudiante,
                 'segundo_nombre_estudiante' => $request->segundo_nombre_estudiante,
                 'primer_apellido_estudiante' => $request->primer_apellido_estudiante,
                 'segundo_apellido_estudiante' => $request->segundo_apellido_estudiante,
                 'edad_estudiante' => $request->edad_estudiante,
                 'fecha_nacimiento_estudiante' => $request->fecha_nacimiento_estudiante,
-                'celular_estudiante' => $request->celular_estudiante,
                 'telefono_estudiante' => $request->telefono_estudiante,
-                'correo_electronico_estudiante' => $request->correo_electronico_estudiante,
                 'direccion_estudiante' => $request->direccion_estudiante,
                 'id_grado' => $request->id_grado,
             ]);
 
-            // Generar matrícula única
             $estudiante->matricula = 'MAT-' . date('Y') . '-' . str_pad($estudiante->id, 4, '0', STR_PAD_LEFT);
             $estudiante->save();
 
-            // 3️⃣ Relacionar con acudiente (si aplica)
             if ($request->filled('acudiente_id')) {
                 $estudiante->acudientes()->syncWithoutDetaching([$request->input('acudiente_id')]);
             }
 
             DB::commit();
-
             return redirect()->route('estudiantes.index')
                 ->with('success', 'Estudiante creado exitosamente con matrícula: ' . $estudiante->matricula);
         } catch (\Exception $e) {
@@ -185,20 +180,19 @@ class EstudianteController extends Controller
     public function update(Request $request, Estudiante $estudiante)
     {
         $request->validate([
-            'documento_estudiante' => 'required|string|max:20|unique:estudiantes,documento_estudiante,' . $estudiante->id,
+            'documento_estudiante' => 'required|string|max:20|unique:usuarios,documento,' . $estudiante->usuario_id,
             'primer_nombre_estudiante' => 'required|string|max:50',
             'segundo_nombre_estudiante' => 'nullable|string|max:50',
             'primer_apellido_estudiante' => 'required|string|max:50',
             'segundo_apellido_estudiante' => 'nullable|string|max:50',
             'edad_estudiante' => 'required|integer|min:1',
             'fecha_nacimiento_estudiante' => 'required|date',
-            'celular_estudiante' => 'required|string|max:15',
+            'celular_estudiante' => 'required|string|max:15|unique:usuarios,celular,' . $estudiante->usuario_id,
             'telefono_estudiante' => 'required|string|max:15',
-            'correo_electronico_estudiante' => 'required|email|max:100|unique:estudiantes,correo_electronico_estudiante,' . $estudiante->id,
+            'correo_electronico_estudiante' => 'required|email|max:100|unique:usuarios,correo_electronico,' . $estudiante->usuario_id,
             'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
-            'acudiente_id' => 'nullable|exists:usuarios,id',
         ], [
             'documento_estudiante.required' => 'El número de documento es obligatorio.',
             'documento_estudiante.string' => 'El número de documento debe ser una cadena de texto.',
@@ -249,11 +243,23 @@ class EstudianteController extends Controller
             'id_tipo_documento.required' => 'El tipo de documento es obligatorio.',
             'id_tipo_documento.exists' => 'El tipo de documento seleccionado no es válido.',
         ]);
+
         DB::beginTransaction();
 
         try {
             // 1️⃣ Actualizar estudiante
-            $estudiante->update($request->all());
+            $estudiante->update([
+                'primer_nombre_estudiante' => $request->primer_nombre_estudiante,
+                'segundo_nombre_estudiante' => $request->segundo_nombre_estudiante,
+                'primer_apellido_estudiante' => $request->primer_apellido_estudiante,
+                'segundo_apellido_estudiante' => $request->segundo_apellido_estudiante,
+                'edad_estudiante' => $request->edad_estudiante,
+                'fecha_nacimiento_estudiante' => $request->fecha_nacimiento_estudiante,
+                'telefono_estudiante' => $request->telefono_estudiante,
+                'direccion_estudiante' => $request->direccion_estudiante,
+                'id_grado' => $request->id_grado,
+                'id_tipo_documento' => $request->id_tipo_documento,
+            ]);
 
             // 2️⃣ Actualizar usuario vinculado
             if ($estudiante->usuario) {
@@ -262,11 +268,11 @@ class EstudianteController extends Controller
                     'nombres' => trim($request->primer_nombre_estudiante . ' ' . $request->segundo_nombre_estudiante),
                     'apellidos' => trim($request->primer_apellido_estudiante . ' ' . $request->segundo_apellido_estudiante),
                     'correo_electronico' => $request->correo_electronico_estudiante,
+                    'celular' => $request->celular_estudiante,
                     'tipo_documento_id' => $request->id_tipo_documento,
                 ]);
             }
 
-            // 3️⃣ Manejo de acudiente
             if ($request->filled('acudiente_id')) {
                 $estudiante->acudientes()->sync([$request->input('acudiente_id')]);
             } else {
@@ -274,7 +280,6 @@ class EstudianteController extends Controller
             }
 
             DB::commit();
-
             return redirect()->route('estudiantes.index')->with('success', 'Estudiante y usuario actualizados exitosamente.');
         } catch (\Exception $e) {
             DB::rollBack();

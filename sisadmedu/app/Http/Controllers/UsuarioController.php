@@ -24,7 +24,7 @@ class UsuarioController extends Controller
     {
         /** @var LoginUsuario $usuario */
         $usuario = Auth::user();
-        
+
 
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
         return view('usuarios.index', compact('usuarios'));
@@ -41,7 +41,7 @@ class UsuarioController extends Controller
             return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
         }
 
-        $roles = Rol::whereNotIn('nombre', ['Acudiente', 'Docente', 'Estudiante'])->get();
+        $roles = Rol::whereNotIn('nombre', ['Docente', 'Estudiante'])->get();
 
         $tiposDocumento = TipoDocumento::all();
         return view('usuarios.create', compact('roles', 'tiposDocumento'));
@@ -62,6 +62,7 @@ class UsuarioController extends Controller
                 'correo_electronico' => 'required|email|unique:usuarios',
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
+                'celular' => 'required|string|max:20|unique:usuarios,celular',
                 // validación para estudiante_id solo si es acudiente
                 'estudiante_id' => 'nullable|exists:estudiantes,id',
             ],
@@ -73,6 +74,8 @@ class UsuarioController extends Controller
                 'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
                 'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+                'celular.required' => 'El campo celular es obligatorio.',
+                'celular.unique' => 'El celular ya está registrado.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
                 'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
             ]
@@ -137,7 +140,7 @@ class UsuarioController extends Controller
             return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
         }
         $usuario = Usuario::findOrFail($id);
-        $roles = Rol::whereNotIn('nombre', ['Acudiente', 'Docente','Estudiante'])->get();
+        $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
         return view('usuarios.edit', compact('usuario', 'roles', 'tiposDocumento'));
     }
@@ -157,6 +160,7 @@ class UsuarioController extends Controller
                 'nombres' => 'required|string|max:100',
                 'apellidos' => 'required|string|max:100',
                 'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
+                'celular' => 'required|string|max:20|unique:usuarios,celular,' . $usuario->id,
                 'rol_id' => 'required|exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
 
@@ -174,6 +178,8 @@ class UsuarioController extends Controller
                 'correo_electronico.required' => 'El campo correo electrónico es obligatorio.',
                 'correo_electronico.email' => 'El campo correo electrónico debe ser una dirección de correo válida.',
                 'correo_electronico.unique' => 'El correo electrónico ya está registrado.',
+                'celular.required' => 'El campo celular es obligatorio.',
+                'celular.unique' => 'El celular ya está registrado.',
                 'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
                 'contrasena.confirmed' => 'La confirmación de la contraseña no coincide.',
                 'rol_id.required' => 'Debe seleccionar un rol.',
@@ -181,12 +187,20 @@ class UsuarioController extends Controller
             ]
         );
 
-        $datos = $request->all();
+        // arma manualmente el array de actualización — evita sorpresas
+        $datos = $request->only([
+            'documento',
+            'nombres',
+            'apellidos',
+            'correo_electronico',
+            'celular',
+            'rol_id',
+            'tipo_documento_id'
+        ]);
 
+        // sólo cambiar la contraseña si viene en el formulario
         if ($request->filled('contrasena')) {
             $datos['contrasena'] = Hash::make($request->contrasena);
-        } else {
-            $datos['contrasena'] = $usuario->contrasena;
         }
 
         $usuario->update($datos);
@@ -248,6 +262,7 @@ class UsuarioController extends Controller
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
             'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
+            'celular' => 'required|string|max:20|unique:usuarios,celular,' . $usuario->id,
             'contrasena' => 'nullable|confirmed|min:6',
         ], [
             'nombres.required' => 'El campo nombres es obligatorio.',
@@ -259,6 +274,8 @@ class UsuarioController extends Controller
             'correo_electronico.required' => 'El correo electrónico es obligatorio.',
             'correo_electronico.email'    => 'El correo electrónico debe ser válido.',
             'correo_electronico.unique'   => 'El correo electrónico ya está registrado.',
+            'celular.required' => 'El campo celular es obligatorio.',
+            'celular.unique' => 'El celular ya está registrado.',
             'contrasena.confirmed' => 'Las contraseñas no coinciden.',
             'contrasena.min'       => 'La contraseña debe tener al menos 6 caracteres.',
         ]);
@@ -270,7 +287,7 @@ class UsuarioController extends Controller
         }
 
         // Usar mass assignment
-        $usuario->update($request->only(['nombres', 'apellidos', 'correo_electronico', 'telefono']));
+        $usuario->update($request->only(['nombres', 'apellidos', 'correo_electronico', 'celular']));
 
         if ($request->filled('contrasena')) {
             $usuario->contrasena = Hash::make($request->contrasena);

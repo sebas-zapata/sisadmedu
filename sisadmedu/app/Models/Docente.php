@@ -14,7 +14,6 @@ class Docente extends Model
 
     protected $fillable = [
         'usuario_id',
-        'documento',
         'primer_nombre',
         'segundo_nombre',
         'primer_apellido',

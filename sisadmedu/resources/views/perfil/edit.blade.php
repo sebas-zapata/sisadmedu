@@ -51,14 +51,15 @@
     <!-- Columna 2 -->
     <div class="col-md-6">
         <div class="form-floating mb-3">
-            <input type="text" name="telefono" id="telefono"
-                   class="form-control @error('telefono') is-invalid @enderror"
-                   value="{{ old('telefono', $usuario->telefono) }}">
-            <label for="telefono">Teléfono</label>
-            @error('telefono')
-                <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
-            @enderror
-        </div>
+            <input type="text" name="celular" id="celular" class="form-control @error('celular') is-invalid @enderror" value="{{ old('celular', $usuario->celular) }}" required>
+        <label for="celular">Celular</label>
+        @error('celular')
+            <div class="text-danger mt-1 px-2 py-1" 
+                 style="background-color: #ffe6e6; border-radius: 4px;">
+                {{ $message }}
+            </div>
+        @enderror
+     </div>
 
         <div class="form-floating mb-3">
             <input type="password" name="contrasena" id="contrasena"

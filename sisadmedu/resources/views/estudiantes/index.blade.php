@@ -31,7 +31,7 @@ Estudiantes <i class="fas fa-user-graduate"></i>
         <tr data-nombre="{{ strtolower($estudiante->primer_nombre_estudiante . ' ' . $estudiante->segundo_nombre_estudiante . ' ' . $estudiante->primer_apellido_estudiante . ' ' . $estudiante->segundo_apellido_estudiante) }}">
             <td>{{ $estudiante->id }}</td>
             <td>{{ $estudiante->matricula }}</td>
-            <td>{{ $estudiante->documento_estudiante }}</td>
+            <td>{{ $estudiante->usuario->documento }}</td>
             <td>{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->segundo_nombre_estudiante }}</td>
             <td>{{ $estudiante->primer_apellido_estudiante }} {{ $estudiante->segundo_apellido_estudiante }}</td>
             <td>{{ $estudiante->grado->nombre_grado }}</td>

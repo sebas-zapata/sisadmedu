@@ -141,6 +141,23 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
     </div>
 
     <div class="col-md-3">
+        <div class="form-floating">
+            <input
+                type="text"
+                name="celular"
+                id="celular"
+                class="form-control @error('celular') is-invalid @enderror"
+                value="{{ old('celular') }}"
+                placeholder=" "
+                required>
+            <label for="celular">Celular</label>
+        </div>
+        @error('celular')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="col-md-3">
         <div class="form-floating mt-2">
             <select
                 name="id_materia"

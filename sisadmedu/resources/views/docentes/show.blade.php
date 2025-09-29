@@ -20,7 +20,7 @@
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-id-card me-2 text-light"></i>
         <strong>Documento:</strong>
-        <p class="mb-0">{{ $docente->documento }}</p>
+        <p class="mb-0">{{ $docente->usuario->documento }}</p>
     </div>
 
     <div class="col-md-6 mb-3 text-center">
@@ -41,6 +41,12 @@
         <p class="mb-0">{{ $docente->tipoDocumento->descripcion }}</p>
     </div>
 
+     <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-mobile-alt me-2 text-light"></i>
+        <strong>Celular:</strong>
+        <p class="mb-0">{{ $docente->usuario->celular}}</p>
+    </div>
+
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-calendar-plus me-2 text-light"></i>
         <strong>Fecha de creación:</strong>
@@ -52,7 +58,10 @@
         <strong>Última actualización:</strong>
         <p class="mb-0">{{ $docente->updated_at->format('d/m/Y H:i') }}</p>
     </div>
+
 </div>
+
+
 
 <div class="d-flex justify-content-end gap-2 mt-4">
     <x-boton-principal href="{{ route('docentes.index') }}">

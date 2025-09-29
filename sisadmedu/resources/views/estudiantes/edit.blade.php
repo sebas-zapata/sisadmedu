@@ -38,7 +38,7 @@ Editar Estudiante <i class="fas fa-user-graduate"></i>
                 id="documento_estudiante"
                 name="documento_estudiante"
                 required
-                value="{{ old('documento_estudiante', $estudiante->documento_estudiante) }}">
+                value="{{ old('documento_estudiante', $estudiante->usuario->documento) }}">
             <label for="documento_estudiante">Documento del Estudiante</label>
             @error('documento_estudiante')
             <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
@@ -145,7 +145,7 @@ Editar Estudiante <i class="fas fa-user-graduate"></i>
                 class="form-control @error('celular_estudiante') is-invalid @enderror"
                 id="celular_estudiante"
                 name="celular_estudiante"
-                value="{{ old('celular_estudiante', $estudiante->celular_estudiante) }}">
+                value="{{ old('celular_estudiante', $estudiante->usuario->celular) }}">
             <label for="celular_estudiante">Celular</label>
             @error('celular_estudiante')
             <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
@@ -172,7 +172,7 @@ Editar Estudiante <i class="fas fa-user-graduate"></i>
                 class="form-control @error('correo_electronico_estudiante') is-invalid @enderror"
                 id="correo_electronico_estudiante"
                 name="correo_electronico_estudiante"
-                value="{{ old('correo_electronico_estudiante', $estudiante->correo_electronico_estudiante) }}">
+                value="{{ old('correo_electronico_estudiante', $estudiante->usuario->correo_electronico) }}">
             <label for="correo_electronico_estudiante">Correo Electrónico</label>
             @error('correo_electronico_estudiante')
             <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>

@@ -29,7 +29,7 @@ Docentes <i class="fas fa-chalkboard-teacher"></i>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Apellido</th>
+            <th>Apellidos</th>
             <th>Correo Electrónico</th>
             <th>Materia</th>
             <th>Acciones</th>

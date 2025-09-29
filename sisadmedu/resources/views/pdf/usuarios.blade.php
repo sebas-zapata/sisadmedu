@@ -40,7 +40,7 @@
                     <td>{{ $usuario->nombres }}</td>
                     <td>{{ $usuario->apellidos }}</td>
                     <td>{{ $usuario->correo_electronico }}</td>
-                    <td>{{ $usuario->telefono }}</td>
+                    <td>{{ $usuario->celular }}</td>
                     <td>{{ $usuario->rol->nombre ?? 'Sin rol' }}</td>
                 </tr>
             @endforeach

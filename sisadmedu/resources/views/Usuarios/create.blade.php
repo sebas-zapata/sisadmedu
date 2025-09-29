@@ -108,6 +108,25 @@ Crear Usuario <i class="fas fa-user-plus"></i>
     </div>
 
     <div class="col-md-4">
+        <div class="form-floating">
+            <input
+                type="text"
+                name="celular"
+                id="celular"
+                class="form-control @error('celular') is-invalid @enderror"
+                value="{{ old('celular') }}"
+                placeholder=" "
+                required>
+            <label for="celular">Celular</label>
+        </div>
+        @error('celular')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+            {{ $message }}
+        </div>
+        @enderror
+    </div>
+
+    <div class="col-md-4">
         <div class="form-floating mt-2">
             <select
                 name="rol_id"
