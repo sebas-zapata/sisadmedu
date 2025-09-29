@@ -36,8 +36,20 @@ class DocenteController extends Controller
             'segundo_apellido' => 'nullable|string|max:255',
             'correo_electronico' => 'required|string|email|max:255|unique:usuarios,correo_electronico',
             'celular' => 'required|string|max:20|unique:usuarios,celular', // validación de celular
+
+            // Relacionales
             'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
+
+            // Nuevos campos de docentes
+            'fecha_nacimiento' => 'nullable|date',
+            'telefono' => 'nullable|string|max:20',
+            'direccion' => 'nullable|string|max:255',
+            'estado_civil' => 'nullable|string|max:50',
+            'especializacion' => 'nullable|string|max:255',
+            'anios_experiencia' => 'nullable|integer|min:0',
+            'fecha_ingreso' => 'nullable|date',
+            'tipo_contrato' => 'required|in:Planta,Catedrático,Temporal',
         ]);
 
         DB::beginTransaction();
@@ -68,6 +80,15 @@ class DocenteController extends Controller
                 'primer_apellido' => $request->primer_apellido,
                 'segundo_apellido' => $request->segundo_apellido,
                 'id_materia' => $request->id_materia,
+                // Nuevos campos
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'telefono' => $request->telefono,
+                'direccion' => $request->direccion,
+                'estado_civil' => $request->estado_civil,
+                'especializacion' => $request->especializacion,
+                'anios_experiencia' => $request->anios_experiencia,
+                'fecha_ingreso' => $request->fecha_ingreso,
+                'tipo_contrato' => $request->tipo_contrato,
             ]);
 
             DB::commit();
@@ -108,15 +129,27 @@ class DocenteController extends Controller
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
             'correo_electronico' => 'required|string|email|max:255|unique:usuarios,correo_electronico,' . $docente->usuario->id,
-            'celular' => 'required|string|max:20|unique:usuarios,celular,' . $docente->usuario->id, // 👈 validación de celular
+            'celular' => 'required|string|max:20|unique:usuarios,celular,' . $docente->usuario->id,
+
+            // Relacionales
             'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
+
+            // Nuevos campos de docentes
+            'fecha_nacimiento' => 'nullable|date',
+            'telefono' => 'nullable|string|max:20',
+            'direccion' => 'nullable|string|max:255',
+            'estado_civil' => 'nullable|string|max:50',
+            'especializacion' => 'nullable|string|max:255',
+            'anios_experiencia' => 'nullable|integer|min:0',
+            'fecha_ingreso' => 'nullable|date',
+            'tipo_contrato' => 'required|in:Planta,Catedrático,Temporal',
         ]);
 
         DB::beginTransaction();
 
         try {
-            // 1 Actualizar docente ( ya no incluye documento ni celular)
+            // 1️⃣ Actualizar docente (incluye nuevos campos)
             $docente->update([
                 'id_tipo_documento' => $request->id_tipo_documento,
                 'primer_nombre' => $request->primer_nombre,
@@ -124,12 +157,22 @@ class DocenteController extends Controller
                 'primer_apellido' => $request->primer_apellido,
                 'segundo_apellido' => $request->segundo_apellido,
                 'id_materia' => $request->id_materia,
+
+                // Nuevos campos
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'telefono' => $request->telefono,
+                'direccion' => $request->direccion,
+                'estado_civil' => $request->estado_civil,
+                'especializacion' => $request->especializacion,
+                'anios_experiencia' => $request->anios_experiencia,
+                'fecha_ingreso' => $request->fecha_ingreso,
+                'tipo_contrato' => $request->tipo_contrato,
             ]);
 
-            //  Actualizar usuario vinculado (incluye documento y celular)
+            // 2️⃣ Actualizar usuario vinculado
             $docente->usuario->update([
                 'documento' => $request->documento,
-                'celular' => $request->celular, // nuevo campo
+                'celular' => $request->celular,
                 'nombres' => trim($request->primer_nombre . ' ' . $request->segundo_nombre),
                 'apellidos' => trim($request->primer_apellido . ' ' . $request->segundo_apellido),
                 'correo_electronico' => $request->correo_electronico,
@@ -144,6 +187,7 @@ class DocenteController extends Controller
             return back()->withErrors(['error' => 'Error al actualizar docente: ' . $e->getMessage()]);
         }
     }
+
 
 
 
