@@ -46,7 +46,7 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
                 required
                 value="{{ old('documento_estudiante') }}"
                 placeholder="Documento del Estudiante">
-            <label for="documento_estudiante">Documento del Estudiante</label>
+            <label for="documento_estudiante">Documento</label>
             @error('documento_estudiante')
             <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
             @enderror

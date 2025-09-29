@@ -19,9 +19,18 @@ class Docente extends Model
         'primer_apellido',
         'segundo_apellido',
         'id_materia',
-        'id_tipo_documento'
+        'id_tipo_documento',
+        'fecha_nacimiento',
+        'telefono',
+        'direccion',
+        'estado_civil',
+        'especializacion',
+        'anios_experiencia',
+        'fecha_ingreso',
+        'tipo_contrato'
     ];
 
+    // Relaciones
     public function materia()
     {
         return $this->belongsTo(Materia::class, 'id_materia');
