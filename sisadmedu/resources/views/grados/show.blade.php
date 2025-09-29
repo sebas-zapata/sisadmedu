@@ -33,7 +33,7 @@
                         <div class="cuerpo-estudiante text-center">
                             <p class="dato-estudiante">
                                 <i class="fas fa-id-badge"></i>
-                                <strong>Documento:</strong> {{ $est->documento_estudiante }}
+                                <strong>Documento:</strong> {{ $est->usuario->documento }}
                             </p>
                             <p class="dato-estudiante">
                                 <i class="fas fa-calendar-alt"></i>
@@ -41,7 +41,7 @@
                             </p>
                             <p class="dato-estudiante">
                                 <i class="fas fa-envelope"></i>
-                                <strong>Correo:</strong> {{ $est->correo_electronico_estudiante }}
+                                <strong>Correo:</strong> {{ $est->usuario->correo_electronico}}
                             </p>
                         </div>
                     </div>

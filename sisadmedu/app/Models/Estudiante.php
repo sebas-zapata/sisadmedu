@@ -29,7 +29,7 @@ class Estudiante extends Model
         'direccion_estudiante',
         'id_grado',
         'id_tipo_documento',
-        'usuario_id', // 👈 importante para la relación
+        'usuario_id', // importante para la relación con usuarios 
     ];
 
     // 🔹 Un estudiante pertenece a un grado
