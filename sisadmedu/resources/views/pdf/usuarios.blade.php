@@ -27,7 +27,7 @@
                 <th style="width: 15%;">Nombres</th>
                 <th style="width: 15%;">Apellidos</th>
                 <th style="width: 20%;">Correo</th>
-                <th style="width: 10%;">Teléfono</th>
+                <th style="width: 10%;">Celular</th>
                 <th style="width: 10%;">Rol</th>
             </tr>
         </thead>
