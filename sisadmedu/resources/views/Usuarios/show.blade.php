@@ -72,7 +72,7 @@
                     {{ $estudiante->primer_apellido_estudiante }}
                     {{ $estudiante->segundo_apellido_estudiante }}
                 </h6>
-                <small class="text-muted">Documento: {{ $estudiante->documento_estudiante }} | Matrícula: {{ $estudiante->matricula }}</small>
+                <small class="text-muted">Documento: {{ $estudiante->usuario->documento }} | Matrícula: {{ $estudiante->matricula }}</small>
             </div>
             <span class="badge bg-dark rounded-pill">
                 {{ $estudiante->grado->nombre_grado ?? 'Sin grado' }}

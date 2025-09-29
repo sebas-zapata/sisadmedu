@@ -35,7 +35,7 @@ class DocenteController extends Controller
             'primer_apellido' => 'required|string|max:255',
             'segundo_apellido' => 'nullable|string|max:255',
             'correo_electronico' => 'required|string|email|max:255|unique:usuarios,correo_electronico',
-            'celular' => 'required|string|max:20|unique:usuarios,celular', // 👈 validación de celular
+            'celular' => 'required|string|max:20|unique:usuarios,celular', // validación de celular
             'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
         ]);
@@ -50,7 +50,7 @@ class DocenteController extends Controller
             // 1️⃣ Crear usuario (documento y celular se guardan en usuarios)
             $usuario = Usuario::create([
                 'documento' => $request->documento,
-                'celular' => $request->celular, // 👈 nuevo campo
+                'celular' => $request->celular, // nuevo campo
                 'nombres' => trim($request->primer_nombre . ' ' . $request->segundo_nombre),
                 'apellidos' => trim($request->primer_apellido . ' ' . $request->segundo_apellido),
                 'correo_electronico' => $request->correo_electronico,
@@ -116,7 +116,7 @@ class DocenteController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1️⃣ Actualizar docente (⚠️ ya no incluye documento ni celular)
+            // 1 Actualizar docente ( ya no incluye documento ni celular)
             $docente->update([
                 'id_tipo_documento' => $request->id_tipo_documento,
                 'primer_nombre' => $request->primer_nombre,
@@ -126,10 +126,10 @@ class DocenteController extends Controller
                 'id_materia' => $request->id_materia,
             ]);
 
-            // 2️⃣ Actualizar usuario vinculado (incluye documento y celular)
+            //  Actualizar usuario vinculado (incluye documento y celular)
             $docente->usuario->update([
                 'documento' => $request->documento,
-                'celular' => $request->celular, // 👈 nuevo campo
+                'celular' => $request->celular, // nuevo campo
                 'nombres' => trim($request->primer_nombre . ' ' . $request->segundo_nombre),
                 'apellidos' => trim($request->primer_apellido . ' ' . $request->segundo_apellido),
                 'correo_electronico' => $request->correo_electronico,
