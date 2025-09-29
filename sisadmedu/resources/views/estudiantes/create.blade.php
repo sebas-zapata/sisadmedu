@@ -238,8 +238,10 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
         <div class="form-floating">
             <input type="text"
                 id="buscar_acudiente"
+                name="buscar_acudiente"
                 class="form-control @error('acudiente_id') is-invalid @enderror"
-                placeholder="Buscar por nombre o documento">
+                placeholder="Buscar por nombre o documento"
+                value="{{ old('buscar_acudiente') }}">
             <label for="buscar_acudiente">
                 Buscar Acudiente
             </label>
@@ -258,7 +260,7 @@ Crear Estudiante <i class="fas fa-user-graduate"></i>
         </ul>
 
 
-        <input type="hidden" name="acudiente_id" id="acudiente_id">
+        <input type="hidden" name="acudiente_id" id="acudiente_id" value="{{ old('acudiente_id') }}">
     </div>
 
 </div>

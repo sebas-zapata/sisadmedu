@@ -4,14 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let mensajeNoEncontrado;
 
     input.addEventListener('input', () => {
-        // Solo letras y espacios
-        input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+        // Permitir solo números
+        input.value = input.value.replace(/[^0-9]/g, '');
         const texto = input.value.toLowerCase();
         let coincidencias = 0;
 
         filas.forEach(fila => {
-            const nombreCompleto = fila.dataset.nombre;
-            if(nombreCompleto.includes(texto)) {
+            const documento = fila.dataset.documento.toLowerCase();
+
+            if (documento.includes(texto)) {
                 fila.style.display = '';
                 coincidencias++;
             } else {
@@ -21,13 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Mensaje dinámico
         const tabla = document.querySelector('#tabla-estudiantes tbody');
-        if(coincidencias === 0 && texto !== '') {
-            if(!mensajeNoEncontrado) {
+        if (coincidencias === 0 && texto !== '') {
+            if (!mensajeNoEncontrado) {
                 mensajeNoEncontrado = document.createElement('tr');
                 mensajeNoEncontrado.innerHTML = `<td colspan="7" class="text-center text-muted"><i class="fas fa-user-slash"></i> No se encontraron estudiantes.</td>`;
                 tabla.appendChild(mensajeNoEncontrado);
             }
-        } else if(mensajeNoEncontrado) {
+        } else if (mensajeNoEncontrado) {
             mensajeNoEncontrado.remove();
             mensajeNoEncontrado = null;
         }
