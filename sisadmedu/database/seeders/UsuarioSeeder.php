@@ -17,6 +17,7 @@ class UsuarioSeeder extends Seeder
             'nombres' => 'Juan Sebastian',
             'apellidos' => 'Zapata Suarez',
             'correo_electronico' => 'zapatajuan351@gmail.com',
+            'celular' => '3225550261',
             'contrasena' => Hash::make('1011392720'), // ¡Importante: encriptar!
             'rol_id' => 1, // Asegúrate de que exista el rol con ID 1
             'tipo_documento_id' => 1, // Asegúrate de que exista el tipo de documento con ID 1

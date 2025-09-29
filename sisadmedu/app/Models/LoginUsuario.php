@@ -23,8 +23,8 @@ class LoginUsuario extends Authenticatable
     protected $fillable = [
         'nombres',
         'apellidos',
-        'celular',
         'correo_electronico',
+        'celular',
         'contrasena',
     ];
 
