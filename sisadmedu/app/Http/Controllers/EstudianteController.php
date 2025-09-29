@@ -17,9 +17,10 @@ class EstudianteController extends Controller
     // Listar estudiantes y sus grados
     public function index()
     {
-        $estudiantes = Estudiante::with('grado')->paginate(5);
+        $estudiantes = Estudiante::with(['usuario', 'grado'])->get();
         return view('estudiantes.index', compact('estudiantes'));
     }
+
 
     // Mostrar el formulario para crear un nuevo estudiante y asignar un grado
     public function create()
@@ -39,7 +40,7 @@ class EstudianteController extends Controller
             'primer_apellido_estudiante' => 'required|string|max:50',
             'segundo_apellido_estudiante' => 'nullable|string|max:50',
             'edad_estudiante' => 'required|integer',
-            'fecha_nacimiento_estudiante' => 'required|',
+            'fecha_nacimiento_estudiante' => 'required|date',
             'celular_estudiante' => 'required|max:15|unique:usuarios,celular',
             'telefono_estudiante' => '|max:15',
             'correo_electronico_estudiante' => 'required|email|max:100|unique:usuarios,correo_electronico',
