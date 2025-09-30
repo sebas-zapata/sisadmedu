@@ -11,6 +11,7 @@ use App\Models\Usuario;
 use App\Models\Rol;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class EstudianteController extends Controller
 {
@@ -25,14 +26,25 @@ class EstudianteController extends Controller
     // Mostrar el formulario para crear un nuevo estudiante y asignar un grado
     public function create()
     {
-        $grados = Grado::all(); // Obtener todos los grados para el formulario
-        $tiposDocumentos = TipoDocumento::all(); // Obtener todos los tipos de documento
-        return view('estudiantes.create', compact('grados', 'tiposDocumentos'));
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
+
+        $tiposDocumentos = TipoDocumento::all();
+        $grados = Grado::all();
+        return view('estudiantes.create', compact('tiposDocumentos', 'grados'));
     }
 
     // Guardar un nuevo estudiante
     public function store(Request $request)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $request->validate([
             'documento_estudiante' => 'required|string|max:20|unique:usuarios,documento',
             'primer_nombre_estudiante' => 'required|string|max:50',
@@ -173,6 +185,11 @@ class EstudianteController extends Controller
     // Mostrar el formulario para editar un estudiante y su grado
     public function edit(Estudiante $estudiante)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $grados = Grado::all();
         $tiposDocumentos = TipoDocumento::all();
         return view('estudiantes.edit', compact('estudiante', 'grados', 'tiposDocumentos'));
@@ -181,6 +198,12 @@ class EstudianteController extends Controller
     // Actualizar un estudiante
     public function update(Request $request, Estudiante $estudiante)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
+
         $request->validate([
             'documento_estudiante' => 'required|string|max:20|unique:usuarios,documento,' . $estudiante->usuario_id,
             'primer_nombre_estudiante' => 'required|string|max:50',
@@ -291,6 +314,12 @@ class EstudianteController extends Controller
 
     public function destroy(Estudiante $estudiante)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
+
         DB::beginTransaction();
 
         try {
