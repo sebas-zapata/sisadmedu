@@ -960,3 +960,18 @@ tbody {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
     cursor: grab;
 }
+
+.btn-acordeon{
+    background-color: #461c68;
+    color: white;
+}
+
+/* Color de fondo cuando está abierto */
+.accordion-button:not(.collapsed) {
+    background-color: #4e3760 !important; /* Fondo oscuro */
+}
+
+/* Color del ícono de flecha (caret) */
+.accordion-button::after {
+    filter: invert(1); /* invierte el color, útil si usas fondo oscuro */
+}

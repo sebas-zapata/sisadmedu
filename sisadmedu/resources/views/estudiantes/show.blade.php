@@ -116,30 +116,30 @@
 
                     <!-- Si es docente logueado -->
                     @if(Auth::user()->rol->nombre === 'Docente' && Auth::user()->docente)
-                        <input type="hidden" name="docente_id" value="{{ Auth::user()->docente->id }}">
+                    <input type="hidden" name="docente_id" value="{{ Auth::user()->docente->id }}">
                     @else
-                        <!-- Select de docentes solo si NO es docente -->
-                        <div class="form-floating mb-3">
-                            <select name="docente_id" id="docente_id"
-                                class="form-select @error('docente_id') is-invalid @enderror">
-                                <option value="" disabled selected>Seleccione un docente</option>
-                                @foreach($docentes as $docente)
-                                    <option value="{{ $docente->id }}">
-                                        {{ $docente->primer_nombre }}
-                                        {{ $docente->segundo_nombre }}
-                                        {{ $docente->primer_apellido }}
-                                        {{ $docente->segundo_apellido }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <label for="docente_id">Docente</label>
-                            @error('docente_id')
-                            <div class="text-danger mt-1 px-2 py-1"
-                                style="background-color:#ffe6e6; border-radius:4px;">
-                                {{ $message }}
-                            </div>
-                            @enderror
+                    <!-- Select de docentes solo si NO es docente -->
+                    <div class="form-floating mb-3">
+                        <select name="docente_id" id="docente_id"
+                            class="form-select @error('docente_id') is-invalid @enderror">
+                            <option value="" disabled selected>Seleccione un docente</option>
+                            @foreach($docentes as $docente)
+                            <option value="{{ $docente->id }}">
+                                {{ $docente->primer_nombre }}
+                                {{ $docente->segundo_nombre }}
+                                {{ $docente->primer_apellido }}
+                                {{ $docente->segundo_apellido }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <label for="docente_id">Docente</label>
+                        @error('docente_id')
+                        <div class="text-danger mt-1 px-2 py-1"
+                            style="background-color:#ffe6e6; border-radius:4px;">
+                            {{ $message }}
                         </div>
+                        @enderror
+                    </div>
                     @endif
 
                     <!-- Tipo de Observación -->
@@ -178,63 +178,78 @@
         </div>
     </div>
 </div>
-
-
-<hr class="my-4">
-
-{{-- Mostrar acudientes solo si existen --}}
-@if($estudiante->acudientes && $estudiante->acudientes->isNotEmpty())
-<div class="mt-4">
-    <h5 class="fw-bold text-center text-light">Acudientes Asignados</h5>
-
-    <div class="list-group">
-        @foreach($estudiante->acudientes as $acudiente)
-        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <div>
-                <h6 class="fw-bold mb-1">
-                    {{ $acudiente->nombres }} {{ $acudiente->apellidos }}
-                </h6>
-                <small class="text-muted d-block">
-                    <strong>ID:</strong> {{ $acudiente->id }} |
-                    <strong>Documento:</strong> {{ $acudiente->documento }}
-                </small>
-                <small class="text-muted d-block">
-                    <strong>Celular:</strong> {{ $acudiente->celular ?? 'No registrado' }}
-                </small>
-                <small class="text-muted d-block">
-                    <strong>Correo:</strong> {{ $acudiente->correo_electronico ?? 'No registrado' }}
-                </small>
+<div class="accordion" id="accordionEstudiante">
+    <!-- Acudientes -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingAcudientes">
+            <button class="accordion-button btn-acordeon text-light" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseAcudientes"
+                aria-expanded="true" aria-controls="collapseAcudientes">
+                <i class="fas fa-user-friends me-2"></i> Acudientes Asignados
+            </button>
+        </h2>
+        <div id="collapseAcudientes" class="accordion-collapse collapse show"
+            aria-labelledby="headingAcudientes" data-bs-parent="#accordionEstudiante">
+            <div class="accordion-body">
+                {{-- Mostrar acudientes solo si existen --}}
+                @if($estudiante->acudientes && $estudiante->acudientes->isNotEmpty())
+                <div class="list-group">
+                    @foreach($estudiante->acudientes as $acudiente)
+                    <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="fw-bold mb-1">
+                                {{ $acudiente->nombres }} {{ $acudiente->apellidos }}
+                            </h6>
+                            <small class="text-muted d-block">
+                                <strong>ID:</strong> {{ $acudiente->id }} |
+                                <strong>Documento:</strong> {{ $acudiente->documento }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <strong>Celular:</strong> {{ $acudiente->celular ?? 'No registrado' }}
+                            </small>
+                            <small class="text-muted d-block">
+                                <strong>Correo:</strong> {{ $acudiente->correo_electronico ?? 'No registrado' }}
+                            </small>
+                        </div>
+                        <span class="badge bg-dark rounded-pill">
+                            Acudiente
+                        </span>
+                    </div>
+                    @endforeach
+                </div>
+                @else
+                <p class="text-center text-muted">Este estudiante aún no tiene acudientes asignados.</p>
+                @endif
             </div>
-            <span class="badge bg-dark rounded-pill">
-                Acudiente
-            </span>
         </div>
-        @endforeach
     </div>
 
-</div>
-@else
-<p class="text-center text-muted">Este estudiante aún no tiene acudientes asignados.</p>
-@endif
+    <!-- Observaciones -->
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingObservaciones">
+            <button class="accordion-button collapsed btn-acordeon text-light" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseObservaciones"
+                aria-expanded="false" aria-controls="collapseObservaciones">
+                <i class="fas fa-clipboard-list me-2"></i> Observaciones
+            </button>
+        </h2>
+        <div id="collapseObservaciones" class="accordion-collapse collapse"
+            aria-labelledby="headingObservaciones" data-bs-parent="#accordionEstudiante">
+            <div class="accordion-body text-center">
+                <!-- Botón Agregar Observación -->
+                <x-boton-principal type="button" data-bs-toggle="modal" data-bs-target="#modalObservacion">
+                    <i class="fas fa-comment-medical me-1"></i> Agregar Observación
+                </x-boton-principal>
 
-<hr class="my-4">
-<h5 class="fw-bold mb-4 text-center text-light"><i class="fas fa-clipboard-list"></i>
-    Observaciones</h5>
-<div class="card rounded-3 mt-1">
-    <div class="card-body text-center">
-
-        <!-- Botones -->
-        <!-- Botón Agregar Observación -->
-        <x-boton-principal type="button" data-bs-toggle="modal" data-bs-target="#modalObservacion">
-            <i class="fas fa-comment-medical me-1"></i> Agregar Observación
-        </x-boton-principal>
-
-        <!-- Botón Ver Observaciones -->
-        <x-boton-principal type="button" data-bs-toggle="modal" data-bs-target="#modalVerObservaciones">
-            <i class="fas fa-eye me-1"></i> Ver Observaciones
-        </x-boton-principal>
+                <!-- Botón Ver Observaciones -->
+                <x-boton-principal type="button" data-bs-toggle="modal" data-bs-target="#modalVerObservaciones">
+                    <i class="fas fa-eye me-1"></i> Ver Observaciones
+                </x-boton-principal>
+            </div>
+        </div>
     </div>
 </div>
+
 
 <!-- Modal Ver Observaciones -->
 <div class="modal fade" id="modalVerObservaciones" tabindex="-1" aria-labelledby="modalVerObservacionesLabel" aria-hidden="true">
