@@ -324,7 +324,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
                 class="form-select @error('tipo_contrato') is-invalid @enderror">
                 <option value="">Seleccione...</option>
                 <option value="Planta" {{ old('tipo_contrato') == 'Planta' ? 'selected' : '' }}>Planta</option>
-                <option value="Catedratico" {{ old('tipo_contrato') == 'Catedratico' ? 'selected' : '' }}>Catedrático</option>
+                <option value="Catedrático" {{ old('tipo_contrato') == 'Catedrático' ? 'selected' : '' }}>Catedrático</option>
                 <option value="Temporal" {{ old('tipo_contrato') == 'Temporal' ? 'selected' : '' }}>Temporal</option>
             </select>
             <label for="tipo_contrato">Tipo de Contrato</label>
