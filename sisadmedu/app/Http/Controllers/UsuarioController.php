@@ -22,8 +22,10 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function index()
     {
-        /** @var LoginUsuario $usuario */
-        $usuario = Auth::user();
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
 
 
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
