@@ -33,13 +33,11 @@ class UsuarioController extends Controller
     // Método para mostrar el formulario de creación de un nuevo usuario
     public function create()
     {
-        /** @var LoginUsuario $usuario */
-        $usuario = Auth::user();
-
-        // Validación: si no tiene rol o es docente, redirige
-        if (!$usuario->rol || $usuario->rol->nombre === 'Docente') {
-            return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
         }
+
 
         $roles = Rol::whereNotIn('nombre', ['Docente', 'Estudiante'])->get();
 
@@ -54,6 +52,12 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function store(Request $request)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
+
+
         // 1️⃣ Validar los datos del formulario
         $request->validate(
             [
@@ -134,12 +138,9 @@ class UsuarioController extends Controller
     // si no se encuentra
     public function edit($id)
     {
-        /** @var LoginUsuario $usuario */
-        $usuario = Auth::user();
-
-        // Validación: si no tiene rol o es docente, redirige
-        if (!$usuario->rol || $usuario->rol->nombre === 'Docente') {
-            return redirect('/')->with('error', 'No tienes permiso para acceder a este módulo.');
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
         }
         $usuario = Usuario::findOrFail($id);
         $roles = Rol::all();
@@ -154,6 +155,10 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function update(Request $request, $id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
         $usuario = Usuario::findOrFail($id);
 
         $request->validate(
@@ -227,6 +232,11 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function destroy($id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
+        
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 

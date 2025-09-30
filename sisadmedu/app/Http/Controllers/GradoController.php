@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Grado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GradoController extends Controller
 {
@@ -17,12 +18,20 @@ class GradoController extends Controller
     // Mostrar el formulario para crear un nuevo grado
     public function create()
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para crear grados.');
+        }
         return view('grados.create');
     }
 
     // Almacenar un nuevo grado
     public function store(Request $request)
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para crear grados.');
+        }
         $request->validate(
             [
                 'nivel_grado' => 'required|integer|min:1|max:11',
@@ -75,6 +84,10 @@ class GradoController extends Controller
     // Mostrar el formulario para editar un grado
     public function edit(Grado $grado)
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para editar grados.');
+        }
         return view('grados.edit', compact('grado'));
     }
 
@@ -82,6 +95,10 @@ class GradoController extends Controller
     // Actualizar un grado específico
     public function update(Request $request, Grado $grado)
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para actualizar grados.');
+        }
         $request->validate(
             [
                 'nivel_grado' => 'required|integer|min:1|max:11',
@@ -127,6 +144,12 @@ class GradoController extends Controller
     // Eliminar un grado específico
     public function destroy(Grado $grado)
     {
+
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para eliminar grados.');
+        }
+        
         $grado->delete();
 
         return redirect()->route('grados.index')->with('success', 'Grado eliminado exitosamente.');

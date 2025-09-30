@@ -50,7 +50,7 @@
             </h2>
         </div>
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-4 p-4">
-            @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
+            @if($usuario->rol && $usuario->rol->nombre === 'Administrador' || $usuario->rol->nombre === 'Coordinador' || $usuario->rol->nombre === 'Rector' || $usuario->rol->nombre === 'Secretaria')
             <div class="module">
                 <p class="module-title"><i class="fas fa-users"></i> Gestión de Usuarios</p>
                 <p class="module-total">
