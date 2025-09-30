@@ -16,6 +16,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
 
 @section('campos-formulario')
 <div class="row mb-3">
+    <!-- Tipo Documento -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating mt-2">
             <select
@@ -36,6 +37,8 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
         @enderror
     </div>
+
+    <!-- Documento -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -53,7 +56,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
-
+    <!-- Primer Nombre -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -71,6 +74,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Segundo Nombre -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -86,10 +90,10 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
         @enderror
     </div>
-
 </div>
 
 <div class="row mb-3">
+    <!-- Primer Apellido -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -107,6 +111,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Segundo Apellido -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -123,6 +128,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Correo -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -140,6 +146,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Celular -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -159,6 +166,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
 </div>
 
 <div class="row mb-3">
+    <!-- Fecha Nacimiento -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -175,6 +183,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Dirección -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -191,6 +200,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Especialización -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -207,6 +217,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Años Experiencia -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -226,6 +237,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
 </div>
 
 <div class="row mb-3">
+    <!-- Fecha Ingreso -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <input
@@ -242,8 +254,9 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Estado Civil -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
-        <div class="form-floating">
+        <div class="form-floating mt-2">
             <select
                 name="estado_civil"
                 id="estado_civil"
@@ -261,6 +274,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Materia -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating mt-2">
             <select
@@ -282,41 +296,43 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
+    <!-- Teléfono -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
-    <div class="form-floating">
-        <input
-            type="text"
-            name="telefono"
-            id="telefono"
-            class="form-control @error('telefono') is-invalid @enderror"
-            value="{{ old('telefono') }}"
-            placeholder=" ">
-        <label for="telefono">Teléfono</label>
+        <div class="form-floating">
+            <input
+                type="text"
+                name="telefono"
+                id="telefono"
+                class="form-control @error('telefono') is-invalid @enderror"
+                value="{{ old('telefono') }}"
+                placeholder=" ">
+            <label for="telefono">Teléfono</label>
+        </div>
+        @error('telefono')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
     </div>
-    @error('telefono')
-    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
-    @enderror
-</div>
 </div>
 
 <div class="row mb-3">
+    <!-- Tipo Contrato -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
-    <div class="form-floating">
-        <select
-            name="tipo_contrato"
-            id="tipo_contrato"
-            class="form-select @error('tipo_contrato') is-invalid @enderror">
-            <option value="">Seleccione...</option>
-            <option value="Planta" {{ old('tipo_contrato') == 'Planta' ? 'selected' : '' }}>Planta</option>
-            <option value="Catedratico" {{ old('tipo_contrato') == 'Catedratico' ? 'selected' : '' }}>Catedrático</option>
-            <option value="Temporal" {{ old('tipo_contrato') == 'Temporal' ? 'selected' : '' }}>Temporal</option>
-        </select>
-        <label for="tipo_contrato">Tipo de Contrato</label>
+        <div class="form-floating">
+            <select
+                name="tipo_contrato"
+                id="tipo_contrato"
+                class="form-select @error('tipo_contrato') is-invalid @enderror">
+                <option value="">Seleccione...</option>
+                <option value="Planta" {{ old('tipo_contrato') == 'Planta' ? 'selected' : '' }}>Planta</option>
+                <option value="Catedratico" {{ old('tipo_contrato') == 'Catedratico' ? 'selected' : '' }}>Catedrático</option>
+                <option value="Temporal" {{ old('tipo_contrato') == 'Temporal' ? 'selected' : '' }}>Temporal</option>
+            </select>
+            <label for="tipo_contrato">Tipo de Contrato</label>
+        </div>
+        @error('tipo_contrato')
+        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
+        @enderror
     </div>
-    @error('tipo_contrato')
-    <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
-    @enderror
-</div>
 </div>
 @endsection
 

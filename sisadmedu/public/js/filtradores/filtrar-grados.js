@@ -17,18 +17,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 fila.style.display = 'none';
             }
         });
-
-        // Mensaje dinámico
-        const tabla = document.querySelector('#tabla-grados tbody');
-        if(coincidencias === 0 && texto !== '') {
-            if(!mensajeNoEncontrado) {
-                mensajeNoEncontrado = document.createElement('tr');
-                mensajeNoEncontrado.innerHTML = `<td colspan="5" class="text-center text-muted"><i class="fas fa-layer-group"></i> No se encontraron grados.</td>`;
-                tabla.appendChild(mensajeNoEncontrado);
-            }
-        } else if(mensajeNoEncontrado) {
-            mensajeNoEncontrado.remove();
-            mensajeNoEncontrado = null;
-        }
     });
 });

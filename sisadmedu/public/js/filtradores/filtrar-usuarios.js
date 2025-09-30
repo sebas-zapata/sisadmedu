@@ -18,18 +18,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 fila.style.display = 'none';
             }
         });
-
-        // Mensaje dinámico
-        const tabla = document.querySelector('#usuarios tbody');
-        if(coincidencias === 0 && texto !== '') {
-            if(!mensajeNoEncontrado) {
-                mensajeNoEncontrado = document.createElement('tr');
-                mensajeNoEncontrado.innerHTML = `<td colspan="7" class="text-center text-muted"><i class="fas fa-user-slash"></i> No se encontraron usuarios.</td>`;
-                tabla.appendChild(mensajeNoEncontrado);
-            }
-        } else if(mensajeNoEncontrado) {
-            mensajeNoEncontrado.remove();
-            mensajeNoEncontrado = null;
-        }
     });
 });

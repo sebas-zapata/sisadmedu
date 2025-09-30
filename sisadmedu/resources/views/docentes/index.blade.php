@@ -16,9 +16,9 @@ Docentes <i class="fas fa-chalkboard-teacher"></i>
             type="text"
             class="form-control"
             id="filtroDocentes"
-            placeholder="Filtrar por nombre"
-            pattern="[A-Za-z\s]*"
-            title="Solo letras">
+            placeholder="Filtrar por documento"
+            pattern="[0-9]*"
+            title="Solo números">
     </div>
 </div>
 @endsection
@@ -28,6 +28,7 @@ Docentes <i class="fas fa-chalkboard-teacher"></i>
     <thead class="thead-sisadmedu text-center">
         <tr>
             <th>ID</th>
+            <th>Documento</th>
             <th>Nombre</th>
             <th>Apellidos</th>
             <th>Correo Electrónico</th>
@@ -37,8 +38,9 @@ Docentes <i class="fas fa-chalkboard-teacher"></i>
     </thead>
     <tbody>
         @forelse ($docentes as $docente)
-        <tr data-nombre="{{ strtolower($docente->primer_nombre . ' ' . $docente->segundo_nombre . ' ' . $docente->primer_apellido . ' ' . $docente->segundo_apellido) }}">
+        <tr data-documento="{{ $docente->usuario->documento }}">
             <td>{{ $docente->id }}</td>
+            <td>{{ $docente->usuario->documento }}</td>
             <td>{{ $docente->primer_nombre }} {{ $docente->segundo_nombre }}</td>
             <td>{{ $docente->primer_apellido }} {{ $docente->segundo_apellido }}</td>
             <td>{{ $docente->usuario->correo_electronico }}</td>
