@@ -10,17 +10,29 @@ use App\Models\Usuario;
 use App\Models\Rol;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class DocenteController extends Controller
 {
     public function index()
     {
+
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para crear docentes.');
+        }
+
         $docentes = Docente::with(['materia', 'usuario'])->get();
         return view('docentes.index', compact('docentes'));
     }
 
     public function create()
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para crear docentes.');
+        }
+
         $materias = Materia::all();
         $tipoDocumentos = TipoDocumento::all();
         return view('docentes.create', compact('materias', 'tipoDocumentos'));
@@ -28,6 +40,11 @@ class DocenteController extends Controller
 
     public function store(Request $request)
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para crear docentes.');
+        }
+
         $request->validate([
             'documento' => 'required|string|max:255|unique:usuarios,documento',
             'primer_nombre' => 'required|string|max:255',
@@ -172,6 +189,11 @@ class DocenteController extends Controller
 
     public function edit($id)
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para editar docentes.');
+        }
+
         $docente = Docente::with(['materia', 'tipoDocumento', 'usuario'])->findOrFail($id);
         $materias = Materia::all();
         $documentos = TipoDocumento::all();
@@ -180,6 +202,11 @@ class DocenteController extends Controller
 
     public function update(Request $request, $id)
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para editar docentes.');
+        }
+
         $docente = Docente::with('usuario')->findOrFail($id);
 
         $request->validate([
@@ -253,6 +280,11 @@ class DocenteController extends Controller
 
     public function destroy(string $id)
     {
+         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para eliminar docentes.');
+        }
+
         $docente = Docente::with('usuario')->findOrFail($id);
 
         DB::transaction(function () use ($docente) {

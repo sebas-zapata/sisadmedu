@@ -83,6 +83,12 @@
         <p class="mb-0">{{ $docente->fecha_ingreso }}</p>
     </div>
 
+    <div class="col-md-6 mb-3 text-center">
+        <i class="fas fa-calendar-times me-2 text-light"></i>
+        <strong>Tipo de contrato:</strong>
+        <p class="mb-0">{{ $docente->tipo_contrato}}</p>
+    </div>
+
     {{-- 🔹 Fechas de sistema --}}
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-calendar-plus me-2 text-light"></i>
