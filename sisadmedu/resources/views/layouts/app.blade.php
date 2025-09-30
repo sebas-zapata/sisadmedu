@@ -53,7 +53,7 @@
     {{-- Chart.js para gráficos --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    {{-- Scripts personalizados --}}
+    {{-- Scripts personalizados no tocar --}}
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ asset('js/graficos/graficos.js') }}"></script>
     <script src="{{ asset('js/usuarios/validar-usuario.js') }}"></script>
@@ -63,6 +63,7 @@
     <script src="{{ asset('js/particles-js/particles-config.js') }}"></script>
     <script src="{{ asset('js/docentes/confirmar-eliminar-docentes.js') }}"></script>
     <script src="{{ asset('js/usuarios/confirmar-eliminar-usuarios.js') }}"></script>
+    <script src="{{ asset('js/estudiantes/confirmar-eliminar-estudiante.js') }}"></script>
     <script src="{{ asset('js/docentes/validar-docente.js')}}"></script>
     <script src="{{ asset('js/grados/confirmar-eliminar-grados.js') }}"></script>
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>

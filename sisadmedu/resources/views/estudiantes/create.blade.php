@@ -3,6 +3,9 @@
 
 @section('titulo-formulario')
 Crear Estudiante <i class="fas fa-user-graduate"></i>
+@if($errors->any())
+@endif
+
 @endsection
 
 @section('id-form', 'formulario-estudiante')

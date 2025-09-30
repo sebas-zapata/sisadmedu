@@ -31,8 +31,7 @@
         </thead>
         <tbody>
             @forelse ($estudiantes as $estudiante)
-                <tr
-                    data-nombre="{{ strtolower($estudiante->primer_nombre_estudiante . ' ' . $estudiante->segundo_nombre_estudiante . ' ' . $estudiante->primer_apellido_estudiante . ' ' . $estudiante->segundo_apellido_estudiante) }}">
+                <tr data-documento="{{ $estudiante->id }}">
                     <td>{{ $estudiante->id }}</td>
                     <td>{{ $estudiante->matricula }}</td>
                     <td>{{ $estudiante->usuario->documento }}</td>
@@ -51,7 +50,7 @@
                                 data-estudiante="{{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }}">
                                 @csrf
                                 @method('DELETE')
-                                <x-boton-accion tipo="eliminar" type="submit" class="btn-eliminar-estudiantes" />
+                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-estudiantes" />
                             </form>
                         @endif
 

@@ -54,7 +54,7 @@ class EstudianteController extends Controller
             'edad_estudiante' => 'required|integer',
             'fecha_nacimiento_estudiante' => 'required|date',
             'celular_estudiante' => 'required|max:15|unique:usuarios,celular',
-            'telefono_estudiante' => '|max:15',
+            'telefono_estudiante' => 'nullable|string|max:15',
             'correo_electronico_estudiante' => 'required|email|max:100|unique:usuarios,correo_electronico',
             'direccion_estudiante' => 'required|max:255',
             'id_grado' => 'required|exists:grados,id',
@@ -213,7 +213,7 @@ class EstudianteController extends Controller
             'edad_estudiante' => 'required|integer|min:1',
             'fecha_nacimiento_estudiante' => 'required|date',
             'celular_estudiante' => 'required|string|max:15|unique:usuarios,celular,' . $estudiante->usuario_id,
-            'telefono_estudiante' => 'required|string|max:15',
+            'telefono_estudiante' => 'nullable|string|max:15',
             'correo_electronico_estudiante' => 'required|email|max:100|unique:usuarios,correo_electronico,' . $estudiante->usuario_id,
             'direccion_estudiante' => 'required|string|max:255',
             'id_grado' => 'required|exists:grados,id',
@@ -249,7 +249,6 @@ class EstudianteController extends Controller
             'celular_estudiante.string' => 'El celular debe ser una cadena de texto.',
             'celular_estudiante.max' => 'El celular no puede superar los 15 caracteres.',
 
-            'telefono_estudiante.required' => 'El teléfono es obligatorio.',
             'telefono_estudiante.string' => 'El teléfono debe ser una cadena de texto.',
             'telefono_estudiante.max' => 'El teléfono no puede superar los 15 caracteres.',
 

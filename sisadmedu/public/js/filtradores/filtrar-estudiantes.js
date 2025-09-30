@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('filtroEstudiantes');
     const filas = document.querySelectorAll('#tabla-estudiantes tbody tr');
-    let mensajeNoEncontrado;
 
     input.addEventListener('input', () => {
         // Permitir solo números

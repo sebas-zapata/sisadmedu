@@ -1,16 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('filtroGrados');
     const filas = document.querySelectorAll('#tabla-grados tbody tr');
-    let mensajeNoEncontrado;
 
     input.addEventListener('input', () => {
-        // Solo letras y espacios
+        // Permitir solo números
+        input.value = input.value.replace(/[^0-9]/g, '');
         const texto = input.value.toLowerCase();
         let coincidencias = 0;
 
         filas.forEach(fila => {
-            const nombreCompleto = fila.dataset.nombre;
-            if(nombreCompleto.includes(texto)) {
+            const nombreGrado = fila.dataset.nombre.toLowerCase();
+
+            if (nombreGrado.includes(texto)) {
                 fila.style.display = '';
                 coincidencias++;
             } else {

@@ -10,7 +10,7 @@
     <div class="offcanvas-body text-white p-0">
         <ul class="nav flex-column py-3">
             {{-- Solo Administrador puede ver Usuarios --}}
-            @if(Auth::user()->rol_id == 1)
+            @if(Auth::user()->rol->nombre == "Administrador")
             <li class="nav-item">
                 <a href="{{ route('usuarios.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fas fa-users me-2"></i>
