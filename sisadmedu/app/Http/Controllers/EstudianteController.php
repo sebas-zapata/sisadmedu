@@ -271,7 +271,7 @@ class EstudianteController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1️⃣ Actualizar estudiante
+            //  Actualizar estudiante
             $estudiante->update([
                 'primer_nombre_estudiante' => $request->primer_nombre_estudiante,
                 'segundo_nombre_estudiante' => $request->segundo_nombre_estudiante,
@@ -285,7 +285,7 @@ class EstudianteController extends Controller
                 'id_tipo_documento' => $request->id_tipo_documento,
             ]);
 
-            // 2️⃣ Actualizar usuario vinculado
+            // Actualizar usuario vinculado
             if ($estudiante->usuario) {
                 $estudiante->usuario->update([
                     'documento' => $request->documento_estudiante,
