@@ -12,6 +12,8 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\GraficosController;
 use App\Http\Controllers\ObservacionController;
+use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\MateriaController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -43,7 +45,7 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('sitio.inicio');
 
 // Modulo de Usuarios protegido por autenticación
-Route::resource('usuarios', UsuarioController::class)->middleware(['auth']);
+Route::resource('usuarios', UsuarioController::class)->middleware('auth');
 
 // Modulo de Docentes protegido por autenticación
 Route::resource('docentes', DocenteController::class)->middleware('auth');
@@ -60,7 +62,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/cambiar-contraseña', [LoginController::class, 'actualizarContrasena'])->name('actualizar_contraseña');
 });
 
-
 // Ruta para generar el PDF de usuarios
 Route::get('/usuarios-pdf', [PdfController::class, 'usuarioPdf'])->name('usuarios.pdf')->middleware('auth');
 
@@ -70,15 +71,17 @@ Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
 
 // Ruta para el dashboard con gráficos    
 Route::get('/', [GraficosController::class, 'index'])
-    ->name('dashboard')->middleware('auth');  
-    
+    ->name('dashboard')->middleware('auth');
 
-// ruta para buscar acudientes 
-Route::get('/buscar-acudientes', [App\Http\Controllers\UsuarioController::class, 'buscarAcudientes'])
-     ->name('acudientes.search');
+// Ruta para buscar acudientes 
+Route::get('/buscar-acudientes', [UsuarioController::class, 'buscarAcudientes'])
+    ->name('acudientes.search')->middleware('auth');
 
-//ruta obcervaciones
-Route::post('/observaciones', [ObservacionController::class, 'store'])->name('observacion.store');
+//Ruta para obcervaciones
+Route::post('/observaciones', [ObservacionController::class, 'store'])->name('observacion.store')->middleware('auth');
 
+// Rutas para gestionar horarios
+Route::resource('horarios', HorarioController::class)->middleware('auth');
 
-
+// Rutas para gestionar materias
+Route::resource('materias', MateriaController::class)->middleware('auth');

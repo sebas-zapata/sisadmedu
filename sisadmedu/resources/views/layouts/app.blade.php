@@ -66,10 +66,13 @@
     <script src="{{ asset('js/estudiantes/confirmar-eliminar-estudiante.js') }}"></script>
     <script src="{{ asset('js/docentes/validar-docente.js')}}"></script>
     <script src="{{ asset('js/grados/confirmar-eliminar-grados.js') }}"></script>
+    <script src="{{ asset('js/horarios/confirmar-eliminar-horario.js') }}"></script>
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
     <script src="{{ asset('js/estudiantes/validar-estudiante.js') }}"></script>
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
+    <script src="{{ asset('js/materias/confirmar-eliminar-materia.js') }}"></script>
     <script src="{{ asset('js/observaciones/modal-error.js') }}"></script>
+    <script src="{{ asset('js/materias/validar-materia.js') }}"></script>
 
    {{-- Filtros no tocar --}}
     <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>
@@ -79,6 +82,9 @@
     <script src="{{ asset('js/filtradores/filtrar-acudiente.js') }}"></script>
     <script src="{{ asset('js/filtradores/filtrar-estudiantes.js') }}"></script>
     <script src="{{ asset('js/filtradores/filtrar-grados.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-horario.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-materia.js') }}"></script>
+
 
 </body>
 

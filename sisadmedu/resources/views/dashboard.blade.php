@@ -11,7 +11,7 @@
     <div class="alert shadow-sm d-flex align-items-center justify-content-center mb-4" style="background-color: #4B0082; color: #fff; font-size: 1.2rem; border-radius: 10px;">
         <i class="fas fa-handshake me-2 fa-lg"></i>
         <div>
-            Bienvenido <strong>{{ $usuario->nombres }}</strong>, estás en el panel del rol 
+            Bienvenido <strong>{{ $usuario->nombres }}</strong>, estás en el panel del rol
             <strong>{{ $usuario->rol->nombre }}</strong>.
         </div>
     </div>
@@ -90,25 +90,31 @@
                     <i class="fas fa-sign-in-alt"></i> Estudiantes
                 </a>
             </div>
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-calendar-days"></i>  Horarios</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalHorarios }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('horarios.index') }}">
+                    <i class="fas fa-sign-in-alt"></i> Horarios
+                </a>
+            </div>
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-calendar-days"></i>  Materias</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalHorarios }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('materias.index') }}">
+                    <i class="fas fa-book"></i> Materias
+                </a>
+            </div>
         </div>
     </div>
 
     {{-- Fila de dos columnas con gráficas --}}
     <div class="row">
-        {{-- Gráfico de barras --}}
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <div class="card-header bg-light text-white">
-                    <strong class="module-title">Resumen General</strong>
-                </div>
-                <div class="card-body" style="height: 350px;">
-                    <canvas id="barChart"></canvas>
-                </div>
-            </div>
-        </div>
-
         {{-- Gráfico de pastel --}}
-        <div class="col-md-4 mb-4">
+        <div class="col-md-5 mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-light titulo">
                     <strong class="module-title">Distribución de Registros</strong>
@@ -120,7 +126,7 @@
         </div>
 
         {{-- Gráfico de líneas --}}
-        <div class="col-md-4 mb-4">
+        <div class="col-md-7 mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-light text-white">
                     <strong class="module-title">Evolución</strong>
@@ -139,7 +145,9 @@
         data-estudiantes="{{ $totalEstudiantes }}"
         data-usuarios="{{ $totalUsuarios }}"
         data-docentes="{{ $totalDocentes }}"
-        data-grados="{{ $totalGrados }}">
+        data-grados="{{ $totalGrados }}"
+        data-horarios="{{ $totalHorarios }}"
+        data-materia="{{ $totalMaterias }}">
     </div>
 
 </div>

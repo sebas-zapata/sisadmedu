@@ -43,6 +43,20 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{ route('horarios.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-calendar-days"></i> 
+                    <span>Horarios</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('materias.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fas fa-book"></i>
+                    <span>Materias</span>
+                </a>
+            </li>
+
             <!-- Agrega más módulos aquí -->
         </ul>
     </div>
