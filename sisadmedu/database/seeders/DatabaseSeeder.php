@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 
@@ -31,6 +32,8 @@ class DatabaseSeeder extends Seeder
             TipoDocumentoSeeder::class,
             EstudianteSeeder::class, // Asegúrate de que este seeder exista
             RolSeeder::class, // Asegúrate de que este seeder exista
+            AdminUserSeeder::class, // Asegúrate de que este seeder exista
+            DescansoSeeder::class
         ]);
     }
 }
