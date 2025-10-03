@@ -17,7 +17,7 @@ class DocenteController extends Controller
     public function index()
     {
 
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
@@ -28,7 +28,7 @@ class DocenteController extends Controller
 
     public function create()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
@@ -40,7 +40,7 @@ class DocenteController extends Controller
 
     public function store(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
@@ -161,7 +161,7 @@ class DocenteController extends Controller
 
     public function edit($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para editar docentes.');
         }
@@ -174,7 +174,7 @@ class DocenteController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para editar docentes.');
         }
@@ -291,7 +291,7 @@ class DocenteController extends Controller
 
     public function destroy(string $id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para eliminar docentes.');
         }

@@ -7,12 +7,19 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Grado;
 use App\Models\Materia;
 use App\Models\Horario;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HorarioController extends Controller
 {
     // Listar grados con estado de horario
     public function index()
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $grados = Grado::withCount('horarios')->get();
         return view('horarios.index', compact('grados'));
     }
@@ -20,6 +27,11 @@ class HorarioController extends Controller
     // Formulario para crear horario de un grado
     public function create(Request $request)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         if (!$request->has('grado')) {
             return redirect()->route('horarios.index')->with('error', 'Debes seleccionar un grado para crear un horario.');
         }
@@ -41,6 +53,11 @@ class HorarioController extends Controller
     // Guardar nuevo horario
     public function store(Request $request)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $validator = Validator::make($request->all(), [
             'id_grado'    => 'required|exists:grados,id',
             'materias'    => 'required|array',
@@ -72,6 +89,11 @@ class HorarioController extends Controller
     // Mostrar horario de un grado
     public function show($id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $grado = Grado::findOrFail($id);
         $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
         $descanso = ['inicio' => '09:15', 'fin' => '09:45'];
@@ -128,6 +150,11 @@ class HorarioController extends Controller
     // Editar horario
     public function edit($id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $grado = Grado::findOrFail($id);
         $materias = Materia::all();
 
@@ -148,6 +175,11 @@ class HorarioController extends Controller
     // Actualizar horario
     public function update(Request $request, $id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $validator = Validator::make($request->all(), [
             'materias'    => 'required|array',
             'hora_inicio' => 'required|array',
@@ -177,6 +209,11 @@ class HorarioController extends Controller
     // Eliminar horario
     public function destroy($id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
         $grado = Grado::findOrFail($id);
         Horario::where('id_grado', $id)->delete();
 

@@ -19,8 +19,8 @@
             </li>
             @endif
 
-            {{-- Solo si NO es Docente se muestra este módulo --}}
-            @if(Auth::user()->rol->nombre !== 'Docente')
+            {{-- Solo si NO es Docente, Estudiante o Acudiente se muestra este módulo --}}
+            @if(Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante' && Auth::user()->rol->nombre !== 'Acudiente')
             <li class="nav-item">
                 <a href="{{ route('docentes.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fas fa-chalkboard-teacher me-2"></i>
@@ -43,6 +43,8 @@
                 </a>
             </li>
 
+            {{-- Solo si NO es Docente, Estudiante o Acudiente se muestra este módulo --}}
+            @if(Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante' && Auth::user()->rol->nombre !== 'Acudiente')
             <li class="nav-item">
                 <a href="{{ route('horarios.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fa-solid fa-calendar-days"></i> 
@@ -56,6 +58,7 @@
                     <span>Materias</span>
                 </a>
             </li>
+            @endif
 
             <!-- Agrega más módulos aquí -->
         </ul>
