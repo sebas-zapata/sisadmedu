@@ -94,7 +94,7 @@ class HorarioController extends Controller
     {
     $user = Auth::user();
 
-    if ($user->rol->nombre == 'admin') {
+    if ($user->rol->nombre == 'Administrador') {
         // Admin: puede ver cualquier horario de grado
         $gradoId = $id;
     } else {
