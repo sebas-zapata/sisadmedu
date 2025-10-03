@@ -64,75 +64,69 @@
                         </a>
                     </div>
 
-                    <div class="module">
-                        <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>
-                        <p class="module-total">
-                            Total: <strong>{{ $totalDocentes }}</strong>
-                        </p>
-                        <a class="module-button" href="{{ route('docentes.index') }}">
-                            <i class="fas fa-sign-in-alt"></i> Docentes
-                        </a>
-                    </div>
-                @endif
-                <div class="module">
-                    <p class="module-title"><i class="fas fa-layer-group"></i> Gestión de Grados</p>
-                    <p class="module-total">
-                        Total: <strong>{{ $totalGrados }}</strong>
-                    </p>
-                    <a class="module-button" href="{{ route('grados.index') }}">
-                        <i class="fas fa-sign-in-alt"></i> Grados
-                    </a>
-                </div>
+            <div class="module">
+                <p class="module-title"><i class="fas fa-chalkboard-teacher"></i> Gestión de Docentes</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalDocentes }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('docentes.index') }}">
+                    <i class="fas fa-sign-in-alt"></i> Docentes
+                </a>
+            </div>
+            @endif
+            <div class="module">
+                <p class="module-title"><i class="fas fa-layer-group"></i> Gestión de Grados</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalGrados }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('grados.index') }}">
+                    <i class="fas fa-sign-in-alt"></i> Grados
+                </a>
+            </div>
 
-                <div class="module">
-                    <p class="module-title"><i class="fas fa-user-graduate"></i> Estudiantes</p>
-                    <p class="module-total">
-                        Total: <strong>{{ $totalEstudiantes }}</strong>
-                    </p>
-                    <a class="module-button" href="{{ route('estudiantes.index') }}">
-                        <i class="fas fa-sign-in-alt"></i> Estudiantes
-                    </a>
-                </div>
-                @if (
-                    ($usuario->rol && $usuario->rol->nombre === 'Administrador') ||
-                        $usuario->rol->nombre === 'Coordinador' ||
-                        $usuario->rol->nombre === 'Rector' ||
-                        $usuario->rol->nombre === 'Secretaria')
-                    <div class="module">
-                        <p class="module-title"><i class="fa-solid fa-calendar-days"></i> Horarios</p>
-                        <p class="module-total">
-                            Total: <strong>{{ $totalHorarios }}</strong>
-                        </p>
-                        <a class="module-button" href="{{ route('horarios.index') }}">
-                            <i class="fas fa-sign-in-alt"></i> Horarios
-                        </a>
-                    </div>
-                    <div class="module">
-                        <p class="module-title"><i class="fa-solid fa-calendar-days"></i> Materias</p>
-                        <p class="module-total">
-                            Total: <strong>{{ $totalHorarios }}</strong>
-                        </p>
-                        <a class="module-button" href="{{ route('materias.index') }}">
-                            <i class="fas fa-book"></i> Materias
-                        </a>
-                    </div>
-                @endif
+            <div class="module">
+                <p class="module-title"><i class="fas fa-user-graduate"></i> Estudiantes</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalEstudiantes }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('estudiantes.index') }}">
+                    <i class="fas fa-sign-in-alt"></i> Estudiantes
+                </a>
+            </div>
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-calendar-days"></i>  Horarios</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalHorarios }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('horarios.index') }}">
+                    <i class="fas fa-sign-in-alt"></i> Horarios
+                </a>
+            </div>
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-calendar-days"></i>  Materias</p>
+                <p class="module-total">
+                    Total: <strong>{{ $totalHorarios }}</strong>
+                </p>
+                <a class="module-button" href="{{ route('materias.index') }}">
+                    <i class="fas fa-book"></i> Materias
+                </a>
             </div>
         </div>
+    </div>
 
-        {{-- Fila de dos columnas con gráficas --}}
-        <div class="row">
-            {{-- Gráfico de pastel --}}
-            <div class="col-md-5 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-header bg-light titulo">
-                        <strong class="module-title">Distribución de Registros</strong>
-                    </div>
-                    <div class="card-body" style="height: 350px;">
-                        <canvas id="pieChart"></canvas>
-                    </div>
+    {{-- Fila de dos columnas con gráficas --}}
+    <div class="row">
+        {{-- Gráfico de pastel --}}
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light titulo">
+                    <strong class="module-title">Distribución de Registros</strong>
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <canvas id="pieChart"></canvas>
                 </div>
             </div>
+        </div>
 
             {{-- Gráfico de líneas --}}
             <div class="col-md-7 mb-4">
@@ -146,7 +140,7 @@
                 </div>
             </div>
 
-        </div>
+    </div>
 
         {{-- Contenedor de datos --}}
         <div id="datos-dashboard" data-estudiantes="{{ $totalEstudiantes }}" data-usuarios="{{ $totalUsuarios }}"

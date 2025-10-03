@@ -7,8 +7,14 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Grado;
 use App\Models\Materia;
 use App\Models\Horario;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+=======
+use App\Models\Estudiante;
+
+use Illuminate\Support\Facades\Auth;
+>>>>>>> desarrollo
 
 class HorarioController extends Controller
 {
@@ -86,6 +92,7 @@ class HorarioController extends Controller
         return redirect()->route('horarios.index')->with('success', 'Horario guardado correctamente.');
     }
 
+<<<<<<< HEAD
     // Mostrar horario de un grado
     public function show($id)
     {
@@ -97,55 +104,80 @@ class HorarioController extends Controller
         $grado = Grado::findOrFail($id);
         $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
         $descanso = ['inicio' => '09:15', 'fin' => '09:45'];
+=======
+public function show($id = null)
+{
+    $user = Auth::user();
+>>>>>>> desarrollo
 
-        $raw = Horario::where('id_grado', $id)
-            ->with('materia')
-            ->orderByRaw("FIELD(dia, 'Lunes','Martes','Miércoles','Jueves','Viernes')")
-            ->orderBy('hora_inicio')
-            ->get();
+    if ($user->rol->nombre == 'admin') {
+        // Admin: puede ver cualquier horario de grado
+        $gradoId = $id;
+    } else {
+        // Estudiante: siempre verá solo el horario de su grado
+        $estudiante = Estudiante::where('usuario_id', $user->id)->first();
 
-        $horarios = [];
-        foreach ($dias as $dia) {
-            $grupo = $raw->where('dia', $dia)->values();
+        if (!$estudiante || !$estudiante->id_grado) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes un grado asignado.');
+        }
 
-            $bloques = collect();
-            $descansoInsertado = false;
+        $gradoId = $estudiante->id_grado;
+    }
 
-            foreach ($grupo as $clase) {
-                // Insertar descanso automáticamente
-                if (!$descansoInsertado && $clase->hora_inicio >= $descanso['inicio']) {
-                    $bloques->push((object)[
-                        'materia'     => null,
-                        'es_descanso' => true,
-                        'hora_inicio' => $descanso['inicio'],
-                        'hora_fin'    => $descanso['fin'],
-                    ]);
-                    $descansoInsertado = true;
-                }
+    $grado = Grado::findOrFail($gradoId);
+    $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+    $descanso = ['inicio' => '09:15', 'fin' => '09:45'];
 
-                $bloques->push((object)[
-                    'materia'     => $clase->materia,
-                    'es_descanso' => false,
-                    'hora_inicio' => $clase->hora_inicio,
-                    'hora_fin'    => $clase->hora_fin,
-                ]);
-            }
+    $raw = Horario::where('id_grado', $gradoId)
+        ->with('materia')
+        ->orderByRaw("FIELD(dia, 'Lunes','Martes','Miércoles','Jueves','Viernes')")
+        ->orderBy('hora_inicio')
+        ->get();
 
-            // Si el descanso no fue insertado
-            if (!$descansoInsertado) {
+    $horarios = [];
+    foreach ($dias as $dia) {
+        $grupo = $raw->where('dia', $dia)->values();
+
+        $bloques = collect();
+        $descansoInsertado = false;
+
+        foreach ($grupo as $clase) {
+            // Insertar descanso automáticamente
+            if (!$descansoInsertado && $clase->hora_inicio >= $descanso['inicio']) {
                 $bloques->push((object)[
                     'materia'     => null,
                     'es_descanso' => true,
                     'hora_inicio' => $descanso['inicio'],
                     'hora_fin'    => $descanso['fin'],
                 ]);
+                $descansoInsertado = true;
             }
 
-            $horarios[$dia] = $bloques;
+            $bloques->push((object)[
+                'materia'     => $clase->materia,
+                'es_descanso' => false,
+                'hora_inicio' => $clase->hora_inicio,
+                'hora_fin'    => $clase->hora_fin,
+            ]);
         }
 
-        return view('horarios.show', compact('grado', 'horarios', 'dias'));
+        // Si el descanso no fue insertado
+        if (!$descansoInsertado) {
+            $bloques->push((object)[
+                'materia'     => null,
+                'es_descanso' => true,
+                'hora_inicio' => $descanso['inicio'],
+                'hora_fin'    => $descanso['fin'],
+            ]);
+        }
+
+        $horarios[$dia] = $bloques;
     }
+
+    return view('horarios.show', compact('grado', 'horarios', 'dias'));
+}
+
 
     // Editar horario
     public function edit($id)
@@ -293,4 +325,5 @@ class HorarioController extends Controller
             }
         }
     }
+
 }

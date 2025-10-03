@@ -42,4 +42,9 @@ class LoginUsuario extends Authenticatable
     {
         return $this->belongsTo(Rol::class, 'rol_id');
     }
+
+    public function estudiante()
+    {
+        return $this->hasOne(Estudiante::class, 'usuario_id', 'id');
+    }
 }

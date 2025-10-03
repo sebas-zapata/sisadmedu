@@ -35,7 +35,7 @@ class Estudiante extends Model
     // 🔹 Un estudiante pertenece a un grado
     public function grado()
     {
-        return $this->belongsTo(Grado::class, 'id_grado');
+        return $this->belongsTo(Grado::class, 'id_grado', 'id');
     }
 
     // 🔹 Un estudiante pertenece a un tipo de documento
@@ -61,5 +61,10 @@ class Estudiante extends Model
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'usuario_id');
+    }
+
+    public function loginUsuario()
+    {
+        return $this->belongsTo(LoginUsuario::class, 'usuario_id');
     }
 }
