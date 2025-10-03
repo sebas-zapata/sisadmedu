@@ -71,6 +71,7 @@
                 </a>
             </div>
             @endif
+            @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
             <div class="module">
                 <p class="module-title"><i class="fas fa-layer-group"></i> Gestión de Grados</p>
                 <p class="module-total">
@@ -80,7 +81,10 @@
                     <i class="fas fa-sign-in-alt"></i> Grados
                 </a>
             </div>
+            @endif
 
+
+            @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
             <div class="module">
                 <p class="module-title"><i class="fas fa-user-graduate"></i> Estudiantes</p>
                 <p class="module-total">
@@ -90,6 +94,9 @@
                     <i class="fas fa-sign-in-alt"></i> Estudiantes
                 </a>
             </div>
+            @endif
+
+            @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
             <div class="module">
                 <p class="module-title"><i class="fa-solid fa-calendar-days"></i>  Horarios</p>
                 <p class="module-total">
@@ -99,6 +106,9 @@
                     <i class="fas fa-sign-in-alt"></i> Horarios
                 </a>
             </div>
+            @endif
+            
+            @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
             <div class="module">
                 <p class="module-title"><i class="fa-solid fa-calendar-days"></i>  Materias</p>
                 <p class="module-total">
@@ -108,9 +118,20 @@
                     <i class="fas fa-book"></i> Materias
                 </a>
             </div>
+
+            @endif
+            @if($usuario->rol && $usuario->rol->nombre === 'Estudiante')
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-calendar-days"></i>  Mi Horario</p>
+                <a class="module-button" href="{{ route('estudiante.horario') }}">
+                    <i class="fas fa-book"></i> Horario
+                </a>
+            </div>
+            @endif
         </div>
     </div>
 
+    @if($usuario->rol && $usuario->rol->nombre === 'Administrador')
     {{-- Fila de dos columnas con gráficas --}}
     <div class="row">
         {{-- Gráfico de pastel --}}
@@ -138,6 +159,7 @@
         </div>
 
     </div>
+    @endif
 
     {{-- Contenedor de datos --}}
     <div

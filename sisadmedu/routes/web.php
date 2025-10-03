@@ -85,3 +85,6 @@ Route::resource('horarios', HorarioController::class)->middleware('auth');
 
 // Rutas para gestionar materias
 Route::resource('materias', MateriaController::class)->middleware('auth');
+
+// Ruta para ver el horario del estudiante (un estudiante en especifico)
+Route::get('/mi-horario', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware('auth');

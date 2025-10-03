@@ -59,4 +59,6 @@ class Usuario extends Model
     {
         return $this->hasOne(Estudiante::class, 'usuario_id');
     }
+
+    
 }

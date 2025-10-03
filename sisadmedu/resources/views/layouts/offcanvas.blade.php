@@ -19,8 +19,7 @@
             </li>
             @endif
 
-            {{-- Solo si NO es Docente se muestra este módulo --}}
-            @if(Auth::user()->rol->nombre !== 'Docente')
+            @if(Auth::user()->rol->nombre == 'Administrador')
             <li class="nav-item">
                 <a href="{{ route('docentes.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fas fa-chalkboard-teacher me-2"></i>
@@ -29,33 +28,50 @@
             </li>
             @endif
 
+             @if(Auth::user()->rol->nombre == "Administrador")
             <li class="nav-item">
                 <a href="{{ route('estudiantes.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fas fa-user-graduate me-2"></i>
                     <span>Estudiantes</span>
                 </a>
             </li>
+            @endif
 
+             @if(Auth::user()->rol->nombre == "Administrador")
             <li class="nav-item">
                 <a href="{{ route('grados.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fas fa-layer-group me-2"></i>
                     <span>Grados</span>
                 </a>
             </li>
+            @endif
 
+             @if(Auth::user()->rol->nombre == "Administrador")
             <li class="nav-item">
                 <a href="{{ route('horarios.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fa-solid fa-calendar-days"></i> 
                     <span>Horarios</span>
                 </a>
             </li>
+            @endif
 
+             @if(Auth::user()->rol->nombre == "Administrador")
             <li class="nav-item">
                 <a href="{{ route('materias.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
                     <i class="fas fa-book"></i>
                     <span>Materias</span>
                 </a>
             </li>
+            @endif
+
+            @if(Auth::user()->rol->nombre == "Estudiante")
+            <li class="nav-item">
+                <a href="{{ route('estudiante.horario') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-calendar-days"></i> 
+                    <span>Mi Horario</span>
+                </a>
+            </li>
+            @endif
 
             <!-- Agrega más módulos aquí -->
         </ul>
