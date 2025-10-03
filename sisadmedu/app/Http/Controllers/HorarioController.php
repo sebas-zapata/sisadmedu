@@ -7,14 +7,11 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Grado;
 use App\Models\Materia;
 use App\Models\Horario;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-=======
 use App\Models\Estudiante;
 
 use Illuminate\Support\Facades\Auth;
->>>>>>> desarrollo
+use Illuminate\Support\Facades\DB;
+
 
 class HorarioController extends Controller
 {
@@ -92,23 +89,10 @@ class HorarioController extends Controller
         return redirect()->route('horarios.index')->with('success', 'Horario guardado correctamente.');
     }
 
-<<<<<<< HEAD
-    // Mostrar horario de un grado
-    public function show($id)
-    {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
 
-        $grado = Grado::findOrFail($id);
-        $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
-        $descanso = ['inicio' => '09:15', 'fin' => '09:45'];
-=======
-public function show($id = null)
-{
+    public function show($id = null)
+    {
     $user = Auth::user();
->>>>>>> desarrollo
 
     if ($user->rol->nombre == 'admin') {
         // Admin: puede ver cualquier horario de grado
