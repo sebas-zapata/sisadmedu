@@ -64,6 +64,13 @@
                         <span>Mi Horario</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('estudiante.observaciones') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                        <i class="fa-solid fa-book me-2"></i>
+                        <span>Observaciones</span>
+                    </a>
+                </li>
             @endif
 
             <!-- Aquí puedes agregar más módulos según roles -->

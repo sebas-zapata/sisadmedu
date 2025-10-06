@@ -80,12 +80,18 @@ Route::get('/buscar-acudientes', [UsuarioController::class, 'buscarAcudientes'])
 //Ruta para obcervaciones
 Route::post('/observaciones', [ObservacionController::class, 'store'])->name('observacion.store')->middleware('auth');
 
+// Ruta para que los estudiantes consulten sus observaciones
+Route::get('/estudiante/observaciones', [ObservacionController::class, 'misObservaciones'])
+    ->name('estudiante.observaciones');
+
+
+
+
 // Rutas para gestionar materias
 Route::resource('materias', MateriaController::class)->middleware('auth');
 
 // Rutas para gestionar horarios
 Route::resource('horarios', HorarioController::class)->middleware('auth');
-
 
 // Ruta para ver el horario del estudiante (un estudiante en especifico)
 Route::get('/mi-horario', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware('auth');

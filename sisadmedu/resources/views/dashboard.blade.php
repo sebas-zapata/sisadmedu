@@ -112,6 +112,14 @@
                             <i class="fas fa-eye"></i> Ver Horario
                         </a>
                     </div>
+
+                    <div class="module">
+                        <p class="module-title"><i class="fa-solid fa-calendar"></i> Observaciones</p>
+                        <p class="module-total">Consulta tus observaciones</p>
+                        <a class="module-button" href="{{ route('estudiante.observaciones') }}">
+                            <i class="fas fa-eye"></i> Ver Observaciones
+                        </a>
+                    </div>
                 @endif
 
             </div>
@@ -145,12 +153,8 @@
         @endif
 
         {{-- Contenedor de datos --}}
-        <div id="datos-dashboard" 
-            data-estudiantes="{{ $totalEstudiantes }}" 
-            data-usuarios="{{ $totalUsuarios }}"
-            data-docentes="{{ $totalDocentes }}" 
-            data-grados="{{ $totalGrados }}" 
-            data-horarios="{{ $totalHorarios }}"
+        <div id="datos-dashboard" data-estudiantes="{{ $totalEstudiantes }}" data-usuarios="{{ $totalUsuarios }}"
+            data-docentes="{{ $totalDocentes }}" data-grados="{{ $totalGrados }}" data-horarios="{{ $totalHorarios }}"
             data-materia="{{ $totalMaterias }}">
         </div>
     </div>
