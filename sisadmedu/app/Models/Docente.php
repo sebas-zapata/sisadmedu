@@ -18,7 +18,6 @@ class Docente extends Model
         'segundo_nombre',
         'primer_apellido',
         'segundo_apellido',
-        'id_materia',
         'id_tipo_documento',
         'fecha_nacimiento',
         'telefono',
@@ -31,10 +30,6 @@ class Docente extends Model
     ];
 
     // Relaciones
-    public function materia()
-    {
-        return $this->belongsTo(Materia::class, 'id_materia');
-    }
 
     public function tipoDocumento()
     {

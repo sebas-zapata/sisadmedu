@@ -31,12 +31,6 @@
 
     <div class="col-md-6 mb-3 text-center">
         <i class="fas fa-book me-2 text-light"></i>
-        <strong>Materia Asignada:</strong>
-        <p class="mb-0">{{ $docente->materia->descripcion }}</p>
-    </div>
-
-    <div class="col-md-6 mb-3 text-center">
-        <i class="fas fa-book me-2 text-light"></i>
         <strong>Tipo de Documento:</strong>
         <p class="mb-0">{{ $docente->tipoDocumento->descripcion }}</p>
     </div>

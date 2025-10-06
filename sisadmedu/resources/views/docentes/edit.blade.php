@@ -278,28 +278,6 @@ Editar Docente <i class="fas fa-chalkboard-teacher"></i>
         @enderror
     </div>
 
-    <!-- Materia -->
-    <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
-        <div class="form-floating mt-2">
-            <select
-                name="id_materia"
-                id="id_materia"
-                class="form-select @error('id_materia') is-invalid @enderror"
-                required>
-                <option value="" disabled {{ old('id_materia', $docente->id_materia) ? '' : 'selected' }}>Seleccione una materia</option>
-                @foreach($materias as $materia)
-                <option value="{{ $materia->id }}" {{ old('id_materia', $docente->id_materia) == $materia->id ? 'selected' : '' }}>
-                    {{ $materia->descripcion }}
-                </option>
-                @endforeach
-            </select>
-            <label for="id_materia">Materia</label>
-        </div>
-        @error('id_materia')
-        <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
-        @enderror
-    </div>
-
     <!-- Teléfono -->
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
@@ -316,10 +294,9 @@ Editar Docente <i class="fas fa-chalkboard-teacher"></i>
         <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
         @enderror
     </div>
-</div>
 
-<div class="row mb-3">
-    <!-- Tipo Contrato -->
+    <!-- Tipo de Contrato -->
+
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
         <div class="form-floating">
             <select

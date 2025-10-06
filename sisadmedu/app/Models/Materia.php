@@ -16,9 +16,4 @@ class Materia extends Model
     // Definición de campos que se pueden asignar masivamente
     protected $fillable = ['descripcion'];
 
-    // Relación con el modelo de Docente
-    public function docentes()
-    {
-        return $this->hasMany(Docente::class, 'id_materia', 'id');
-    }
 }

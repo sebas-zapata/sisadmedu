@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Docente;
-use App\Models\Materia;
 use App\Models\TipoDocumento;
 use App\Models\Usuario;
 use App\Models\Rol;
@@ -22,7 +21,7 @@ class DocenteController extends Controller
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
 
-        $docentes = Docente::with(['materia', 'usuario'])->get();
+        $docentes = Docente::with('usuario')->get();
         return view('docentes.index', compact('docentes'));
     }
 
@@ -33,9 +32,8 @@ class DocenteController extends Controller
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
 
-        $materias = Materia::all();
         $tipoDocumentos = TipoDocumento::all();
-        return view('docentes.create', compact('materias', 'tipoDocumentos'));
+        return view('docentes.create', compact('tipoDocumentos'));
     }
 
     public function store(Request $request)
@@ -55,7 +53,6 @@ class DocenteController extends Controller
             'celular' => 'required|string|max:20|unique:usuarios,celular',
 
             // Relacionales
-            'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
 
             // Nuevos campos de docentes
@@ -81,7 +78,6 @@ class DocenteController extends Controller
             'celular.required' => 'El celular es obligatorio.',
             'celular.unique' => 'El celular ya está registrado.',
 
-            'id_materia.required' => 'La materia es obligatoria.',
             'id_tipo_documento.required' => 'El tipo de documento es obligatorio.',
 
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
@@ -128,7 +124,6 @@ class DocenteController extends Controller
                 'segundo_nombre' => $request->segundo_nombre,
                 'primer_apellido' => $request->primer_apellido,
                 'segundo_apellido' => $request->segundo_apellido,
-                'id_materia' => $request->id_materia,
                 // Nuevos campos
                 'fecha_nacimiento' => $request->fecha_nacimiento,
                 'telefono' => $request->telefono,
@@ -155,7 +150,7 @@ class DocenteController extends Controller
 
     public function show(string $id)
     {
-        $docente = Docente::with(['materia', 'tipoDocumento', 'usuario'])->findOrFail($id);
+        $docente = Docente::with(['tipoDocumento', 'usuario'])->findOrFail($id);
         return view('docentes.show', compact('docente'));
     }
 
@@ -166,10 +161,9 @@ class DocenteController extends Controller
                 ->with('error', 'No tienes permisos para editar docentes.');
         }
 
-        $docente = Docente::with(['materia', 'tipoDocumento', 'usuario'])->findOrFail($id);
-        $materias = Materia::all();
+        $docente = Docente::with([ 'tipoDocumento', 'usuario'])->findOrFail($id);
         $documentos = TipoDocumento::all();
-        return view('docentes.edit', compact('docente', 'materias', 'documentos'));
+        return view('docentes.edit', compact('docente', 'documentos'));
     }
 
     public function update(Request $request, $id)
@@ -190,7 +184,6 @@ class DocenteController extends Controller
             'celular' => 'required|string|max:20|unique:usuarios,celular,' . $docente->usuario->id,
 
             // Relacionales
-            'id_materia' => 'required|exists:materias,id',
             'id_tipo_documento' => 'required|exists:tipos_documento,id',
 
             // Nuevos campos de docentes
@@ -216,7 +209,6 @@ class DocenteController extends Controller
             'celular.required' => 'El celular es obligatorio.',
             'celular.unique' => 'El celular ya está registrado.',
 
-            'id_materia.required' => 'La materia es obligatoria.',
             'id_tipo_documento.required' => 'El tipo de documento es obligatorio.',
 
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
@@ -254,7 +246,7 @@ class DocenteController extends Controller
                 'segundo_nombre' => $request->segundo_nombre,
                 'primer_apellido' => $request->primer_apellido,
                 'segundo_apellido' => $request->segundo_apellido,
-                'id_materia' => $request->id_materia,
+        
 
                 // Nuevos campos
                 'fecha_nacimiento' => $request->fecha_nacimiento,

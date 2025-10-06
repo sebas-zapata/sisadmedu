@@ -32,7 +32,6 @@ Docentes <i class="fas fa-chalkboard-teacher"></i>
             <th>Nombre</th>
             <th>Apellidos</th>
             <th>Correo Electrónico</th>
-            <th>Materia</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -44,7 +43,6 @@ Docentes <i class="fas fa-chalkboard-teacher"></i>
             <td>{{ $docente->primer_nombre }} {{ $docente->segundo_nombre }}</td>
             <td>{{ $docente->primer_apellido }} {{ $docente->segundo_apellido }}</td>
             <td>{{ $docente->usuario->correo_electronico }}</td>
-            <td>{{ $docente->materia->descripcion }}</td>
             <td>
                 <x-boton-accion tipo="ver" href="{{ route('docentes.show', $docente->id) }}" />
                 <x-boton-accion tipo="editar" href="{{ route('docentes.edit', $docente->id) }}" />
