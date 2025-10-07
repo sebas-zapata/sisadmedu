@@ -31,6 +31,19 @@ class Docente extends Model
 
     // Relaciones
 
+    public function asignaciones()
+    {
+        return $this->hasMany(Asignacion::class);
+    }
+
+    public function materias()
+    {
+        return $this->belongsToMany(Materia::class, 'asignaciones', 'docente_id', 'materia_id')
+            ->withPivot('grado_id', 'anio_lectivo')
+            ->withTimestamps();
+    }
+
+
     public function tipoDocumento()
     {
         return $this->belongsTo(TipoDocumento::class, 'id_tipo_documento');
@@ -43,6 +56,6 @@ class Docente extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');  
+        return $this->belongsTo(Usuario::class, 'usuario_id');
     }
 }

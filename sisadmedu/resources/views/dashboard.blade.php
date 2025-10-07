@@ -101,6 +101,14 @@
                             <i class="fas fa-sign-in-alt"></i> Materias
                         </a>
                     </div>
+
+                    <div class="module">
+                        <p class="module-title"><i class="fa-solid fa-link"></i> Asignacion materia a Docentes</p>
+                        <p class="module-total">Total: <strong>{{ $totalAsignaciones ?? 0 }}</strong></p>
+                        <a class="module-button" href="{{ route('asignaciones.index') }}">
+                            <i class="fas fa-sign-in-alt"></i> Asignaciones
+                        </a>
+                    </div>
                 @endif
 
                 {{-- SOLO Estudiantes --}}
@@ -154,8 +162,8 @@
 
         {{-- Contenedor de datos --}}
         <div id="datos-dashboard" data-estudiantes="{{ $totalEstudiantes }}" data-usuarios="{{ $totalUsuarios }}"
-            data-docentes="{{ $totalDocentes }}" data-grados="{{ $totalGrados }}" data-horarios="{{ $totalHorarios }}"
-            data-materia="{{ $totalMaterias }}">
+            data-docentes="{{ $totalDocentes }}" data-grados="{{ $totalGrados }}"
+            data-horarios="{{ $totalHorarios }}" data-materia="{{ $totalMaterias }}">
         </div>
     </div>
 @endsection

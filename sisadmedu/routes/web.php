@@ -14,6 +14,7 @@ use App\Http\Controllers\GraficosController;
 use App\Http\Controllers\ObservacionController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\AsignacionController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -95,3 +96,6 @@ Route::resource('horarios', HorarioController::class)->middleware('auth');
 
 // Ruta para ver el horario del estudiante (un estudiante en especifico)
 Route::get('/mi-horario', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware('auth');
+
+// Rutas para gestionar asignaciones
+Route::resource('asignaciones', AsignacionController::class)->middleware('auth');
