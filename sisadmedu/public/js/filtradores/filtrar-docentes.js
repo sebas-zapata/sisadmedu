@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('filtroDocentes');
     const filas = document.querySelectorAll('#tabla-docentes tbody tr');
-    let mensajeNoEncontrado;
 
     input.addEventListener('input', () => {
         // Solo números

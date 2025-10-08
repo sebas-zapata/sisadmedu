@@ -1,35 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('loginForm');
 
-    // Validación del formulario
-    form.addEventListener('submit', () => {
-            const correo = document.getElementById('correo_electronico').value.trim();
-            const contrasena = document.getElementById('contrasena').value.trim();
-            const correoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo);
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('contrasena');
 
-            if (!correo || !contrasena) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Campos requeridos',
-                    text: 'Por favor completa todos los campos.',
-                    confirmButtonColor: '#461c68'
-                });
-            } else if (!correoValido) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Correo inválido',
-                    text: 'Ingresa un correo electrónico válido.',
-                    confirmButtonColor: '#461c68'
-                });
-            } else if (contrasena.length < 6) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Contraseña muy corta',
-                    text: 'La contraseña debe tener al menos 6 caracteres.',
-                    confirmButtonColor: '#461c68'
-                });
-            }
-        });
+    // Mostrar/ocultar el ojo según si hay texto
+    passwordInput.addEventListener('input', () => {
+        if (passwordInput.value.length > 0) {
+            togglePassword.style.display = 'block';
+        } else {
+            togglePassword.style.display = 'none';
+            passwordInput.setAttribute('type', 'password'); // ocultar contraseña si se borra todo
+            togglePassword.classList.add('fa-eye');
+            togglePassword.classList.remove('fa-eye-slash');
+        }
+    });
+
+    togglePassword.addEventListener('click', () => {
+        // Cambiar tipo de input entre password y text
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        togglePassword.classList.toggle('fa-eye');
+        togglePassword.classList.toggle('fa-eye-slash');
+    });
 
     // Mostrar error de sesión si existe
     const errorDiv = document.getElementById('session-error');

@@ -54,9 +54,16 @@
                         <span>Materias</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('asignaciones.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                        <i class="fa-solid fa-link"></i>
+                        <span>Asignacion materia a Docentes</span>
+                    </a>
+                </li>
             @endif
 
-            {{-- SOLO ESTUDIANTE --}}
+            {{-- Permisos para Estudiante --}}
             @if(Auth::user()->rol->nombre === "Estudiante")
                 <li class="nav-item">
                     <a href="{{ route('estudiante.horario') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">

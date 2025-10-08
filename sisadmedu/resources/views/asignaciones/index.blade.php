@@ -1,65 +1,68 @@
-@extends('layouts.show')
+@extends('layouts.gestion')
 
-@section('titulo', 'Listado de Asignaciones')
+@section('titulo')
+    Asignaciones <i class="fa-solid fa-link"></i>
+@endsection
 
-@section('informacion')
-<div class="container py-4">
-    <h2 class="text-center text-light mb-4">@yield('titulo')</h2>
-
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+@section('boton-registrar')
+    {{-- Mostrar botón solo si el usuario no es Docente ni Estudiante --}}
+    @if (Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante')
+        <x-boton-principal href="{{ route('asignaciones.create') }}">
+            <i class="fa-solid fa-link"></i>
+        </x-boton-principal>
     @endif
-    @if($errors->any())
-        <div class="alert alert-danger">{{ $errors->first() }}</div>
-    @endif
 
-    <div class="text-end mb-3">
-        <a href="{{ route('asignaciones.create') }}" class="btn btn-success">
-            <i class="fas fa-plus"></i> Nueva Asignación
-        </a>
+    {{-- Input de búsqueda (opcional, si deseas filtrar por docente o materia) --}}
+    <div class="mb-3">
+        <input type="text" id="filtroAsignaciones" class="form-control"
+            placeholder="Docente o materia">
     </div>
+@endsection
 
-    @if($asignaciones->isEmpty())
-        <div class="alert alert-warning text-center">No hay asignaciones registradas.</div>
-    @else
-        <div class="table-responsive shadow-lg rounded">
-            <table class="table table-striped table-bordered">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th>ID</th>
-                        <th>Docente</th>
-                        <th>Materia</th>
-                        <th>Grado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    @foreach($asignaciones as $asignacion)
-                        <tr>
-                            <td>{{ $asignacion->id }}</td>
-                            <td>{{ $asignacion->docente->primer_nombre }} {{ $asignacion->docente->primer_apellido }}</td>
-                            <td>{{ $asignacion->materia->descripcion }}</td>
-                            <td>{{ $asignacion->grado->nombre_grado }}</td>
-                            <td>
-                                <a href="{{ route('asignaciones.show', $asignacion->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('asignaciones.edit', $asignacion->id) }}" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <form action="{{ route('asignaciones.destroy', $asignacion->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Eliminar esta asignación?')">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    @endif
-</div>
+@section('tabla')
+    <table class="table table-striped table-hover align-middle" id="tabla-asignaciones">
+        <thead>
+            <tr class="text-center">
+                <th>ID</th>
+                <th>Docente</th>
+                <th>Materia</th>
+                <th>Grado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($asignaciones as $asignacion)
+                <tr data-docente="{{ $asignacion->docente->primer_nombre }} {{ $asignacion->docente->primer_apellido }}"
+                    data-materia="{{ $asignacion->materia->descripcion }}">
+                    <td>{{ $asignacion->id }}</td>
+                    <td>{{ $asignacion->docente->primer_nombre }} {{ $asignacion->docente->primer_apellido }}</td>
+                    <td>{{ $asignacion->materia->descripcion }}</td>
+                    <td>{{ $asignacion->grado->nombre_grado }}</td>
+                    <td class="text-center">
+                        {{-- Ver siempre disponible --}}
+                        <x-boton-accion tipo="ver" href="{{ route('asignaciones.show', $asignacion->id) }}" />
+
+                        {{-- Editar y eliminar solo si NO es docente --}}
+                        @if (Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante')
+                            <x-boton-accion tipo="editar" href="{{ route('asignaciones.edit', $asignacion->id) }}" />
+                            <form action="{{ route('asignaciones.destroy', $asignacion->id) }}" method="POST"
+                                class="d-inline-block"
+                                data-docente="{{ $asignacion->docente->primer_nombre }} {{ $asignacion->docente->primer_apellido }}"
+                                data-materia="{{ $asignacion->materia->descripcion }}">
+                                @csrf
+                                @method('DELETE')
+                                <x-boton-accion tipo="eliminar" type="button" class="btn-eliminar-asignacion" />
+                            </form>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        No hay asignaciones registradas <i class="fa-solid fa-link"></i>
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 @endsection

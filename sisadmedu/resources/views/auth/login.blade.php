@@ -28,7 +28,7 @@
         @else
         <p class="text-muted small mb-4">
             <i class="fas fa-graduation-cap text-secondary"></i>
-        Bienvenido al <strong>Sistema Académico.</strong> <br> Accede con tus credenciales institucionales.
+            Bienvenido al <strong>Sistema Académico.</strong> <br> Accede con tus credenciales institucionales.
         </p>
 
         @endif
@@ -64,7 +64,8 @@
                     name="contrasena"
                     placeholder="Contraseña">
                 <label for="contrasena">Contraseña</label>
-
+                <i id="togglePassword" class="fa-solid fa-eye"
+                    style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; display: none;"></i>
                 @error('contrasena')
                 <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">
                     {{ $message }}

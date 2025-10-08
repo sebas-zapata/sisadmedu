@@ -556,27 +556,25 @@ footer {
 
 .module {
     background: linear-gradient(145deg, #ffffff, #f4f4f9);
-    /* fondo con leve degradado */
-    border-radius: 12px;
-    /* esquinas más redondeadas */
+    border-radius: 12px; /* bordes más suaves */
     padding: 25px;
-    /* más espacio interno */
-    width: 22%;
-    min-width: 220px;
-    /* que no se haga muy pequeño */
+    width: 200px;
+    min-width: 200px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    /* sombra más suave y elegante */
     margin: 20px auto;
     text-align: center;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    border: 2px solid transparent; /* borde inicial transparente */
 }
 
 .module:hover {
     transform: translateY(-6px) scale(1.05);
-    /* se eleva y crece un poquito */
-    box-shadow: 0 10px 10px white;
+    border: 1px solid #666; /* borde azul al hacer hover */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, #ddd); /* sombra más grande */
+    background: linear-gradient(145deg, #f0f4ff, #ffffff); /* ligero cambio de fondo */
 }
+
 
 
 .module-title {
@@ -961,17 +959,19 @@ tbody {
     cursor: grab;
 }
 
-.btn-acordeon{
+.btn-acordeon {
     background-color: #461c68;
     color: white;
 }
 
 /* Color de fondo cuando está abierto */
 .accordion-button:not(.collapsed) {
-    background-color: #4e3760 !important; /* Fondo oscuro */
+    background-color: #4e3760 !important;
+    /* Fondo oscuro */
 }
 
 /* Color del ícono de flecha (caret) */
 .accordion-button::after {
-    filter: invert(1); /* invierte el color, útil si usas fondo oscuro */
+    filter: invert(1);
+    /* invierte el color, útil si usas fondo oscuro */
 }

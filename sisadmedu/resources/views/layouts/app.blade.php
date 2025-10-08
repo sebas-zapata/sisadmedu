@@ -73,6 +73,7 @@
     <script src="{{ asset('js/materias/confirmar-eliminar-materia.js') }}"></script>
     <script src="{{ asset('js/observaciones/modal-error.js') }}"></script>
     <script src="{{ asset('js/materias/validar-materia.js') }}"></script>
+    <script src="{{ asset('js/asignaciones/confirmar-eliminar-asignacion.js') }}"></script>
 
    {{-- Filtros no tocar --}}
     <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>
@@ -84,6 +85,7 @@
     <script src="{{ asset('js/filtradores/filtrar-grados.js') }}"></script>
     <script src="{{ asset('js/filtradores/filtrar-horario.js') }}"></script>
     <script src="{{ asset('js/filtradores/filtrar-materia.js') }}"></script>
+    <script src="{{ asset('js/filtradores/filtrar-asignaciones.js') }}"></script>
 
 
 </body>

@@ -85,9 +85,6 @@ Route::post('/observaciones', [ObservacionController::class, 'store'])->name('ob
 Route::get('/estudiante/observaciones', [ObservacionController::class, 'misObservaciones'])
     ->name('estudiante.observaciones');
 
-
-
-
 // Rutas para gestionar materias
 Route::resource('materias', MateriaController::class)->middleware('auth');
 

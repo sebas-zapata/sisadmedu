@@ -294,7 +294,7 @@ Crear Docente <i class="fas fa-chalkboard-teacher"></i>
     <!-- Tipo de Contrato -->
     
     <div class="col-12 col-sm-6 col-md-3 mb-3 mb-md-0">
-        <div class="form-floating">
+        <div class="form-floating mt-2">
             <select
                 name="tipo_contrato"
                 id="tipo_contrato"
