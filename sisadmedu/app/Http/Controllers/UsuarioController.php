@@ -27,9 +27,9 @@ class UsuarioController extends Controller
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
 
-
+        $roles = Rol::all();
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
-        return view('usuarios.index', compact('usuarios'));
+        return view('usuarios.index', compact('usuarios','roles'));
     }
 
     // Método para mostrar el formulario de creación de un nuevo usuario

@@ -2,59 +2,62 @@
 
 @section('titulo')
 
-<h2 class="text-center text-light mb-4">
-    <i class="fas fa-book"></i> {{ $materia->descripcion }}
-</h2>
-<p class="text-center text-light mb-4">Docentes que imparten esta materia</p>
-
-@endsection
-
 @section('informacion')
-<div class="shadow-lg border-0 rounded-4 p-4">
+<div class="container py-4">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
 
-    {{-- Verificar si la materia tiene docentes asignados --}}
-    @if($materia->docentes->isEmpty())
-    <p class="text-center text-light">No hay docentes asignados a esta materia.</p>
-    @else
-    <div class="table-responsive shadow-sm">
-        <table class="table table-bordered table-hover align-middle text-center">
-            <thead class="text-center">
-                <tr>
-                    <th style="width: 15%">ID Documento</th>
-                    <th style="width: 25%">Nombres</th>
-                    <th style="width: 25%">Apellidos</th>
-                    <th style="width: 35%">Correo</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($materia->docentes as $doc)
-                <tr>
-                    <td class="text-center fw-bold">
-                        {{ $doc->usuario->documento ?? 'N/A' }}
-                    </td>
-                    <td>
-                        {{ $doc->primer_nombre }} {{ $doc->segundo_nombre }}
-                    </td>
-                    <td>
-                        {{ $doc->primer_apellido }} {{ $doc->segundo_apellido }}
-                    </td>
-                    <td>
-                        {{ $doc->usuario->correo_electronico ?? 'Sin correo' }}
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="text-center text-muted py-3">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        No hay docentes asignados a esta materia.
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+        {{-- Encabezado con color institucional --}}
+        <div class="card-header text-white d-flex align-items-center justify-content-between" style="background-color: #461c68;">
+            <div>
+                <i class="fa-solid fa-book fa-lg me-2"></i>
+                <span class="fw-bold fs-5">{{ $materia->descripcion }}</span>
+            </div>
+            <a href="{{ route('materias.index') }}" class="btn btn-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i> Volver
+            </a>
+        </div>
+
+        {{-- Cuerpo principal --}}
+        <div class="card-body bg-light">
+            <div class="text-center mb-4">
+                <h4 class="fw-bold text-dark mb-1">
+                    <i class="fa-solid fa-chalkboard-teacher me-2" style="color: #461c68;"></i>
+                    Docentes que imparten esta materia
+                </h4>
+                <hr class="w-50 mx-auto">
+            </div>
+
+            {{-- Tabla de docentes --}}
+            @if($materia->docentes->isEmpty())
+                <div class="alert text-center rounded-3 shadow-sm">
+                    <i class="fa-solid fa-exclamation-circle me-2"></i>
+                    No hay docentes asignados a esta materia.
+                </div>
+            @else
+                <div class="table-responsive shadow-sm rounded-3">
+                    <table class="table table-hover table-bordered align-middle mb-0 bg-white">
+                        <thead class="text-white text-center" style="background-color: #461c68;">
+                            <tr>
+                                <th style="width: 15%">ID Documento</th>
+                                <th style="width: 25%">Nombres</th>
+                                <th style="width: 25%">Apellidos</th>
+                                <th style="width: 35%">Correo Electrónico</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            @foreach($materia->docentes as $doc)
+                            <tr>
+                                <td class="fw-bold">{{ $doc->usuario->documento ?? 'N/A' }}</td>
+                                <td>{{ $doc->primer_nombre }} {{ $doc->segundo_nombre }}</td>
+                                <td>{{ $doc->primer_apellido }} {{ $doc->segundo_apellido }}</td>
+                                <td>{{ $doc->usuario->correo_electronico ?? 'Sin correo' }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        </div>
     </div>
-
-    @endif
-
 </div>
 @endsection

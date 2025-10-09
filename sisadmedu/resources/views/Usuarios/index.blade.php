@@ -5,7 +5,7 @@ Usuarios <i class="fas fa-users"></i>
 @endsection
 @section('boton-registrar')
 <div class="container-fluid d-flex justify-content-between flex-wrap align-items-center gap-2 mb-3">
-    <div>
+    <div class="d-flex gap-2 flex-wrap">
         <!-- Botón registrar -->
         <x-boton-principal href="{{ route('usuarios.create') }}">
             <i class="fas fa-user-plus"></i>
@@ -16,18 +16,27 @@ Usuarios <i class="fas fa-users"></i>
         </x-boton-accion>
     </div>
 
-    <!-- Input de búsqueda -->
-    <div>
+    <!-- Inputs de búsqueda por documento y rol -->
+    <div class="d-flex gap-2 flex-wrap">
         <input
             type="text"
             class="form-control"
             id="filtroUsuarios"
-            placeholder="Filtrar por documento"
+            placeholder="Documento"
             pattern="[0-9]*"
-            title="Solo números">
+            title="Solo números"
+            style="width: 150px;">
+
+<select class="form-select form-select-sm" id="filtroRol" style="width: 150px;">
+    <option value="">Todos los roles</option>
+    @foreach($roles as $rol)
+        <option value="{{ strtolower($rol->nombre) }}">{{ $rol->nombre }}</option>
+    @endforeach
+</select>
 
     </div>
 </div>
+
 @endsection
 
 @section('tabla')
@@ -45,7 +54,8 @@ Usuarios <i class="fas fa-users"></i>
     </thead>
     <tbody>
         @forelse($usuarios as $usuario)
-        <tr data-nombre="{{ strtolower($usuario->nombres . ' ' . $usuario->apellidos) }}">
+        <tr data-nombre="{{ strtolower($usuario->nombres . ' ' . $usuario->apellidos) }}"
+            data-rol="{{ strtolower($usuario->rol->nombre ?? '') }}">
             <td>{{ $usuario->id }}</td>
             <td>{{ $usuario->documento }}</td>
             <td>{{ $usuario->nombres }}</td>

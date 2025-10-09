@@ -11,7 +11,7 @@
                 <i class="fa-solid fa-user-graduate fa-lg me-2"></i>
                 <span class="fw-bold fs-5">Mi Información Personal</span>
             </div>
-            <a href="{{ route('dashboard') }}" class="btn btn-light btn-sm">
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm">
                 <i class="fa-solid fa-arrow-left me-1"></i> Volver al Panel
             </a>
         </div>
@@ -39,17 +39,17 @@
             <ul class="nav nav-tabs border-0 mb-4" id="infoTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active fw-bold text-dark" id="usuario-tab" data-bs-toggle="tab" data-bs-target="#usuario" type="button" role="tab" aria-controls="usuario" aria-selected="true">
-                        <i class="fa-solid fa-id-card me-2 text-primary"></i>Usuario
+                        <i style="color: #461c68;" class="fa-solid fa-id-card me-2"></i>Usuario
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link fw-bold text-dark" id="estudiante-tab" data-bs-toggle="tab" data-bs-target="#estudiante" type="button" role="tab" aria-controls="estudiante" aria-selected="false">
-                        <i class="fa-solid fa-graduation-cap me-2 text-success"></i>Estudiante
+                        <i style="color: #461c68;" class="fa-solid fa-graduation-cap me-"></i>Estudiante
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link fw-bold text-dark" id="adicional-tab" data-bs-toggle="tab" data-bs-target="#adicional" type="button" role="tab" aria-controls="adicional" aria-selected="false">
-                        <i class="fa-solid fa-circle-info me-2 text-secondary"></i>Adicional
+                        <i style="color: #461c68;" class="fa-solid fa-circle-info me-2"></i>Adicional
                     </button>
                 </li>
             </ul>
