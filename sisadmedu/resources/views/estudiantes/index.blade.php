@@ -31,7 +31,7 @@
         </thead>
         <tbody>
             @forelse ($estudiantes as $estudiante)
-                <tr data-documento="{{ $estudiante->id }}">
+                <tr data-documento="{{ $estudiante->usuario->documento }}">
                     <td>{{ $estudiante->id }}</td>
                     <td>{{ $estudiante->matricula }}</td>
                     <td>{{ $estudiante->usuario->documento }}</td>

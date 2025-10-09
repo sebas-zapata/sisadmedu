@@ -2,17 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\Estudiante;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Usuario;
 
-class EstudianteSeeder extends Seeder
+
+class AcudienteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Estudiante::factory()->count(10)->create();
+        // Crear acudientes de prueba
+        Usuario::factory()
+            ->count(5)
+            ->create();
     }
 }

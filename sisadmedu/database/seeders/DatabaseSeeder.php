@@ -33,7 +33,8 @@ class DatabaseSeeder extends Seeder
             EstudianteSeeder::class, // Asegúrate de que este seeder exista
             RolSeeder::class, // Asegúrate de que este seeder exista
             AdminUserSeeder::class, // Asegúrate de que este seeder exista
-            DescansoSeeder::class
+            DescansoSeeder::class,
+            
         ]);
     }
 }

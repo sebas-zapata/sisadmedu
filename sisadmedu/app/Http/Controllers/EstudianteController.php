@@ -18,7 +18,7 @@ class EstudianteController extends Controller
     // Listar estudiantes y sus grados
     public function index()
     {
-        
+
         $estudiantes = Estudiante::with(['usuario', 'grado'])->get();
         return view('estudiantes.index', compact('estudiantes'));
     }
@@ -27,7 +27,7 @@ class EstudianteController extends Controller
     // Mostrar el formulario para crear un nuevo estudiante y asignar un grado
     public function create()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para realizar esta acción.');
         }
@@ -41,7 +41,7 @@ class EstudianteController extends Controller
     // Guardar un nuevo estudiante
     public function store(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para realizar esta acción.');
         }
@@ -186,7 +186,7 @@ class EstudianteController extends Controller
     // Mostrar el formulario para editar un estudiante y su grado
     public function edit(Estudiante $estudiante)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para realizar esta acción.');
         }
@@ -199,7 +199,7 @@ class EstudianteController extends Controller
     // Actualizar un estudiante
     public function update(Request $request, Estudiante $estudiante)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para realizar esta acción.');
         }
@@ -314,7 +314,7 @@ class EstudianteController extends Controller
 
     public function destroy(Estudiante $estudiante)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para realizar esta acción.');
         }
@@ -338,5 +338,24 @@ class EstudianteController extends Controller
             DB::rollBack();
             return back()->withErrors(['error' => 'Error al eliminar estudiante: ' . $e->getMessage()]);
         }
+    }
+
+    public function miInformacion()
+    {
+        $usuario = Auth::user();
+        if (!in_array(Auth::user()->rol->nombre, ['Estudiante'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permisos para realizar esta acción.');
+        }
+
+        // Cargar también la información del estudiante (relación)
+        $estudiante = $usuario->estudiante;
+
+        // Si no tiene registro de estudiante asociado
+        if (!$estudiante) {
+            return redirect()->back()->with('error', 'No se encontró la información del estudiante.');
+        }
+
+        return view('estudiantes.mi_informacion', compact('usuario', 'estudiante'));
     }
 }

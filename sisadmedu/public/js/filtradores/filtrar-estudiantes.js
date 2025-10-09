@@ -3,13 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const filas = document.querySelectorAll('#tabla-estudiantes tbody tr');
 
     input.addEventListener('input', () => {
-        // Permitir solo números
+        // Solo números
         input.value = input.value.replace(/[^0-9]/g, '');
         const texto = input.value.toLowerCase();
         let coincidencias = 0;
 
         filas.forEach(fila => {
-            const documento = fila.dataset.documento.toLowerCase();
+             const documento = fila.querySelector('td:nth-child(3)').textContent.toLowerCase();
 
             if (documento.includes(texto)) {
                 fila.style.display = '';

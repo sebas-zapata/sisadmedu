@@ -975,3 +975,9 @@ tbody {
     filter: invert(1);
     /* invierte el color, útil si usas fondo oscuro */
 }
+.boton-toast-contraseña{
+    background-color: #461c68;
+}
+.boton-toast-contraseña:hover{
+    background-color: #000;
+}

@@ -23,25 +23,35 @@
     {{-- Tarjeta de módulos --}}
     <div class="contenedor-dashboard mb-4">
         @if (session('debe_cambiar_contrasena'))
-        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100">
-            <div id="toastContrasena" class="toast show align-items-center text-bg-light border-0 shadow-lg"
-                role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body d-flex align-items-center">
-                        <i class="fa-solid fa-triangle-exclamation me-2 fa-lg"></i>
-                        <span>
+        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100; max-width: 100%;">
+            <div class="toast show text-bg-light border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+
+                <!-- Toast body -->
+                <div class="toast-body d-flex flex-column flex-wrap flex-md-row align-items-center justify-content-between gap-2">
+
+                    <!-- Contenido principal: icono + texto -->
+                    <div class="d-flex align-items-center gap-2 flex-grow-1">
+                        <i class="fa-solid fa-triangle-exclamation fa-lg text-dark"></i>
+                        <span class="text-truncate">
                             <b>{{ Auth::user()->nombres }}</b>, cambia tu contraseña por seguridad.
                         </span>
-                        <a href="{{ route('cambiar_contraseña') }}" class="module-button btn-sm">
-                            Cambiar
-                        </a>
                     </div>
-                    <button type="button" class="btn-close btn-close-dark me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Cerrar"></button>
+
+                    <!-- Botones -->
+                    <div class="mt-1 d-flex justify-content-center gap-2">
+                        <a href="{{ route('cambiar_contraseña') }}" class="btn boton-toast-contraseña btn-sm text-white">
+                            <i class="fa-solid fa-key me-1"></i>Cambiar
+                        </a>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">
+                            <i class="fa-solid fa-xmark me-1"></i>Cerrar
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>
         @endif
+
 
         <div class="encabezado-dashboard">
             <h2>
@@ -128,6 +138,14 @@
                 <p class="module-total">Consulta tus observaciones</p>
                 <a class="module-button" href="{{ route('estudiante.observaciones') }}">
                     <i class="fas fa-eye"></i> Ver Observaciones
+                </a>
+            </div>
+
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-user-graduate"></i> Mi Informacion</p>
+                <p class="module-total">Consulta tu informacion</p>
+                <a class="module-button" href="{{ route('estudiante.informacion') }}">
+                    <i class="fas fa-eye"></i> Ver Informacion
                 </a>
             </div>
             @endif

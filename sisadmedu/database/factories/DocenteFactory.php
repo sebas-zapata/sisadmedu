@@ -11,9 +11,16 @@ class DocenteFactory extends Factory
     public function definition(): array
     {
         $especializaciones = [
-            'Matemáticas', 'Lengua Castellana', 'Ciencias Naturales',
-            'Educación Física', 'Inglés', 'Tecnología', 'Informática',
-            'Historia', 'Arte', 'Música',
+            'Matemáticas',
+            'Lengua Castellana',
+            'Ciencias Naturales',
+            'Educación Física',
+            'Inglés',
+            'Tecnología',
+            'Informática',
+            'Historia',
+            'Arte',
+            'Música',
         ];
 
         $tiposContrato = ['Planta', 'Catedrático', 'Temporal'];
@@ -23,13 +30,15 @@ class DocenteFactory extends Factory
             // Se creará automáticamente un usuario vinculado
             'usuario_id' => Usuario::factory()->state(function () {
                 $rolDocente = Rol::where('nombre', 'Docente')->first();
+                // Generar documento
+                $documento = $this->faker->unique()->numerify('##########');
                 return [
-                    'documento' => $this->faker->unique()->numerify('##########'),
+                    'documento' => $documento,
                     'celular' => $this->faker->numerify('3#########'),
                     'nombres' => $this->faker->firstName(),
                     'apellidos' => $this->faker->lastName(),
                     'correo_electronico' => $this->faker->unique()->safeEmail(),
-                    'contrasena' => bcrypt('password'),
+                    'contrasena' => bcrypt($documento),
                     'rol_id' => $rolDocente ? $rolDocente->id : 8,
                     'tipo_documento_id' => $this->faker->numberBetween(3, 7),
                 ];

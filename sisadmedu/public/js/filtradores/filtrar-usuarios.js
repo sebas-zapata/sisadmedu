@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('filtroUsuarios');
     const filas = document.querySelectorAll('#usuarios tbody tr');
-    let mensajeNoEncontrado;
 
     input.addEventListener('input', () => {
         // Solo números

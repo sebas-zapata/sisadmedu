@@ -96,3 +96,6 @@ Route::get('/mi-horario', [HorarioController::class, 'show'])->name('estudiante.
 
 // Rutas para gestionar asignaciones
 Route::resource('asignaciones', AsignacionController::class)->middleware('auth');
+
+// Ruta para ver la informacion de un estudiante
+Route::get('/mi-informacion', [EstudianteController::class, 'miInformacion'])->middleware('auth')->name('estudiante.informacion');

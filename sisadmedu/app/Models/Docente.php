@@ -58,4 +58,9 @@ class Docente extends Model
     {
         return $this->belongsTo(Usuario::class, 'usuario_id');
     }
+
+    public function loginUsuario()
+    {
+        return $this->belongsTo(LoginUsuario::class, 'usuario_id');
+    }
 }

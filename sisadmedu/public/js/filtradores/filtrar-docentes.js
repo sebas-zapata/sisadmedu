@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let coincidencias = 0;
 
         filas.forEach(fila => {
-            const documento = fila.dataset.documento; // ahora buscamos por documento
+            const documento = fila.querySelector('td:nth-child(2)').textContent.toLowerCase();
+
             if (documento.includes(texto)) {
                 fila.style.display = '';
                 coincidencias++;

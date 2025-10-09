@@ -19,13 +19,13 @@ class LoginUsuario extends Authenticatable
 
     // Campos que se pueden asignar masivamente
     // En este caso, solo los campos necesarios para la autenticación
-    // Se debe tener cuidado de no incluir campos sensibles como contraseñas en las respuestas JSON
     protected $fillable = [
         'nombres',
         'apellidos',
         'correo_electronico',
         'celular',
         'contrasena',
+        'usuario_id'
     ];
 
     protected $hidden = [
@@ -41,6 +41,11 @@ class LoginUsuario extends Authenticatable
     public function rol()
     {
         return $this->belongsTo(Rol::class, 'rol_id');
+    }
+
+    public function docente()
+    {
+        return $this->hasOne(Docente::class, 'usuario_id', 'id');
     }
 
     public function estudiante()
