@@ -4,6 +4,8 @@
 @section('title', 'Iniciar sesión')
 
 @section('contenido')
+{{-- Cargar loader oculto --}}
+@include('auth.partials._loader_sistema')
 
 {{-- Mensaje de error general de autenticación --}}
 @if(session('error'))
@@ -74,7 +76,7 @@
             </div>
 
             {{-- Botón de acceso --}}
-            <button class="btn-login w-100" type="submit">
+            <button class="btn-login w-100" id="btnAcceder" type="submit">
                 <i class="fas fa-sign-in-alt me-2"></i> Acceder
             </button>
         </form>
@@ -82,7 +84,7 @@
         {{-- Link de recuperación y seguridad --}}
         <hr>
         <div class="mt-4 text-center small text-muted">
-            <a class="text-decoration-none" href="{{ route('password.forgot') }}">
+            <a class="text-decoration-none" id="btnAcceder" href="{{ route('password.forgot') }}">
                 ¿Olvidaste tu contraseña?
             </a>
 

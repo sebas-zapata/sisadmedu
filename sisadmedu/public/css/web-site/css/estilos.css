@@ -3,6 +3,12 @@
     padding: 0;
 }
 
+html {
+    scroll-behavior: smooth;
+    /* Desplazamiento suave */
+}
+
+
 body {
     background-color: #461c68;
 }
@@ -12,7 +18,6 @@ body {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 5px solid #7E08CA;
 }
 
 .seccion-header-1 {
@@ -43,7 +48,7 @@ li {
 }
 
 .links-encabezado {
-    color: #7E08CA;
+    color: white;
     text-decoration: none;
     margin: 8px;
     padding: 10px;
@@ -52,20 +57,21 @@ li {
     transition: 1s;
 }
 
+.links-encabezado:hover {
+    background-color: white;
+    color: #7E08CA;
+}
+
 .navbar-toggler {
-    background-color: #7E08CA;
+    background-color: white;
     color: white;
 }
 
 .navbar-toggler:hover {
-    background-color: #6c4a83;
+    background-color: white;
 
 }
 
-.links-encabezado:hover {
-    background-color: #7E08CA;
-    color: white;
-}
 
 .articulo-1 {
     display: flex;
@@ -473,6 +479,30 @@ footer {
     color: white;
 }
 
+/* Estilo del botón flotante */
+#btnScrollTop {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background-color: white;
+  color: #461c68;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+  cursor: pointer;
+  display: none; /* Oculto al inicio */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+#btnScrollTop:hover {
+  background-color: #9d7bca;
+  transform: scale(1.1);
+}
+
+
 @media (max-width:1200px) {
     .imagen-birrete {
         width: 250px;
@@ -482,4 +512,3 @@ footer {
         width: 350px;
     }
 }
-

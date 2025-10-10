@@ -74,6 +74,7 @@
     <script src="{{ asset('js/observaciones/modal-error.js') }}"></script>
     <script src="{{ asset('js/materias/validar-materia.js') }}"></script>
     <script src="{{ asset('js/asignaciones/confirmar-eliminar-asignacion.js') }}"></script>
+    <script src="{{ asset('js/loader/loader.js')}}"></script>
 
    {{-- Filtros no tocar --}}
     <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>

@@ -4,6 +4,8 @@
 @section('title', 'Verificar código')
 
 @section('contenido')
+{{-- Cargar loader oculto --}}
+@include('auth.partials._loader_sistema')
 <div class="login-container">
     <div id="particles-js"></div>
     <div class="login-box">
@@ -36,7 +38,7 @@
                 @enderror
             </div>
 
-            <button class="btn-login w-100 mb-2" type="submit">Verificar</button>
+            <button class="btn-login w-100 mb-2" id="btnAcceder" type="submit">Verificar</button>
         </form>
 
         <hr>

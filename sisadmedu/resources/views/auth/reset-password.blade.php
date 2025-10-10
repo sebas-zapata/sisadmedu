@@ -4,6 +4,8 @@
 @section('title', 'Restablecer contraseña')
 
 @section('contenido')
+{{-- Cargar loader oculto --}}
+@include('auth.partials._loader_sistema')
 <div class="login-container">
     <div id="particles-js"></div>
     <div class="login-box">
@@ -45,7 +47,7 @@
                 @enderror
             </div>
 
-            <button class="btn-login w-100" type="submit">Restablecer contraseña</button>
+            <button class="btn-login w-100" id="btnAcceder" type="submit">Restablecer contraseña</button>
         </form>
 
         <hr>

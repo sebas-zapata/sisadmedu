@@ -14,10 +14,12 @@
 </head>
 
 <body>
+{{-- Cargar loader oculto --}}
+@include('auth.partials._loader_web')
     <div class="contenedor-principal">
         <header>
             <!-- <header> -->
-            <nav class="navbar navbar-expand-lg bg-body-tertiary w-100">
+            <nav class="navbar navbar-expand-lg w-100" id="inicio">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="index.html"><img class="logo" src="{{ asset('images/Logo SISADMEDU.jpg') }}" alt="Logo SISADMEDU"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,13 +28,16 @@
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link links-encabezado" aria-current="page" href="#">Inicio</a>
+                                <a class="nav-link links-encabezado" aria-current="page" href="#inicio"><i class="fa-solid fa-house"></i>
+                                    Inicio</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link links-encabezado" href="#">Acerca de nosotros</a>
+                                <a class="nav-link links-encabezado" href="#acerca"><i class="fa-solid fa-circle-info"></i>
+                                    Acerca de nosotros</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link links-encabezado" href="#">Contactanos</a>
+                                <a class="nav-link links-encabezado" href="#contactanos"><i class="fa-solid fa-envelope"></i>
+                                    Contactanos</a>
                             </li>
                         </ul>
                     </div>
@@ -41,21 +46,22 @@
         </header>
         <!-- </header> -->
         <main>
-            <article class="articulo-1">
+            <article class="articulo-1" id="inicio">
                 <section class="seccion-1">
-                    <h1 class="titulo-seccion-1">BIENVENIDO A SISADMEDU</h1>
+                    <h1 class="titulo-seccion-1">BIENVENIDO A <strong>SISADMEDU</strong></h1>
                     <p class="descripcion-seccion-1">
                         Explore y descubra más sobre nosotros para aumentar su confianza <br> en el uso de nuestro
                         sistema administrador educativo.
                     </p>
-                    <a class="btn-mas-informacion" href="#">Mas informacion</a>
+                    <a class="btn-mas-informacion" id="btnAcceder" href="{{ route ('login')}}"><i class="fa-solid fa-right-to-bracket"></i>
+ Acceder al sistema</a>
                 </section>
                 <section>
                     <img class="imagen-birrete" src="{{ asset('images/imagen-birrete.png') }}" alt="Birrete">
                 </section>
             </article>
             <h1 class="titulo-articulo-2">Acerca de nosotros</h1>
-            <article class="articulo-2">
+            <article class="articulo-2" id="acerca">
                 <section class="seccion-2">
                     <div class="contenedor-icono">
                         <i class="iconos-acerca-de-nosotros fa-solid fa-circle-check"></i>
@@ -104,7 +110,7 @@
                     <img class="imagen-quienes-somos" src="{{ asset('images/Quienes somos.jpg') }}" alt="Imagen quienes somos">
                 </section>
             </article>
-            <article class="articulo-4">
+            <article class="articulo-4" id="contactanos">
                 <section class="seccion-7">
                     <h3 class="titulo-seccion-7">Contactanos</h3>
                     <p class="parrafo-seccion-7">
@@ -126,6 +132,7 @@
                     </form>
                 </section>
             </article>
+            <button id="btnScrollTop"> <i class="fa-solid fa-arrow-up"></i></button>
         </main>
         <footer>
             © 2025 SISADMEDU. todos los derechos reservados.
@@ -133,9 +140,10 @@
     </div>
     <script src="{{ asset('js/sitio-web/validar-formulario-sitio-web.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/loader/loader.js')}}"></script>
+    <script src="{{ asset('js/boton-flotante-scroll.js')}}"></script>
     <!-- JS de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>
