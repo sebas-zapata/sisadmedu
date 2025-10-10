@@ -93,8 +93,6 @@
                     </div>
                 </div>
 
-                {{-- Estudiantes asignados si es acudiente --}}
-                @if($usuario->rol && $usuario->rol->nombre === 'Acudiente')
                 <div class="tab-pane fade" id="acudiente" role="tabpanel" aria-labelledby="acudiente-tab">
                     <div class="card border-0 shadow-sm mb-4">
                         <div class="card-header fw-bold text-white" style="background-color: #461c68;">
@@ -128,7 +126,6 @@
                         </div>
                     </div>
                 </div>
-                @endif
             </div>
         </div>
     </div>

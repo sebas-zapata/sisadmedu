@@ -44,8 +44,7 @@ class Usuario extends Model
     // 🔹 Relación muchos a muchos con estudiantes como acudiente
     public function estudiantes()
     {
-        return $this->belongsToMany(Estudiante::class, 'acudiente_estudiante', 'acudiente_id', 'estudiante_id')
-            ->withTimestamps();
+        return $this->belongsToMany(Estudiante::class, 'acudiente_estudiante', 'acudiente_id', 'estudiante_id');
     }
 
     // 🔹 Un usuario puede ser un docente

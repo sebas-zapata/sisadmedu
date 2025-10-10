@@ -14,19 +14,6 @@
 
                     @if(Auth::user()->rol->nombre === 'Docente' && Auth::user()->docente)
                         <input type="hidden" name="docente_id" value="{{ Auth::user()->docente->id }}">
-                    @else
-                        <div class="form-floating mb-3">
-                            <select name="docente_id" id="docente_id" class="form-select @error('docente_id') is-invalid @enderror">
-                                <option value="" disabled selected>Seleccione un docente</option>
-                                @foreach($docentes as $docente)
-                                    <option value="{{ $docente->id }}">{{ $docente->primer_nombre }} {{ $docente->segundo_nombre }} {{ $docente->primer_apellido }} {{ $docente->segundo_apellido }}</option>
-                                @endforeach
-                            </select>
-                            <label for="docente_id">Docente</label>
-                            @error('docente_id')
-                                <div class="text-danger mt-1 px-2 py-1" style="background-color:#ffe6e6; border-radius:4px;">{{ $message }}</div>
-                            @enderror
-                        </div>
                     @endif
 
                     <div class="form-floating mb-3">

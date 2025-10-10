@@ -25,7 +25,6 @@ class LoginUsuario extends Authenticatable
         'correo_electronico',
         'celular',
         'contrasena',
-        'usuario_id'
     ];
 
     protected $hidden = [

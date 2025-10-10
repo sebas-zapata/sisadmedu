@@ -166,7 +166,7 @@ class EstudianteController extends Controller
         }
     }
 
-    // Mostrar los detalles de un estudiante específico y su grado
+    // Mostrar los detalles de un estudiante específico
     public function show($id)
     {
         $estudiante = Estudiante::with(['grado', 'tipoDocumento', 'acudientes.rol'])

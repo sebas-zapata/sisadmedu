@@ -39,7 +39,6 @@
                     <td>{{ $estudiante->primer_apellido_estudiante }} {{ $estudiante->segundo_apellido_estudiante }}</td>
                     <td>{{ $estudiante->grado->nombre_grado }}</td>
                     <td>
-                        {{-- Ver siempre disponible --}}
                         <x-boton-accion tipo="ver" href="{{ route('estudiantes.show', $estudiante) }}" />
 
                         {{-- Editar y eliminar solo si NO es docente --}}
@@ -54,7 +53,6 @@
                             </form>
                         @endif
 
-                        {{-- Botón Generar Constancia PDF (esto lo pueden ver todos si quieres) --}}
                         <x-boton-accion tipo="descargar" href="{{ route('pdf.constancia', $estudiante->id) }}" />
                     </td>
                 </tr>

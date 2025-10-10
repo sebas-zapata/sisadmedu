@@ -15,6 +15,7 @@ use App\Http\Controllers\ObservacionController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\AsignacionController;
+use App\Http\Middleware\RoleMiddleware;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -45,17 +46,17 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 // Ruta para el sitio web
 Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('sitio.inicio');
 
-// Modulo de Usuarios protegido por autenticación
-Route::resource('usuarios', UsuarioController::class)->middleware('auth');
+Route::resource('usuarios', UsuarioController::class)
+    ->middleware(['auth', 'rol:Administrador']);
 
 // Modulo de Docentes protegido por autenticación
 Route::resource('docentes', DocenteController::class)->middleware('auth');
 
 // Modulo de Grados protegido por autenticación
-Route::resource('grados', GradoController::class)->middleware('auth');
+Route::resource('grados', GradoController::class)->middleware(['auth', 'rol:Docente' ]);
 
 // Modulo de Estudiantes protegido por autenticación
-Route::resource('estudiantes', EstudianteController::class)->middleware('auth');
+Route::resource('estudiantes', EstudianteController::class)->middleware(['auth', 'rol:Administrador']);
 
 // Rutas para cambiar la contraseña, protegidas por autenticación
 Route::middleware('auth')->group(function () {
@@ -98,4 +99,15 @@ Route::get('/mi-horario', [HorarioController::class, 'show'])->name('estudiante.
 Route::resource('asignaciones', AsignacionController::class)->middleware('auth');
 
 // Ruta para ver la informacion de un estudiante
-Route::get('/mi-informacion', [EstudianteController::class, 'miInformacion'])->middleware('auth')->name('estudiante.informacion');
+Route::get('/estudiante/informacion', [EstudianteController::class, 'miInformacion'])->middleware(['auth', 'rol:Estudiante'])->name('estudiante.informacion');
+
+// Ruta para ver la informacion de un docente
+Route::get('/docente/informacion', [DocenteController::class, 'verInformacion'])->middleware(['auth', 'rol:Docente'])->name('docente.informacion');
+
+// Ruta para ver los grados asigandos para un docente y ver los estudiantes asignados a ese grupo
+Route::get('/docente/estudiante', [DocenteController::class, 'verEstudiantes'])->middleware(['auth', 'rol:Docente'])->name('docente.estudiantes');
+
+
+Route::get('/docente/estudiante/{id}', [EstudianteController::class, 'show'])->middleware(['auth', 'rol:Docente'])->name('docente.estudiante');
+
+

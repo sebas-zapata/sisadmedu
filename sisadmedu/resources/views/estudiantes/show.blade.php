@@ -1,6 +1,6 @@
 @extends('layouts.show')
 
-@section('titulo', 'Información del Estudiante')
+@section('titulo')
 
 @section('informacion')
 <div class="container py-4">
@@ -12,19 +12,28 @@
                 <i class="fa-solid fa-user-graduate fa-lg me-2"></i>
                 <span class="fw-bold fs-5">Información del Estudiante</span>
             </div>
+            @if (Auth::check())
+            @if (Auth::user()->rol->nombre === 'Administrador')
             <a href="{{ route('estudiantes.index') }}" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver
+                <i class="fa-solid fa-arrow-left me-1"></i> Volver al Panel de Administración
             </a>
+            @elseif (Auth::user()->rol->nombre === 'Docente')
+            <a href="{{ route('docente.estudiantes') }}" class="btn btn-secondary btn-sm">
+                <i class="fa-solid fa-arrow-left me-1"></i> Volver al Panel Docente
+            </a>
+            @endif
+            @endif
+
         </div>
 
         {{-- Avatar y nombre --}}
         <div class="text-center py-4 bg-light">
             <img src="{{ Avatar::create($estudiante->primer_nombre_estudiante . ' ' . $estudiante->segundo_nombre_estudiante . ' ' . $estudiante->primer_apellido_estudiante . ' ' . $estudiante->segundo_apellido_estudiante)->toBase64() }}"
-                 alt="Avatar"
-                 class="rounded-circle shadow-sm border border-3"
-                 style="border-color: #461c68;"
-                 width="110"
-                 height="110">
+                alt="Avatar"
+                class="rounded-circle shadow-sm border border-3"
+                style="border-color: #461c68;"
+                width="110"
+                height="110">
 
             <h4 class="mt-3 mb-0 fw-bold text-dark">
                 {{ $estudiante->primer_nombre_estudiante }}
@@ -51,11 +60,16 @@
                         <i style="color:#461c68;" class="fa-solid fa-user-friends me-2"></i>Acudientes
                     </button>
                 </li>
+                @if (Auth::check())
+                @if (Auth::user()->rol->nombre === 'Docente')
                 <li class="nav-item" role="presentation">
                     <button class="nav-link fw-bold text-dark" id="observaciones-tab" data-bs-toggle="tab" data-bs-target="#observaciones" type="button" role="tab" aria-controls="observaciones" aria-selected="false">
                         <i style="color:#461c68;" class="fa-solid fa-clipboard-list me-2"></i>Observaciones
                     </button>
                 </li>
+                @endif
+                @endif
+
             </ul>
 
             <div class="tab-content" id="estudianteTabsContent">
@@ -93,21 +107,21 @@
                         </div>
                         <div class="card-body bg-white">
                             @if($estudiante->acudientes && $estudiante->acudientes->isNotEmpty())
-                                <div class="list-group">
-                                    @foreach($estudiante->acudientes as $acudiente)
-                                        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="fw-bold mb-1">{{ $acudiente->nombres }} {{ $acudiente->apellidos }}</h6>
-                                                <small class="text-muted d-block"><strong>ID:</strong> {{ $acudiente->id }} | <strong>Documento:</strong> {{ $acudiente->documento }}</small>
-                                                <small class="text-muted d-block"><strong>Celular:</strong> {{ $acudiente->celular ?? 'No registrado' }}</small>
-                                                <small class="text-muted d-block"><strong>Correo:</strong> {{ $acudiente->correo_electronico ?? 'No registrado' }}</small>
-                                            </div>
-                                            <span class="badge bg-dark rounded-pill">Acudiente</span>
-                                        </div>
-                                    @endforeach
+                            <div class="list-group">
+                                @foreach($estudiante->acudientes as $acudiente)
+                                <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">{{ $acudiente->nombres }} {{ $acudiente->apellidos }}</h6>
+                                        <small class="text-muted d-block"><strong>ID:</strong> {{ $acudiente->id }} | <strong>Documento:</strong> {{ $acudiente->documento }}</small>
+                                        <small class="text-muted d-block"><strong>Celular:</strong> {{ $acudiente->celular ?? 'No registrado' }}</small>
+                                        <small class="text-muted d-block"><strong>Correo:</strong> {{ $acudiente->correo_electronico ?? 'No registrado' }}</small>
+                                    </div>
+                                    <span class="badge bg-dark rounded-pill">Acudiente</span>
                                 </div>
+                                @endforeach
+                            </div>
                             @else
-                                <p class="text-center text-muted">Este estudiante aún no tiene acudientes asignados.</p>
+                            <p class="text-center text-muted">Este estudiante aún no tiene acudientes asignados.</p>
                             @endif
                         </div>
                     </div>

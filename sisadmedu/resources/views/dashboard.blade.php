@@ -150,6 +150,25 @@
             </div>
             @endif
 
+            @if($usuario->rol && $usuario->rol->nombre == "Docente")
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-user"></i>
+                    Mi Informacion</p>
+                <p class="module-total">Consulta tu informacion como docente</p>
+                <a class="module-button" href="{{ route('docente.informacion') }}">
+                    <i class="fas fa-eye"></i> Ver Informacion
+                </a>
+            </div>
+
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-user-graduate"></i> Mis Grados Asignados</p>
+                <p class="module-total">Consulta tus grados asignados</p>
+                <a class="module-button" href="{{ route('docente.estudiantes') }}">
+                    <i class="fas fa-eye"></i> Ver Grados
+                </a>
+            </div>
+            @endif
+
         </div>
     </div>
 

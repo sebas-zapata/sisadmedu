@@ -7,6 +7,7 @@ use App\Models\Docente;
 use App\Models\TipoDocumento;
 use App\Models\Usuario;
 use App\Models\Rol;
+use App\Models\Estudiante;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class DocenteController extends Controller
     public function index()
     {
 
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
@@ -27,7 +28,7 @@ class DocenteController extends Controller
 
     public function create()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
@@ -38,7 +39,7 @@ class DocenteController extends Controller
 
     public function store(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para crear docentes.');
         }
@@ -156,19 +157,19 @@ class DocenteController extends Controller
 
     public function edit($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para editar docentes.');
         }
 
-        $docente = Docente::with([ 'tipoDocumento', 'usuario'])->findOrFail($id);
+        $docente = Docente::with(['tipoDocumento', 'usuario'])->findOrFail($id);
         $documentos = TipoDocumento::all();
         return view('docentes.edit', compact('docente', 'documentos'));
     }
 
     public function update(Request $request, $id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para editar docentes.');
         }
@@ -246,7 +247,7 @@ class DocenteController extends Controller
                 'segundo_nombre' => $request->segundo_nombre,
                 'primer_apellido' => $request->primer_apellido,
                 'segundo_apellido' => $request->segundo_apellido,
-        
+
 
                 // Nuevos campos
                 'fecha_nacimiento' => $request->fecha_nacimiento,
@@ -297,4 +298,63 @@ class DocenteController extends Controller
 
         return redirect()->route('docentes.index')->with('success', 'Docente y usuario eliminados exitosamente.');
     }
+
+    public function verInformacion()
+    {
+        // Obtener el usuario autenticado
+        $usuario = Auth::user();
+
+        // Cargar al docente con sus asignaciones, grados y materias
+        $docente = Docente::with(['usuario', 'asignaciones.grado', 'asignaciones.materia'])
+            ->where('usuario_id', $usuario->id)
+            ->first();
+
+        // Verificar si existe un docente asociado
+        if (!$docente) {
+            return redirect()->back()->with('error', 'No se encontró información del docente.');
+        }
+
+        // Obtener las asignaciones del docente
+        $asignaciones = $docente->asignaciones;
+
+        // Retornar la vista con toda la información
+        return view('docentes.mi-informacion', compact('usuario', 'docente', 'asignaciones'));
+    }
+
+
+
+public function verEstudiantes(Request $request)
+{
+    $usuario = Auth::user();
+    $docente = $usuario->docente;
+
+    if (!$docente) {
+        return redirect()->back()->with('error', 'No se encontró información del docente.');
+    }
+
+    // 🔹 Obtener todos los grados asignados al docente
+    $asignaciones = $docente->asignaciones()->with('grado')->get();
+
+    if ($asignaciones->isEmpty()) {
+        return redirect()->back()->with('error', 'No tienes grados asignados.');
+    }
+
+    // 🔹 Grados únicos (puede tener varias materias por el mismo grado)
+    $grados = $asignaciones->pluck('grado')->unique('id');
+
+    // 🔹 Verificar si se seleccionó un grado desde el select
+    $gradoSeleccionado = $request->input('grado_id');
+
+    $estudiantes = collect(); // vacío por defecto
+
+    if ($gradoSeleccionado) {
+        $estudiantes = Estudiante::where('id_grado', $gradoSeleccionado)
+                        ->with('grado')
+                        ->get();
+    }
+
+    return view('docentes.estudiantes-asignados', compact('usuario', 'docente', 'grados', 'estudiantes', 'gradoSeleccionado'));
+}
+
+
 }
