@@ -94,6 +94,13 @@
                     <span>Grados Asignados</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{ route('docente.asignaturas') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fas fa-book"></i>
+                    <span>Mis Asignaturas</span>
+                </a>
+            </li>
             @endif
 
             <!-- Aquí puedes agregar más módulos según roles -->

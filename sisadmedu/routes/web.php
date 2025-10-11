@@ -53,7 +53,7 @@ Route::resource('usuarios', UsuarioController::class)
 Route::resource('docentes', DocenteController::class)->middleware('auth');
 
 // Modulo de Grados protegido por autenticación
-Route::resource('grados', GradoController::class)->middleware(['auth', 'rol:Docente' ]);
+Route::resource('grados', GradoController::class)->middleware(['auth', 'rol:Administrador' ]);
 
 // Modulo de Estudiantes protegido por autenticación
 Route::resource('estudiantes', EstudianteController::class)->middleware(['auth', 'rol:Administrador']);
@@ -107,7 +107,10 @@ Route::get('/docente/informacion', [DocenteController::class, 'verInformacion'])
 // Ruta para ver los grados asigandos para un docente y ver los estudiantes asignados a ese grupo
 Route::get('/docente/estudiante', [DocenteController::class, 'verEstudiantes'])->middleware(['auth', 'rol:Docente'])->name('docente.estudiantes');
 
-
+// Ruta para que un docente vea un usuario especifico
 Route::get('/docente/estudiante/{id}', [EstudianteController::class, 'show'])->middleware(['auth', 'rol:Docente'])->name('docente.estudiante');
+
+// Ruta para ver las asignaturas para cada docente
+Route::get('/docente/asignaturas', [DocenteController::class, 'verAsignaturas'])->middleware(['auth', 'rol:Docente'])->name('docente.asignaturas');
 
 

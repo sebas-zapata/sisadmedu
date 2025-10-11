@@ -8,6 +8,8 @@ use App\Models\TipoDocumento;
 use App\Models\Usuario;
 use App\Models\Rol;
 use App\Models\Estudiante;
+use App\Models\Asignacion;
+use App\Models\Grado;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -323,38 +325,92 @@ class DocenteController extends Controller
 
 
 
-public function verEstudiantes(Request $request)
-{
-    $usuario = Auth::user();
-    $docente = $usuario->docente;
+    public function verEstudiantes(Request $request)
+    {
+        $usuario = Auth::user();
+        $docente = $usuario->docente;
 
-    if (!$docente) {
-        return redirect()->back()->with('error', 'No se encontró información del docente.');
+        if (!$docente) {
+            return redirect()->back()->with('error', 'No se encontró información del docente.');
+        }
+
+        // 🔹 Obtener todos los grados asignados al docente
+        $asignaciones = $docente->asignaciones()->with('grado')->get();
+
+        if ($asignaciones->isEmpty()) {
+            return redirect()->back()->with('error', 'No tienes grados asignados.');
+        }
+
+        // 🔹 Grados únicos (puede tener varias materias por el mismo grado)
+        $grados = $asignaciones->pluck('grado')->unique('id');
+
+        // 🔹 Verificar si se seleccionó un grado desde el select
+        $gradoSeleccionado = $request->input('grado_id');
+
+        $estudiantes = collect(); // vacío por defecto
+
+        if ($gradoSeleccionado) {
+            $estudiantes = Estudiante::where('id_grado', $gradoSeleccionado)
+                ->with('grado')
+                ->get();
+        }
+
+        return view('docentes.estudiantes-asignados', compact('usuario', 'docente', 'grados', 'estudiantes', 'gradoSeleccionado'));
     }
 
-    // 🔹 Obtener todos los grados asignados al docente
-    $asignaciones = $docente->asignaciones()->with('grado')->get();
+    public function verAsignaturas(Request $request)
+    {
+        // 🔹 Obtener el usuario autenticado
+        $usuario = Auth::user();
 
-    if ($asignaciones->isEmpty()) {
-        return redirect()->back()->with('error', 'No tienes grados asignados.');
+        // 🔹 Buscar el docente asociado al usuario autenticado
+        $docente = Docente::where('usuario_id', $usuario->id)->first();
+
+        if (!$docente) {
+            return back()->with('error', 'No se encontró un docente asociado a este usuario.');
+        }
+
+        // 🔹 Obtener todos los grados asignados al docente
+        $grados = Grado::whereIn(
+            'id',
+            Asignacion::where('docente_id', $docente->id)->pluck('grado_id')
+        )->get();
+
+        // 🔹 Capturar el grado seleccionado desde el filtro
+        $gradoSeleccionado = $request->input('grado_id');
+
+        // 🔹 Consultar las asignaciones del docente (filtradas si hay grado seleccionado)
+        $asignacionesQuery = Asignacion::with(['materia', 'grado.estudiantes.usuario'])
+            ->where('docente_id', $docente->id);
+
+        if ($gradoSeleccionado) {
+            $asignacionesQuery->where('grado_id', $gradoSeleccionado);
+        }
+
+        $asignaciones = $asignacionesQuery->get();
+
+        // 🔹 Mapear los datos para pasarlos a la vista
+        $materiasAsignadas = $asignaciones->map(function ($asignacion) {
+            return [
+                'materia' => $asignacion->materia->descripcion,
+                'grado' => $asignacion->grado->nombre_grado,
+                'estudiantes' => $asignacion->grado->estudiantes->map(function ($estudiante) {
+                    return [
+                        'documento' => $estudiante->usuario->documento ?? '—',
+                        'matricula' => $estudiante->matricula ?? '—',
+                        'nombre' => trim(
+                            $estudiante->primer_nombre_estudiante . ' ' .
+                                $estudiante->segundo_nombre_estudiante . ' ' .
+                                $estudiante->primer_apellido_estudiante . ' ' .
+                                $estudiante->segundo_apellido_estudiante
+                        ),
+                        'grado' => $estudiante->grado->nombre_grado ?? '—',
+                    ];
+                }),
+            ];
+        });
+
+        // 🔹 Retornar la vista con los datos necesarios
+        return view('docentes.materias-asignadas', compact('materiasAsignadas', 'grados', 'gradoSeleccionado'));
     }
-
-    // 🔹 Grados únicos (puede tener varias materias por el mismo grado)
-    $grados = $asignaciones->pluck('grado')->unique('id');
-
-    // 🔹 Verificar si se seleccionó un grado desde el select
-    $gradoSeleccionado = $request->input('grado_id');
-
-    $estudiantes = collect(); // vacío por defecto
-
-    if ($gradoSeleccionado) {
-        $estudiantes = Estudiante::where('id_grado', $gradoSeleccionado)
-                        ->with('grado')
-                        ->get();
-    }
-
-    return view('docentes.estudiantes-asignados', compact('usuario', 'docente', 'grados', 'estudiantes', 'gradoSeleccionado'));
-}
-
-
 }

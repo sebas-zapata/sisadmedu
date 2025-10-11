@@ -167,6 +167,14 @@
                     <i class="fas fa-eye"></i> Ver Grados
                 </a>
             </div>
+
+            <div class="module">
+                <p class="module-title"><i class="fas fa-book"></i> Mis Asignaturas</p>
+                <p class="module-total">Consulta tus asignaturas</p>
+                <a class="module-button" href="{{ route('docente.asignaturas') }}">
+                    <i class="fas fa-eye"></i> Ver Asignaturas
+                </a>
+            </div>
             @endif
 
         </div>
