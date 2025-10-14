@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Observacion;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\ObservacionNotificacionMail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Estudiante;
+use App\Models\Docente;
 
 class ObservacionController extends Controller
 {
@@ -51,14 +55,24 @@ class ObservacionController extends Controller
         }
 
         // Guardar observación
-        Observacion::create([
+        $observacion = Observacion::create([
             'estudiante_id' => $request->estudiante_id,
             'docente_id'    => $docenteId,
             'tipo'          => $request->tipo,
             'descripcion'   => $request->descripcion,
         ]);
 
-        return redirect()->back()->with('success', 'Observación registrada exitosamente.');
+        // Obtener acudiente relacionado al estudiante
+        $estudiante = $observacion->estudiante;
+        // Obtener el primer acudiente del estudiante
+        $acudiente = $estudiante->acudientes->first();
+
+        if ($acudiente && $acudiente->correo_electronico) {
+            Mail::to($acudiente->correo_electronico)
+                ->send(new ObservacionNotificacionMail($observacion));
+        }
+
+        return redirect()->back()->with('success', 'Observación registrada exitosamente y enviada al acudiente.');
     }
 
     public function misObservaciones()
