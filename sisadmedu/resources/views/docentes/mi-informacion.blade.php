@@ -72,7 +72,7 @@
                         <div class="card-body bg-white">
                             <div class="row">
                                 <div class="col-md-6 mb-2"><strong>Correo electrónico:</strong> {{ $usuario->correo_electronico }}</div>
-                                <div class="col-md-6 mb-2"><strong>Teléfono:</strong> {{ $usuario->telefono_usuario ?? 'No registrado' }}</div>
+                                <div class="col-md-6 mb-2"><strong>Celular:</strong> {{ $usuario->celular ?? 'No registrado' }}</div>
                                 <div class="col-md-6 mb-2"><strong>Rol:</strong> Docente</div>
                             </div>
                         </div>

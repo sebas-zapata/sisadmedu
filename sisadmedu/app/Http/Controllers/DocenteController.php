@@ -389,9 +389,10 @@ class DocenteController extends Controller
 
         $asignaciones = $asignacionesQuery->get();
 
-        // 🔹 Mapear los datos para pasarlos a la vista
+        /// 🔹 Mapear los datos para pasarlos a la vista
         $materiasAsignadas = $asignaciones->map(function ($asignacion) {
             return [
+                'id' => $asignacion->id, // ✅ Agrega el ID aquí
                 'materia' => $asignacion->materia->descripcion,
                 'grado' => $asignacion->grado->nombre_grado,
                 'estudiantes' => $asignacion->grado->estudiantes->map(function ($estudiante) {

@@ -15,6 +15,7 @@ use App\Http\Controllers\ObservacionController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\AsignacionController;
+use App\Http\Controllers\AsistenciaController;
 use App\Http\Middleware\RoleMiddleware;
 
 // Rutas con el middleware de autenticación
@@ -53,7 +54,7 @@ Route::resource('usuarios', UsuarioController::class)
 Route::resource('docentes', DocenteController::class)->middleware('auth');
 
 // Modulo de Grados protegido por autenticación
-Route::resource('grados', GradoController::class)->middleware(['auth', 'rol:Administrador' ]);
+Route::resource('grados', GradoController::class)->middleware(['auth', 'rol:Administrador']);
 
 // Modulo de Estudiantes protegido por autenticación
 Route::resource('estudiantes', EstudianteController::class)->middleware(['auth', 'rol:Administrador']);
@@ -114,3 +115,18 @@ Route::get('/docente/estudiante/{id}', [EstudianteController::class, 'show'])->m
 Route::get('/docente/asignaturas', [DocenteController::class, 'verAsignaturas'])->middleware(['auth', 'rol:Docente'])->name('docente.asignaturas');
 
 
+//rutas de asistencias
+Route::middleware(['auth'])->group(function () {
+    Route::get('/asistencias', [AsistenciaController::class, 'index'])->name('asistencias.index');
+    Route::get('/asistencias/crear/{asignacion}', [AsistenciaController::class, 'create'])->name('asistencias.create');
+    Route::post('/asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');
+    Route::get('/asistencias/{id}/editar', [AsistenciaController::class, 'edit'])->name('asistencias.edit');
+    Route::put('/asistencias/{id}', [AsistenciaController::class, 'update'])->name('asistencias.update');
+    Route::delete('/asistencias/{id}', [AsistenciaController::class, 'destroy'])->name('asistencias.destroy');
+    Route::get('/asistencias/asignacion/{id}', [AsistenciaController::class, 'porAsignacion'])
+        ->name('asistencias.porAsignacion');
+    // Reporte mensual (vista)
+    Route::get('/asistencias/{asignacion}/reporte-mensual', [AsistenciaController::class, 'reporteMensual'])->name('asistencias.reporteMensual');
+    // Generar PDF del reporte mensual
+    Route::get('/asistencias/{asignacion}/reporte-mensual/pdf', [PdfController::class, 'generarReporteMensualPdf'])->name('asistencias.reporteMensual.pdf');
+});

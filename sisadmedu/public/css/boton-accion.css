@@ -65,3 +65,31 @@
     background-color: #666;
     transform: scale(1.02);
 }
+
+/* Boton asistencia */
+
+.btn-asistencia {
+    background-color: #4b0082; /* morado profundo */
+    color: #fff;
+    font-weight: 600;
+    padding: 0.45rem 1.2rem;
+    border-radius: 50px;
+    border: none;
+    box-shadow: 0 3px 8px rgba(75, 0, 130, 0.3);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-asistencia:hover {
+    background-color: #6a0dad; /* tono más claro en hover */
+    box-shadow: 0 4px 12px rgba(106, 13, 173, 0.4);
+    transform: translateY(-2px);
+    color: #fff;
+}
+
+.btn-asistencia:active {
+    transform: scale(0.97);
+}

@@ -10,8 +10,8 @@
             <i class="fa-solid fa-layer-group me-2"></i> Selecciona un grado:
         </label>
 
-        <select name="grado_id" id="grado_id" class="form-select shadow-sm border-0 rounded-3"
-                style="width: 250px;" onchange="this.form.submit()">
+        <select name="grado_id" id="grado_id" class="form-select shadow-sm border-0 rounded-3" style="width: 250px;"
+            onchange="this.form.submit()">
             <option value="">-- Selecciona un grado --</option>
             @foreach ($grados as $grado)
                 <option value="{{ $grado->id }}" {{ $gradoSeleccionado == $grado->id ? 'selected' : '' }}>
@@ -30,20 +30,29 @@
             Selecciona un grado para ver las materias y los estudiantes asignados.
         </div>
 
-    {{-- 🔹 Si se seleccionó un grado --}}
+        {{-- 🔹 Si se seleccionó un grado --}}
     @else
         @forelse ($materiasAsignadas as $asignacion)
             <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
-                <div class="card-header text-white fw-bold d-flex align-items-center"
-                     style="background-color: #461c68;">
-                    <i class="fa-solid fa-book me-2"></i>
-                    {{ $asignacion['materia'] }} |
-                    <span class="ms-1">Grado {{ $asignacion['grado'] }}</span>
+                <div class="card-header text-white fw-bold d-flex justify-content-between align-items-center"
+                    style="background-color: #461c68;">
+                    <div>
+                        <i class="fa-solid fa-book me-2"></i>
+                        {{ $asignacion['materia'] }} |
+                        <span class="ms-1">Grado {{ $asignacion['grado'] }}</span>
+                    </div>
+
+                    {{-- 🔹 Botón para tomar asistencia --}}
+                    <a href="{{ route('asistencias.porAsignacion', $asignacion['id']) }}" class="btn-asistencia">
+                        <i class="fa-solid fa-clipboard-check me-1"></i> Tomar asistencia
+                    </a>
+
                 </div>
 
                 <div class="card-body bg-light">
                     @if ($asignacion['estudiantes']->isEmpty())
-                        <div class="alert alert-secondary text-center mb-0 d-flex align-items-center justify-content-center">
+                        <div
+                            class="alert alert-secondary text-center mb-0 d-flex align-items-center justify-content-center">
                             <i class="fa-solid fa-user-slash me-2"></i>
                             No hay estudiantes registrados en este grado.
                         </div>
@@ -52,11 +61,11 @@
                             <table class="table table-hover align-middle mb-0 text-center">
                                 <thead>
                                     <tr>
-                                        <th> Documento</th>
-                                        <th> Matrícula</th>
-                                        <th> Nombre completo</th>
-                                        <th> Grado</th>
-                                        <th> Acciones</th>
+                                        <th>Documento</th>
+                                        <th>Matrícula</th>
+                                        <th>Nombre completo</th>
+                                        <th>Grado</th>
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,7 +74,12 @@
                                             <td>{{ $estudiante['documento'] ?? '—' }}</td>
                                             <td>{{ $estudiante['matricula'] ?? '—' }}</td>
                                             <td>{{ $estudiante['nombre'] }}</td>
-                                            <td><span class="badge rounded-pill px-3 py-2" style="background-color: #461c68; color: #fff;">{{ $estudiante['grado'] }}</span></td>
+                                            <td>
+                                                <span class="badge rounded-pill px-3 py-2"
+                                                    style="background-color: #461c68; color: #fff;">
+                                                    {{ $estudiante['grado'] }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 <x-boton-accion tipo="editar" href="#" texto="Asignar Nota" />
                                             </td>
