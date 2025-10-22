@@ -1,7 +1,10 @@
-# Imagen base con PHP 8.2 y extensiones necesarias
-FROM php:8.2-fpm
+# 1. Imagen base con PHP 8.2 y Apache
+FROM php:8.2-apache
 
-# Instalar dependencias del sistema
+# 2. Habilitar mod_rewrite para Laravel
+RUN a2enmod rewrite
+
+# 3. Instalar herramientas necesarias y extensiones PHP
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -11,26 +14,31 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Instalar Composer
+# 4. Instalar Composer
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-# Definir directorio de trabajo
-WORKDIR /var/www
+# 5. Configurar directorio de trabajo
+WORKDIR /var/www/html
 
-# Copiar el contenido del proyecto
+# 6. Copiar el proyecto Laravel al contenedor
 COPY . .
 
-# Instalar dependencias de PHP
-RUN composer install --no-scripts --no-autoloader
-RUN composer dump-autoload
+# 7. Instalar dependencias de Laravel
+RUN composer install --no-scripts --no-autoloader \
+    && composer dump-autoload
 
-# Asignar permisos a la carpeta storage
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# 8. Dar permisos correctos a storage y cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Exponer puerto
-EXPOSE 9000
+# 9. Configurar DocumentRoot de Apache
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!'$APACHE_DOCUMENT_ROOT'!g' /etc/apache2/sites-available/*.conf
 
-# Comando de inicio
-CMD ["php-fpm"]
+# 10. Exponer puerto 80
+EXPOSE 80
+
+# 11. Comando para levantar Apache en primer plano
+CMD ["apache2-foreground"]
