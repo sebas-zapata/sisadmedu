@@ -23,22 +23,22 @@
     {{-- Tarjeta de módulos --}}
     <div class="contenedor-dashboard mb-4">
         @if (session('debe_cambiar_contrasena'))
-        <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100; max-width: 100%;">
-            <div class="toast show text-bg-light border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-container position-fixed top-0 end-0 p-2 p-md-3" style="z-index: 1100;">
+            <div class="toast show text-bg-light border-0 shadow-lg" style="max-width: 400px; min-width: 280px;" role="alert" aria-live="assertive" aria-atomic="true">
 
                 <!-- Toast body -->
-                <div class="toast-body d-flex flex-column flex-wrap flex-md-row align-items-center justify-content-between gap-2">
+                <div class="toast-body p-2 p-sm-3">
 
                     <!-- Contenido principal: icono + texto -->
-                    <div class="d-flex align-items-center gap-2 flex-grow-1">
-                        <i class="fa-solid fa-triangle-exclamation fa-lg text-dark"></i>
-                        <span class="text-truncate">
+                    <div class="d-flex align-items-start align-items-sm-center gap-2 mb-2 mb-sm-3">
+                        <i class="fa-solid fa-triangle-exclamation fa-lg text-dark flex-shrink-0 mt-1 mt-sm-0"></i>
+                        <span class="flex-grow-1 small">
                             <b>{{ Auth::user()->nombres }}</b>, cambia tu contraseña por seguridad.
                         </span>
                     </div>
 
                     <!-- Botones -->
-                    <div class="mt-1 d-flex justify-content-center gap-2">
+                    <div class="d-flex flex-column flex-sm-row gap-2 justify-content-end">
                         <a href="{{ route('cambiar_contraseña') }}" class="btn boton-toast-contraseña btn-sm text-white">
                             <i class="fa-solid fa-key me-1"></i>Cambiar
                         </a>

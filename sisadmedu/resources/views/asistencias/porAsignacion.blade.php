@@ -10,7 +10,7 @@
 <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
     <div class="card-body bg-light">
 
-        {{-- 🔹 Selector de fecha --}}
+        {{-- Selector de fecha --}}
         <form method="GET" action="{{ route('asistencias.porAsignacion', $asignacion->id) }}" class="mb-3">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                 <div>
@@ -20,13 +20,13 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    {{-- 🔸 Botón para ir al reporte mensual --}}
+                    {{-- Botón para ir al reporte mensual --}}
                     <a href="{{ route('asistencias.reporteMensual', $asignacion->id) }}"
                        class="btn-asistencia">
                         <i class="fa-solid fa-chart-column me-1"></i> Reporte Mensual
                     </a>
 
-                    {{-- 🔸 Botón para volver --}}
+                    {{-- Botón para volver --}}
                     <a href="{{ route('docente.asignaturas', ['grado_id' => $asignacion->grado->id]) }}"
                        class="btn btn-secondary">
                         <i class="fa-solid fa-arrow-left me-1"></i> Volver
