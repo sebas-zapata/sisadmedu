@@ -30,6 +30,9 @@ COPY . .
 RUN composer install --no-scripts --no-autoloader \
     && composer dump-autoload
 
+# COPIAR ASSETS DESPUÉS DE COMPOSER
+COPY public/ /var/www/html/public/
+
 # 8. Dar permisos correctos a storage y cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
