@@ -3,9 +3,7 @@
 
 @section('title', 'Iniciar sesión')
 
-@section('contenido')
-{{-- Cargar loader oculto --}}
-@include('auth.partials._loader_sistema')
+
 
 {{-- Mensaje de error general de autenticación --}}
 @if(session('error'))
