@@ -36,12 +36,10 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 
 # 10. Cambiar configuración de Apache para servir el DocumentRoot correcto
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" /etc/apache2/sites-available/*.conf
 
 # 11. Cambiar permisos del directorio en apache2.conf para permitir acceso a assets
-RUN sed -ri -e 's!<Directory /var/www/>!<Directory ${APACHE_DOCUMENT_ROOT}>!g' /etc/apache2/apache2.conf
-
-# Esto arregla el problema de CSS/JS/favicons no cargando
+RUN sed -ri -e "s!<Directory /var/www/html>!<Directory ${APACHE_DOCUMENT_ROOT}>!g" /etc/apache2/apache2.conf
 
 # 12. Exponer puerto 80
 EXPOSE 80
