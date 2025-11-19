@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
 # 6. Copiar todo el proyecto Laravel al contenedor
-COPY . /var/www/html
+COPY ./sisadmedu /var/www/html
 
 # 7. Sobrescribir el VirtualHost por defecto para usar /public como DocumentRoot
 #    Esto asegura que Apache apunte al directorio correcto y que se carguen los assets.
