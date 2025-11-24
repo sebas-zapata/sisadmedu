@@ -57,7 +57,7 @@
                         Acceder al sistema</a>
                 </section>
                 <section>
-                    <img class="imagen-birrete" src="{{ asset('images/imagen-birrete.png') }}" alt="Birrete">
+                    <img class="imagen-birrete" src="{{ asset('images/Imagen-birrete.png') }}" alt="Birrete">
                 </section>
             </article>
             <h1 class="titulo-articulo-2">Acerca de nosotros</h1>
