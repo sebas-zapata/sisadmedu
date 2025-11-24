@@ -1,7 +1,6 @@
 # =============================================================
-#  Imagen base: PHP 8.2 con Apache
+# Imagen base: PHP 8.2 con Apache
 # =============================================================
-# Usamos la imagen oficial, estable y preparada para Apache.
 FROM php:8.2-apache
 
 # =============================================================
@@ -12,7 +11,6 @@ RUN a2enmod rewrite
 # =============================================================
 # Instalar dependencias del sistema + extensiones PHP necesarias
 # =============================================================
-# Solo se instalan las librerías necesarias para Laravel y GD.
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -23,12 +21,22 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring pcntl bcmath zip gd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# =============================================================
+# Copiar el contenido del proyecto dentro del contenedor
+# NOTA: se copia el contenido interno de sisadmedu/
+# =============================================================
+COPY sisadmedu/ /var/www/html/
 
 # =============================================================
-# Copiar proyecto Laravel al contenedor
-#    NOTA: el proyecto debe estar en ./sisadmedu localmente
+# Ajustar DocumentRoot de Apache para apuntar a /public
 # =============================================================
-COPY ./sisadmedu /var/www/html
+RUN printf "<VirtualHost *:80>\n\
+    DocumentRoot /var/www/html/public\n\
+    <Directory /var/www/html/public>\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>\n\
+</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
 
 # =============================================================
 # Establecer directorio de trabajo
@@ -36,32 +44,23 @@ COPY ./sisadmedu /var/www/html
 WORKDIR /var/www/html
 
 # =============================================================
-# Instalar dependencias con Composer
-#    Incluye la dependencia solicitada:
-#    - laravolt/avatar 6.3
+# Instalar dependencias del proyecto (incluye laravolt/avatar)
+# NOTA: DEBES ejecutar antes en tu PC:
+#       composer require laravolt/avatar \"^6.3\"
 # =============================================================
-RUN composer require laravolt/avatar:6.3 --no-interaction
-
-# Instalar dependencias del proyecto optimizadas para producción
-RUN composer install \
-    --no-interaction \
-    --prefer-dist \
-    --optimize-autoloader
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # =============================================================
-# Permisos correctos para Laravel:
-#     storage y bootstrap/cache deben ser de www-data
+# Permisos correctos para Laravel
 # =============================================================
 RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 755 public
-RUN chown -R www-data:www-data public
 
 # =============================================================
-# Exponer puerto 80 para Apache
+# Exponer puerto 80
 # =============================================================
 EXPOSE 80
 
 # =============================================================
-# Iniciar Apache en primer plano
+# Iniciar Apache
 # =============================================================
 CMD ["apache2-foreground"]
