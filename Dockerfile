@@ -44,13 +44,6 @@ RUN printf "<VirtualHost *:80>\n\
 WORKDIR /var/www/html
 
 # =============================================================
-# Instalar dependencias del proyecto (incluye laravolt/avatar)
-# NOTA: DEBES ejecutar antes en tu PC:
-#       composer require laravolt/avatar \"^6.3\"
-# =============================================================
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
-# =============================================================
 # Permisos correctos para Laravel
 # =============================================================
 RUN chown -R www-data:www-data storage bootstrap/cache
