@@ -14,8 +14,8 @@
 </head>
 
 <body>
-{{-- Cargar loader oculto --}}
-@include('auth.partials._loader_web')
+    {{-- Cargar loader oculto --}}
+    @include('auth.partials._loader_web')
     <div class="contenedor-principal">
         <header>
             <!-- <header> -->
@@ -54,7 +54,7 @@
                         sistema administrador educativo.
                     </p>
                     <a class="btn-mas-informacion" id="btnAcceder" href="{{ route ('login')}}"><i class="fa-solid fa-right-to-bracket"></i>
- Acceder al sistema</a>
+                        Acceder al sistema</a>
                 </section>
                 <section>
                     <img class="imagen-birrete" src="{{ asset('images/imagen-birrete.png') }}" alt="Birrete">
