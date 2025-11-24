@@ -45,7 +45,7 @@ Route::post('/password/reset', [ForgotPasswordController::class, 'resetPassword'
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
 // Ruta para el sitio web
-Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('sitio.inicio');
+Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('inicio');
 
 Route::resource('usuarios', UsuarioController::class)
     ->middleware(['auth', 'rol:Administrador']);

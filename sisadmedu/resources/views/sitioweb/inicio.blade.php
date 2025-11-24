@@ -21,7 +21,7 @@
             <!-- <header> -->
             <nav class="navbar navbar-expand-lg w-100" id="inicio">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="index.html"><img class="logo" src="{{ asset('images/Logo SISADMEDU.jpg') }}" alt="Logo SISADMEDU"></a>
+                    <a class="navbar-brand" href="{{ route ('inicio') }}"><img class="logo" src="{{ asset('images/Logo SISADMEDU.jpg') }}" alt="Logo SISADMEDU"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -117,18 +117,46 @@
                         Si experimenta algún inconveniente, por favor no dude en enviar un mensaje a nuestro equipo <br>
                         de soporte.
                     </p>
-                    <form method="post" class="formulario-contacto" id="formularioContacto" autocomplete="off">
-                        <input class="form-control w-50 p-3" type="text" name="nombreCompleto" id="nombreCompleto" placeholder="Nombre completo">
-                        <span id="errorNombreCompleto" class="error"></span><br>
+                    <form method="post" class="formulario-contacto mx-auto" id="formularioContacto" autocomplete="off" style="max-width: 450px;">
 
-                        <input class="form-control w-50 p-3" type="email" name="correoElectronico" id="correoElectronico"
-                            placeholder="Correo electrónico">
-                        <span id="errorCorreoElectronico" class="error"></span><br>
+                        <!-- Nombre completo -->
+                        <div class="form-floating mb-3">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="nombreCompleto"
+                                name="nombreCompleto"
+                                placeholder="Nombre completo">
+                            <label for="nombreCompleto">Nombre completo</label>
+                        </div>
 
-                        <textarea class="form-control w-50 p-3" id="mensaje" name="mensaje" rows="4" cols="50" placeholder="Mensaje"></textarea>
-                        <span id="errorMensaje" class="error"></span><br>
+                        <!-- Correo electrónico -->
+                        <div class="form-floating mb-3">
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="correoElectronico"
+                                name="correoElectronico"
+                                placeholder="Correo electrónico">
+                            <label for="correoElectronico">Correo electrónico</label>
+                        </div>
 
-                        <button class="btn-formulario-contacto" type="submit">Enviar mensaje</button>
+                        <!-- Mensaje -->
+                        <div class="form-floating mb-3">
+                            <textarea
+                                class="form-control"
+                                placeholder="Escribe tu mensaje"
+                                id="mensaje"
+                                name="mensaje"
+                                style="height: 120px"></textarea>
+                            <label for="mensaje">Mensaje</label>
+                        </div>
+
+                        <!-- Botón -->
+                        <button class="btn-formulario-contacto w-100 m-auto py-2" type="submit">
+                            Enviar mensaje
+                        </button>
+
                     </form>
                 </section>
             </article>

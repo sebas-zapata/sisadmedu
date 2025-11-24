@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             return;
         }
-        // ✅ Mostrar mensaje exitoso
+        // Mostrar mensaje exitoso
         Swal.fire({
             icon: 'success',
-            title: 'Formulario completo',
+            title: `Hola ${nombre}`,
             text: 'Todos los campos se han llenado correctamente.',
             confirmButtonColor: '#461c68'
         }).then(() => {
-            // ✅ Limpiar campos después de cerrar la alerta
+            // Limpiar campos después de cerrar la alerta
             form.reset();
         });
     });
