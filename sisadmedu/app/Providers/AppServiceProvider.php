@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     // Esto es útil para mantener una apariencia consistente en la interfaz de usuario.
     public function boot(): void
     {
-        if (env('APP_ENV') === "Production") {
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
         Paginator::useBootstrap();
