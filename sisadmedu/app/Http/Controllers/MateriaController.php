@@ -31,11 +31,6 @@ class MateriaController extends Controller
 
     public function store(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
-
         $request->validate(
             [
                 'descripcion' => 'required|string|max:255|unique:materias,descripcion',
