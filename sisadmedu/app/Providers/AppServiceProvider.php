@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,8 +23,10 @@ class AppServiceProvider extends ServiceProvider
     // Esto es útil para mantener una apariencia consistente en la interfaz de usuario.
     public function boot(): void
     {
+        if (env('APP_ENV') === "Production") {
+            URL::forceScheme('https');
+        }
         Paginator::useBootstrap();
         \Carbon\Carbon::setLocale(config('app.locale'));
-        
     }
 }
