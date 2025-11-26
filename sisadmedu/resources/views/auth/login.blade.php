@@ -43,12 +43,13 @@
 
             {{-- Correo electrónico --}}
             <div class="form-floating mb-3">
-                <input type="email"
+                <input type="text"
                     class="form-control @error('correo_electronico') is-invalid @enderror"
                     id="correo_electronico"
                     name="correo_electronico"
                     placeholder="Correo electrónico"
-                    value="{{ old('correo_electronico') }}">
+                    value="{{ old('correo_electronico') }}"
+                    >
                 <label for="correo_electronico">Correo electrónico</label>
 
                 @error('correo_electronico')

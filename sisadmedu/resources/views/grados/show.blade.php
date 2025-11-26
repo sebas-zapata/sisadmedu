@@ -20,12 +20,11 @@
         {{-- 🔹 Contenido --}}
         <div class="card-body bg-light">
             @if($grado->estudiantes->isEmpty())
-                <div class="alert alert-warning text-center mb-0" role="alert">
+                <div class="alert alert-secondary text-center mb-0" role="alert">
                     <i class="fas fa-exclamation-circle me-2"></i>
                     No hay estudiantes registrados en este grado.
                 </div>
             @else
-                {{-- 🔸 Campo de búsqueda --}}
                 <div class="input-group mb-4">
                     <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
                     <input
@@ -37,7 +36,6 @@
                     >
                 </div>
 
-                {{-- 🔸 Listado de estudiantes --}}
                 <div class="row" id="listaEstudiantes">
                     @foreach($grado->estudiantes as $est)
                     <div class="columna-estudiante col-md-6 col-lg-4 mb-4" 
