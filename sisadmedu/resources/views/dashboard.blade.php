@@ -115,7 +115,7 @@
             </div>
 
             <div class="module">
-                <p class="module-title"><i class="fa-solid fa-link"></i> Asignacion materia a Docentes</p>
+                <p class="module-title"><i class="fa-solid fa-link"></i> Asignacion <br> materia a Docentes</p>
                 <p class="module-total">Total: <strong>{{ $totalAsignaciones ?? 0 }}</strong></p>
                 <a class="module-button" href="{{ route('asignaciones.index') }}">
                     <i class="fas fa-sign-in-alt"></i> Asignaciones
