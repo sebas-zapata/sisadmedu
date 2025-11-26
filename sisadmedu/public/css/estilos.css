@@ -556,23 +556,23 @@ footer {
 
 .module {
     background: linear-gradient(145deg, #ffffff, #f4f4f9);
-    border-radius: 12px; /* bordes más suaves */
+    border-radius: 12px;
     padding: 25px;
-    width: 200px;
-    min-width: 200px;
+    width: 300px;
+    max-width: 200px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    margin: 20px auto;
+    margin: 10px auto;
     text-align: center;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
-    border: 2px solid transparent; /* borde inicial transparente */
+    border: 2px solid transparent;
 }
 
 .module:hover {
     transform: translateY(-6px) scale(1.05);
-    border: 1px solid #666; /* borde azul al hacer hover */
-    box-shadow: 0 12px 25px rgba(0, 0, 0, #ddd); /* sombra más grande */
-    background: linear-gradient(145deg, #f0f4ff, #ffffff); /* ligero cambio de fondo */
+    border: 1px solid #666;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, #ddd);
+    background: linear-gradient(145deg, #f0f4ff, #ffffff);
 }
 
 
@@ -586,20 +586,6 @@ footer {
 .module-description {
     font-size: 14px;
     color: #666;
-}
-
-@media (max-width: 768px) {
-    .module {
-        width: 45%;
-        /* En pantallas medianas, cada módulo ocupa el 45% */
-    }
-}
-
-@media (max-width: 480px) {
-    .module {
-        width: 100%;
-        /* En pantallas pequeñas, cada módulo ocupa el 100% */
-    }
 }
 
 /* Contenedor general */
@@ -975,9 +961,11 @@ tbody {
     filter: invert(1);
     /* invierte el color, útil si usas fondo oscuro */
 }
-.boton-toast-contraseña{
+
+.boton-toast-contraseña {
     background-color: #461c68;
 }
-.boton-toast-contraseña:hover{
+
+.boton-toast-contraseña:hover {
     background-color: #000;
 }
