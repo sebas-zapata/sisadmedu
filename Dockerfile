@@ -4,8 +4,13 @@ FROM php:8.2-apache
 # Habilitar mod_rewrite para permitir URLs limpias de Laravel
 RUN a2enmod rewrite
 
-# Definir ServerName para evitar advertencias internas de Apache
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# Instalar GD con soporte FreeType y JPEG (NECESARIO para los avatares)
+RUN apt-get update && apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 # Instalar dependencias del sistema y extensiones PHP necesarias para Laravel
 RUN apt-get update && apt-get install -y \
@@ -27,7 +32,6 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 COPY sisadmedu/ /var/www/html
 
 # Sobrescribir el VirtualHost por defecto para usar /public como DocumentRoot
-#    Esto asegura que Apache apunte al directorio correcto y que se carguen los assets.
 RUN printf "<VirtualHost *:80>\n\
     DocumentRoot /var/www/html/public\n\
     <Directory /var/www/html/public>\n\
