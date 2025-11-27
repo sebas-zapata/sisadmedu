@@ -1,6 +1,7 @@
 @extends('layouts.gestion')
 
 @section('titulo')
+        <i class="fa-solid fa-users me-2"></i> Estudiantes Matriculados
 @endsection
 
 @section('acciones')
@@ -9,9 +10,6 @@
 
 @section('filtros')
 <form method="GET" action="{{ route('docente.estudiantes') }}" class="d-flex align-items-center gap-3 mb-4">
-    <label for="grado_id" class="fw-semibold mb-0">
-        <i class="fa-solid fa-layer-group me-2"></i> Selecciona un grado:
-    </label>
 
     <select name="grado_id" id="grado_id" class="form-select shadow-sm border-0 rounded-3" style="width: 250px;" onchange="this.form.submit()">
         <option value="">-- Selecciona --</option>
@@ -27,12 +25,8 @@
 
 @section('tabla')
 @if ($gradoSeleccionado)
-<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-    <div class="card-header text-white fw-bold d-flex align-items-center text-center" style="background-color: #461c68;">
-        <i class="fa-solid fa-users me-2"></i> Estudiantes Matriculados
-    </div>
-
-    <div class="card-body bg-light">
+<div class="shadow-sm border-0 overflow-hidden">
+    <div class="bg-light">
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0 text-center">
                 <thead>

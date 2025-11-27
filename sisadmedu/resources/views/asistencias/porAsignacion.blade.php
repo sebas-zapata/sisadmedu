@@ -2,13 +2,12 @@
 
 @section('titulo')
 <i class="fa-solid fa-clipboard-check me-2"></i>
-Tomar asistencia - {{ $asignacion->materia->descripcion }}
-(Grado {{ $asignacion->grado->nombre_grado }})
+Asistencia - {{ $asignacion->materia->descripcion }}
 @endsection
 
 @section('tabla')
-<div class="card shadow-sm border-0 rounded-4">
-    <div class="card-body bg-light">
+<div class="card shadow-sm border-0 rounded-1 p-2">
+    <div class="">
 
         {{-- Selector de fecha --}}
         <form method="GET" action="{{ route('asistencias.porAsignacion', $asignacion->id) }}" class="mb-3">
@@ -84,7 +83,7 @@ Tomar asistencia - {{ $asignacion->materia->descripcion }}
                 </table>
             </div>
 
-            <div class="d-flex justify-content-end mt-4">
+            <div class="d-flex justify-content-end">
                 <x-boton-principal type="submit">
                     <i class="fa-solid fa-save me-2"></i> Guardar cambios
                 </x-boton-principal>

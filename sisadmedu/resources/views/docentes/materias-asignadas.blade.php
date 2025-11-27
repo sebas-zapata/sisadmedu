@@ -1,7 +1,6 @@
 @extends('layouts.gestion')
 
-@section('titulo')
-@endsection
+
 
 
 @section('filtros')
@@ -33,11 +32,11 @@
 <div class="shadow-sm border-0 overflow-hidden mb-4">
     <div class="text-white fw-bold d-flex justify-content-between align-items-center"
         style="background-color: #461c68;">
-        <div>
-            <i class="fa-solid fa-book me-2"></i>
-            {{ $asignacion['materia'] }} |
-            <span class="ms-1">Grado {{ $asignacion['grado'] }}</span>
-        </div>
+        @section('titulo')
+        <i class="fa-solid fa-book me-2"></i>
+        {{ $asignacion['materia'] }} |
+        Grado {{ $asignacion['grado'] }}
+        @endsection
 
         @section('acciones')
         {{-- Botón para tomar asistencia --}}
