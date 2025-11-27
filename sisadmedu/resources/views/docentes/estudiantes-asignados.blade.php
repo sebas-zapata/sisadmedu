@@ -3,7 +3,11 @@
 @section('titulo')
 @endsection
 
-@section('boton-registrar')
+@section('acciones')
+    {{-- No hay botones de acción en este módulo, así que queda vacío --}}
+@endsection
+
+@section('filtros')
 <form method="GET" action="{{ route('docente.estudiantes') }}" class="d-flex align-items-center gap-3 mb-4">
     <label for="grado_id" class="fw-semibold mb-0">
         <i class="fa-solid fa-layer-group me-2"></i> Selecciona un grado:
@@ -19,6 +23,7 @@
     </select>
 </form>
 @endsection
+
 
 @section('tabla')
 @if ($gradoSeleccionado)

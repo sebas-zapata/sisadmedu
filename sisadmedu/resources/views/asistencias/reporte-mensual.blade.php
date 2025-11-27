@@ -7,7 +7,7 @@
 @section('tabla')
     <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
         <div class="card-body bg-light">
-            {{-- 🔹 Formulario para seleccionar mes y año --}}
+            {{-- Formulario para seleccionar mes y año --}}
             <form method="GET" action="{{ route('asistencias.reporteMensual', $asignacion->id) }}" class="row g-3 mb-4">
                 <div class="col-md-4">
                     <label for="mes" class="form-label fw-semibold">Mes</label>

@@ -4,25 +4,25 @@
 Grados <i class="fas fa-layer-group"></i>
 @endsection
 
-@section('boton-registrar')
-{{-- Solo administradores pueden crear --}}
-@if (Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante')
-<div class="container-fluid d-flex justify-content-between flex-wrap align-items-center gap-2 mb-3">
-    <x-boton-principal href="{{ route('grados.create') }}">
-        <i class="fas fa-layer-group"></i>
-    </x-boton-principal>
-    <!-- Input de búsqueda -->
-    <div>
+@section('acciones')
+    @if (Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante')
+        <x-boton-principal href="{{ route('grados.create') }}">
+            <i class="fas fa-layer-group"></i>
+        </x-boton-principal>
+    @endif
+@endsection
+
+@section('filtros')
+    @if (Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante')
         <input
             type="text"
-            class="form-control w-75"
+            class="form-control"
             id="filtroGrados"
             placeholder="Filtrar por nivel"
             pattern="[0-9]*">
-    </div>
-</div>
-@endif
+    @endif
 @endsection
+
 
 @section('tabla')
 <table id="tabla-grados" class="table table-striped table-hover align-middle">

@@ -4,24 +4,22 @@
 Docentes <i class="fas fa-chalkboard-teacher"></i>
 @endsection
 
-@section('boton-registrar')
-<div class="container-fluid d-flex justify-content-between flex-wrap align-items-center gap-2 mb-3">
+@section('acciones')
     <x-boton-principal href="{{ route('docentes.create') }}">
         <i class="fas fa-chalkboard-teacher"></i>
     </x-boton-principal>
-
-    <!-- Input de búsqueda -->
-    <div>
-        <input
-            type="text"
-            class="form-control"
-            id="filtroDocentes"
-            placeholder="Filtrar por documento"
-            pattern="[0-9]*"
-            title="Solo números">
-    </div>
-</div>
 @endsection
+
+@section('filtros')
+    <input
+        type="text"
+        class="form-control"
+        id="filtroDocentes"
+        placeholder="Filtrar por documento"
+        pattern="[0-9]*"
+        title="Solo números">
+@endsection
+
 
 @section('tabla')
 <table class="table table-striped table-hover align-middle" id="tabla-docentes">

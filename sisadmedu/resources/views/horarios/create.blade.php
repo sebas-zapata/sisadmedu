@@ -10,15 +10,16 @@
 <form action="{{ route('horarios.store') }}" method="POST">
     @csrf
 
-    {{-- Botón de guardar alineado a la derecha --}}
-    <div class="d-flex justify-content-end align-items-center gap-2 mb-4">
-        @if($gradoSeleccionado)
-        <input type="hidden" name="id_grado" value="{{ $gradoSeleccionado->id }}">
-        @endif
-        <x-boton-principal type="submit">
-            <i class="fa-solid fa-calendar-days"></i> Guardar Horario
-        </x-boton-principal>
-    </div>
+    @section('acciones')
+    @if($gradoSeleccionado)
+    <input type="hidden" name="id_grado" value="{{ $gradoSeleccionado->id }}">
+    @endif
+
+    <x-boton-principal type="submit">
+        <i class="fa-solid fa-calendar-days"></i> Guardar Horario
+    </x-boton-principal>
+    @endsection
+
 
     @php
     $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes'];

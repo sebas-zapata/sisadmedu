@@ -3,40 +3,31 @@
 @section('titulo')
 Usuarios <i class="fas fa-users"></i>
 @endsection
-@section('boton-registrar')
-<div class="container-fluid d-flex justify-content-between flex-wrap align-items-center gap-2 mb-3">
-    <div class="d-flex gap-2 flex-wrap">
-        <!-- Botón registrar -->
-        <x-boton-principal href="{{ route('usuarios.create') }}">
-            <i class="fas fa-user-plus"></i>
-        </x-boton-principal>
+@section('acciones')
+<x-boton-principal href="{{ route('usuarios.create') }}">
+    <i class="fas fa-user-plus"></i>
+</x-boton-principal>
 
-        <!-- Botón descargar -->
-        <x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}">
-        </x-boton-accion>
-    </div>
+<x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}">
+</x-boton-accion>
+@endsection
 
-    <!-- Inputs de búsqueda por documento y rol -->
-    <div class="d-flex gap-2 flex-wrap">
-        <input
-            type="text"
-            class="form-control"
-            id="filtroUsuarios"
-            placeholder="Documento"
-            pattern="[0-9]*"
-            title="Solo números"
-            style="width: 150px;">
+@section('filtros')
+<input
+    type="text"
+    class="form-control"
+    id="filtroUsuarios"
+    placeholder="Documento"
+    pattern="[0-9]*"
+    title="Solo números"
+    style="width: 150px;">
 
 <select class="form-select form-select-sm" id="filtroRol" style="width: 150px;">
     <option value="">Todos los roles</option>
     @foreach($roles as $rol)
-        <option value="{{ strtolower($rol->nombre) }}">{{ $rol->nombre }}</option>
+    <option value="{{ strtolower($rol->nombre) }}">{{ $rol->nombre }}</option>
     @endforeach
 </select>
-
-    </div>
-</div>
-
 @endsection
 
 @section('tabla')

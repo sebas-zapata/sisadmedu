@@ -4,24 +4,21 @@
 <i class="fas fa-book"></i> Materias
 @endsection
 
-@section('boton-registrar')
-{{-- Solo administradores pueden crear materias --}}
-@if (Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante')
-<div class="container-fluid d-flex justify-content-between flex-wrap align-items-center gap-2 mb-3">
+@section('acciones')
     <x-boton-principal href="{{ route('materias.create') }}">
         <i class="fas fa-book"></i>
     </x-boton-principal>
-    <!-- Input de búsqueda -->
-    <div>
-        <input
-            type="text"
-            class="form-control w-75"
-            id="filtroMaterias"
-            placeholder="Asignatura">
-    </div>
-</div>
-@endif
 @endsection
+
+@section('filtros')
+    <input
+        type="text"
+        class="form-control"
+        id="filtroMaterias"
+        placeholder="Asignatura"
+        style="width: 150px;">
+@endsection
+
 
 @section('tabla')
 <table id="tabla-materias" class="table table-striped table-hover align-middle">

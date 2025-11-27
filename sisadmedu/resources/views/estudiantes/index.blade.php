@@ -3,17 +3,22 @@
     Estudiantes <i class="fas fa-user-graduate"></i>
 @endsection
 
-@section('boton-registrar')
+@section('acciones')
     @if (Auth::user()->rol->nombre !== 'Docente' && Auth::user()->rol->nombre !== 'Estudiante')
         <x-boton-principal href="{{ route('estudiantes.create') }}">
             <i class="fas fa-user-graduate"></i>
         </x-boton-principal>
     @endif
-    {{-- Input de búsqueda --}}
-    <div class="mb-3">
-        <input type="text" id="filtroEstudiantes" class="form-control" placeholder="Filtrar por documento" pattern="">
-    </div>
 @endsection
+
+@section('filtros')
+    <input 
+        type="text" 
+        id="filtroEstudiantes" 
+        class="form-control" 
+        placeholder="Filtrar por documento">
+@endsection
+
 
 
 @section('tabla')
