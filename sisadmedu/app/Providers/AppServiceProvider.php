@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 
+
 class AppServiceProvider extends ServiceProvider
 {
 
@@ -21,9 +22,9 @@ class AppServiceProvider extends ServiceProvider
     // Esto permite que los enlaces de paginación se muestren con el estilo de Bootstrap.
     // Se utiliza el método 'useBootstrap' de la clase Paginator para aplicar el estilo.
     // Esto es útil para mantener una apariencia consistente en la interfaz de usuario.
-    public function boot(): void
+    public function boot()
     {
-        if ($this->app->environment('production')) {
+       if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
         Paginator::useBootstrap();
