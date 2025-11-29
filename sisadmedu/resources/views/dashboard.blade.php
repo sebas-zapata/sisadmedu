@@ -208,9 +208,15 @@
     @endif
 
     {{-- Contenedor de datos --}}
-    <div id="datos-dashboard" data-estudiantes="{{ $totalEstudiantes }}" data-usuarios="{{ $totalUsuarios }}"
-        data-docentes="{{ $totalDocentes }}" data-grados="{{ $totalGrados }}"
-        data-horarios="{{ $totalHorarios }}" data-materia="{{ $totalMaterias }}">
+    <div id="datos-dashboard"
+     data-estudiantes="{{ $totalEstudiantes }}"
+    data-usuarios="{{ $totalUsuarios }}"
+    data-docentes="{{ $totalDocentes }}"
+    data-grados="{{ $totalGrados }}"
+    data-horarios="{{ $totalHorarios }}" 
+    data-materias="{{ $totalMaterias }}"
+    data-asignaciones="{{ $totalAsignaciones }}"
+    >
     </div>
 </div>
 @endsection
