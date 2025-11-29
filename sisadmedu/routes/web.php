@@ -81,11 +81,13 @@ Route::get('/buscar-acudientes', [UsuarioController::class, 'buscarAcudientes'])
     ->name('acudientes.search')->middleware('auth');
 
 //Ruta para obcervaciones
-Route::post('/observaciones', [ObservacionController::class, 'store'])->name('observacion.store')->middleware('auth');
+Route::post('/docentes/observaciones', [ObservacionController::class, 'store'])->name('observacion.store')->middleware('auth');
+Route::put('/docentes/observaciones', [ObservacionController::class, 'update'])->name('observacion.update')->middleware('auth');
+Route::delete('/docentes/observaciones/{id}', [ObservacionController::class, 'destroy'])->name('observacion.delete')->middleware('auth');
 
 // Ruta para que los estudiantes consulten sus observaciones
 Route::get('/estudiante/observaciones', [ObservacionController::class, 'misObservaciones'])
-    ->name('estudiante.observaciones');
+    ->name('estudiante.observaciones')->middleware('auth');
 
 // Rutas para gestionar materias
 Route::resource('materias', MateriaController::class)->middleware('auth');
@@ -114,8 +116,7 @@ Route::get('/docente/estudiante/{id}', [EstudianteController::class, 'show'])->m
 // Ruta para ver las asignaturas para cada docente
 Route::get('/docente/asignaturas', [DocenteController::class, 'verAsignaturas'])->middleware(['auth', 'rol:Docente'])->name('docente.asignaturas');
 
-
-//rutas de asistencias
+// Rutas de asistencias
 Route::middleware(['auth'])->group(function () {
     Route::get('/asistencias', [AsistenciaController::class, 'index'])->name('asistencias.index');
     Route::get('/asistencias/crear/{asignacion}', [AsistenciaController::class, 'create'])->name('asistencias.create');

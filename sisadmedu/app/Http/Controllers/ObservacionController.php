@@ -95,4 +95,13 @@ class ObservacionController extends Controller
         // Ahora sí pasamos las dos variables
         return view('estudiantes.observaciones', compact('estudiante', 'observaciones'));
     }
+
+    public function destroy(Request $request, $id)
+    {
+        $observacion = Observacion::findOrFail($id);
+        $observacion->delete();
+
+        return redirect()->to('/docente/estudiante/' . $request->estudiante_id)
+            ->with('success', 'Observación eliminada correctamente');
+    }
 }

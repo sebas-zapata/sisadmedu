@@ -72,6 +72,7 @@
     <script src="{{ asset('js/grados/validar-grado.js') }}"></script>
     <script src="{{ asset('js/materias/confirmar-eliminar-materia.js') }}"></script>
     <script src="{{ asset('js/observaciones/modal-error.js') }}"></script>
+    <script src="{{ asset('js/observaciones/confirmar-eliminar-observacion.js') }}"></script>
     <script src="{{ asset('js/materias/validar-materia.js') }}"></script>
     <script src="{{ asset('js/asignaciones/confirmar-eliminar-asignacion.js') }}"></script>
     <script src="{{ asset('js/loader/loader.js')}}"></script>
