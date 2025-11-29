@@ -2,123 +2,147 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Usuario;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\CodigoRecuperacionMail;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Validator;
+use App\Services\BrevoMailService;
 
 class ForgotPasswordController extends Controller
 {
-    // 1. Mostrar formulario para ingresar el correo
+    // 1. Mostrar formulario para solicitar código
     public function showEmailForm()
     {
         return view('auth.forgot-password');
     }
 
-    // 2. Enviar código inicial
+    // 2. Generar código y enviarlo por email
     public function sendCode(Request $request)
     {
-        $request->validate(
-            [
-                'correo_electronico' => 'required|email|exists:usuarios,correo_electronico',
-            ],
-            [
-                'correo_electronico.required' => 'El correo electrónico es obligatorio.',
-                'correo_electronico.email'    => 'Ingresa un correo electrónico válido.',
-                'correo_electronico.exists'   => 'No existe una cuenta con este correo electrónico.',
-            ]
-        );
+        $validator = Validator::make($request->all(), [
+            'correo_electronico' => 'required|email|exists:usuarios,correo_electronico'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors(['correo_electronico' => 'El correo no existe en el sistema']);
+        }
 
         $user = Usuario::where('correo_electronico', $request->correo_electronico)->first();
 
-        //  Generar y enviar código
-        $this->generateAndSendCode($user);
-
-        // Guardamos el correo en sesión
-        session(['email' => $user->correo_electronico]);
-
-        return redirect()->route('password.verify.form')
-            ->with('success', 'Se ha enviado un código de verificación a tu correo.');
-    }
-
-    // Método privado para no repetir código
-    private function generateAndSendCode($user)
-    {
+        // Generar código de 6 dígitos
         $code = rand(100000, 999999);
 
+        // Guardar código y expiración en la base de datos
         $user->reset_code = $code;
         $user->reset_code_expires_at = Carbon::now()->addMinutes(10);
         $user->save();
 
-        Mail::to($user->correo_electronico)->send(new CodigoRecuperacionMail($user, $code));
+        // Enviar email con Brevo
+        $html = view('emails.codigo_recuperacion', [
+            'usuario' => $user,
+            'code' => $code,
+        ])->render();
+
+        BrevoMailService::sendEmail(
+            $user->correo_electronico,
+            'Código de recuperación de contraseña',
+            $html
+        );
+
+        // Guardar email y código en sesión
+        session([
+            'email' => $user->correo_electronico,
+            'code' => $code
+        ]);
+
+        return redirect()->route('password.verify.form')
+            ->with('success', 'Se envió un código a tu correo.');
     }
 
-    // 3. Mostrar formulario para ingresar el código
+    // 3. Mostrar formulario para ingresar código
     public function showVerifyForm()
     {
+        if (!session()->has('email')) {
+            return redirect()->route('password.forgot');
+        }
+
         $email = session('email');
         return view('auth.verify-code', compact('email'));
     }
 
-    // 4. Verificar código
+    // 4. Verificar código ingresado
     public function verifyCode(Request $request)
     {
         $request->validate([
-            'correo_electronico' => 'required|email|exists:usuarios,correo_electronico',
-            'code' => 'required|digits:6',
+            'code' => 'required|numeric'
         ]);
 
-        $user = Usuario::where('correo_electronico', $request->correo_electronico)->first();
+        $email = session('email');
+        $user = Usuario::where('correo_electronico', $email)->first();
 
-        if (!$user || $user->reset_code !== $request->code || Carbon::now()->greaterThan($user->reset_code_expires_at)) {
-            return back()->withErrors(['code' => 'El código no es válido o ha expirado.'])->withInput();
+        if (!$user) {
+            return back()->withErrors(['code' => 'Usuario no encontrado.']);
         }
 
-        // Guardar correo y código en sesión para reset
-        session(['email' => $user->correo_electronico, 'code' => $request->code]);
+        if ($user->reset_code != $request->code) {
+            return back()->withErrors(['code' => 'El código es incorrecto.']);
+        }
+
+        if (Carbon::now()->greaterThan($user->reset_code_expires_at)) {
+            return back()->withErrors(['code' => 'El código ha expirado.']);
+        }
+
+        // Guardar código verificado en sesión
+        session(['code' => $request->code]);
 
         return redirect()->route('password.reset.form');
     }
 
-    // 5. Mostrar formulario para nueva contraseña
+    // 5. Mostrar formulario para restablecer contraseña
     public function showResetForm()
     {
+        if (!session()->has('email') || !session()->has('code')) {
+            return redirect()->route('password.forgot');
+        }
+
         $email = session('email');
         $code = session('code');
+
         return view('auth.reset-password', compact('email', 'code'));
     }
 
+    // 6. Actualizar contraseña
     public function resetPassword(Request $request)
     {
         $request->validate([
             'correo_electronico' => 'required|email|exists:usuarios,correo_electronico',
-            'code' => 'required|digits:6',
-            'contrasena' => 'required|min:6|confirmed',
+            'code' => 'required|numeric',
+            'contrasena' => 'required|string|min:6|confirmed',
         ]);
 
-        $user = Usuario::where('correo_electronico', $request->correo_electronico)
-            ->where('reset_code', $request->code)
-            ->first();
+        $user = Usuario::where('correo_electronico', $request->correo_electronico)->first();
 
-        if (!$user || Carbon::now()->greaterThan($user->reset_code_expires_at)) {
-            return back()
-                ->withErrors(['code' => 'El código no es válido o ha expirado.'])
-                ->withInput();
+        if (!$user) {
+            return back()->withErrors(['correo_electronico' => 'Usuario no encontrado.']);
         }
 
-        if ($request->contrasena === $user->documento) {
-            return back()
-                ->withErrors(['contrasena' => 'La contraseña no puede ser igual a tu documento.'])
-                ->withInput();
+        if ($user->reset_code != $request->code) {
+            return back()->withErrors(['code' => 'El código es incorrecto.']);
         }
 
-        $user->contrasena = Hash::make($request->contrasena);
+        if (Carbon::now()->greaterThan($user->reset_code_expires_at)) {
+            return back()->withErrors(['code' => 'El código ha expirado.']);
+        }
+
+        // Actualizar contraseña y limpiar código
+        $user->contrasena = bcrypt($request->contrasena); // o Hash::make si prefieres
         $user->reset_code = null;
         $user->reset_code_expires_at = null;
         $user->save();
 
-        return redirect()->route('login')->with('success', 'Tu contraseña ha sido restablecida correctamente.');
+        // Limpiar sesión
+        session()->forget(['email', 'code']);
+
+        return redirect()->route('login')->with('success', 'Contraseña restablecida correctamente.');
     }
 }

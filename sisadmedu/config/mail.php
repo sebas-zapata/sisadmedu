@@ -96,10 +96,14 @@ return [
             ],
             'retry_after' => 60,
         ],
-        
-         'sendgrid' => [
+
+        'sendgrid' => [
             'transport' => 'sendgrid',
         ],
+        'brevo' => [
+            'transport' => 'brevo',
+        ],
+
 
     ],
 
