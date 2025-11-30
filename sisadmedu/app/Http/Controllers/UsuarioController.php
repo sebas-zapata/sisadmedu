@@ -9,9 +9,7 @@ use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Laravolt\Avatar\Facade as Avatar;
-use Illuminate\Support\Facades\DB;
+
 
 class UsuarioController extends Controller
 {
@@ -22,25 +20,14 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function index()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permiso para crear usuarios.');
-        }
-
         $roles = Rol::all();
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
-        return view('usuarios.index', compact('usuarios','roles'));
+        return view('usuarios.index', compact('usuarios', 'roles'));
     }
 
     // Método para mostrar el formulario de creación de un nuevo usuario
     public function create()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permiso para crear usuarios.');
-        }
-
-
         $roles = Rol::whereNotIn('nombre', ['Docente', 'Estudiante'])->get();
 
         $tiposDocumento = TipoDocumento::all();
@@ -54,13 +41,8 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function store(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permiso para crear usuarios.');
-        }
 
-
-        // 1️⃣ Validar los datos del formulario
+        // Validar los datos del formulario
         $request->validate(
             [
                 'documento' => 'required|numeric|unique:usuarios',
@@ -117,7 +99,7 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function show($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
@@ -137,10 +119,6 @@ class UsuarioController extends Controller
     // si no se encuentra
     public function edit($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permiso para crear usuarios.');
-        }
         $usuario = Usuario::findOrFail($id);
         $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
@@ -154,10 +132,6 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function update(Request $request, $id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permiso para crear usuarios.');
-        }
         $usuario = Usuario::findOrFail($id);
 
         $request->validate(
@@ -167,7 +141,7 @@ class UsuarioController extends Controller
                 'apellidos' => 'required|string|max:100',
                 'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
                 'celular' => 'required|string|max:20|unique:usuarios,celular,' . $usuario->id,
-                'rol_id' => 'required|exists:roles,id',
+                'rol_id' => 'exists:roles,id',
                 'tipo_documento_id' => 'required|exists:tipos_documento,id',
 
                 // Contraseña solo si la quiere cambiar
@@ -188,7 +162,6 @@ class UsuarioController extends Controller
                 'celular.unique' => 'El celular ya está registrado.',
                 'contrasena.min' => 'La contraseña debe tener al menos 6 caracteres.',
                 'contrasena.confirmed' => 'La confirmación de la contraseña no coincide.',
-                'rol_id.required' => 'Debe seleccionar un rol.',
                 'tipo_documento_id.required' => 'Debe seleccionar un tipo de documento.',
             ]
         );
@@ -231,11 +204,6 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function destroy($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permiso para crear usuarios.');
-        }
-        
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
@@ -272,7 +240,7 @@ class UsuarioController extends Controller
         $request->validate([
             'nombres' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
-            'correo_electronico' => 'required|email|unique:usuarios,correo_electronico,' . $usuario->id,
+            'correo_electronico' => 'email|unique:usuarios,correo_electronico,' . $usuario->id,
             'celular' => 'required|string|max:20|unique:usuarios,celular,' . $usuario->id,
             'contrasena' => 'nullable|confirmed|min:6',
         ], [
@@ -282,7 +250,6 @@ class UsuarioController extends Controller
             'apellidos.required' => 'El campo apellidos es obligatorio.',
             'apellidos.string'   => 'El campo apellidos debe ser texto.',
             'apellidos.max'      => 'El campo apellidos no puede tener más de 255 caracteres.',
-            'correo_electronico.required' => 'El correo electrónico es obligatorio.',
             'correo_electronico.email'    => 'El correo electrónico debe ser válido.',
             'correo_electronico.unique'   => 'El correo electrónico ya está registrado.',
             'celular.required' => 'El campo celular es obligatorio.',

@@ -82,7 +82,6 @@ Route::get('/buscar-acudientes', [UsuarioController::class, 'buscarAcudientes'])
 
 //Ruta para obcervaciones
 Route::post('/docentes/observaciones', [ObservacionController::class, 'store'])->name('observacion.store')->middleware('auth');
-Route::put('/docentes/observaciones', [ObservacionController::class, 'update'])->name('observacion.update')->middleware('auth');
 Route::delete('/docentes/observaciones/{id}', [ObservacionController::class, 'destroy'])->name('observacion.delete')->middleware('auth');
 
 // Ruta para que los estudiantes consulten sus observaciones

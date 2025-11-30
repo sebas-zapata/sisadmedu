@@ -1,8 +1,4 @@
 @extends('layouts.gestion')
-
-
-
-
 @section('filtros')
 <form method="GET" action="{{ route('docente.asignaturas') }}" class="d-flex align-items-center gap-3 mb-4">
     <select name="grado_id" id="grado_id" class="form-select shadow-sm border-0 rounded-3" style="width: 250px;"
