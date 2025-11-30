@@ -51,10 +51,10 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input type="email" name="correo_electronico" id="correo_electronico"
+            <input type="email" name="correo_electronico" id="correo_electronico_perfil"
                 class="form-control @error('correo_electronico') is-invalid @enderror"
                 value="{{ old('correo_electronico', $usuario->correo_electronico) }}" required>
-            <label for="correo_electronico">Correo electrónico</label>
+            <label for="correo_electronico">No puedes modificar el correo electronico</label>
             @error('correo_electronico')
             <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">{{ $message }}</div>
             @enderror

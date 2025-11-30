@@ -82,10 +82,6 @@
                             | {{ $obs->created_at->format('d/m/Y H:i') }}
                         </small>
 
-                        <!-- BOTÓN EDITAR -->
-                        <x-boton-accion tipo="editar"
-                            data-bs-target="#modalEditarObservacion{{ $obs->id }}">
-                        </x-boton-accion>
 
                         <form action="{{ route('observacion.delete', $obs->id) }}" method="POST" class="d-inline-block">
                             @csrf

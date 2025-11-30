@@ -76,6 +76,7 @@
     <script src="{{ asset('js/materias/validar-materia.js') }}"></script>
     <script src="{{ asset('js/asignaciones/confirmar-eliminar-asignacion.js') }}"></script>
     <script src="{{ asset('js/loader/loader.js')}}"></script>
+    <script src="{{ asset('js/input-disabled.js')}}"></script>
 
    {{-- Filtros no tocar --}}
     <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>
