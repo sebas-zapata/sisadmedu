@@ -62,7 +62,7 @@
         <div class="d-flex flex-wrap justify-content-center align-items-stretch gap-1">
 
             {{-- SOLO Administrador, Coordinador, Rector y Secretaria --}}
-            @if ($usuario->rol && in_array($usuario->rol->nombre, ['Administrador', 'Coordinador', 'Rector', 'Secretaria']))
+            @if ($usuario->rol && in_array($usuario->rol->nombre, ['Administrador', 'Rector', 'Secretaria']))
             <div class="module">
                 <p class="module-title"><i class="fas fa-users"></i> Gestión de Usuarios</p>
                 <p class="module-total">Total: <strong>{{ $totalUsuarios }}</strong></p>
