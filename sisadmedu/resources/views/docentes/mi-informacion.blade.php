@@ -12,9 +12,6 @@
                 <i class="fa-solid fa-chalkboard-teacher fa-lg me-2"></i>
                 <span class="fw-bold fs-5">Mi Información Personal</span>
             </div>
-            <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver al Panel
-            </a>
         </div>
 
         {{-- AVATAR --}}

@@ -78,6 +78,13 @@
                     <span>Observaciones</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{ route('estudiante.informacion') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Mi informacion</span>
+                </a>
+            </li>
             @endif
             {{-- Permisos para Docente --}}
             @if(Auth::user()->rol->nombre === "Docente")
