@@ -48,7 +48,7 @@ Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name
 Route::get('/sisadmedu', [SitioWebController::class, 'index'])->name('sitio.inicio');
 
 Route::resource('usuarios', UsuarioController::class)
-    ->middleware(['auth', 'rol:Administrador']);
+    ->middleware(['auth', 'rol:Administrador,Secretaria,Rector']);
 
 // Modulo de Docentes protegido por autenticación
 Route::resource('docentes', DocenteController::class)->middleware('auth');
@@ -57,7 +57,7 @@ Route::resource('docentes', DocenteController::class)->middleware('auth');
 Route::resource('grados', GradoController::class)->middleware(['auth', 'rol:Administrador']);
 
 // Modulo de Estudiantes protegido por autenticación
-Route::resource('estudiantes', EstudianteController::class)->middleware(['auth', 'rol:Administrador']);
+Route::resource('estudiantes', EstudianteController::class)->middleware(['auth', 'rol:Administrador,Secretaria,Rector']);
 
 // Rutas para cambiar la contraseña, protegidas por autenticación
 Route::middleware('auth')->group(function () {
@@ -130,3 +130,11 @@ Route::middleware(['auth'])->group(function () {
     // Generar PDF del reporte mensual
     Route::get('/asistencias/{asignacion}/reporte-mensual/pdf', [PdfController::class, 'generarReporteMensualPdf'])->name('asistencias.reporteMensual.pdf');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/acudiente/informacion', [UsuarioController::class, 'acudienteInfo'])
+        ->name('acudiente.informacion');
+});
+
+
+

@@ -29,9 +29,6 @@
             <h4 class="mt-3 mb-0 fw-bold text-dark">
                 {{ $docente->primer_nombre }} {{ $docente->segundo_nombre }} {{ $docente->primer_apellido }} {{ $docente->segundo_apellido }}
             </h4>
-            <span class="badge mt-2 px-3 py-2 fs-6 text-white" style="background-color: #461c68;">
-                Docente de {{ $docente->materia->descripcion_materia ?? 'Sin materia asignada' }}
-            </span>
         </div>
 
         {{-- Tabs de contenido --}}
@@ -87,7 +84,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-2"><strong>Especialización:</strong> {{ $docente->especializacion ?? 'No registrada' }}</div>
                                 <div class="col-md-6 mb-2"><strong>Años de Experiencia:</strong> {{ $docente->anios_experiencia ?? 'No especificado' }}</div>
-                                <div class="col-md-6 mb-2"><strong>Materia Asignada:</strong> {{ $docente->materia->descripcion_materia ?? 'No asignada' }}</div>
+            
                             </div>
                         </div>
                     </div>
