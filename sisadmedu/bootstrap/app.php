@@ -13,7 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function ($middleware) {
         $middleware->alias([
             'rol' => \App\Http\Middleware\RolMiddleware::class,
+            'maintenance' => \App\Http\Middleware\MaintenanceMode::class,
         ]);
+
+        $middleware->prepend(\App\Http\Middleware\MaintenanceMode::class);
     })
 
     ->withExceptions(function (Exceptions $exceptions) {
