@@ -20,14 +20,25 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function index()
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
+
         $roles = Rol::all();
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
-        return view('usuarios.index', compact('usuarios', 'roles'));
+        return view('Usuarios.index', compact('usuarios','roles'));
     }
 
     // Método para mostrar el formulario de creación de un nuevo usuario
     public function create()
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
+
+
         $roles = Rol::whereNotIn('nombre', ['Docente', 'Estudiante'])->get();
 
         $tiposDocumento = TipoDocumento::all();
@@ -41,6 +52,10 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function store(Request $request)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
 
         // Validar los datos del formulario
         $request->validate(
@@ -119,6 +134,10 @@ class UsuarioController extends Controller
     // si no se encuentra
     public function edit($id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
         $usuario = Usuario::findOrFail($id);
         $roles = Rol::all();
         $tiposDocumento = TipoDocumento::all();
@@ -132,6 +151,10 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function update(Request $request, $id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
         $usuario = Usuario::findOrFail($id);
 
         $request->validate(
@@ -204,6 +227,11 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function destroy($id)
     {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No tienes permiso para crear usuarios.');
+        }
+        
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
@@ -292,5 +320,30 @@ class UsuarioController extends Controller
             ->get(['id', 'nombres', 'apellidos', 'documento']);
 
         return response()->json($acudientes);
+    }
+
+    public function acudienteInfo()
+    {
+        // Verifica autenticación rápido
+        $authUser = Auth::user();
+        if (!$authUser) {
+            return redirect()->route('login');
+        }
+
+        if ($authUser->rol->nombre !== 'Acudiente') {
+            return redirect()->route('dashboard')
+                ->with('error', 'Solo los acudientes pueden ver esta información.');
+        }
+
+        // Cargar el usuario desde el modelo Usuario, con las relaciones necesarias
+        $usuario = Usuario::with(['tipoDocumento', 'rol'])
+            ->find($authUser->id);
+
+        if (!$usuario) {
+            return redirect()->route('dashboard')
+                ->with('error', 'No se encontró el usuario.');
+        }
+
+        return view('acudiente.informacion', compact('usuario'));
     }
 }
