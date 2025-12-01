@@ -5,7 +5,7 @@
 @section('informacion')
 <div class="container py-4">
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-        
+
         <div class="card-header text-white d-flex align-items-center justify-content-between" style="background-color: #461c68;">
             <div>
                 <i class="fa-solid fa-user-graduate fa-lg me-2"></i>
@@ -49,6 +49,12 @@
                         <i style="color: #461c68;" class="fa-solid fa-circle-info me-2"></i>Adicional
                     </button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-bold text-dark" id="acudiente-tab" data-bs-toggle="tab" data-bs-target="#acudiente" type="button" role="tab" aria-controls="acudiente" aria-selected="false">
+                        <i style="color: #461c68;" class="fa-solid fa-user-tie me-2"></i>Acudiente
+                    </button>
+                </li>
+
             </ul>
 
             <div class="tab-content" id="infoTabsContent">
@@ -94,9 +100,33 @@
                         <div class="card-body bg-white">
                             <p><strong>Última actualización:</strong> {{ $estudiante->updated_at->format('d/m/Y H:i') }}</p>
                             <p><strong>Cuenta vinculada:</strong> {{ $usuario->correo_electronico }}</p>
+                            <p>{{ $acudiente->nombres }} {{ $acudiente->apellidos }}</p>
                         </div>
                     </div>
                 </div>
+
+                <div class="tab-pane fade" id="acudiente" role="tabpanel" aria-labelledby="acudiente-tab">
+                    <div class="card border-0 shadow-sm mb-4">
+                        <div class="card-header fw-bold text-white" style="background-color: #461c68;">
+                            <i class="fa-solid fa-user-tie me-2"></i>Información del Acudiente
+                        </div>
+                        <div class="card-body bg-white">
+                            @if($acudiente)
+                            <div class="row">
+                                <div class="col-md-6 mb-2"><strong>Documento:</strong> {{ $acudiente->documento }}</div>
+                                <div class="col-md-6 mb-2"><strong>Nombres:</strong> {{ $acudiente->nombres }}</div>
+                                <div class="col-md-6 mb-2"><strong>Apellidos:</strong> {{ $acudiente->apellidos }}</div>
+                                <div class="col-md-6 mb-2"><strong>Correo:</strong> {{ $acudiente->correo_electronico }}</div>
+                                <div class="col-md-6 mb-2"><strong>Celular:</strong> {{ $acudiente->celular ?? 'No registrado' }}</div>
+                                <div class="col-md-6 mb-2"><strong>Rol:</strong> {{ $acudiente->rol->nombre ?? 'No asignado' }}</div>
+                            </div>
+                            @else
+                            <p>No hay acudiente asignado.</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

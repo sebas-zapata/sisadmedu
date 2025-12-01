@@ -85,6 +85,13 @@
                     <span>Mi informacion</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{ route('pdf.consultar') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-certificate"></i>
+                    <span>Generar Certificado</span>
+                </a>
+            </li>
             @endif
             {{-- Permisos para Docente --}}
             @if(Auth::user()->rol->nombre === "Docente")

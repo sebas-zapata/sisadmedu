@@ -74,7 +74,7 @@ Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
 
 // Ruta para consultar el certificado de estudio de un estudiante
 Route::get('/estudiante/certificado/consultar', [PdfController::class, 'consultarEstudiante'])
-    ->name('pdf.consultar');
+    ->name('pdf.consultar')->middleware(['auth','rol:Estudiante']);
 
 // Ruta para generar el certificado de estudio de un estudiante
 Route::post('/estudiante/certificado', [PdfController::class, 'generarCertificado'])

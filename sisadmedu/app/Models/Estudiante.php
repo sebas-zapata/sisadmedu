@@ -60,6 +60,7 @@ class Estudiante extends Model
     // Relación directa con el usuario (rol estudiante)
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'id');
+        return $this->belongsTo(Usuario::class, 'usuario_id', 'id');
     }
+
 }

@@ -12,18 +12,6 @@
                 <i class="fa-solid fa-user-graduate fa-lg me-2"></i>
                 <span class="fw-bold fs-5">Información del Estudiante</span>
             </div>
-            @if (Auth::check())
-            @if (Auth::user()->rol->nombre === 'Administrador')
-            <a href="{{ route('estudiantes.index') }}" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver al Panel de Administración
-            </a>
-            @elseif (Auth::user()->rol->nombre === 'Docente')
-            <a href="{{ route('docente.estudiantes') }}" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver al Panel Docente
-            </a>
-            @endif
-            @endif
-
         </div>
 
         {{-- Avatar y nombre --}}

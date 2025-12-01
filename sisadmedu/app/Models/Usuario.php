@@ -57,7 +57,7 @@ class Usuario extends Model
     // Un usuario puede ser un estudiante (relación 1 a 1)
     public function estudiante()
     {
-        return $this->hasOne(Estudiante::class, 'usuario_id');
+        return $this->hasOne(Estudiante::class, 'usuario_id', 'id');
     }
 
     
