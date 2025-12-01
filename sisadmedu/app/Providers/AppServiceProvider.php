@@ -24,10 +24,12 @@ class AppServiceProvider extends ServiceProvider
     // Esto es útil para mantener una apariencia consistente en la interfaz de usuario.
     public function boot()
     {
-       if ($this->app->environment('production')) {
+        if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
-        Paginator::useBootstrap();
+        if (env('APP_MAINTENANCE_MODE') === 'true') {
+            abort(503, 'Estamos en mantenimiento. Vuelve más tarde.');
+        }
         \Carbon\Carbon::setLocale(config('app.locale'));
     }
 }

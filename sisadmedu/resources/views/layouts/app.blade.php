@@ -43,12 +43,12 @@
     <div id="session-success" data-mensaje="{{ session('success') }}"></div>
     @endif
 
-
     {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     {{-- SweetAlert para alertas personalizadas --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     {{-- Chart.js para gráficos --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -79,7 +79,7 @@
     <script src="{{ asset('js/input-disabled.js')}}"></script>
     <script src="{{ asset('js/generar-certificado.js')}}"></script>
 
-   {{-- Filtros no tocar --}}
+    {{-- Filtros no tocar --}}
     <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>
     <script src="{{ asset('js/filtradores/filtrar-estudiantes-grado.js') }}"></script>
     <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>
