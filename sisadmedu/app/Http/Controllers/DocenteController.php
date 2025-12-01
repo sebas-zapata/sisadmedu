@@ -107,7 +107,7 @@ class DocenteController extends Controller
             $rolDocente = Rol::where('nombre', 'Docente')->first();
             $rolId = $rolDocente ? $rolDocente->id : 8; // fallback si no existe
 
-            // 1️⃣ Crear usuario (documento y celular se guardan en usuarios)
+            // Crear usuario (documento y celular se guardan en usuarios)
             $usuario = Usuario::create([
                 'documento' => $request->documento,
                 'celular' => $request->celular, // nuevo campo
@@ -119,7 +119,7 @@ class DocenteController extends Controller
                 'tipo_documento_id' => $request->id_tipo_documento,
             ]);
 
-            // 2️⃣ Crear docente y vincular usuario (sin 'documento' ni 'celular' en docentes)
+            // Crear docente y vincular usuario (sin 'documento' ni 'celular' en docentes)
             Docente::create([
                 'usuario_id' => $usuario->id,
                 'id_tipo_documento' => $request->id_tipo_documento,
@@ -242,7 +242,7 @@ class DocenteController extends Controller
         DB::beginTransaction();
 
         try {
-            // 1️⃣ Actualizar docente (incluye nuevos campos)
+            // Actualizar docente (incluye nuevos campos)
             $docente->update([
                 'id_tipo_documento' => $request->id_tipo_documento,
                 'primer_nombre' => $request->primer_nombre,
@@ -262,7 +262,7 @@ class DocenteController extends Controller
                 'tipo_contrato' => $request->tipo_contrato,
             ]);
 
-            // 2️⃣ Actualizar usuario vinculado
+            // Actualizar usuario vinculado
             $docente->usuario->update([
                 'documento' => $request->documento,
                 'celular' => $request->celular,
@@ -334,17 +334,17 @@ class DocenteController extends Controller
             return redirect()->back()->with('error', 'No se encontró información del docente.');
         }
 
-        // 🔹 Obtener todos los grados asignados al docente
+        // Obtener todos los grados asignados al docente
         $asignaciones = $docente->asignaciones()->with('grado')->get();
 
         if ($asignaciones->isEmpty()) {
             return redirect()->back()->with('error', 'No tienes grados asignados.');
         }
 
-        // 🔹 Grados únicos (puede tener varias materias por el mismo grado)
+        // Grados únicos (puede tener varias materias por el mismo grado)
         $grados = $asignaciones->pluck('grado')->unique('id');
 
-        // 🔹 Verificar si se seleccionó un grado desde el select
+        // Verificar si se seleccionó un grado desde el select
         $gradoSeleccionado = $request->input('grado_id');
 
         $estudiantes = collect(); // vacío por defecto
@@ -360,26 +360,26 @@ class DocenteController extends Controller
 
     public function verAsignaturas(Request $request)
     {
-        // 🔹 Obtener el usuario autenticado
+        // Obtener el usuario autenticado
         $usuario = Auth::user();
 
-        // 🔹 Buscar el docente asociado al usuario autenticado
+        // Buscar el docente asociado al usuario autenticado
         $docente = Docente::where('usuario_id', $usuario->id)->first();
 
         if (!$docente) {
             return back()->with('error', 'No se encontró un docente asociado a este usuario.');
         }
 
-        // 🔹 Obtener todos los grados asignados al docente
+        // Obtener todos los grados asignados al docente
         $grados = Grado::whereIn(
             'id',
             Asignacion::where('docente_id', $docente->id)->pluck('grado_id')
         )->get();
 
-        // 🔹 Capturar el grado seleccionado desde el filtro
+        // Capturar el grado seleccionado desde el filtro
         $gradoSeleccionado = $request->input('grado_id');
 
-        // 🔹 Consultar las asignaciones del docente (filtradas si hay grado seleccionado)
+        // Consultar las asignaciones del docente (filtradas si hay grado seleccionado)
         $asignacionesQuery = Asignacion::with(['materia', 'grado.estudiantes.usuario'])
             ->where('docente_id', $docente->id);
 
@@ -389,10 +389,10 @@ class DocenteController extends Controller
 
         $asignaciones = $asignacionesQuery->get();
 
-        /// 🔹 Mapear los datos para pasarlos a la vista
+        /// Mapear los datos para pasarlos a la vista
         $materiasAsignadas = $asignaciones->map(function ($asignacion) {
             return [
-                'id' => $asignacion->id, // ✅ Agrega el ID aquí
+                'id' => $asignacion->id, // Agrega el ID aquí
                 'materia' => $asignacion->materia->descripcion,
                 'grado' => $asignacion->grado->nombre_grado,
                 'estudiantes' => $asignacion->grado->estudiantes->map(function ($estudiante) {
@@ -411,7 +411,7 @@ class DocenteController extends Controller
             ];
         });
 
-        // 🔹 Retornar la vista con los datos necesarios
+        // Retornar la vista con los datos necesarios
         return view('docentes.materias-asignadas', compact('materiasAsignadas', 'grados', 'gradoSeleccionado'));
     }
 }

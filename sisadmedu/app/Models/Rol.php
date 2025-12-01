@@ -20,13 +20,13 @@ class Rol extends Model
         'nombre',
     ];
 
-    // Relación con el modelo usuarios
+    // Relación con el modelo usuario
     public function usuarios()
     {
         return $this->hasMany(Usuario::class, 'rol_id');
     }
 
-    // Relación con el modelo usuarios
+    // Relación con el modelo usuario
     public function loginUsuarios()
     {
         return $this->hasMany(LoginUsuario::class, 'rol_id');

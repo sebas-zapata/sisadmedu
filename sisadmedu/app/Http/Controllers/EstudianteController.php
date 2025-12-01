@@ -340,22 +340,21 @@ class EstudianteController extends Controller
         }
     }
 
-    public function miInformacion()
-    {
-        $usuario = Auth::user();
-        if (!in_array(Auth::user()->rol->nombre, ['Estudiante'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
+public function miInformacion()
+{
+    $usuario = Auth::user();
 
-        // Cargar también la información del estudiante (relación)
-        $estudiante = $usuario->estudiante;
+    // Traer estudiante con sus acudientes
+    $estudiante = $usuario->estudiante;
 
-        // Si no tiene registro de estudiante asociado
-        if (!$estudiante) {
-            return redirect()->back()->with('error', 'No se encontró la información del estudiante.');
-        }
-
-        return view('estudiantes.mi_informacion', compact('usuario', 'estudiante'));
+    if (!$estudiante) {
+        return redirect()->back()->with('error', 'No se encontró la información del estudiante.');
     }
+
+    // Traer el primer acudiente asignado
+    $acudiente = $estudiante->acudientes->first(); // null si no tiene acudiente
+
+    return view('estudiantes.mi_informacion', compact('usuario', 'estudiante', 'acudiente'));
+}
+
 }

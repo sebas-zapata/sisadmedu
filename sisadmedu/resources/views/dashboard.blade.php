@@ -148,6 +148,14 @@
                     <i class="fas fa-eye"></i> Ver Informacion
                 </a>
             </div>
+
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-certificate"></i> Generar certificado</p>
+                <p class="module-total">Documento de estudio</p>
+                <a class="module-button" href="{{ route('pdf.consultar') }}">
+                    <i class="fas fa-eye"></i> Ver Certificado
+                </a>
+            </div>
             @endif
 
             @if($usuario->rol && $usuario->rol->nombre == "Docente")
@@ -209,14 +217,13 @@
 
     {{-- Contenedor de datos --}}
     <div id="datos-dashboard"
-     data-estudiantes="{{ $totalEstudiantes }}"
-    data-usuarios="{{ $totalUsuarios }}"
-    data-docentes="{{ $totalDocentes }}"
-    data-grados="{{ $totalGrados }}"
-    data-horarios="{{ $totalHorarios }}" 
-    data-materias="{{ $totalMaterias }}"
-    data-asignaciones="{{ $totalAsignaciones }}"
-    >
+        data-estudiantes="{{ $totalEstudiantes }}"
+        data-usuarios="{{ $totalUsuarios }}"
+        data-docentes="{{ $totalDocentes }}"
+        data-grados="{{ $totalGrados }}"
+        data-horarios="{{ $totalHorarios }}"
+        data-materias="{{ $totalMaterias }}"
+        data-asignaciones="{{ $totalAsignaciones }}">
     </div>
 </div>
 @endsection
