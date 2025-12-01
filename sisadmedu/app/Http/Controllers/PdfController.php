@@ -31,6 +31,45 @@ class PdfController extends Controller
         return $pdf->download('constancia_' . $estudiante->primer_apellido_estudiante . '_' . $estudiante->primer_nombre_estudiante . '.pdf');
     }
 
+    public function consultarEstudiante()
+    {
+        return view('estudiantes.generar-certificado');
+    }
+
+    public function generarCertificado(Request $request)
+    {
+        // Validar entrada
+        $request->validate([
+            'documento' => 'required|string',
+        ]);
+
+        // 1. Buscar usuario por documento
+        $usuario = Usuario::where('documento', $request->documento)->first();
+
+        if (!$usuario) {
+            return back()
+            ->with('error', 'No existe un usuario con ese documento.');
+        }
+
+        // 2. Buscar el estudiante relacionado a ese usuario
+        $estudiante = Estudiante::where('usuario_id', $usuario->id)->first();
+
+
+        // 3. Generar PDF
+        $pdf = Pdf::loadView('pdf.constancia', compact('estudiante'))
+            ->setPaper('A4', 'portrait');
+
+        // Alert
+        return redirect()->route('pdf.consultar')->with('success', 'Certificado generado correctamente. Revisa tu carpeta de descargas.');
+
+        return $pdf->download(
+            'constancia_' . $estudiante->primer_apellido_estudiante . '_' . $estudiante->primer_nombre_estudiante . '.pdf'
+        );
+    }
+
+
+
+
     public function generarReporteMensualPdf(Request $request, Asignacion $asignacion)
     {
         $mes = $request->input('mes');

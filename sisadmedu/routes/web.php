@@ -72,6 +72,14 @@ Route::get('/usuarios-pdf', [PdfController::class, 'usuarioPdf'])->name('usuario
 Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
     ->name('pdf.constancia');
 
+// Ruta para consultar el certificado de estudio de un estudiante
+Route::get('/estudiante/certificado/consultar', [PdfController::class, 'consultarEstudiante'])
+    ->name('pdf.consultar');
+
+// Ruta para generar el certificado de estudio de un estudiante
+Route::post('/estudiante/certificado', [PdfController::class, 'generarCertificado'])
+    ->name('pdf.certificado');
+
 // Ruta para el dashboard con gráficos    
 Route::get('/', [GraficosController::class, 'index'])
     ->name('dashboard')->middleware('auth');
@@ -86,7 +94,7 @@ Route::delete('/docentes/observaciones/{id}', [ObservacionController::class, 'de
 
 // Ruta para que los estudiantes consulten sus observaciones
 Route::get('/estudiante/observaciones', [ObservacionController::class, 'misObservaciones'])
-    ->name('estudiante.observaciones')->middleware('auth');
+    ->name('estudiante.observaciones')->middleware(['auth','rol:Estudiante']);
 
 // Rutas para gestionar materias
 Route::resource('materias', MateriaController::class)->middleware('auth');
@@ -95,7 +103,7 @@ Route::resource('materias', MateriaController::class)->middleware('auth');
 Route::resource('horarios', HorarioController::class)->middleware('auth');
 
 // Ruta para ver el horario del estudiante (un estudiante en especifico)
-Route::get('/mi-horario', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware('auth');
+Route::get('/mi-horario/estudiante', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware(['auth','rol:Estudiante']);
 
 // Rutas para gestionar asignaciones
 Route::resource('asignaciones', AsignacionController::class)->middleware('auth');
