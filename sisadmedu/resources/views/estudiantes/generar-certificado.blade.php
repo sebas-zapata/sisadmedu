@@ -16,16 +16,17 @@
 <div class="row justify-content-center mb-3">
     <div class="col-md-8 mb-3">
         <div class="form-floating mb-3">
-            <input type="number"
-                name="documento"
-                id="documento"
-                class="form-control @error('documento') is-invalid @enderror"
-                placeholder="Ingresa tu numero de documento"
-                value="{{ old('documento') }}"
+            <input type="text"
+                maxlength="15"
+                name="matricula"
+                id="codigo"
+                class="form-control @error('matricula') is-invalid @enderror"
+                placeholder="Ingresa tu numero de matricula"
+                value="{{ old('matricula') }}"
                 required>
-            <label for="descripcion">Numero de documento</label>
-            @error('documento')
-            <div class="text-danger mt-1 px-2 py-1" style="background-color: #ffe6e6; border-radius: 4px;">
+            <label for="descripcion">Codigo de matricula</label>
+            @error('matricula')
+            <div class="text-danger mt-1 px-2 py-1 text-center" style="background-color: #ffe6e6; border-radius: 4px;">
                 {{ $message }}
             </div>
             @enderror
@@ -35,11 +36,11 @@
 @endsection
 
 @section('botones-formulario')
-<x-boton-principal href="{{ route('materias.index') }}">
+<x-boton-principal href="{{ route('dashboard') }}">
     <i class="fas fa-arrow-left"></i> Cancelar
 </x-boton-principal>
 
-<x-boton-principal type="submit">
+<x-boton-principal id="generar-certificado" type="submit">
     <i class="fas fa-save"></i> Generar
 </x-boton-principal>
 @endsection

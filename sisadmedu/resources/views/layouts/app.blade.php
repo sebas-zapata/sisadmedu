@@ -77,6 +77,7 @@
     <script src="{{ asset('js/asignaciones/confirmar-eliminar-asignacion.js') }}"></script>
     <script src="{{ asset('js/loader/loader.js')}}"></script>
     <script src="{{ asset('js/input-disabled.js')}}"></script>
+    <script src="{{ asset('js/generar-certificado.js')}}"></script>
 
    {{-- Filtros no tocar --}}
     <script src="{{ asset('js/filtradores/filtrar-docentes.js') }}"></script>

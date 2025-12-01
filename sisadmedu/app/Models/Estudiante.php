@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\Events\Login;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -59,11 +60,6 @@ class Estudiante extends Model
     // Relación directa con el usuario (rol estudiante)
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class, 'usuario_id');
-    }
-
-    public function loginUsuario()
-    {
-        return $this->belongsTo(LoginUsuario::class, 'usuario_id');
+        return $this->belongsTo(Usuario::class, 'id');
     }
 }

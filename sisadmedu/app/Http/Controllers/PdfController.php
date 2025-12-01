@@ -9,7 +9,8 @@ use App\Models\Estudiante;
 use App\Models\Asistencia;
 use App\Models\Asignacion;
 use Carbon\Carbon;
-
+use Illuminate\Container\Attributes\Auth;
+use App\Models\LoginUsuario;
 
 class PdfController extends Controller
 {
@@ -40,35 +41,30 @@ class PdfController extends Controller
     {
         // Validar entrada
         $request->validate([
-            'documento' => 'required|string',
+            'matricula' => 'required|string|max:14',
+        ], [
+            'matricula.required' => 'La matrícula es obligatoria.',
         ]);
 
-        // 1. Buscar usuario por documento
-        $usuario = Usuario::where('documento', $request->documento)->first();
+        // 1. Buscar estudiante por matrícula
+        $estudiante = Estudiante::where('matricula', $request->matricula)->first();
 
-        if (!$usuario) {
-            return back()
-            ->with('error', 'No existe un usuario con ese documento.');
+        // Si NO existe
+        if (!$estudiante) {
+            return back()->withErrors([
+                'matricula' => 'No existe un estudiante con este codigo de matrícula: ' . $request->matricula
+            ]);
         }
 
-        // 2. Buscar el estudiante relacionado a ese usuario
-        $estudiante = Estudiante::where('usuario_id', $usuario->id)->first();
-
-
-        // 3. Generar PDF
+        // 2. Generar PDF
         $pdf = Pdf::loadView('pdf.constancia', compact('estudiante'))
             ->setPaper('A4', 'portrait');
 
-        // Alert
-        return redirect()->route('pdf.consultar')->with('success', 'Certificado generado correctamente. Revisa tu carpeta de descargas.');
-
+        // 3. Descargar PDF
         return $pdf->download(
             'constancia_' . $estudiante->primer_apellido_estudiante . '_' . $estudiante->primer_nombre_estudiante . '.pdf'
         );
     }
-
-
-
 
     public function generarReporteMensualPdf(Request $request, Asignacion $asignacion)
     {
