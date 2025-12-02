@@ -79,11 +79,6 @@ class ObservacionController extends Controller
     {
         $usuario = Auth::user();
 
-        // Verificar que el usuario sea estudiante y tenga relación
-        if ($usuario->rol->nombre !== 'Estudiante' || !$usuario->estudiante) {
-            return redirect()->route('dashboard')->with('error', 'No tienes acceso a este módulo.');
-        }
-
         // Obtener el estudiante relacionado
         $estudiante = $usuario->estudiante;
 
@@ -92,8 +87,11 @@ class ObservacionController extends Controller
             ->with('docente.usuario')
             ->get();
 
+        // Obtener el total de observaciones  
+        $totalObservaciones = $observaciones->count();
+
         // Ahora sí pasamos las dos variables
-        return view('estudiantes.observaciones', compact('estudiante', 'observaciones'));
+        return view('estudiantes.observaciones', compact('estudiante', 'observaciones', 'totalObservaciones'));
     }
 
     public function destroy(Request $request, $id)
@@ -103,5 +101,32 @@ class ObservacionController extends Controller
 
         return redirect()->to('/docente/estudiante/' . $request->estudiante_id)
             ->with('success', 'Observación eliminada correctamente');
+    }
+
+    public function acudienteObservacionesEstudiante()
+    {
+        $usuario = Auth::user();
+
+        // Obtener los estudiantes asignados a este acudiente
+        $estudiantes = $usuario->estudiantes; // devuelve una colección
+
+        // Verificar si tiene al menos un estudiante
+        if ($estudiantes->isEmpty()) {
+            return redirect()->back()->with('error', 'No tienes estudiantes asignados.');
+        }
+
+        // Si quieres mostrar solo el primero (o podrías adaptar para mostrar todos)
+        $estudiante = $estudiantes->first();
+
+        // Obtener las observaciones de ese estudiante
+        $observaciones = $estudiante->observaciones()
+            ->with('docente.usuario')
+            ->get();
+
+        // Obtener el total de observaciones  
+        $totalObservaciones = $observaciones->count();
+
+        // Retornar la vista específica para el acudiente
+        return view('acudiente.observaciones-estudiante', compact('estudiante', 'observaciones', 'totalObservaciones'));
     }
 }

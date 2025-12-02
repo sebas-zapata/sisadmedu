@@ -2,17 +2,17 @@
 
 @section('titulo')
 <p class="fs-2 mt-2">
-    Mis observaciones: <span class="badge bg-secondary">{{ $totalObservaciones }}</span>
+    Observaciones del estudiante: <span class="badge bg-secondary">{{ $totalObservaciones }}</span>
 </p>
+
 @endsection
 
 @section('informacion')
 <div class="container py-4">
 
-
     <div class="shadow-lg border-0 rounded-4 p-4">
         @if($observaciones->isEmpty())
-            <p class="text-center text-light">No tienes observaciones registradas.</p>
+            <p class="text-center text-light">Tu estudiante no tiene observaciones registradas.</p>
         @else
             <div class="row">
                 @foreach($observaciones as $obs)

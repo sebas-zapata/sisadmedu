@@ -96,6 +96,10 @@ Route::delete('/docentes/observaciones/{id}', [ObservacionController::class, 'de
 Route::get('/estudiante/observaciones', [ObservacionController::class, 'misObservaciones'])
     ->name('estudiante.observaciones')->middleware(['auth','rol:Estudiante']);
 
+// Ruta para que los acudientes consulten las observaciones de los estudiantes
+Route::get('/estudiante/observaciones/acudiente', [ObservacionController::class, 'acudienteObservacionesEstudiante'])
+    ->name('acudiente.observaciones')->middleware(['auth','rol:Acudiente']);
+
 // Rutas para gestionar materias
 Route::resource('materias', MateriaController::class)->middleware('auth');
 

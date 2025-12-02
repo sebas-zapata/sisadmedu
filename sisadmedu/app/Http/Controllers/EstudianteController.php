@@ -340,21 +340,22 @@ class EstudianteController extends Controller
         }
     }
 
-public function miInformacion()
-{
-    $usuario = Auth::user();
+    public function miInformacion()
+    {
+        $usuario = Auth::user();
 
-    // Traer estudiante con sus acudientes
-    $estudiante = $usuario->estudiante;
+        // Traer estudiante con sus acudientes
+        $estudiante = $usuario->estudiante;
 
-    if (!$estudiante) {
-        return redirect()->back()->with('error', 'No se encontró la información del estudiante.');
+        if (!$estudiante) {
+            return redirect()->back()->with('error', 'No se encontró la información del estudiante.');
+        }
+
+        // Traer el primer acudiente asignado
+        $acudiente = $estudiante->acudientes->first(); // null si no tiene acudiente
+
+        return view('estudiantes.mi_informacion', compact('usuario', 'estudiante', 'acudiente'));
     }
 
-    // Traer el primer acudiente asignado
-    $acudiente = $estudiante->acudientes->first(); // null si no tiene acudiente
-
-    return view('estudiantes.mi_informacion', compact('usuario', 'estudiante', 'acudiente'));
-}
-
+    
 }

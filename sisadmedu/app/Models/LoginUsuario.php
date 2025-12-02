@@ -51,4 +51,12 @@ class LoginUsuario extends Authenticatable
     {
         return $this->hasOne(Estudiante::class, 'usuario_id', 'id');
     }
+
+    // LoginUsuario.php
+    public function estudiantes()
+    {
+        return $this->belongsToMany(Estudiante::class, 'acudiente_estudiante', 'acudiente_id', 'estudiante_id');
+    }
+
+    
 }

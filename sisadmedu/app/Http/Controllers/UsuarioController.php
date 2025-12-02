@@ -20,20 +20,20 @@ class UsuarioController extends Controller
     // Se utiliza el método 'with' para cargar las relaciones de rol y tipoDocumento
     public function index()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
 
         $roles = Rol::all();
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
-        return view('usuarios.index', compact('usuarios','roles'));
+        return view('usuarios.index', compact('usuarios', 'roles'));
     }
 
     // Método para mostrar el formulario de creación de un nuevo usuario
     public function create()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
@@ -52,7 +52,7 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function store(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
@@ -134,7 +134,7 @@ class UsuarioController extends Controller
     // si no se encuentra
     public function edit($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
@@ -151,7 +151,7 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function update(Request $request, $id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
@@ -227,11 +227,11 @@ class UsuarioController extends Controller
     // Envia mensaje de éxito al redirigir a la lista de usuarios
     public function destroy($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permiso para crear usuarios.');
         }
-        
+
         $usuario = Usuario::findOrFail($id);
         $usuario->delete();
 
@@ -322,28 +322,20 @@ class UsuarioController extends Controller
         return response()->json($acudientes);
     }
 
-    public function acudienteInfo()
-    {
-        // Verifica autenticación rápido
-        $authUser = Auth::user();
-        if (!$authUser) {
-            return redirect()->route('login');
-        }
+    // public function acudienteInfo()
+    // {
+    //     // Usuario autenticado (acudiente)
+    //     $acudiente = Auth::user();
 
-        if ($authUser->rol->nombre !== 'Acudiente') {
-            return redirect()->route('dashboard')
-                ->with('error', 'Solo los acudientes pueden ver esta información.');
-        }
+    //     // Traemos el estudiante asignado a este acudiente
+    //     // Si hay varios estudiantes, tomamos el primero
+    //      $estudiante = $acudiente->acudientes()->with('grado')->first();
 
-        // Cargar el usuario desde el modelo Usuario, con las relaciones necesarias
-        $usuario = Usuario::with(['tipoDocumento', 'rol'])
-            ->find($authUser->id);
+    //     // Verificamos que exista un estudiante asignado
+    //     if (!$estudiante) {
+    //         return redirect()->back()->with('error', 'No tienes estudiantes asignados.');
+    //     }
 
-        if (!$usuario) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No se encontró el usuario.');
-        }
-
-        return view('acudiente.informacion', compact('usuario'));
-    }
+    //     return view('acudiente.informacion-acudiente', compact('usuario', 'acudiente', 'estudiante'));
+    // }
 }

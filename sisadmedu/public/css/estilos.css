@@ -570,7 +570,6 @@ footer {
 }
 
 .module:hover {
-    transform: translateY(-6px) scale(1.05);
     border: 1px solid #666;
     box-shadow: 0 12px 25px rgba(0, 0, 0, #ddd);
     background: linear-gradient(145deg, #f0f4ff, #ffffff);

@@ -116,6 +116,16 @@
                 </a>
             </li>
             @endif
+            {{-- Permisos para Acudiente --}}
+            @if(Auth::user()->rol->nombre === "Acudiente")
+            <li class="nav-item">
+                <a href="{{ route('acudiente.informacion') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Mi Informacion</span>
+                </a>
+            </li>
+
+            @endif
 
             <!-- Aquí puedes agregar más módulos según roles -->
         </ul>
