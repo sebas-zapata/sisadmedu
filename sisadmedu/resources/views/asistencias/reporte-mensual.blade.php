@@ -8,7 +8,7 @@
 <div class="shadow-sm border-0 overflow-hidden">
     <div class="bg-light p-2 rounded-1">
 
-        {{-- 🔍 Filtros de mes y año --}}
+        {{-- Filtros de mes y año --}}
         <form method="GET" action="{{ route('asistencias.reporteMensual', $asignacion->id) }}" class="row g-3 mb-4">
             <div class="col-md-2 d-flex flex-wrap justify-content-center align-items-end gap-2">
                 <x-boton-accion type="submit">
@@ -47,7 +47,7 @@
             </div>
         </form>
 
-        {{-- 📊 Tabla de asistencias --}}
+        {{-- Tabla de asistencias --}}
         @if ($mes && $anio)
         <div class="table-responsive p-2">
             <table class="table table-bordered align-middle text-center">

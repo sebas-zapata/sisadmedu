@@ -9,7 +9,7 @@ Asistencia - {{ $asignacion->materia->descripcion }}
 <div class="card shadow-sm border-0 rounded-1 p-2">
     <div class="">
 
-        {{-- 🔍 Selector de fecha --}}
+        {{-- Selector de fecha --}}
         <form method="GET" action="{{ route('asistencias.porAsignacion', $asignacion->id) }}" class="mb-3">
             @section('filtros')
             <input
@@ -27,11 +27,11 @@ Asistencia - {{ $asignacion->materia->descripcion }}
             @endsection
         </form>
 
-        {{-- 📝 Formulario de asistencia --}}
+        {{-- Formulario de asistencia --}}
         <form action="{{ route('asistencias.store') }}" method="POST">
             @csrf
             <input type="hidden" name="asignacion_id" value="{{ $asignacion->id }}">
-            {{-- 🔑 Este campo se actualiza con la fecha que se está mostrando --}}
+            {{-- Este campo se actualiza con la fecha que se está mostrando --}}
             <input type="hidden" name="fecha" value="{{ $fecha }}">
 
             <div class="table-responsive">
@@ -91,7 +91,7 @@ Asistencia - {{ $asignacion->materia->descripcion }}
     </div>
 </div>
 
-{{-- 🎯 Script para mostrar/ocultar justificación --}}
+{{-- Script para mostrar/ocultar justificación --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.estado-select').forEach(select => {

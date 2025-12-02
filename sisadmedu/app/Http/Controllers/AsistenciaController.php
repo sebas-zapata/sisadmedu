@@ -60,7 +60,7 @@ class AsistenciaController extends Controller
             );
         }
 
-        // ✅ Después de guardar, volver a la vista de asignaciones del docente
+        // Después de guardar, volver a la vista de asignaciones del docente
         $gradoId = Asignacion::find($request->asignacion_id)->grado_id;
 
         return redirect()->route('docente.asignaturas', [
@@ -115,7 +115,7 @@ class AsistenciaController extends Controller
     {
         $asignacion = Asignacion::with(['grado.estudiantes', 'materia'])->findOrFail($id);
 
-        // 📌 Determinar la fecha a mostrar
+        //  Determinar la fecha a mostrar
         if (!$request->has('fecha')) {
             // Si no se envió fecha, buscar la última registrada y avanzar un día
             $ultimaFecha = Asistencia::where('asignacion_id', $id)
@@ -130,7 +130,7 @@ class AsistenciaController extends Controller
             $fecha = $request->input('fecha');
         }
 
-        // 📌 Traer asistencias de ese día
+        //  Traer asistencias de ese día
         $asistenciasExistentes = Asistencia::where('asignacion_id', $id)
             ->whereDate('fecha', $fecha)
             ->get()
