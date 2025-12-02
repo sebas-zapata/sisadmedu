@@ -27,7 +27,7 @@ class UsuarioController extends Controller
 
         $roles = Rol::all();
         $usuarios = Usuario::with(['rol', 'tipoDocumento'])->get();
-        return view('Usuarios.index', compact('usuarios','roles'));
+        return view('usuarios.index', compact('usuarios','roles'));
     }
 
     // Método para mostrar el formulario de creación de un nuevo usuario
