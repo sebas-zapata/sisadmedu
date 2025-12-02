@@ -12,9 +12,6 @@
             <span class="fw-bold fs-5">
                 <i class="fas fa-graduation-cap me-2"></i> Estudiantes del grado {{ $grado->nombre_grado }}
             </span>
-            <a href="{{ route('grados.index') }}" class="btn btn-outline-light btn-sm">
-                <i class="fas fa-arrow-left me-1"></i> Volver
-            </a>
         </div>
 
         {{-- 🔹 Contenido --}}
@@ -26,12 +23,11 @@
                 </div>
             @else
                 <div class="input-group mb-4">
-                    <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
                     <input
                         type="text"
                         class="form-control"
                         id="filtroNombre"
-                        placeholder="Buscar estudiante por nombre o apellido..."
+                        placeholder="Buscar estudiante por nombre o apellido"
                         pattern="[A-Za-z\s]*"
                     >
                 </div>
@@ -53,15 +49,15 @@
                             {{-- Cuerpo --}}
                             <div class="card-body text-center">
                                 <p class="mb-2">
-                                    <i class="fas fa-id-badge text-primary"></i>
+                                    <i class="fas fa-id-badge text-secondary"></i>
                                     <strong>Documento:</strong> {{ $est->usuario->documento }}
                                 </p>
                                 <p class="mb-2">
-                                    <i class="fas fa-calendar-alt text-success"></i>
+                                    <i class="fas fa-calendar-alt text-secondary"></i>
                                     <strong>Edad:</strong> {{ $est->edad_estudiante }} años
                                 </p>
                                 <p class="mb-0">
-                                    <i class="fas fa-envelope text-danger"></i>
+                                    <i class="fas fa-envelope text-secondary"></i>
                                     <strong>Correo:</strong> {{ $est->usuario->correo_electronico }}
                                 </p>
                             </div>

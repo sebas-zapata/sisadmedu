@@ -12,9 +12,6 @@
                 <i class="fa-solid fa-link fa-lg me-2"></i>
                 <span class="fw-bold fs-5">Detalle de Asignación</span>
             </div>
-            <a href="{{ route('asignaciones.index') }}" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver
-            </a>
         </div>
 
         {{-- Información principal --}}

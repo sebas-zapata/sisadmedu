@@ -125,8 +125,44 @@
                 </a>
             </li>
 
+            <li class="nav-item">
+                <a href="{{ route('acudiente.observaciones') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-book me-2"></i>
+                    <span>Observaciones</span>
+                </a>
+            </li>
+
             @endif
 
+            @if(Auth::user()->rol->nombre === "Secretaria")
+            <li class="nav-item">
+                <a href="{{ route('usuarios.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fas fa-users me-2"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('docentes.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fas fa-chalkboard-teacher me-2"></i>
+                    <span>Docentes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('estudiantes.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fas fa-user-graduate me-2"></i>
+                    <span>Estudiantes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('asignaciones.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-link"></i>
+                    <span>Asignacion materia a Docentes</span>
+                </a>
+            </li>
+            @endif
             <!-- Aquí puedes agregar más módulos según roles -->
         </ul>
     </div>

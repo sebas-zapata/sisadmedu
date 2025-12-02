@@ -18,10 +18,6 @@ class HorarioController extends Controller
     // Listar grados con estado de horario
     public function index()
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
 
         $grados = Grado::withCount('horarios')->get();
         return view('horarios.index', compact('grados'));
@@ -30,10 +26,6 @@ class HorarioController extends Controller
     // Formulario para crear horario de un grado
     public function create(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
 
         if (!$request->has('grado')) {
             return redirect()->route('horarios.index')->with('error', 'Debes seleccionar un grado para crear un horario.');
@@ -53,19 +45,23 @@ class HorarioController extends Controller
         return view('horarios.create', compact('materias', 'gradoSeleccionado', 'bloques'));
     }
 
-    // Guardar nuevo horario
     public function store(Request $request)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
-
+        // Validación básica (permite duplicados)
         $validator = Validator::make($request->all(), [
-            'id_grado'    => 'required|exists:grados,id',
-            'materias'    => 'required|array',
+            'id_grado' => 'required|exists:grados,id',
+
+            'materias' => 'required|array',
+            'materias.*' => 'required|array',
+            'materias.*.*' => 'required|exists:materias,id',
+
             'hora_inicio' => 'required|array',
-            'hora_fin'    => 'required|array',
+            'hora_inicio.*' => 'required|array',
+            'hora_inicio.*.*' => 'required|date_format:H:i',
+
+            'hora_fin' => 'required|array',
+            'hora_fin.*' => 'required|array',
+            'hora_fin.*.*' => 'required|date_format:H:i',
         ]);
 
         if ($validator->fails()) {
@@ -74,102 +70,99 @@ class HorarioController extends Controller
 
         $id_grado = $request->id_grado;
 
+        // IMPEDIR que un grado tenga más de un horario (esto se mantiene)
         if (Horario::where('id_grado', $id_grado)->exists()) {
-            return back()->withErrors(['id_grado' => 'Este grado ya tiene un horario asignado.'])->withInput();
+            return back()->withErrors(['id_grado' => 'Este grado ya tiene un horario asignado.'])
+                ->withInput();
         }
 
-        $errores = $this->validarHorario($request);
 
-        if (!empty($errores)) {
-            return back()->withErrors($errores)->withInput();
-        }
-
+        // Guardar horario
         $this->guardarHorario($request, $id_grado);
 
-        return redirect()->route('horarios.index')->with('success', 'Horario guardado correctamente.');
+        return redirect()->route('horarios.index')
+            ->with('success', 'Horario guardado correctamente.');
     }
+
+
 
 
     public function show($id = null)
     {
-    $user = Auth::user();
+        $user = Auth::user();
 
-    if ($user->rol->nombre == 'Administrador') {
-        // Admin: puede ver cualquier horario de grado
-        $gradoId = $id;
-    } else {
-        // Estudiante: siempre verá solo el horario de su grado
-        $estudiante = Estudiante::where('usuario_id', $user->id)->first();
+        if ($user->rol->nombre == 'Administrador') {
+            // Admin: puede ver cualquier horario de grado
+            $gradoId = $id;
+        } else {
+            // Estudiante: siempre verá solo el horario de su grado
+            $estudiante = Estudiante::where('usuario_id', $user->id)->first();
 
-        if (!$estudiante || !$estudiante->id_grado) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes un grado asignado.');
+            if (!$estudiante || !$estudiante->id_grado) {
+                return redirect()->route('dashboard')
+                    ->with('error', 'No tienes un grado asignado.');
+            }
+
+            $gradoId = $estudiante->id_grado;
         }
 
-        $gradoId = $estudiante->id_grado;
-    }
+        $grado = Grado::findOrFail($gradoId);
+        $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+        $descanso = ['inicio' => '09:15', 'fin' => '09:45'];
 
-    $grado = Grado::findOrFail($gradoId);
-    $dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
-    $descanso = ['inicio' => '09:15', 'fin' => '09:45'];
+        $raw = Horario::where('id_grado', $gradoId)
+            ->with('materia')
+            ->orderByRaw("FIELD(dia, 'Lunes','Martes','Miércoles','Jueves','Viernes')")
+            ->orderBy('hora_inicio')
+            ->get();
 
-    $raw = Horario::where('id_grado', $gradoId)
-        ->with('materia')
-        ->orderByRaw("FIELD(dia, 'Lunes','Martes','Miércoles','Jueves','Viernes')")
-        ->orderBy('hora_inicio')
-        ->get();
+        $horarios = [];
+        foreach ($dias as $dia) {
+            $grupo = $raw->where('dia', $dia)->values();
 
-    $horarios = [];
-    foreach ($dias as $dia) {
-        $grupo = $raw->where('dia', $dia)->values();
+            $bloques = collect();
+            $descansoInsertado = false;
 
-        $bloques = collect();
-        $descansoInsertado = false;
+            foreach ($grupo as $clase) {
+                // Insertar descanso automáticamente
+                if (!$descansoInsertado && $clase->hora_inicio >= $descanso['inicio']) {
+                    $bloques->push((object)[
+                        'materia'     => null,
+                        'es_descanso' => true,
+                        'hora_inicio' => $descanso['inicio'],
+                        'hora_fin'    => $descanso['fin'],
+                    ]);
+                    $descansoInsertado = true;
+                }
 
-        foreach ($grupo as $clase) {
-            // Insertar descanso automáticamente
-            if (!$descansoInsertado && $clase->hora_inicio >= $descanso['inicio']) {
+                $bloques->push((object)[
+                    'materia'     => $clase->materia,
+                    'es_descanso' => false,
+                    'hora_inicio' => $clase->hora_inicio,
+                    'hora_fin'    => $clase->hora_fin,
+                ]);
+            }
+
+            // Si el descanso no fue insertado
+            if (!$descansoInsertado) {
                 $bloques->push((object)[
                     'materia'     => null,
                     'es_descanso' => true,
                     'hora_inicio' => $descanso['inicio'],
                     'hora_fin'    => $descanso['fin'],
                 ]);
-                $descansoInsertado = true;
             }
 
-            $bloques->push((object)[
-                'materia'     => $clase->materia,
-                'es_descanso' => false,
-                'hora_inicio' => $clase->hora_inicio,
-                'hora_fin'    => $clase->hora_fin,
-            ]);
+            $horarios[$dia] = $bloques;
         }
 
-        // Si el descanso no fue insertado
-        if (!$descansoInsertado) {
-            $bloques->push((object)[
-                'materia'     => null,
-                'es_descanso' => true,
-                'hora_inicio' => $descanso['inicio'],
-                'hora_fin'    => $descanso['fin'],
-            ]);
-        }
-
-        $horarios[$dia] = $bloques;
+        return view('horarios.show', compact('grado', 'horarios', 'dias'));
     }
-
-    return view('horarios.show', compact('grado', 'horarios', 'dias'));
-}
 
 
     // Editar horario
     public function edit($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
 
         $grado = Grado::findOrFail($id);
         $materias = Materia::all();
@@ -189,13 +182,9 @@ class HorarioController extends Controller
     }
 
     // Actualizar horario
+    // Actualizar horario
     public function update(Request $request, $id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
-            return redirect()->route('dashboard')
-                ->with('error', 'No tienes permisos para realizar esta acción.');
-        }
-
         $validator = Validator::make($request->all(), [
             'materias'    => 'required|array',
             'hora_inicio' => 'required|array',
@@ -206,26 +195,22 @@ class HorarioController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        $grado = Grado::findOrFail($id);
-
         // Borrar horario anterior
         Horario::where('id_grado', $id)->delete();
 
-        $errores = $this->validarHorario($request);
-
-        if (!empty($errores)) {
-            return back()->withErrors($errores)->withInput();
-        }
-
+        // Guardar horario sin restricciones
         $this->guardarHorario($request, $id);
 
-        return redirect()->route('horarios.index')->with('success', 'Horario actualizado correctamente.');
+        return redirect()->route('horarios.index')
+            ->with('success', 'Horario actualizado correctamente.');
     }
+
+
 
     // Eliminar horario
     public function destroy($id)
     {
-        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante','Acudiente'])) {
+        if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
                 ->with('error', 'No tienes permisos para realizar esta acción.');
         }
@@ -309,5 +294,4 @@ class HorarioController extends Controller
             }
         }
     }
-
 }

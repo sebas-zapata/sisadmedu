@@ -12,7 +12,7 @@ Editar Horario <span class="badge bg-secondary text-light">{{ $grado->nombre_gra
     @method('PUT')
 
     {{-- Encabezado con grado seleccionado y botón de guardar --}}
-    <div class="d-flex justify-content-end align-items-center mb-3 flex-wrap gap-2">
+    <div class="text-start mb-3">
         <x-boton-principal type="submit">
             <i class="fa-solid fa-save me-1"></i> Guardar Cambios
         </x-boton-principal>

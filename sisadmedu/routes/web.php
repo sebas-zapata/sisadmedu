@@ -74,7 +74,7 @@ Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
 
 // Ruta para consultar el certificado de estudio de un estudiante
 Route::get('/estudiante/certificado/consultar', [PdfController::class, 'consultarEstudiante'])
-    ->name('pdf.consultar')->middleware(['auth','rol:Estudiante']);
+    ->name('pdf.consultar')->middleware(['auth', 'rol:Estudiante']);
 
 // Ruta para generar el certificado de estudio de un estudiante
 Route::post('/estudiante/certificado', [PdfController::class, 'generarCertificado'])
@@ -94,11 +94,11 @@ Route::delete('/docentes/observaciones/{id}', [ObservacionController::class, 'de
 
 // Ruta para que los estudiantes consulten sus observaciones
 Route::get('/estudiante/observaciones', [ObservacionController::class, 'misObservaciones'])
-    ->name('estudiante.observaciones')->middleware(['auth','rol:Estudiante']);
+    ->name('estudiante.observaciones')->middleware(['auth', 'rol:Estudiante']);
 
 // Ruta para que los acudientes consulten las observaciones de los estudiantes
 Route::get('/estudiante/observaciones/acudiente', [ObservacionController::class, 'acudienteObservacionesEstudiante'])
-    ->name('acudiente.observaciones')->middleware(['auth','rol:Acudiente']);
+    ->name('acudiente.observaciones')->middleware(['auth', 'rol:Acudiente']);
 
 // Rutas para gestionar materias
 Route::resource('materias', MateriaController::class)->middleware('auth');
@@ -107,7 +107,7 @@ Route::resource('materias', MateriaController::class)->middleware('auth');
 Route::resource('horarios', HorarioController::class)->middleware('auth');
 
 // Ruta para ver el horario del estudiante (un estudiante en especifico)
-Route::get('/mi-horario/estudiante', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware(['auth','rol:Estudiante']);
+Route::get('/mi-horario/estudiante', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware(['auth', 'rol:Estudiante']);
 
 // Rutas para gestionar asignaciones
 Route::resource('asignaciones', AsignacionController::class)->middleware('auth');
@@ -153,10 +153,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asistencias/{asignacion}/reporte-mensual/pdf', [PdfController::class, 'generarReporteMensualPdf'])->name('asistencias.reporteMensual.pdf');
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'rol:Acudiente'])->group(function () {
     Route::get('/acudiente/informacion', [UsuarioController::class, 'acudienteInfo'])
         ->name('acudiente.informacion');
 });
-
-
-

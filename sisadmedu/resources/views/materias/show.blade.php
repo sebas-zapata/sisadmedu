@@ -12,9 +12,6 @@
                 <i class="fa-solid fa-book fa-lg me-2"></i>
                 <span class="fw-bold fs-5">{{ $materia->descripcion }}</span>
             </div>
-            <a href="{{ route('materias.index') }}" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver
-            </a>
         </div>
 
         {{-- Cuerpo principal --}}
@@ -29,7 +26,7 @@
 
             {{-- Tabla de docentes --}}
             @if($materia->docentes->isEmpty())
-                <div class="alert text-center rounded-3 shadow-sm">
+                <div class="alert alert-secondary text-center rounded-3 shadow-sm">
                     <i class="fa-solid fa-exclamation-circle me-2"></i>
                     No hay docentes asignados a esta materia.
                 </div>

@@ -12,9 +12,6 @@
                 <i class="fa-solid fa-user fa-lg me-2"></i>
                 <span class="fw-bold fs-5">Información del Usuario</span>
             </div>
-            <a href="{{ route('usuarios.index') }}" class="btn btn-secondary btn-sm">
-                <i class="fa-solid fa-arrow-left me-1"></i> Volver
-            </a>
         </div>
 
         {{-- Avatar y nombre principal --}}

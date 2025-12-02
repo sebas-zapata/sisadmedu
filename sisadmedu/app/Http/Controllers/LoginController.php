@@ -61,13 +61,13 @@ class LoginController extends Controller
                 // Redirigimos al formulario de cambio de contraseña
                 session(['debe_cambiar_contrasena' => true]);
                 return redirect()->route('dashboard')
-                    ->with('success', 'Bienvenido, ' . $usuario->nombres . '! Debes cambiar tu contraseña por seguridad.');
+                    ->with('success', 'Hola, ' . $usuario->nombres . '! Debes cambiar tu contraseña por seguridad.');
             }
 
             // Si no es la contraseña por defecto, login normal
             $request->session()->put('debe_cambiar_contrasena', false);
             return redirect()->route('dashboard')
-                ->with('success', 'Bienvenido, ' . $usuario->nombres);
+                ->with('success', 'Hola, ' . $usuario->nombres);
         }
 
         // Login fallido
@@ -88,7 +88,7 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login')
-            ->with('success', 'Has cerrado sesión exitosamente.');
+            ->with('success', 'Sesión finalizada exitosamente.');
     }
 
 
