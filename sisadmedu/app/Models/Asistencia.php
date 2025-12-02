@@ -19,7 +19,7 @@ class Asistencia extends Model
         'asignacion_id',
         'fecha',
         'estado',
-        'justificada',
+        'justificada',   // booleano: true/false
         'observacion',
     ];
 
@@ -55,5 +55,20 @@ class Asistencia extends Model
     {
         return $this->justificada ? 'Sí' : 'No';
     }
-}
 
+    /**
+     * Scope para filtrar asistencias por fecha.
+     */
+    public function scopePorFecha($query, $fecha)
+    {
+        return $query->whereDate('fecha', $fecha);
+    }
+
+    /**
+     * Scope para filtrar asistencias por rango de fechas.
+     */
+    public function scopeEntreFechas($query, $inicio, $fin)
+    {
+        return $query->whereBetween('fecha', [$inicio, $fin]);
+    }
+}

@@ -127,18 +127,28 @@ Route::get('/docente/estudiante/{id}', [EstudianteController::class, 'show'])->m
 // Ruta para ver las asignaturas para cada docente
 Route::get('/docente/asignaturas', [DocenteController::class, 'verAsignaturas'])->middleware(['auth', 'rol:Docente'])->name('docente.asignaturas');
 
-// Rutas de asistencias
+
 Route::middleware(['auth'])->group(function () {
+
+    // Listado general de asistencias del docente
     Route::get('/asistencias', [AsistenciaController::class, 'index'])->name('asistencias.index');
-    Route::get('/asistencias/crear/{asignacion}', [AsistenciaController::class, 'create'])->name('asistencias.create');
+
+    // Tomar asistencia por asignación y fecha
+    Route::get('/asistencias/asignacion/{id}', [AsistenciaController::class, 'porAsignacion'])->name('asistencias.porAsignacion');
+
+    // Guardar asistencia (POST desde formulario porAsignacion)
     Route::post('/asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');
+
+    // Editar asistencia individual
     Route::get('/asistencias/{id}/editar', [AsistenciaController::class, 'edit'])->name('asistencias.edit');
     Route::put('/asistencias/{id}', [AsistenciaController::class, 'update'])->name('asistencias.update');
+
+    // Eliminar asistencia individual
     Route::delete('/asistencias/{id}', [AsistenciaController::class, 'destroy'])->name('asistencias.destroy');
-    Route::get('/asistencias/asignacion/{id}', [AsistenciaController::class, 'porAsignacion'])
-        ->name('asistencias.porAsignacion');
-    // Reporte mensual (vista)
+
+    // Reporte mensual en vista HTML
     Route::get('/asistencias/{asignacion}/reporte-mensual', [AsistenciaController::class, 'reporteMensual'])->name('asistencias.reporteMensual');
+
     // Generar PDF del reporte mensual
     Route::get('/asistencias/{asignacion}/reporte-mensual/pdf', [PdfController::class, 'generarReporteMensualPdf'])->name('asistencias.reporteMensual.pdf');
 });

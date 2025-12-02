@@ -11,14 +11,10 @@ use PDF;
 
 class AsistenciaController extends Controller
 {
-    /**
-     * Muestra el listado de asistencias del docente autenticado.
-     */
     public function index()
     {
         $docente = Auth::user()->docente;
 
-        // Obtiene todas las asistencias de las asignaciones del docente
         $asistencias = Asistencia::whereHas('asignacion', function ($query) use ($docente) {
             $query->where('docente_id', $docente->id);
         })
@@ -29,9 +25,6 @@ class AsistenciaController extends Controller
         return view('asistencias.index', compact('asistencias'));
     }
 
-    /**
-     * Muestra el formulario para tomar asistencia de una asignatura específica.
-     */
     public function create($asignacion_id)
     {
         $asignacion = Asignacion::with(['grado.estudiantes'])->findOrFail($asignacion_id);
@@ -40,13 +33,11 @@ class AsistenciaController extends Controller
         return view('asistencias.create', compact('asignacion', 'estudiantes'));
     }
 
-    /**
-     * Guarda la asistencia tomada por el docente.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'asignacion_id' => 'required|exists:asignaciones,id',
+            'fecha' => 'required|date',
             'asistencias' => 'required|array',
             'asistencias.*.estudiante_id' => 'required|exists:estudiantes,id',
             'asistencias.*.estado' => 'required|in:presente,ausente,tarde,excusa',
@@ -59,42 +50,38 @@ class AsistenciaController extends Controller
                 [
                     'asignacion_id' => $request->asignacion_id,
                     'estudiante_id' => $asistenciaData['estudiante_id'],
-                    'fecha' => $request->fecha ?? date('Y-m-d'),
+                    'fecha' => $request->input('fecha'),
                 ],
                 [
                     'estado' => $asistenciaData['estado'],
-                    'justificacion' => $asistenciaData['justificacion'] ?? null,
+                    'justificada' => $asistenciaData['justificacion'] === 'si',
                     'observacion' => $asistenciaData['observacion'] ?? null,
                 ]
             );
         }
 
-        return redirect()->route('docente.asignaturas', ['grado_id' => Asignacion::find($request->asignacion_id)->grado_id])
-            ->with('success', 'Asistencia registrada correctamente.');
+        // ✅ Después de guardar, volver a la vista de asignaciones del docente
+        $gradoId = Asignacion::find($request->asignacion_id)->grado_id;
+
+        return redirect()->route('docente.asignaturas', [
+            'grado_id' => $gradoId
+        ])->with('success', 'Asistencia registrada correctamente.');
     }
 
 
-    /**
-     * Muestra los detalles de una asistencia específica (opcional).
-     */
+
     public function show($id)
     {
         $asistencia = Asistencia::with(['estudiante', 'asignacion'])->findOrFail($id);
         return view('asistencias.show', compact('asistencia'));
     }
 
-    /**
-     * Permite editar una asistencia (por ejemplo, justificar una falta).
-     */
     public function edit($id)
     {
         $asistencia = Asistencia::findOrFail($id);
         return view('asistencias.edit', compact('asistencia'));
     }
 
-    /**
-     * Actualiza una asistencia (por ejemplo, marcar como justificada).
-     */
     public function update(Request $request, $id)
     {
         $asistencia = Asistencia::findOrFail($id);
@@ -102,7 +89,7 @@ class AsistenciaController extends Controller
         $request->validate([
             'estado' => 'required|in:presente,ausente,tarde,excusa',
             'justificada' => 'boolean',
-            'observacion' => 'nullable|string',
+            'observacion' => 'nullable|string|max:255',
         ]);
 
         $asistencia->update([
@@ -111,21 +98,16 @@ class AsistenciaController extends Controller
             'observacion' => $request->observacion,
         ]);
 
-        return redirect()
-            ->route('asistencias.index')
+        return redirect()->route('asistencias.index')
             ->with('success', 'Asistencia actualizada correctamente.');
     }
 
-    /**
-     * Elimina un registro de asistencia (opcional, según políticas del sistema).
-     */
     public function destroy($id)
     {
         $asistencia = Asistencia::findOrFail($id);
         $asistencia->delete();
 
-        return redirect()
-            ->route('asistencias.index')
+        return redirect()->route('asistencias.index')
             ->with('success', 'Registro de asistencia eliminado correctamente.');
     }
 
@@ -133,10 +115,22 @@ class AsistenciaController extends Controller
     {
         $asignacion = Asignacion::with(['grado.estudiantes', 'materia'])->findOrFail($id);
 
-        // Fecha seleccionada o por defecto hoy
-        $fecha = $request->input('fecha', date('Y-m-d'));
+        // 📌 Determinar la fecha a mostrar
+        if (!$request->has('fecha')) {
+            // Si no se envió fecha, buscar la última registrada y avanzar un día
+            $ultimaFecha = Asistencia::where('asignacion_id', $id)
+                ->orderBy('fecha', 'desc')
+                ->value('fecha');
 
-        // Obtener asistencias de ese día
+            $fecha = $ultimaFecha
+                ? Carbon::parse($ultimaFecha)->addDay()->format('Y-m-d')
+                : date('Y-m-d'); // si no hay registros, usar hoy
+        } else {
+            // Si se seleccionó fecha en el input, usar esa
+            $fecha = $request->input('fecha');
+        }
+
+        // 📌 Traer asistencias de ese día
         $asistenciasExistentes = Asistencia::where('asignacion_id', $id)
             ->whereDate('fecha', $fecha)
             ->get()
@@ -144,8 +138,16 @@ class AsistenciaController extends Controller
 
         $estudiantes = $asignacion->grado->estudiantes;
 
-        return view('asistencias.porAsignacion', compact('asignacion', 'estudiantes', 'fecha', 'asistenciasExistentes'));
+        return view('asistencias.porAsignacion', compact(
+            'asignacion',
+            'estudiantes',
+            'fecha',
+            'asistenciasExistentes'
+        ));
     }
+
+
+
 
     public function reporteMensual(Request $request, $asignacionId)
     {
@@ -154,7 +156,7 @@ class AsistenciaController extends Controller
         $mes = $request->input('mes', date('m'));
         $anio = $request->input('anio', date('Y'));
 
-        $fechaInicio = Carbon::createFromDate($anio, $mes, 1);
+        $fechaInicio = Carbon::createFromDate($anio, $mes, 1)->startOfMonth();
         $fechaFin = $fechaInicio->copy()->endOfMonth();
 
         $asistencias = Asistencia::where('asignacion_id', $asignacionId)
@@ -167,8 +169,12 @@ class AsistenciaController extends Controller
             $diasDelMes[] = $dia;
         }
 
-        return view('asistencias.reporte-mensual', compact('asignacion', 'mes', 'anio', 'diasDelMes', 'asistencias'));
+        return view('asistencias.reporte-mensual', compact(
+            'asignacion',
+            'mes',
+            'anio',
+            'diasDelMes',
+            'asistencias'
+        ));
     }
-
-    
 }

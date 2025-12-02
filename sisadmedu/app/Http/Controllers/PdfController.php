@@ -68,14 +68,14 @@ class PdfController extends Controller
 
     public function generarReporteMensualPdf(Request $request, Asignacion $asignacion)
     {
-        $mes = $request->input('mes');
-        $anio = $request->input('anio');
+        $mes = $request->input('mes', date('m'));
+        $anio = $request->input('anio', date('Y'));
 
         if (!$mes || !$anio) {
             return redirect()->back()->with('error', 'Debe seleccionar mes y año antes de generar el PDF.');
         }
 
-        $fechaInicio = Carbon::createFromDate($anio, $mes, 1);
+        $fechaInicio = Carbon::createFromDate($anio, $mes, 1)->startOfMonth();
         $fechaFin = $fechaInicio->copy()->endOfMonth();
 
         $asistencias = Asistencia::where('asignacion_id', $asignacion->id)
@@ -85,8 +85,13 @@ class PdfController extends Controller
 
         $diasDelMes = range(1, $fechaFin->day);
 
-        $pdf = Pdf::loadView('pdf.reporte_mensual_pdf', compact('asignacion', 'asistencias', 'diasDelMes', 'mes', 'anio'))
-            ->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadView('pdf.reporte_mensual_pdf', compact(
+            'asignacion',
+            'asistencias',
+            'diasDelMes',
+            'mes',
+            'anio'
+        ))->setPaper('a4', 'landscape');
 
         return $pdf->download("reporte_asistencias_{$asignacion->materia->descripcion}_{$mes}_{$anio}.pdf");
     }
