@@ -55,14 +55,19 @@
 
         <div class="encabezado-dashboard">
             <h2>
+                @if (auth()->user()->rol->nombre === 'Rector')
+                <i class="fas fa-chart-line"></i> Dashboard Academico
+                @else
                 <i class="fas fa-graduation-cap"></i> Áreas Académicas
+                @endif
             </h2>
+
         </div>
 
         <div class="d-flex flex-wrap justify-content-center align-items-stretch gap-1">
 
-            {{-- SOLO Administrador, Coordinador, Rector y Secretaria --}}
-            @if ($usuario->rol && in_array($usuario->rol->nombre, ['Administrador', 'Rector', 'Secretaria']))
+            {{-- SOLO Administrador y Secretaria --}}
+            @if ($usuario->rol && in_array($usuario->rol->nombre, ['Administrador', 'Secretaria']))
             <div class="module">
                 <p class="module-title"><i class="fas fa-users"></i> Gestión de Usuarios</p>
                 <p class="module-total">Total: <strong>{{ $totalUsuarios }}</strong></p>
@@ -209,7 +214,7 @@
 
 
 
-    {{-- SOLO ADMINISTRADOR: Gráficas --}}
+    {{-- GRÁFICAS PARA ADMINISTRADOR --}}
     @if ($usuario->rol && $usuario->rol->nombre === 'Administrador')
     <div class="row">
         <div class="col-md-5 mb-4">
@@ -225,7 +230,7 @@
 
         <div class="col-md-7 mb-4">
             <div class="card shadow-sm">
-                <div class="card-header bg-light text-white">
+                <div class="card-header bg-light">
                     <strong class="module-title">Evolución</strong>
                 </div>
                 <div class="card-body" style="height: 350px;">
@@ -235,6 +240,71 @@
         </div>
     </div>
     @endif
+
+    {{-- GRÁFICAS EXCLUSIVAS DEL RECTOR --}}
+    @if ($usuario->rol && $usuario->rol->nombre === 'Rector')
+    <div class="row">
+
+        {{-- Pie y Line (como admin) --}}
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light titulo">
+                    <strong class="module-title">Distribución de Registros</strong>
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <strong class="module-title">Evolución</strong>
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {{-- NUEVAS GRÁFICAS PARA RECTOR --}}
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <strong class="module-title">Comparación General</strong>
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <strong class="module-title">Análisis Horizontal</strong>
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <canvas id="horizontalChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <strong class="module-title">Radar Comparativo</strong>
+                </div>
+                <div class="card-body" style="height: 350px;">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
 
     {{-- Contenedor de datos --}}
     <div id="datos-dashboard"
