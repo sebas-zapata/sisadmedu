@@ -63,4 +63,15 @@ class Docente extends Model
     {
         return $this->belongsTo(LoginUsuario::class, 'usuario_id');
     }
+
+    // Grados del docente
+    public function grados()
+    {
+        return $this->belongsToMany(
+            Grado::class,
+            'docente_materia_grado',
+            'docente_id',
+            'grado_id'
+        )->distinct();
+    }
 }

@@ -20,11 +20,15 @@ class LoginUsuario extends Authenticatable
     // Campos que se pueden asignar masivamente
     // En este caso, solo los campos necesarios para la autenticación
     protected $fillable = [
+        'id',
+        'documento',
         'nombres',
         'apellidos',
         'correo_electronico',
         'celular',
         'contrasena',
+        'rol_id',
+        'tipo_documento_id'
     ];
 
     protected $hidden = [
