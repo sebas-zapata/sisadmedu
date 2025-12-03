@@ -229,14 +229,33 @@ class UsuarioController extends Controller
     {
         if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
             return redirect()->route('dashboard')
-                ->with('error', 'No tienes permiso para crear usuarios.');
+                ->with('error', 'No tienes permiso para eliminar usuarios.');
         }
 
         $usuario = Usuario::findOrFail($id);
+
+        // 1. Si es estudiante, eliminar su registro en estudiantes
+        if ($usuario->estudiante) {
+            $usuario->estudiante->delete();
+        }
+
+        // 2. Si es docente, eliminar su registro en docentes
+        if ($usuario->docente) {
+            $usuario->docente->delete();
+        }
+
+        // 3. Si es acudiente, eliminar relaciones pivot
+        if ($usuario->rol->nombre === 'Acudiente') {
+            $usuario->estudiantes()->detach();
+        }
+
+        // 4. Ahora sí eliminar el usuario
         $usuario->delete();
 
-        return redirect()->route('usuarios.index')->with('success', 'Usuario eliminado correctamente.');
+        return redirect()->route('usuarios.index')
+            ->with('success', 'Usuario eliminado correctamente.');
     }
+
 
     // Método para mostrar el formulario de edición del perfil del usuario autenticado
     public function editarPerfil()
