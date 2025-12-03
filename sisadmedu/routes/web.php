@@ -154,6 +154,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'rol:Acudiente'])->group(function () {
-    Route::get('/acudiente/informacion', [UsuarioController::class, 'acudienteInfo'])
+    Route::get('/acudiente/informacion', [UsuarioController::class, 'acudienteInformacion'])
         ->name('acudiente.informacion');
 });

@@ -346,20 +346,12 @@ class UsuarioController extends Controller
         return response()->json($acudientes);
     }
 
-    // public function acudienteInfo()
-    // {
-    //     // Usuario autenticado (acudiente)
-    //     $acudiente = Auth::user();
+    public function acudienteInformacion()
+    {
+        // Obtener el usuario que inició sesión
+        $usuario = Auth::user(); // ← devuelve LoginUsuario
+        $estudiante = $usuario->estudiantes->first();
 
-    //     // Traemos el estudiante asignado a este acudiente
-    //     // Si hay varios estudiantes, tomamos el primero
-    //      $estudiante = $acudiente->acudientes()->with('grado')->first();
-
-    //     // Verificamos que exista un estudiante asignado
-    //     if (!$estudiante) {
-    //         return redirect()->back()->with('error', 'No tienes estudiantes asignados.');
-    //     }
-
-    //     return view('acudiente.informacion-acudiente', compact('usuario', 'acudiente', 'estudiante'));
-    // }
+        return view('acudiente.informacion-acudiente', compact('usuario', 'estudiante'));
+    }
 }
