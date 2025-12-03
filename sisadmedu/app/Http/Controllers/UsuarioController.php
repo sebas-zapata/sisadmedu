@@ -9,7 +9,7 @@ use App\Models\TipoDocumento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
@@ -232,29 +232,34 @@ class UsuarioController extends Controller
                 ->with('error', 'No tienes permiso para eliminar usuarios.');
         }
 
-        $usuario = Usuario::findOrFail($id);
+        // Cargar usuario con relaciones
+        $usuario = Usuario::with(['estudiante', 'docente', 'estudiantes'])->findOrFail($id);
 
-        // 1. Si es estudiante, eliminar su registro en estudiantes
-        if ($usuario->estudiante) {
-            $usuario->estudiante->delete();
-        }
+        DB::transaction(function () use ($usuario) {
 
-        // 2. Si es docente, eliminar su registro en docentes
-        if ($usuario->docente) {
-            $usuario->docente->delete();
-        }
+            // 1. Si es estudiante, eliminar su registro en estudiantes
+            if ($usuario->estudiante) {
+                $usuario->estudiante->delete();
+            }
 
-        // 3. Si es acudiente, eliminar relaciones pivot
-        if ($usuario->rol->nombre === 'Acudiente') {
-            $usuario->estudiantes()->detach();
-        }
+            // 2. Si es docente, eliminar su registro en docentes
+            if ($usuario->docente) {
+                $usuario->docente->delete();
+            }
 
-        // 4. Ahora sí eliminar el usuario
-        $usuario->delete();
+            // 3. Si es acudiente, eliminar relaciones pivot
+            if ($usuario->rol->nombre === 'Acudiente') {
+                $usuario->estudiantes()->detach();
+            }
+
+            // 4. Ahora sí eliminar el usuario
+            $usuario->delete();
+        });
 
         return redirect()->route('usuarios.index')
             ->with('success', 'Usuario eliminado correctamente.');
     }
+
 
 
     // Método para mostrar el formulario de edición del perfil del usuario autenticado
