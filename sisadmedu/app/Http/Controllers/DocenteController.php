@@ -394,9 +394,11 @@ class DocenteController extends Controller
             return [
                 'id' => $asignacion->id, // Agrega el ID aquí
                 'materia' => $asignacion->materia->descripcion,
+                'asignacion_id' => $asignacion->id, // para usar al crear la nota
                 'grado' => $asignacion->grado->nombre_grado,
                 'estudiantes' => $asignacion->grado->estudiantes->map(function ($estudiante) {
                     return [
+                        'id' => $estudiante->id,
                         'documento' => $estudiante->usuario->documento ?? '—',
                         'matricula' => $estudiante->matricula ?? '—',
                         'nombre' => trim(

@@ -17,6 +17,7 @@ use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\AsignacionController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\NotaController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -104,13 +105,13 @@ Route::get('/estudiante/observaciones/acudiente', [ObservacionController::class,
 Route::resource('materias', MateriaController::class)->middleware(['auth', 'rol:Administrador']);
 
 // Rutas para gestionar horarios
-Route::resource('horarios', HorarioController::class)->middleware(['auth','rol:Administrador']);
+Route::resource('horarios', HorarioController::class)->middleware(['auth', 'rol:Administrador']);
 
 // Ruta para ver el horario del estudiante (un estudiante en especifico)
 Route::get('/mi-horario/estudiante', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware(['auth', 'rol:Estudiante']);
 
 // Rutas para gestionar asignaciones
-Route::resource('asignaciones', AsignacionController::class)->middleware(['auth','rol:Administrador']);
+Route::resource('asignaciones', AsignacionController::class)->middleware(['auth', 'rol:Administrador']);
 
 // Ruta para ver la informacion de un estudiante
 Route::get('/estudiante/informacion', [EstudianteController::class, 'miInformacion'])->middleware(['auth', 'rol:Estudiante'])->name('estudiante.informacion');
@@ -157,3 +158,6 @@ Route::middleware(['auth', 'rol:Acudiente'])->group(function () {
     Route::get('/acudiente/informacion', [UsuarioController::class, 'acudienteInformacion'])
         ->name('acudiente.informacion');
 });
+
+Route::get('/notas/crear/{estudiante_id}/{asignacion_id}', [NotaController::class, 'create'])->name('notas.create')->middleware('auth', 'rol:Docente');
+Route::post('/notas/guardar', [NotaController::class, 'store'])->name('notas.store')->middleware('auth', 'rol:Docente');

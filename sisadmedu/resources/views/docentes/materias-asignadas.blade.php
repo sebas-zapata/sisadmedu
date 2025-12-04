@@ -36,9 +36,11 @@
 
         @section('acciones')
         {{-- Botón para tomar asistencia --}}
+        @if (!$asignacion['estudiantes']->isEmpty())
         <x-boton-principal href="{{ route('asistencias.porAsignacion', $asignacion['id']) }}">
             <i class="fa-solid fa-clipboard-check me-1"></i> Tomar asistencia
         </x-boton-principal>
+        @endif
         @endsection
 
     </div>
@@ -75,7 +77,12 @@
                             </span>
                         </td>
                         <td>
-                            <x-boton-accion tipo="editar" href="#" texto="Asignar Nota" />
+                            <x-boton-accion
+                                tipo="editar"
+                                href="{{ route('notas.create', ['estudiante_id' => $estudiante['id'], 'asignacion_id' => $asignacion['id']]) }}"
+
+                                texto="Asignar Nota" />
+
                         </td>
                     </tr>
                     @endforeach
