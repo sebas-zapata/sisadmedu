@@ -11,7 +11,7 @@ class DetalleNota extends Model
 
     protected $fillable = [
         'nota_id',
-        'nombre_detalle', // Ej: "Taller 1", "Parcial", "Examen Final"
+        'descripcion', // Ej: "Taller 1", "Parcial", "Examen Final"
         'valor',           // Ej: 4.2
     ];
 
@@ -21,5 +21,10 @@ class DetalleNota extends Model
     public function nota()
     {
         return $this->belongsTo(Nota::class);
+    }
+
+    public function getValorAttribute($value)
+    {
+        return number_format($value, 1);
     }
 }
