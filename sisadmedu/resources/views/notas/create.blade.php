@@ -40,7 +40,7 @@
 
             <div id="contenedorBoton" class="text-center mt-4">
                 <x-boton-principal type="submit">
-                    <i class="bi bi-save me-1"></i> Guardar Notas
+                    <i class="fa-solid fa-square-check"></i>
                 </x-boton-principal>
             </div>
             {{-- TARJETAS DE NOTAS --}}

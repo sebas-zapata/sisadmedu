@@ -161,3 +161,5 @@ Route::middleware(['auth', 'rol:Acudiente'])->group(function () {
 
 Route::get('/notas/crear/{estudiante_id}/{asignacion_id}', [NotaController::class, 'create'])->name('notas.create')->middleware('auth', 'rol:Docente');
 Route::post('/notas/guardar', [NotaController::class, 'store'])->name('notas.store')->middleware('auth', 'rol:Docente');
+Route::get('/mis-notas', [NotaController::class, 'notasEstudiante'])->name('estudiante.notas')->middleware('auth', 'rol:Estudiante');
+Route::get('/mis-notas/pdf', [NotaController::class, 'descargarBoletin'])->name('estudiante.boletin.pdf')->middleware('auth');

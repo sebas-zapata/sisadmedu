@@ -8,9 +8,136 @@ use App\Models\Asignacion;
 use App\Models\Periodo;
 use App\Models\Nota;
 use App\Models\DetalleNota;
+use Illuminate\Support\Facades\Auth;
 
 class NotaController extends Controller
 {
+    public function notasEstudiante(Request $request)
+    {
+        // Usuario logueado (LoginUsuario)
+        $usuario = Auth::user();
+
+        // Obtener el estudiante relacionado
+        $estudiante = $usuario->estudiante;
+
+        // Obtener el grado del estudiante
+        $grado_id = $estudiante->id_grado;
+
+
+        // Filtros opcionales
+        $asignacion_id = $request->get('asignacion_id');
+        $periodo_id = $request->get('periodo_id');
+
+        // Obtener las materias del grado
+        $materias = Asignacion::with('materia')
+            ->where('grado_id', $grado_id)
+            ->when($asignacion_id, fn($q) => $q->where('id', $asignacion_id))
+            ->get();
+
+        // Obtener periodos activos
+        $periodos = Periodo::where('activo', 1)->get();
+
+        $notasExistentes = [];
+
+        foreach ($materias as $asignacion) {
+            // Obtener notas del estudiante para esta asignación
+            $notasDB = Nota::with('detalles')
+                ->where('estudiante_id', $estudiante->id)
+                ->where('asignacion_id', $asignacion->id)
+                ->when($periodo_id, fn($q) => $q->where('periodo_id', $periodo_id))
+                ->get()
+                ->keyBy('periodo_id');
+
+            foreach ($periodos as $periodo) {
+                if (!$notasDB->has($periodo->id)) {
+                    // Si no hay notas en este periodo → null
+                    $notasExistentes[$asignacion->id][$periodo->id] = null;
+                    continue;
+                }
+
+                $nota = $notasDB[$periodo->id];
+
+                // Convertir detalles en array simple y forzar valor con 1 decimal
+                $detalles = $nota->detalles->map(fn($d) => [
+                    'nombre_detalle' => $d->descripcion,
+                    'valor' => number_format($d->valor, 1, '.', '') // 1 decimal
+                ])->toArray();
+
+                $notasExistentes[$asignacion->id][$periodo->id] = [
+                    'promedio' => number_format($nota->promedio, 1, '.', ''), // 1 decimal
+                    'detalles' => $detalles
+                ];
+            }
+        }
+
+        return view('estudiantes.notas', compact(
+            'estudiante',
+            'materias',
+            'periodos',
+            'notasExistentes',
+            'asignacion_id',
+            'periodo_id'
+        ));
+    }
+
+    public function descargarBoletin(Request $request)
+    {
+        $estudiante = Auth::user()->estudiante;
+
+        $periodo_id = $request->get('periodo_id');
+
+        if (!$periodo_id) {
+            abort(404, 'Periodo no recibido');
+        }
+
+        $periodo = Periodo::findOrFail($periodo_id);
+
+        // TODAS LAS MATERIAS DEL GRADO
+        $materias = Asignacion::with('materia')
+            ->where('grado_id', $estudiante->id_grado)
+            ->get();
+
+        $notasExistentes = [];
+
+        foreach ($materias as $asignacion) {
+
+            $nota = Nota::with('detalles')
+                ->where('estudiante_id', $estudiante->id)
+                ->where('asignacion_id', $asignacion->id)
+                ->where('periodo_id', $periodo_id)
+                ->first();
+
+            $detalles = $nota
+                ? $nota->detalles->map(fn($d) => [
+                    'nombre_detalle' => $d->descripcion,
+                    'valor' => $d->valor
+                ])->toArray()
+                : [];
+
+            $notasExistentes[$asignacion->id] = [
+                'promedio' => $nota->promedio ?? null,
+                'detalles' => $detalles
+            ];
+        }
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.boletin', compact(
+            'estudiante',
+            'materias',
+            'periodo',
+            'notasExistentes'
+        ));
+
+        return $pdf->download(
+            'Boletin_' . $estudiante->primer_nombre_estudiante .
+                '_' . $estudiante->primer_apellido .
+                '_Periodo_' . $periodo->numero_periodo . '.pdf'
+        );
+    }
+
+
+
+
+
     public function create($estudiante_id, $asignacion_id)
     {
         $estudiante = Estudiante::findOrFail($estudiante_id);

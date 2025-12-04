@@ -158,6 +158,14 @@
             </div>
 
             <div class="module">
+                <p class="module-title"><i class="fa-solid fa-square-check"></i> Mis calificaciones</p>
+                <p class="module-total">Consulta tus notas</p>
+                <a class="module-button" href="{{ route('estudiante.notas') }}">
+                    <i class="fas fa-eye"></i> Ver notas
+                </a>
+            </div>
+
+            <div class="module">
                 <p class="module-title"><i class="fa-solid fa-certificate"></i> Generar certificado</p>
                 <p class="module-total">Documento de estudio</p>
                 <a class="module-button" href="{{ route('pdf.consultar') }}">

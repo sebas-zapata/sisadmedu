@@ -93,7 +93,7 @@
     </div>
 </div>
 @empty
-<div class="alert alert-warning shadow-sm mt-3 d-flex align-items-center justify-content-center">
+<div class="alert alert-secondary shadow-sm mt-3 d-flex align-items-center justify-content-center">
     <i class="fa-solid fa-circle-info me-2"></i>
     No tienes materias asignadas para este grado.
 </div>

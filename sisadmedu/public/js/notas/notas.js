@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <input type="text" class="form-control mb-2"
                         name="detalles[${i}][nombre_detalle]"
                         value="${nombre}"
-                        required
+                        
                         >
 
                     <label class="small text-secondary fw-bold">Nota</label>
