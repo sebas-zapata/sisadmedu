@@ -3,17 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Asignacion;
+use App\Services\AsignacionService;
 use App\Models\Docente;
 use App\Models\Materia;
 use App\Models\Grado;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class AsignacionController extends Controller
 {
-    public function __construct()
+    protected $service;
+
+    public function __construct(AsignacionService $service)
     {
+        $this->service = $service;
+
         // Middleware para restringir acceso según el rol
         $this->middleware(function ($request, $next) {
             if (in_array(Auth::user()->rol->nombre, ['Docente', 'Estudiante', 'Acudiente'])) {
@@ -26,208 +29,173 @@ class AsignacionController extends Controller
 
     public function index()
     {
-        $asignaciones = Asignacion::with(['docente.usuario', 'materia', 'grado'])->get();
-        return view('asignaciones.index', compact('asignaciones'));
+        // Asignaciones desde el microservicio
+        $asignaciones = $this->service->listar();
+
+        // Datos locales de la BD
+        $docentes = Docente::with('usuario')->get();
+        $materias = Materia::all();
+        $grados   = Grado::all(); // ← Faltaba esto
+
+        return view('asignaciones.index', compact('asignaciones', 'docentes', 'materias', 'grados'));
     }
 
+
+
+    /** MOSTRAR FORMULARIO DE CREACIÓN */
     public function create()
     {
         $docentes = Docente::with('usuario')->get();
         $materias = Materia::all();
-        $grados = Grado::all();
+        $grados   = Grado::all();
 
         return view('asignaciones.create', compact('docentes', 'materias', 'grados'));
     }
 
+    /** GUARDAR NUEVA ASIGNACIÓN */
     public function store(Request $request)
     {
-        // Validaciones base con mensajes personalizados
+        // Validación de campos locales
         $request->validate([
             'docente_id' => 'required|exists:docentes,id',
             'materia_id' => 'required|exists:materias,id',
             'grado_id'   => 'required|exists:grados,id',
-        ], [
-            'docente_id.required' => 'Debes seleccionar un docente.',
-            'docente_id.exists'   => 'El docente seleccionado no existe en el sistema.',
-
-            'materia_id.required' => 'Debes seleccionar una materia.',
-            'materia_id.exists'   => 'La materia seleccionada no existe en el sistema.',
-
-            'grado_id.required'   => 'Debes seleccionar un grado.',
-            'grado_id.exists'     => 'El grado seleccionado no existe en el sistema.',
         ]);
 
-        // Año lectivo automático
         $anioActual = date('Y');
 
-        // Validar que no exista la misma combinación (docente + materia + grado + año)
-        $asignacionExistente = Asignacion::where('docente_id', $request->docente_id)
-            ->where('materia_id', $request->materia_id)
-            ->where('grado_id', $request->grado_id)
-            ->where('anio_lectivo', $anioActual)
-            ->exists();
+        /** VALIDACIÓN CONTRA MICROSERVICIO (duplicados y conflictos) */
+        $asignaciones = $this->service->listar();
 
-        if ($asignacionExistente) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'error' => 'Ya existe una asignación para este docente, materia y grado en el año lectivo actual.'
-                ]);
+        // Duplicado exacto
+        $duplicado = $asignaciones->contains(function ($a) use ($request, $anioActual) {
+            return $a['docenteId'] == $request->docente_id &&
+                $a['materiaId'] == $request->materia_id &&
+                $a['gradoId']   == $request->grado_id &&
+                $a['anioLectivo'] == $anioActual;
+        });
+
+        if ($duplicado) {
+            return back()->withInput()->withErrors([
+                'error' => 'Ya existe una asignación para ese docente, materia y grado en el año lectivo actual.'
+            ]);
         }
 
-        // Validar que la misma materia y grado no estén ya asignados a otro docente en el mismo año
-        $conflicto = Asignacion::where('materia_id', $request->materia_id)
-            ->where('grado_id', $request->grado_id)
-            ->where('anio_lectivo', $anioActual)
-            ->where('docente_id', '!=', $request->docente_id)
-            ->exists();
+        // Conflicto: misma materia+grado con otro docente
+        $conflicto = $asignaciones->contains(function ($a) use ($request, $anioActual) {
+            return $a['materiaId'] == $request->materia_id &&
+                $a['gradoId']   == $request->grado_id &&
+                $a['anioLectivo'] == $anioActual &&
+                $a['docenteId'] != $request->docente_id;
+        });
 
         if ($conflicto) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'error' => 'Esa materia ya está asignada a otro docente en este grado y año lectivo.'
-                ]);
-        }
-
-        // Crear asignación dentro de una transacción
-        DB::beginTransaction();
-        try {
-            Asignacion::create([
-                'docente_id'   => $request->docente_id,
-                'materia_id'   => $request->materia_id,
-                'grado_id'     => $request->grado_id,
-                'anio_lectivo' => $anioActual,
+            return back()->withInput()->withErrors([
+                'error' => 'Esa materia ya está asignada a otro docente en ese grado y año lectivo.'
             ]);
-
-            DB::commit();
-
-            return redirect()
-                ->route('asignaciones.index')
-                ->with('success', 'Asignación creada correctamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'error' => 'Error al crear la asignación: ' . $e->getMessage()
-                ]);
         }
+
+        /** CREAR EN EL MICROSERVICIO */
+        $this->service->crear([
+            'docenteId'   => $request->docente_id,
+            'materiaId'   => $request->materia_id,
+            'gradoId'     => $request->grado_id,
+            'anioLectivo' => $anioActual,
+        ]);
+
+        return redirect()->route('asignaciones.index')
+            ->with('success', 'Asignación creada correctamente.');
     }
 
-
-
+    /** MOSTRAR DETALLE */
     public function show($id)
     {
-        $asignacion = Asignacion::with(['docente.usuario', 'materia', 'grado'])->findOrFail($id);
-        return view('asignaciones.show', compact('asignacion'));
-    }
-
-    public function edit($id)
-    {
-        $asignacion = Asignacion::findOrFail($id);
+        $asignacion = $this->service->obtener($id);
         $docentes = Docente::with('usuario')->get();
         $materias = Materia::all();
-        $grados = Grado::all();
+        $grados   = Grado::all();
+
+        return view('asignaciones.show', compact('asignacion', 'docentes', 'materias', 'grados'));
+    }
+
+
+    /** FORMULARIO DE EDICIÓN */
+    public function edit($id)
+    {
+        $asignacion = $this->service->obtener($id);
+        $docentes = Docente::with('usuario')->get();
+        $materias = Materia::all();
+        $grados   = Grado::all();
 
         return view('asignaciones.edit', compact('asignacion', 'docentes', 'materias', 'grados'));
     }
 
+    /** ACTUALIZAR ASIGNACIÓN */
     public function update(Request $request, $id)
     {
-        $asignacion = Asignacion::findOrFail($id);
-
-        // Validaciones con mensajes personalizados
         $request->validate([
             'docente_id' => 'required|exists:docentes,id',
             'materia_id' => 'required|exists:materias,id',
             'grado_id'   => 'required|exists:grados,id',
-        ], [
-            'docente_id.required' => 'Debes seleccionar un docente.',
-            'docente_id.exists'   => 'El docente seleccionado no existe en el sistema.',
-
-            'materia_id.required' => 'Debes seleccionar una materia.',
-            'materia_id.exists'   => 'La materia seleccionada no existe en el sistema.',
-
-            'grado_id.required'   => 'Debes seleccionar un grado.',
-            'grado_id.exists'     => 'El grado seleccionado no existe en el sistema.',
         ]);
 
-        // Año lectivo automático
         $anioActual = date('Y');
+        $asignaciones = $this->service->listar();
 
-        // Validar duplicado: misma combinación docente + materia + grado + año (sin incluir la actual)
-        $asignacionDuplicada = Asignacion::where('docente_id', $request->docente_id)
-            ->where('materia_id', $request->materia_id)
-            ->where('grado_id', $request->grado_id)
-            ->where('anio_lectivo', $anioActual)
-            ->where('id', '!=', $asignacion->id)
-            ->exists();
+        /** VALIDACIONES COMO ANTES PERO EXCLUYENDO EL ACTUAL */
 
-        if ($asignacionDuplicada) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'error' => 'Ya existe otra asignación con el mismo docente, materia, grado y año lectivo.'
-                ]);
+        // Duplicado exacto
+        $duplicado = $asignaciones->contains(function ($a) use ($request, $anioActual, $id) {
+            return $a['id'] != $id &&
+                $a['docenteId'] == $request->docente_id &&
+                $a['materiaId'] == $request->materia_id &&
+                $a['gradoId']   == $request->grado_id &&
+                $a['anioLectivo'] == $anioActual;
+        });
+
+        if ($duplicado) {
+            return back()->withInput()->withErrors([
+                'error' => 'Ya existe otra asignación con esa combinación en el año lectivo.'
+            ]);
         }
 
-        // Validar conflicto: otro docente ya tiene esa materia en el mismo grado y año
-        $conflicto = Asignacion::where('materia_id', $request->materia_id)
-            ->where('grado_id', $request->grado_id)
-            ->where('anio_lectivo', $anioActual)
-            ->where('docente_id', '!=', $request->docente_id)
-            ->exists();
+        // Conflicto: misma materia + grado asignado a otro docente
+        $conflicto = $asignaciones->contains(function ($a) use ($request, $anioActual, $id) {
+            return $a['id'] != $id &&
+                $a['materiaId'] == $request->materia_id &&
+                $a['gradoId']   == $request->grado_id &&
+                $a['anioLectivo'] == $anioActual &&
+                $a['docenteId'] != $request->docente_id;
+        });
 
         if ($conflicto) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'error' => 'Esa materia ya está asignada a otro docente en este grado y año lectivo.'
-                ]);
-        }
-
-        // Transacción segura para actualizar los datos
-        DB::beginTransaction();
-        try {
-            $asignacion->update([
-                'docente_id'   => $request->docente_id,
-                'materia_id'   => $request->materia_id,
-                'grado_id'     => $request->grado_id,
-                'anio_lectivo' => $anioActual,
+            return back()->withInput()->withErrors([
+                'error' => 'La materia ya está asignada a otro docente para este grado y año lectivo.'
             ]);
-
-            DB::commit();
-
-            return redirect()
-                ->route('asignaciones.index')
-                ->with('success', 'Asignación actualizada correctamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'error' => 'Error al actualizar la asignación: ' . $e->getMessage()
-                ]);
         }
+
+        /** ACTUALIZAR EN EL MICROSERVICIO */
+        $this->service->actualizar($id, [
+            'docenteId'   => $request->docente_id,
+            'materiaId'   => $request->materia_id,
+            'gradoId'     => $request->grado_id,
+            'anioLectivo' => $anioActual,
+        ]);
+
+        return redirect()->route('asignaciones.index')
+            ->with('success', 'Asignación actualizada correctamente.');
     }
 
-
-
+    /** ELIMINAR */
     public function destroy($id)
     {
-        $asignacion = Asignacion::findOrFail($id);
+        $ok = $this->service->eliminar($id);
 
-        DB::beginTransaction();
-        try {
-            $asignacion->delete();
-            DB::commit();
-            return redirect()->route('asignaciones.index')->with('success', 'Asignación eliminada.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Error al eliminar asignación: ' . $e->getMessage()]);
+        if (!$ok) {
+            return back()->withErrors(['error' => 'No se pudo eliminar la asignación.']);
         }
+
+        return redirect()->route('asignaciones.index')
+            ->with('success', 'Asignación eliminada.');
     }
 }
