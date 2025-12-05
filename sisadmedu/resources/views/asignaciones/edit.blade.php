@@ -7,12 +7,12 @@ Editar Asignación <i class="fas fa-pen"></i>
 @section('id-form', 'formulario-asignacion')
 
 @section('ruta-accion')
-{{ route('asignaciones.update', $asignacion->id) }}
+    {{ route('asignaciones.update', $asignacion['id']) }}
 @endsection
 
 @section('metodo')
-@method('PUT')
-@csrf
+    @method('PUT')
+    @csrf
 @endsection
 
 @section('campos-formulario')
@@ -28,7 +28,8 @@ Editar Asignación <i class="fas fa-pen"></i>
                 required>
                 <option value="" disabled>Seleccione un docente</option>
                 @foreach($docentes as $docente)
-                    <option value="{{ $docente->id }}" {{ old('docente_id', $asignacion->docente_id) == $docente->id ? 'selected' : '' }}>
+                    <option value="{{ $docente->id }}" 
+                        {{ old('docente_id', $asignacion['docenteId']) == $docente->id ? 'selected' : '' }}>
                         {{ $docente->primer_nombre }} {{ $docente->primer_apellido }}
                     </option>
                 @endforeach
@@ -52,7 +53,8 @@ Editar Asignación <i class="fas fa-pen"></i>
                 required>
                 <option value="" disabled>Seleccione una materia</option>
                 @foreach($materias as $materia)
-                    <option value="{{ $materia->id }}" {{ old('materia_id', $asignacion->materia_id) == $materia->id ? 'selected' : '' }}>
+                    <option value="{{ $materia->id }}" 
+                        {{ old('materia_id', $asignacion['materiaId']) == $materia->id ? 'selected' : '' }}>
                         {{ $materia->descripcion }}
                     </option>
                 @endforeach
@@ -76,7 +78,8 @@ Editar Asignación <i class="fas fa-pen"></i>
                 required>
                 <option value="" disabled>Seleccione un grado</option>
                 @foreach($grados as $grado)
-                    <option value="{{ $grado->id }}" {{ old('grado_id', $asignacion->grado_id) == $grado->id ? 'selected' : '' }}>
+                    <option value="{{ $grado->id }}" 
+                        {{ old('grado_id', $asignacion['gradoId']) == $grado->id ? 'selected' : '' }}>
                         {{ $grado->nombre_grado }}
                     </option>
                 @endforeach
