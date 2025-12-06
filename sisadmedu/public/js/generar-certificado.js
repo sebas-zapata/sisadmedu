@@ -33,3 +33,5 @@ document.getElementById('generar-certificado').addEventListener('click', functio
         }
     });
 });
+
+

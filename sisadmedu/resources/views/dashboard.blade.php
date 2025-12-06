@@ -99,13 +99,22 @@
                     <i class="fas fa-sign-in-alt"></i> Asignaciones
                 </a>
             </div>
+
             @endif
 
             {{-- SOLO Administrador --}}
             @if ($usuario->rol && $usuario->rol->nombre === 'Administrador')
             <div class="module">
+                <p class="module-title"><i class="fa-solid fa-arrows-rotate"></i> Gestionar Periodos</p>
+                <p class="module-total">Total: <strong>{{ $totalAsignaciones ?? 0 }}</strong></p>
+                <a class="module-button" href="{{ route('periodos.index') }}">
+                    <i class="fas fa-sign-in-alt"></i> Periodos
+                </a>
+            </div>
+
+            <div class="module">
                 <p class="module-title"><i class="fas fa-layer-group"></i> Gestión de Grados</p>
-                <p class="module-total">Total: <strong>{{ $totalGrados }}</strong></p>
+                <p class="module-total">Total: <strong>{{ $totalGrados ?? 0 }}</strong></p>
                 <a class="module-button" href="{{ route('grados.index') }}">
                     <i class="fas fa-sign-in-alt"></i> Grados
                 </a>
@@ -216,6 +225,13 @@
                     <i class="fas fa-eye"></i> Ver Observaciones
                 </a>
             </div>
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-certificate"></i> Generar certificado</p>
+                <p class="module-total">Documento de estudio</p>
+                <a class="module-button" href="{{ route('pdf.consultar') }}">
+                    <i class="fas fa-eye"></i> Ver Certificado
+                </a>
+            </div>
             @endif
         </div>
     </div>
@@ -322,7 +338,8 @@
         data-grados="{{ $totalGrados }}"
         data-horarios="{{ $totalHorarios }}"
         data-materias="{{ $totalMaterias }}"
-        data-asignaciones="{{ $totalAsignaciones }}">
+        data-asignaciones="{{ $totalAsignaciones }}"
+        data-periodos="{{ $totalPeriodos }}">
     </div>
 </div>
 @endsection
