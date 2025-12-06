@@ -16,7 +16,6 @@ Mi Información
             </div>
         </div>
 
-        {{-- Avatar del estudiante --}}
         <div class="text-center py-4 bg-light">
             <img src="{{ Avatar::create($usuario->nombres . ' ' . $usuario->apellidos)->toBase64() }}"
                 alt="Avatar"
@@ -27,7 +26,7 @@ Mi Información
 
             <h4 class="mt-3 mb-0 fw-bold text-dark">
                 {{ $usuario->nombres }}
-                {{ $estudiante->apellidos }}
+                {{ $usuario->apellidos }}
             </h4>
 
             <span class="badge mt-2 px-3 py-2 fs-6 text-white" style="background-color: #461c68;">
@@ -72,6 +71,7 @@ Mi Información
                     </div>
                 </div>
 
+                @if($estudiante)
                 {{-- Estudiante asignado --}}
                 <div class="tab-pane fade" id="estudiante" role="tabpanel">
                     <div class="card border-0 shadow-sm mb-4">
@@ -95,10 +95,26 @@ Mi Información
                                 <div class="col-md-6 mb-2"><strong>Edad:</strong> {{ $estudiante->edad_estudiante }}</div>
                                 <div class="col-md-6 mb-2"><strong>Correo:</strong> {{ $estudiante->usuario->correo_electronico }}</div>
                                 <div class="col-md-6 mb-2"><strong>Grado:</strong> {{ $estudiante->grado->nombre_grado ?? 'Sin grado' }}</div>
+                                <div class="col-md-6 mb-2">
+                                    <x-boton-accion tipo="ver" href="{{ route('estudiante.mis-notas', $estudiante->id) }}">
+                                    </x-boton-accion>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                {{--No tienes estudiantes asigandos--}}
+                <div class="tab-pane fade" id="estudiante" role="tabpanel">
+                    <div class="alert alert-warning text-center my-4">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                        Este acudiente no tiene estudiantes asignados.
+                    </div>
+                </div>
+                @endif
+
+
 
             </div> {{-- tab-content --}}
         </div> {{-- card-body --}}
