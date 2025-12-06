@@ -20,6 +20,7 @@
     <link href="{{ asset('css/boton-principal.css') }}" rel="stylesheet">
     <link href="{{ asset('css/boton-accion.css') }}" rel="stylesheet">
     <link href="{{ asset('css/login/login.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/periodos/periodo.css') }}" rel="stylesheet">
 
     {{-- Meta tags para evitar caché --}}
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">

@@ -75,7 +75,7 @@ Route::get('/estudiantes/{id}/constancia', [PdfController::class, 'constancia'])
 
 // Ruta para consultar el certificado de estudio de un estudiante
 Route::get('/estudiante/certificado/consultar', [PdfController::class, 'consultarEstudiante'])
-    ->name('pdf.consultar')->middleware(['auth', 'rol:Estudiante']);
+    ->name('pdf.consultar')->middleware(['auth', 'rol:Estudiante,Acudiente']);
 
 // Ruta para generar el certificado de estudio de un estudiante
 Route::post('/estudiante/certificado', [PdfController::class, 'generarCertificado'])
@@ -173,6 +173,6 @@ Route::post('periodos/{id}/estado', [PeriodoController::class, 'cambiarEstado'])
 
     // Ruta pata ver las notas de un estudiante siendo un acudiente
 Route::get('/mis-notas/{id}', [NotaController::class, 'notasEstudiantePorId'])
-    ->name('estudiante.mis-notas');
+    ->name('estudiante.mis-notas')->middleware('auth', 'rol:Acudiente');
 
 

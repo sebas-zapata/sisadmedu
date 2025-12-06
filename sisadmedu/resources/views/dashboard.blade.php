@@ -225,6 +225,13 @@
                     <i class="fas fa-eye"></i> Ver Observaciones
                 </a>
             </div>
+            <div class="module">
+                <p class="module-title"><i class="fa-solid fa-certificate"></i> Generar certificado</p>
+                <p class="module-total">Documento de estudio</p>
+                <a class="module-button" href="{{ route('pdf.consultar') }}">
+                    <i class="fas fa-eye"></i> Ver Certificado
+                </a>
+            </div>
             @endif
         </div>
     </div>
@@ -332,8 +339,7 @@
         data-horarios="{{ $totalHorarios }}"
         data-materias="{{ $totalMaterias }}"
         data-asignaciones="{{ $totalAsignaciones }}"
-        data-periodos="{{ $totalPeriodos }}"
-        >
+        data-periodos="{{ $totalPeriodos }}">
     </div>
 </div>
 @endsection

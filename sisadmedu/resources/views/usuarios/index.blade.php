@@ -8,7 +8,7 @@ Usuarios <i class="fas fa-users"></i>
     <i class="fas fa-user-plus"></i>
 </x-boton-principal>
 
-<x-boton-accion tipo="descargar" href="{{ route('usuarios.pdf') }}">
+<x-boton-accion tipo="descargar" tipo="descargar" href="{{ route('usuarios.pdf') }}">
 </x-boton-accion>
 @endsection
 

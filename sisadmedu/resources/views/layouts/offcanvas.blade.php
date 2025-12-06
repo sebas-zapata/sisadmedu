@@ -141,8 +141,15 @@
 
             <li class="nav-item">
                 <a href="{{ route('acudiente.observaciones') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
-                    <i class="fa-solid fa-book me-2"></i>
+                    <i class="fa-solid fa-book"></i>
                     <span>Observaciones</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('pdf.consultar') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-certificate"></i>
+                    <span>Generar certificado</span>
                 </a>
             </li>
 
