@@ -12,7 +12,7 @@ class AsignacionService
     public function __construct()
     {
         // URL base del microservicio Spring Boot
-        $this->api = "http://localhost:8082/api/asignaciones";
+        $this->api = config('services.springboot.api_url');
     }
 
     /** Obtener todas las asignaciones */

@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'springboot' => [
+        'api_url' => env('SPRINGBOOT_API_URL', 'http://localhost:8082/api/asignaciones'),
+    ],
+
 ];
