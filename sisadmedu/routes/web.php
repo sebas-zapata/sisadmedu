@@ -52,7 +52,7 @@ Route::resource('usuarios', UsuarioController::class)
     ->middleware(['auth', 'rol:Administrador,Secretaria']);
 
 // Modulo de Docentes protegido por autenticación
-Route::resource('docentes', DocenteController::class)->middleware(['auth', 'rol:Docente,Administrador']);
+Route::resource('docentes', DocenteController::class)->middleware(['auth', 'rol:Docente,Administrador,Secretaria']);
 
 // Modulo de Grados protegido por autenticación
 Route::resource('grados', GradoController::class)->middleware(['auth', 'rol:Administrador']);
@@ -111,7 +111,7 @@ Route::resource('horarios', HorarioController::class)->middleware(['auth', 'rol:
 Route::get('/mi-horario/estudiante', [HorarioController::class, 'show'])->name('estudiante.horario')->middleware(['auth', 'rol:Estudiante']);
 
 // Rutas para gestionar asignaciones
-Route::resource('asignaciones', AsignacionController::class)->middleware(['auth', 'rol:Administrador']);
+Route::resource('asignaciones', AsignacionController::class)->middleware(['auth', 'rol:Administrador,Secretaria']);
 
 // Ruta para ver la informacion de un estudiante
 Route::get('/estudiante/informacion', [EstudianteController::class, 'miInformacion'])->middleware(['auth', 'rol:Estudiante'])->name('estudiante.informacion');
