@@ -79,6 +79,79 @@ class NotaController extends Controller
             'periodo_id'
         ));
     }
+    public function notasEstudiantePorId(Request $request, $id)
+    {
+        // Usuario logueado
+        $usuario = Auth::user();
+
+        // Verificar que el usuario sea un acudiente
+        if ($usuario->rol->nombre !== 'Acudiente') {
+            abort(403, 'No autorizado');
+        }
+
+        // Verificar que el estudiante pertenece al acudiente
+        $acudiente = $usuario->acudiente;
+
+        // Obtener el estudiante
+        $estudiante = Estudiante::findOrFail($id);
+
+        // Obtener el grado
+        $grado_id = $estudiante->id_grado;
+
+        // Filtros opcionales
+        $asignacion_id = $request->get('asignacion_id');
+        $periodo_id = $request->get('periodo_id');
+
+        // Materias del grado
+        $materias = Asignacion::with('materia')
+            ->where('grado_id', $grado_id)
+            ->when($asignacion_id, fn($q) => $q->where('id', $asignacion_id))
+            ->get();
+
+        // Periodos activos
+        $periodos = Periodo::where('activo', 1)->get();
+
+        $notasExistentes = [];
+
+        foreach ($materias as $asignacion) {
+
+            $notasDB = Nota::with('detalles')
+                ->where('estudiante_id', $estudiante->id)
+                ->where('asignacion_id', $asignacion->id)
+                ->when($periodo_id, fn($q) => $q->where('periodo_id', $periodo_id))
+                ->get()
+                ->keyBy('periodo_id');
+
+            foreach ($periodos as $periodo) {
+
+                if (!$notasDB->has($periodo->id)) {
+                    $notasExistentes[$asignacion->id][$periodo->id] = null;
+                    continue;
+                }
+
+                $nota = $notasDB[$periodo->id];
+
+                $detalles = $nota->detalles->map(fn($d) => [
+                    'nombre_detalle' => $d->descripcion,
+                    'valor' => number_format($d->valor, 1, '.', '')
+                ])->toArray();
+
+                $notasExistentes[$asignacion->id][$periodo->id] = [
+                    'promedio' => number_format($nota->promedio, 1, '.', ''),
+                    'detalles' => $detalles
+                ];
+            }
+        }
+
+        return view('estudiantes.notas', compact(
+            'estudiante',
+            'materias',
+            'periodos',
+            'notasExistentes',
+            'asignacion_id',
+            'periodo_id'
+        ));
+    }
 
     public function descargarBoletin(Request $request)
     {

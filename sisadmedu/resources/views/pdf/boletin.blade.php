@@ -4,99 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Boletín de Notas</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            margin: 30px;
-            color: #333;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .logo {
-            height: 80px;
-            margin-bottom: 10px;
-        }
-
-        .title {
-            font-size: 20px;
-            font-weight: bold;
-            margin: 5px 0;
-            text-transform: uppercase;
-            color: #2c3e50;
-        }
-
-        .sub-title {
-            font-size: 13px;
-            color: #555;
-        }
-
-        .info-box {
-            border: 1px solid #ccc;
-            padding: 10px 15px;
-            border-radius: 6px;
-            margin-bottom: 25px;
-            background: #fafafa;
-        }
-
-        .info-box p {
-            margin: 4px 0;
-            font-size: 13px;
-        }
-
-        .materia-title {
-            background: #461c68;
-            padding: 6px 10px;
-            color: white;
-            font-size: 14px;
-            margin-top: 20px;
-            border-radius: 4px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 8px;
-            margin-bottom: 15px;
-        }
-
-        table th {
-            background: #eee;
-            padding: 6px;
-            border: 1px solid #ccc;
-            font-weight: bold;
-            text-align: left;
-            font-size: 12px;
-        }
-
-        table td {
-            padding: 6px;
-            border: 1px solid #ccc;
-            font-size: 12px;
-        }
-
-        .aprobado {
-            color: green;
-            font-weight: bold;
-        }
-
-        .reprobado {
-            color: red;
-            font-weight: bold;
-        }
-
-        footer {
-            margin-top: 25px;
-            text-align: center;
-            font-size: 11px;
-            color: #666;
-        }
-    </style>
+    <link href="{{ public_path('css/estilos-pdf/boletin.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -108,7 +16,8 @@
         <div class="title">Boletín de Notas</div>
         <div class="sub-title">
             {{ $periodo->nombre_periodo }} | {{ $periodo->numero_periodo }} -
-            {{ now()->locale('es')->isoFormat('MMMM YYYY') }}
+            {{ now()->locale('es')->isoFormat('DD/MM/YYYY') }}
+
         </div>
     </div>
 

@@ -16,8 +16,8 @@ use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\AsignacionController;
 use App\Http\Controllers\AsistenciaController;
-use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\NotaController;
+use App\Http\Controllers\PeriodoController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -154,12 +154,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asistencias/{asignacion}/reporte-mensual/pdf', [PdfController::class, 'generarReporteMensualPdf'])->name('asistencias.reporteMensual.pdf');
 });
 
+    // Ruta para ver la informacion de un acudiente
 Route::middleware(['auth', 'rol:Acudiente'])->group(function () {
     Route::get('/acudiente/informacion', [UsuarioController::class, 'acudienteInformacion'])
         ->name('acudiente.informacion');
 });
-
+    // Rutas gestion de notas -> guardar, editar leer y generar boletin de notas en formato PDF
 Route::get('/notas/crear/{estudiante_id}/{asignacion_id}', [NotaController::class, 'create'])->name('notas.create')->middleware('auth', 'rol:Docente');
 Route::post('/notas/guardar', [NotaController::class, 'store'])->name('notas.store')->middleware('auth', 'rol:Docente');
 Route::get('/mis-notas', [NotaController::class, 'notasEstudiante'])->name('estudiante.notas')->middleware('auth', 'rol:Estudiante');
 Route::get('/mis-notas/pdf', [NotaController::class, 'descargarBoletin'])->name('estudiante.boletin.pdf')->middleware('auth');
+
+// Rutas para gestionar los periodos academicos
+Route::get('periodos', [PeriodoController::class, 'index'])
+    ->name('periodos.index')->middleware('auth', 'rol:Administrador');
+Route::post('periodos/{id}/estado', [PeriodoController::class, 'cambiarEstado'])
+    ->name('periodos.estado')->middleware('auth', 'rol:Administrador');
+
+    // Ruta pata ver las notas de un estudiante siendo un acudiente
+Route::get('/mis-notas/{id}', [NotaController::class, 'notasEstudiantePorId'])
+    ->name('estudiante.mis-notas');
+
+

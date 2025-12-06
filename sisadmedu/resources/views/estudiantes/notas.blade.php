@@ -3,7 +3,7 @@
 @section('tabla')
 <div class="card border-0 shadow-lg rounded-2">
     <div class="card-header text-white" style="background-color: #461c68;">
-        <i class="fa-solid fa-book"></i> Mis Notas
+        <i class="fa-solid fa-book"></i> Notas
     </div>
 
     <div class="card-body">

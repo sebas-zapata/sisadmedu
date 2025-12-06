@@ -9,10 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
         grados: parseInt(datosDiv.dataset.grados, 0),
         horarios: parseInt(datosDiv.dataset.horarios, 0),
         materias: parseInt(datosDiv.dataset.materias, 0),
-        asignaciones: parseInt(datosDiv.dataset.asignaciones, 0)
+        asignaciones: parseInt(datosDiv.dataset.asignaciones, 0),
+        periodos: parseInt(datosDiv.dataset.periodos, 0)
     };
 
-    const etiquetas = ["Estudiantes", "Usuarios", "Docentes", "Grados", "Horarios", "Materias", "Asignaciones"];
+    const etiquetas = ["Estudiantes", "Usuarios", "Docentes", "Grados", "Horarios", "Materias", "Asignaciones", "periodos"];
     const valores = [
         datos.estudiantes,
         datos.usuarios,
@@ -21,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         datos.horarios,
         datos.materias,
         datos.asignaciones,
+        datos.periodos,
     ];
 
     const colores = ["#461c68", "#7E08CA", "#333", "#6c4a83", "#9c6bdc", "#b89fe1", "#d4c7f0"];

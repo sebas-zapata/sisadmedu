@@ -9,6 +9,7 @@ use App\Models\Grado;
 use App\Models\Horario;
 use App\Models\Materia;
 use App\Models\Asignacion;
+use App\Models\Periodo;
 use Illuminate\Http\Request;
 
 class GraficosController extends Controller
@@ -22,6 +23,7 @@ class GraficosController extends Controller
         $totalHorarios = Horario::count();
         $totalMaterias = Materia::Count();
         $totalAsignaciones = Asignacion::count();
+        $totalPeriodos = Periodo::count();
 
 
         return view('dashboard', compact(
@@ -31,7 +33,8 @@ class GraficosController extends Controller
             'totalGrados',
             'totalHorarios',
             'totalMaterias',
-            'totalAsignaciones'
+            'totalAsignaciones',
+            'totalPeriodos'
         ));
     }
 }
