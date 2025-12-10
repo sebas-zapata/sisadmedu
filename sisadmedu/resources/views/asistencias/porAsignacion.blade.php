@@ -91,6 +91,11 @@ Asistencia - {{ $asignacion->materia->descripcion }}
     </div>
 </div>
 
+<a href="{{ url()->previous() }}" class="btn btn-secondary mb-3">
+    <i class="fa-solid fa-arrow-left me-1"></i> Volver
+</a>
+
+
 {{-- Script para mostrar/ocultar justificación --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {

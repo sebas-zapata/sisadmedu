@@ -360,60 +360,84 @@ class DocenteController extends Controller
 
     public function verAsignaturas(Request $request)
     {
-        // Obtener el usuario autenticado
+        // Usuario autenticado
         $usuario = Auth::user();
 
-        // Buscar el docente asociado al usuario autenticado
+        // Obtener docente asociado
         $docente = Docente::where('usuario_id', $usuario->id)->first();
-
         if (!$docente) {
             return back()->with('error', 'No se encontró un docente asociado a este usuario.');
         }
 
-        // Obtener todos los grados asignados al docente
+        // ============================
+        // 1. OBTENER GRADOS DEL DOCENTE
+        // ============================
         $grados = Grado::whereIn(
             'id',
             Asignacion::where('docente_id', $docente->id)->pluck('grado_id')
         )->get();
 
-        // Capturar el grado seleccionado desde el filtro
+        // Grado seleccionado
         $gradoSeleccionado = $request->input('grado_id');
 
-        // Consultar las asignaciones del docente (filtradas si hay grado seleccionado)
-        $asignacionesQuery = Asignacion::with(['materia', 'grado.estudiantes.usuario'])
-            ->where('docente_id', $docente->id);
-
+        // =============================================
+        // 2. OBTENER MATERIAS DEL DOCENTE PARA ESE GRADO
+        // =============================================
+        $materias = collect();
         if ($gradoSeleccionado) {
-            $asignacionesQuery->where('grado_id', $gradoSeleccionado);
+            $materias = Asignacion::with('materia')
+                ->where('docente_id', $docente->id)
+                ->where('grado_id', $gradoSeleccionado)
+                ->get();
         }
 
-        $asignaciones = $asignacionesQuery->get();
+        // Materia seleccionada
+        $materiaSeleccionada = $request->input('materia_id');
 
-        /// Mapear los datos para pasarlos a la vista
-        $materiasAsignadas = $asignaciones->map(function ($asignacion) {
-            return [
-                'id' => $asignacion->id, // Agrega el ID aquí
-                'materia' => $asignacion->materia->descripcion,
-                'asignacion_id' => $asignacion->id, // para usar al crear la nota
-                'grado' => $asignacion->grado->nombre_grado,
-                'estudiantes' => $asignacion->grado->estudiantes->map(function ($estudiante) {
-                    return [
-                        'id' => $estudiante->id,
-                        'documento' => $estudiante->usuario->documento ?? '—',
-                        'matricula' => $estudiante->matricula ?? '—',
-                        'nombre' => trim(
-                            $estudiante->primer_nombre_estudiante . ' ' .
-                                $estudiante->segundo_nombre_estudiante . ' ' .
-                                $estudiante->primer_apellido_estudiante . ' ' .
-                                $estudiante->segundo_apellido_estudiante
-                        ),
-                        'grado' => $estudiante->grado->nombre_grado ?? '—',
-                    ];
-                }),
-            ];
-        });
+        // ======================================================
+        // 3. SI SELECCIONÓ UNA MATERIA, OBTENER SU ASIGNACIÓN
+        // ======================================================
+        $asignacionSeleccionada = null;
 
-        // Retornar la vista con los datos necesarios
-        return view('docentes.materias-asignadas', compact('materiasAsignadas', 'grados', 'gradoSeleccionado'));
+        if ($materiaSeleccionada) {
+            $asignacion = Asignacion::with(['materia', 'grado.estudiantes.usuario'])
+                ->where('docente_id', $docente->id)
+                ->where('grado_id', $gradoSeleccionado)
+                ->where('id', $materiaSeleccionada)
+                ->first();
+
+            if ($asignacion) {
+                $asignacionSeleccionada = [
+                    'id'        => $asignacion->id,
+                    'materia'   => $asignacion->materia->descripcion,
+                    'grado'     => $asignacion->grado->nombre_grado,
+                    'estudiantes' => $asignacion->grado->estudiantes->map(function ($est) {
+                        return [
+                            'id'        => $est->id,
+                            'documento' => $est->usuario->documento ?? '—',
+                            'matricula' => $est->matricula ?? '—',
+                            'nombre'    => trim(
+                                $est->primer_nombre_estudiante . ' ' .
+                                    $est->segundo_nombre_estudiante . ' ' .
+                                    $est->primer_apellido_estudiante . ' ' .
+                                    $est->segundo_apellido_estudiante
+                            ),
+                            'grado'     => $est->grado->nombre_grado ?? '—',
+                        ];
+                    }),
+                ];
+            }
+        }
+
+        // ====================
+        // Enviar datos a la vista
+        // ====================
+        return view('docentes.materias-asignadas', compact(
+            'grados',
+            'gradoSeleccionado',
+            'materias',
+            'materiaSeleccionada',
+            'asignacionSeleccionada'
+        ));
     }
 }
