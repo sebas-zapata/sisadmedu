@@ -125,8 +125,15 @@
 
             <li class="nav-item">
                 <a href="{{ route('docente.asignaturas') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
-                    <i class="fas fa-book"></i>
-                    <span>Mis Asignaturas</span>
+                    <i class="fa-solid fa-users"></i>
+                    <span>Asistencias</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('notas.index') }}" class="link-modulo nav-link text-white d-flex align-items-center px-3 py-2">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Calificaciones</span>
                 </a>
             </li>
             @endif

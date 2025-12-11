@@ -58,7 +58,7 @@ class ActividadController extends Controller
     {
         $actividad = Actividad::findOrFail($id);
 
-        return view('actividades.create', [
+        return view('actividades.edit', [
             'actividad' => $actividad,
             'asignacion_id' => $actividad->asignacion_id,
             'periodo_id' => $actividad->periodo_id,
@@ -71,9 +71,14 @@ class ActividadController extends Controller
     // ---------------------------
     public function actualizar(Request $request, $id)
     {
-        $request->validate([
-            'descripcion' => 'required|string|max:255'
-        ]);
+        $request->validate(
+            [
+                'descripcion' => 'required|string|max:255'
+            ],
+            [
+                'descripcion.required' => 'La descripción de la actividad es obligatoria.'
+            ]
+        );
 
         $actividad = Actividad::findOrFail($id);
         $actividad->descripcion = $request->descripcion;
