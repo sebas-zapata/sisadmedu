@@ -8,7 +8,6 @@ use App\Models\Asignacion;
 use App\Models\Periodo;
 use App\Models\Nota;
 use App\Models\DetalleNota;
-use App\Models\Actividad;
 use Illuminate\Support\Facades\Auth;
 
 class NotaController extends Controller
@@ -156,7 +155,12 @@ class NotaController extends Controller
 
     public function descargarBoletin(Request $request)
     {
-        $estudiante = Auth::user()->estudiante;
+        $estudiante_id = $request->get('estudiante_id');
+        if (!$estudiante_id) {
+            abort(404, 'Estudiante no especificado.');
+        }
+
+        $estudiante = Estudiante::findOrFail($estudiante_id);
 
         $periodo_id = $request->get('periodo_id');
 
@@ -329,168 +333,4 @@ class NotaController extends Controller
             ->route('docente.asignaturas', ['grado_id' => $nota->estudiante->id_grado])
             ->with('success', 'Notas registradas/actualizadas correctamente.');
     }
-
-    public function indexDocente(Request $request)
-    {
-        $docente = Auth::user()->docente;
-
-        $grado_id = $request->grado_id;
-        $materia_id = $request->materia_id;
-        $periodo_id = $request->periodo_id;
-
-        // =============================
-        // 1. GRADOS ASIGNADOS AL DOCENTE (únicos)
-        // =============================
-        $grados = Asignacion::where('docente_id', $docente->id)
-            ->with('grado')
-            ->get()
-            ->pluck('grado')
-            ->unique('id')
-            ->values(); // <-- evita índices rotos
-
-        // =============================
-        // 2. MATERIAS REALMENTE ASIGNADAS SEGÚN EL GRADO
-        // =============================
-        $materias = collect();
-        if ($grado_id) {
-            $materias = Asignacion::where('docente_id', $docente->id)
-                ->where('grado_id', $grado_id)
-                ->with('materia')
-                ->get();
-        }
-
-        $asignacion = null;
-        $estudiantes = collect();
-        $actividades = collect();
-        $notas = [];
-
-        // =============================
-        // 3. SOLO SI TODOS LOS FILTROS ESTÁN COMPLETOS
-        // =============================
-        if ($grado_id && $materia_id && $periodo_id) {
-
-            // =============================
-            // 4. VALIDAR QUE EL DOCENTE TENGA ESA ASIGNACIÓN REAL
-            // =============================
-            $asignacion = Asignacion::where('docente_id', $docente->id)
-                ->where('grado_id', $grado_id)
-                ->where('materia_id', $materia_id)
-                ->with(['grado.estudiantes', 'materia'])
-                ->first();
-
-            if ($asignacion) {
-
-                // =============================
-                // 5. ESTUDIANTES DEL GRADO
-                // =============================
-                $estudiantes = $asignacion->grado->estudiantes;
-
-                // =============================
-                // 6. ACTIVIDADES DE LA MATERIA EN ESE PERÍODO
-                // =============================
-                $actividades = Actividad::where('asignacion_id', $asignacion->id)
-                    ->where('periodo_id', $periodo_id)
-                    ->get();
-
-                // =============================
-                // 7. CARGAR NOTAS EXISTENTES
-                // =============================
-                $notasExistentes = Nota::where('asignacion_id', $asignacion->id)
-                    ->where('periodo_id', $periodo_id)
-                    ->with('detalles')
-                    ->get();
-
-                foreach ($notasExistentes as $nota) {
-                    foreach ($nota->detalles as $detalle) {
-                        $key = $nota->estudiante_id . '-' . $detalle->actividad_id;
-                        $notas[$key] = $detalle;
-                    }
-                }
-            }
-        }
-
-        // =============================
-        // 8. PERIODOS ACTIVOS
-        // =============================
-        $periodos = Periodo::where('activo', 1)->get();
-
-        return view('notas.create', compact(
-            'grados',
-            'grado_id',
-            'materias',
-            'materia_id',
-            'asignacion',
-            'estudiantes',
-            'actividades',
-            'notas',
-            'periodos',
-            'periodo_id'
-        ));
-    }
-
-public function guardarGrupo(Request $request)
-{
-    $request->validate([
-        'asignacion_id' => 'required|exists:asignaciones,id',
-        'periodo_id' => 'required|exists:periodos,id',
-        'notas' => 'required|array'
-    ]);
-
-    $asignacion_id = $request->asignacion_id;
-    $periodo_id = $request->periodo_id;
-
-    foreach ($request->notas as $idEstudiante => $actividades) {
-
-        // ============================
-        // 1. Buscar o crear NOTA
-        // ============================
-        $nota = Nota::firstOrCreate(
-            [
-                'estudiante_id' => $idEstudiante,
-                'asignacion_id' => $asignacion_id,
-                'periodo_id' => $periodo_id
-            ],
-            ['promedio' => 0]
-        );
-
-        // Eliminar detalles anteriores
-        $nota->detalles()->delete();
-
-        $total = 0;
-        $count = 0;
-
-        // ============================
-        // 2. Recorrer actividades enviadas
-        // ============================
-        foreach ($actividades as $actividad_id => $valor) {
-
-            if ($valor === null || $valor === '') {
-                continue;
-            }
-
-            // Obtener la actividad
-            $actividad = Actividad::find($actividad_id);
-
-            // Crear detalle de nota con la descripción de la actividad
-            DetalleNota::create([
-                'nota_id' => $nota->id,
-                'actividad_id' => $actividad_id,
-                'descripcion' => $actividad?->descripcion, // ← evita error si no existe
-                'valor' => number_format($valor, 1)
-            ]);
-
-            $total += $valor;
-            $count++;
-        }
-
-        // ============================
-        // 3. Calcular promedio
-        // ============================
-        $nota->promedio = $count > 0 ? number_format($total / $count, 1) : 0;
-        $nota->save();
-    }
-
-    return back()->with('success', 'Notas del grupo guardadas correctamente.');
-}
-
 }

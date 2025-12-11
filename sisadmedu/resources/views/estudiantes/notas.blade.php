@@ -90,11 +90,23 @@
 
         <hr>
         @if($completo)
+        @php
+        $user = Auth::user();
+
+        if ($user->estudiante) {
+        $estudiante_id = $user->estudiante->id;
+        } else {
+        // Para acudiente, $estudiante_id debe venir del contexto (por ejemplo, desde la lista de hijos)
+        $estudiante_id = $estudiante->id ?? null;
+        }
+        @endphp
+
         <div class="text-center">
             <x-boton-accion
-                href="{{ route('estudiante.boletin.pdf') }}?periodo_id={{ $periodo_id }}">
+                href="{{ route('estudiante.boletin.pdf') }}?periodo_id={{ $periodo_id }}&estudiante_id={{ $estudiante_id }}">
                 <i class="fa-solid fa-file-pdf"></i>
             </x-boton-accion>
+
 
         </div>
         @endif
