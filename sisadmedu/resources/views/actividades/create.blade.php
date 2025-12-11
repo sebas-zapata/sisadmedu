@@ -45,9 +45,18 @@
 
         {{-- BOTONES --}}
         <div class="d-flex justify-content-end gap-2">
+<<<<<<< HEAD
             <x-boton-principal type="submit">
                 <i class="fas fa-save"></i> Guardar
             </x-boton-principal>
+=======
+            <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+>>>>>>> 1089c7a (Desarrollo del modulo de notas)
         </div>
 
         {{-- MENSAJE DE ÉXITO --}}

@@ -202,7 +202,11 @@
             </div>
 
             <div class="module">
+<<<<<<< HEAD
                 <p class="module-title"><i class="fa-solid fa-users"></i> Asistencias</p>
+=======
+                <p class="module-title"><i class="fas fa-book"></i> Asistencias</p>
+>>>>>>> 1089c7a (Desarrollo del modulo de notas)
                 <p class="module-total">Gestionar asistencias</p>
                 <a class="module-button" href="{{ route('docente.asignaturas') }}">
                     <i class="fas fa-eye"></i> Ver Asistencias
@@ -211,6 +215,14 @@
 
             <div class="module">
                 <p class="module-title"><i class="fa-solid fa-list-check"></i> Calificaciones</p>
+                <p class="module-total">Gestionar calificaciones</p>
+                <a class="module-button" href="{{ route('notas.index') }}">
+                    <i class="fas fa-eye"></i> Ver Calificaciones
+                </a>
+            </div>
+
+            <div class="module">
+                <p class="module-title"><i class="fas fa-book"></i> Calificaciones</p>
                 <p class="module-total">Gestionar calificaciones</p>
                 <a class="module-button" href="{{ route('notas.index') }}">
                     <i class="fas fa-eye"></i> Ver Calificaciones

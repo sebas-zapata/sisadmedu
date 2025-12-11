@@ -58,7 +58,11 @@ class ActividadController extends Controller
     {
         $actividad = Actividad::findOrFail($id);
 
+<<<<<<< HEAD
         return view('actividades.edit', [
+=======
+        return view('actividades.create', [
+>>>>>>> 1089c7a (Desarrollo del modulo de notas)
             'actividad' => $actividad,
             'asignacion_id' => $actividad->asignacion_id,
             'periodo_id' => $actividad->periodo_id,
@@ -71,6 +75,7 @@ class ActividadController extends Controller
     // ---------------------------
     public function actualizar(Request $request, $id)
     {
+<<<<<<< HEAD
         $request->validate(
             [
                 'descripcion' => 'required|string|max:255'
@@ -79,6 +84,11 @@ class ActividadController extends Controller
                 'descripcion.required' => 'La descripción de la actividad es obligatoria.'
             ]
         );
+=======
+        $request->validate([
+            'descripcion' => 'required|string|max:255'
+        ]);
+>>>>>>> 1089c7a (Desarrollo del modulo de notas)
 
         $actividad = Actividad::findOrFail($id);
         $actividad->descripcion = $request->descripcion;
