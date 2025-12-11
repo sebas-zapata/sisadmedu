@@ -18,6 +18,7 @@ use App\Http\Controllers\AsignacionController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\NotaController;
 use App\Http\Controllers\PeriodoController;
+use App\Http\Controllers\ActividadController;
 
 // Rutas con el middleware de autenticación
 Route::group(['middleware' => 'auth'], function () {
@@ -154,12 +155,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/asistencias/{asignacion}/reporte-mensual/pdf', [PdfController::class, 'generarReporteMensualPdf'])->name('asistencias.reporteMensual.pdf');
 });
 
-    // Ruta para ver la informacion de un acudiente
+// Ruta para ver la informacion de un acudiente
 Route::middleware(['auth', 'rol:Acudiente'])->group(function () {
     Route::get('/acudiente/informacion', [UsuarioController::class, 'acudienteInformacion'])
         ->name('acudiente.informacion');
 });
-    // Rutas gestion de notas -> guardar, editar leer y generar boletin de notas en formato PDF
+// Rutas gestion de notas -> guardar, editar leer y generar boletin de notas en formato PDF
 Route::get('/notas/crear/{estudiante_id}/{asignacion_id}', [NotaController::class, 'create'])->name('notas.create')->middleware('auth', 'rol:Docente');
 Route::post('/notas/guardar', [NotaController::class, 'store'])->name('notas.store')->middleware('auth', 'rol:Docente');
 Route::get('/mis-notas', [NotaController::class, 'notasEstudiante'])->name('estudiante.notas')->middleware('auth', 'rol:Estudiante');
@@ -171,8 +172,22 @@ Route::get('periodos', [PeriodoController::class, 'index'])
 Route::post('periodos/{id}/estado', [PeriodoController::class, 'cambiarEstado'])
     ->name('periodos.estado')->middleware('auth', 'rol:Administrador');
 
-    // Ruta pata ver las notas de un estudiante siendo un acudiente
+// Ruta pata ver las notas de un estudiante siendo un acudiente
 Route::get('/mis-notas/{id}', [NotaController::class, 'notasEstudiantePorId'])
     ->name('estudiante.mis-notas')->middleware('auth', 'rol:Acudiente');
 
+// Ruta para guardar calificaciones
+Route::post('/notas/guardar', [NotaController::class, 'guardarGrupo'])
+    ->name('notas.store')->middleware('auth', 'rol:Docente');
 
+
+// Pantalla principal de registro de notas por docente
+Route::get('notas', [NotaController::class, 'indexDocente'])->name('notas.index')->middleware('auth', 'rol:Docente');
+
+// Ruta para guardar todas las actividades de un grupo
+Route::get('/actividades/crear', [ActividadController::class, 'crear'])->name('actividades.crear')->middleware('auth', 'rol:Docente');
+Route::post('/actividades/guardar', [ActividadController::class, 'guardar'])->name('actividades.guardar')->middleware('auth', 'rol:Docente');
+
+// Editar actividad
+Route::get('/actividades/{id}/editar', [ActividadController::class, 'editar'])->name('actividades.editar')->middleware('auth', 'rol:Docente');
+Route::put('/actividades/{id}/actualizar', [ActividadController::class, 'actualizar'])->name('actividades.actualizar')->middleware('auth', 'rol:Docente');

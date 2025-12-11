@@ -23,4 +23,8 @@ class Periodo extends Model
     {
         return $this->hasMany(Nota::class);
     }
+        public function actividades()
+    {
+        return $this->hasMany(Actividad::class, 'periodo_id');
+    }
 }

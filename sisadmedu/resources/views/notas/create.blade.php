@@ -1,52 +1,181 @@
 @extends('layouts.gestion')
 
+{{-- ============================= --}}
+{{-- FILTROS SUPERIORES           --}}
+{{-- ============================= --}}
+@section('filtros')
+
+<form id="filtroForm" method="GET" action="{{ route('notas.index') }}"
+    class="d-flex flex-column flex-md-row align-items-md-center gap-3 mb-4">
+
+    {{-- SELECT DE GRADO --}}
+    <select name="grado_id" class="form-select" style="max-width: 260px;" onchange="enviarFiltro()">
+        <option value="">— Selecciona un grado —</option>
+        @foreach ($grados as $g)
+        <option value="{{ $g->id }}" {{ $grado_id == $g->id ? 'selected' : '' }}>
+            {{ $g->nombre_grado }}
+        </option>
+        @endforeach
+    </select>
+
+    {{-- SELECT DE MATERIA --}}
+    @if ($grado_id)
+    <select name="materia_id" class="form-select" style="max-width: 260px;" onchange="enviarFiltro()">
+        <option value="">— Selecciona una materia —</option>
+        @foreach ($materias as $m)
+        <option value="{{ $m->materia->id }}" {{ $materia_id == $m->materia->id ? 'selected' : '' }}>
+            {{ $m->materia->descripcion }}
+        </option>
+        @endforeach
+    </select>
+    @endif
+
+    {{-- SELECT DE PERIODO --}}
+    @if ($grado_id && $materia_id)
+    <select name="periodo_id" class="form-select" style="max-width: 260px;" onchange="enviarFiltro()">
+        <option value="">— Selecciona un período —</option>
+        @foreach ($periodos as $p)
+        <option value="{{ $p->id }}" {{ $periodo_id == $p->id ? 'selected' : '' }}>
+            {{ $p->nombre_periodo }}
+        </option>
+        @endforeach
+    </select>
+    @endif
+
+</form>
+
+<script>
+    function enviarFiltro() {
+        document.getElementById("filtroForm").submit();
+    }
+</script>
+
+@endsection
+
+
+
+{{-- ============================= --}}
+{{-- TABLA DE NOTAS              --}}
+{{-- ============================= --}}
 @section('tabla')
-<div class="card border-0 shadow-lg rounded-2">
-    <div class="card-header text-white d-flex align-items-center gap-2" style="background-color: #461c68;">
-        <i class="bi bi-journal-check fs-4"></i>
-        <span class="fw-semibold">
-            Registrar / Editar Notas: 
-            {{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->segundo_nombre_estudiante }} 
-            {{ $estudiante->primer_apellido_estudiante }} {{ $estudiante->segundo_apellido_estudiante }}
-            | {{ $asignacion->materia->descripcion }}
-        </span>
-    </div>
 
-    <div class="card-body p-4">
+{{-- Mensajes según filtros --}}
+@if (empty($grado_id))
+    <div class="alert alert-secondary text-center">Selecciona un grado para continuar.</div>
 
-        {{-- JSON seguro para JS --}}
-        <script id="notas-data" type="application/json">
-            {!! json_encode($notasExistentes, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-        </script>
+@elseif(!empty($grado_id) && empty($materia_id))
+    <div class="alert alert-secondary text-center">Ahora selecciona una materia.</div>
 
-        <div id="resultadoPromedio" class="fw-bold fs-5"></div>
 
-        <form action="{{ route('notas.store') }}" method="POST" id="formNotas" class="mt-4">
-            @csrf
 
-            <input type="hidden" name="estudiante_id" value="{{ $estudiante->id }}">
-            <input type="hidden" name="asignacion_id" value="{{ $asignacion->id }}">
+@elseif(empty($periodo_id))
+    <div class="alert alert-secondary text-center">Selecciona un período.</div>
 
-            <div>
-                <label for="selectPeriodo" class="form-label fw-semibold">
-                </label>
-                <select name="periodo_id" id="selectPeriodo" class="form-select" required>
-                    <option value="">-- Selecciona un periodo --</option>
-                    @foreach($periodos as $periodo)
-                        <option value="{{ $periodo->id }}">{{ $periodo->nombre_periodo }} | {{ $periodo->numero_periodo}}</option>
+@else
+
+{{-- TÍTULO --}}
+@section('titulo')
+    <i class="fa-solid fa-book me-2"></i>
+    {{ $asignacion->materia->descripcion }} — Grado {{ $asignacion->grado->nombre_grado }}
+
+@endsection
+
+{{-- ACCIONES --}}
+@section('acciones')
+    <x-boton-principal onclick="document.getElementById('formNotas').submit()">
+        <i class="fa-solid fa-save me-1"></i> Guardar notas
+    </x-boton-principal>
+
+    {{-- Botón de Añadir actividad solo si hay menos de 4 --}}
+    @if ($actividades->count() < 4)
+        <x-boton-accion
+            href="{{ route('actividades.crear', [
+                'asignacion_id' => $asignacion->id,
+                'periodo_id' => $periodo_id,
+                'grado_id' => $grado_id,
+                'materia_id' => $materia_id
+            ]) }}">
+            <i class="fa-solid fa-plus"></i>
+        </x-boton-accion>
+    @endif
+@endsection
+
+
+{{-- FORMULARIO PARA GUARDAR NOTAS --}}
+<form id="formNotas" method="POST" action="{{ route('notas.store') }}">
+    @csrf
+
+    <input type="hidden" name="asignacion_id" value="{{ $asignacion->id }}">
+    <input type="hidden" name="periodo_id" value="{{ $periodo_id }}">
+
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-hover table-bordered shadow-sm">
+
+            {{-- CABECERA --}}
+            <thead class="text-center align-middle" style="background-color: red;">
+                <tr>
+                    <th class="text-start" style="min-width: 220px;">Estudiantes</th>
+
+                    {{-- Nombres de actividades --}}
+                    @foreach ($actividades as $a)
+                        <th>
+                            <a href="{{ route('actividades.editar', $a->id) }}"
+                               class="text-decoration-none fw-semibold text-dark"
+                               title="Editar actividad">
+                                {{ $a->descripcion }}
+                            </a>
+                        </th>
                     @endforeach
-                </select>
-            </div>
 
-            <div id="contenedorBoton" class="text-center mt-4">
-                <x-boton-principal type="submit">
-                    <i class="fa-solid fa-square-check"></i>
-                </x-boton-principal>
-            </div>
-            {{-- TARJETAS DE NOTAS --}}
-            <div id="detalles" class="row g-3 mt-3"></div>
+                    <th class="table-secondary fw-bold">Promedio</th>
+                </tr>
+            </thead>
 
-        </form>
+
+            {{-- CUERPO --}}
+            <tbody>
+            @foreach ($estudiantes as $e)
+                <tr>
+
+                    {{-- Estudiante --}}
+                    <td class="text-start">
+                        <strong>{{ $e->primer_nombre_estudiante }} {{ $e->segundo_nombre_estudiante }} {{ $e->primer_apellido_estudiante }} {{ $e->segundo_apellido_estudiante }}</strong>
+                        <br>
+                    </td>
+
+                    {{-- Inputs de actividades --}}
+                    @foreach ($actividades as $a)
+
+                        @php
+                            $key = $e->id . '-' . $a->id;
+                            $valor = $notas[$key]->valor ?? '';
+                        @endphp
+
+                        <td>
+                            <input type="number"
+                                   step="0.1"
+                                   min="0"
+                                   max="5"
+                                   class="form-control text-center nota-input"
+                                   name="notas[{{ $e->id }}][{{ $a->id }}]"
+                                   value="{{ $valor }}"
+                                   data-estudiante="{{ $e->id }}"
+                                   style="width: 90px; margin: auto;">
+                        </td>
+
+                    @endforeach
+
+                    {{-- Promedio --}}
+                    <td id="promedio-{{ $e->id }}" class="fw-bold"></td>
+
+                </tr>
+            @endforeach
+            </tbody>
+
+        </table>
     </div>
-</div>
+</form>
+
+@endif
+
 @endsection

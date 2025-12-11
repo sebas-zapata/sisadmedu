@@ -11,17 +11,22 @@ class DetalleNota extends Model
 
     protected $fillable = [
         'nota_id',
-        'descripcion', // Ej: "Taller 1", "Parcial", "Examen Final"
-        'valor',           // Ej: 4.2
+        'actividad_id',
+        'descripcion',
+        'valor',
     ];
 
-    /**
-     * 🔹 Relación con la nota principal
-     */
+
     public function nota()
     {
         return $this->belongsTo(Nota::class);
     }
+
+    public function actividad()
+    {
+        return $this->belongsTo(Actividad::class);
+    }
+
 
     public function getValorAttribute($value)
     {

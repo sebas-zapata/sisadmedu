@@ -1,3 +1,51 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    const inputs = document.querySelectorAll('.nota-input');
+
+    // Escuchar en tiempo real
+    inputs.forEach(input => {
+        input.addEventListener('input', calcularPromedio);
+    });
+
+    // Calcular todos los promedios al cargar la página
+    calcularTodosLosPromedios();
+
+    function calcularTodosLosPromedios() {
+        // Obtener todos los estudiantes distintos
+        const estudiantes = new Set();
+
+        inputs.forEach(input => {
+            estudiantes.add(input.dataset.estudiante);
+        });
+
+        estudiantes.forEach(id => calcularPromedioPorEstudiante(id));
+    }
+
+    function calcularPromedio(e) {
+        const idEstudiante = this.dataset.estudiante;
+        calcularPromedioPorEstudiante(idEstudiante);
+    }
+
+    function calcularPromedioPorEstudiante(idEstudiante) {
+        const notas = document.querySelectorAll(`input[data-estudiante="${idEstudiante}"]`);
+
+        let total = 0;
+        let count = 0;
+
+        notas.forEach(n => {
+            const valor = parseFloat(n.value);
+            if (!isNaN(valor)) {
+                total += valor;
+                count++;
+            }
+        });
+
+        const promedio = count > 0 ? (total / count).toFixed(1) : "0.0";
+
+        document.getElementById(`promedio-${idEstudiante}`).textContent = promedio;
+    }
+
+});
 document.addEventListener('DOMContentLoaded', function () {
 
     const rawJson = document.getElementById('notas-data').textContent.trim();

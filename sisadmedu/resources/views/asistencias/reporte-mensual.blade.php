@@ -71,7 +71,7 @@
                         @endphp
                         <tr>
                             <td class="text-start fw-semibold">
-                                {{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }}
+                                {{ $estudiante->primer_nombre_estudiante }} {{ $estudiante->segundo_nombre_estudiante }} {{ $estudiante->primer_apellido_estudiante }} {{$estudiante->segundo_nombre_estudiante}}
                             </td>
 
                             @foreach ($diasDelMes as $dia)
